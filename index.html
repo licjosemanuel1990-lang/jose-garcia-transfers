@@ -2,704 +2,1643 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>José García | Traslados Privados República Dominicana</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-  <meta name="description"
-    content="Traslados privados desde y hacia aeropuertos, hoteles y destinos de República Dominicana. Cotiza y reserva tu transporte privado.">
+  <meta name="theme-color" content="#06324a">
+
+  <title>
+    José García | Traslados Privados en República Dominicana
+  </title>
+
+  <meta
+    name="description"
+    content="Traslados privados desde y hacia aeropuertos, hoteles y destinos de República Dominicana. Cotiza tu traslado, reserva y recibe atención por WhatsApp."
+  >
+
+  <meta name="robots" content="index,follow">
 
   <style>
-    :root {
-      --azul: #0b2239;
-      --azul-claro: #12395d;
-      --dorado: #d9a441;
-      --dorado-claro: #f1c66d;
-      --fondo: #f5f7fa;
-      --blanco: #ffffff;
-      --texto: #17202a;
-      --gris: #667085;
-      --borde: #e4e7ec;
-      --whatsapp: #25d366;
+
+    :root{
+      --azul:#06324a;
+      --azul2:#0a4d6b;
+      --azul3:#11789a;
+      --turquesa:#16a7aa;
+      --arena:#f2d29b;
+      --dorado:#dca84e;
+      --blanco:#ffffff;
+      --fondo:#f7fafb;
+      --texto:#15222c;
+      --gris:#657581;
+      --borde:#e1e8ec;
+      --verde:#25d366;
+      --rojo:#c73434;
+
+      --sombra:
+        0 20px 60px rgba(6,50,74,.14);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
     }
 
-    html {
-      scroll-behavior: smooth;
+    html{
+      scroll-behavior:smooth;
     }
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: var(--fondo);
-      color: var(--texto);
-      line-height: 1.5;
+    body{
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+      background:var(--fondo);
+      color:var(--texto);
+      line-height:1.5;
     }
 
-    a {
-      text-decoration: none;
-      color: inherit;
+    body.modal-abierto{
+      overflow:hidden;
+    }
+
+    a{
+      text-decoration:none;
+      color:inherit;
     }
 
     button,
     input,
     select,
-    textarea {
-      font: inherit;
+    textarea{
+      font:inherit;
     }
 
-    .container {
-      width: min(1180px, 92%);
-      margin: auto;
+    button{
+      cursor:pointer;
     }
 
-    /* BARRA SUPERIOR */
-
-    .topbar {
-      background: var(--azul);
-      color: white;
-      padding: 8px 0;
-      font-size: 14px;
+    img{
+      max-width:100%;
+      display:block;
     }
 
-    .topbar-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
+    .container{
+      width:min(1180px,92%);
+      margin:auto;
     }
 
-    .idiomas {
-      display: flex;
-      gap: 6px;
-    }
 
-    .idiomas button {
-      background: transparent;
-      border: 1px solid rgba(255,255,255,.4);
-      color: white;
-      padding: 5px 10px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-weight: bold;
-    }
+    /* =========================================
+       HEADER
+    ========================================= */
 
-    .idiomas button.activo {
-      background: white;
-      color: var(--azul);
-    }
+    .header{
+      position:sticky;
+      top:0;
+      z-index:300;
 
-    /* NAVEGACIÓN */
-
-    header {
-      background: white;
-      border-bottom: 1px solid var(--borde);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .navbar {
-      min-height: 75px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 25px;
-    }
-
-    .marca {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logo {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: var(--azul);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-weight: bold;
-    }
-
-    .marca h2 {
-      color: var(--azul);
-      font-size: 19px;
-    }
-
-    .marca small {
-      display: block;
-      color: var(--gris);
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      font-weight: bold;
-      font-size: 14px;
-    }
-
-    nav a:hover {
-      color: var(--dorado);
-    }
-
-    .boton-nav {
-      background: var(--azul);
-      color: white;
-      padding: 11px 16px;
-      border-radius: 25px;
-    }
-
-    /* HERO */
-
-    .hero {
       background:
-        linear-gradient(120deg, #071b2d, #0d3558);
-      color: white;
-      padding: 70px 0;
+        rgba(255,255,255,.94);
+
+      backdrop-filter:blur(18px);
+
+      border-bottom:
+        1px solid rgba(0,0,0,.06);
     }
 
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.05fr;
-      gap: 45px;
-      align-items: center;
+    .navbar{
+      min-height:80px;
+
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      gap:20px;
     }
 
-    .etiqueta {
-      display: inline-block;
-      border: 1px solid rgba(255,255,255,.3);
-      padding: 7px 13px;
-      border-radius: 20px;
-      margin-bottom: 18px;
-      font-size: 14px;
+    .marca{
+      display:flex;
+      align-items:center;
+      gap:12px;
     }
 
-    .hero h1 {
-      font-size: clamp(38px, 6vw, 68px);
-      line-height: 1.05;
-      margin-bottom: 20px;
+    .logo{
+      width:52px;
+      height:52px;
+
+      border-radius:50%;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      color:white;
+
+      font-weight:950;
+      letter-spacing:1px;
+
+      background:
+        linear-gradient(
+          145deg,
+          var(--azul),
+          var(--azul3)
+        );
+
+      box-shadow:
+        0 8px 22px rgba(6,50,74,.22);
     }
 
-    .hero-texto {
-      color: rgba(255,255,255,.85);
-      font-size: 18px;
-      margin-bottom: 25px;
+    .marca-nombre{
+      color:var(--azul);
+      font-size:20px;
+      font-weight:950;
     }
 
-    .beneficios {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+    .marca-subtitulo{
+      display:block;
+
+      color:var(--gris);
+
+      font-size:12px;
+      font-weight:700;
     }
 
-    .beneficios div::before {
-      content: "✓";
-      color: var(--dorado-claro);
-      margin-right: 8px;
-      font-weight: bold;
+    .menu{
+      display:flex;
+      align-items:center;
+      gap:19px;
+
+      font-size:14px;
+      font-weight:850;
     }
 
-    /* COTIZADOR */
-
-    .cotizador {
-      background: white;
-      color: var(--texto);
-      padding: 25px;
-      border-radius: 25px;
-      box-shadow: 0 25px 60px rgba(0,0,0,.25);
+    .menu a:hover{
+      color:var(--turquesa);
     }
 
-    .cotizador h2 {
-      color: var(--azul);
-      margin-bottom: 5px;
+    .idiomas{
+      display:flex;
+      gap:5px;
     }
 
-    .subtexto {
-      color: var(--gris);
-      margin-bottom: 20px;
+    .idioma{
+      border:1px solid var(--borde);
+
+      background:white;
+      color:var(--azul);
+
+      padding:7px 10px;
+
+      border-radius:999px;
+
+      font-weight:900;
     }
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
+    .idioma.activo{
+      background:var(--azul);
+      color:white;
     }
 
-    .campo-completo {
-      grid-column: 1 / -1;
+    .whatsapp-header{
+      background:var(--verde);
+
+      color:#073b23;
+
+      padding:11px 16px;
+
+      border-radius:999px;
+
+      font-weight:950;
     }
 
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: bold;
-      font-size: 14px;
+    .menu-movil{
+      display:none;
+
+      border:none;
+
+      width:44px;
+      height:44px;
+
+      border-radius:12px;
+
+      background:var(--azul);
+      color:white;
+
+      font-size:22px;
+    }
+
+
+    /* =========================================
+       HERO
+    ========================================= */
+
+    .hero{
+      position:relative;
+
+      min-height:700px;
+
+      display:flex;
+      align-items:center;
+
+      overflow:hidden;
+
+      color:white;
+
+      background-image:
+
+        linear-gradient(
+          90deg,
+          rgba(3,29,44,.93) 0%,
+          rgba(4,47,67,.80) 38%,
+          rgba(5,68,85,.38) 70%,
+          rgba(5,68,85,.17) 100%
+        ),
+
+        url(
+          "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=88"
+        );
+
+      background-size:cover;
+      background-position:center;
+    }
+
+    .hero::after{
+      content:"";
+
+      position:absolute;
+      inset:0;
+
+      pointer-events:none;
+
+      background:
+        radial-gradient(
+          circle at 85% 12%,
+          rgba(255,213,131,.20),
+          transparent 25%
+        );
+    }
+
+    .hero-grid{
+      position:relative;
+      z-index:2;
+
+      padding:64px 0;
+
+      display:grid;
+
+      grid-template-columns:
+        .88fr 1.12fr;
+
+      gap:50px;
+
+      align-items:center;
+    }
+
+    .etiqueta{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+
+      padding:8px 14px;
+
+      border:
+        1px solid rgba(255,255,255,.28);
+
+      border-radius:999px;
+
+      background:
+        rgba(255,255,255,.08);
+
+      backdrop-filter:blur(10px);
+
+      font-size:14px;
+      font-weight:800;
+
+      margin-bottom:18px;
+    }
+
+    .hero h1{
+      font-size:
+        clamp(42px,6vw,72px);
+
+      line-height:.98;
+
+      letter-spacing:-2px;
+
+      margin-bottom:21px;
+
+      text-shadow:
+        0 7px 25px rgba(0,0,0,.28);
+    }
+
+    .hero-descripcion{
+      font-size:18px;
+
+      color:
+        rgba(255,255,255,.87);
+
+      max-width:600px;
+
+      margin-bottom:26px;
+    }
+
+    .beneficios{
+      display:grid;
+
+      grid-template-columns:
+        repeat(2,1fr);
+
+      gap:12px;
+    }
+
+    .beneficio{
+      display:flex;
+      align-items:center;
+      gap:8px;
+
+      font-weight:750;
+    }
+
+    .check{
+      display:inline-flex;
+
+      align-items:center;
+      justify-content:center;
+
+      width:23px;
+      height:23px;
+
+      min-width:23px;
+
+      border-radius:50%;
+
+      background:var(--arena);
+      color:var(--azul);
+
+      font-weight:950;
+      font-size:13px;
+    }
+
+
+    /* =========================================
+       COTIZADOR
+    ========================================= */
+
+    .cotizador{
+      background:
+        rgba(255,255,255,.98);
+
+      color:var(--texto);
+
+      border-radius:28px;
+
+      padding:27px;
+
+      box-shadow:
+        0 35px 80px rgba(0,0,0,.30);
+    }
+
+    .cotizador h2{
+      color:var(--azul);
+
+      font-size:30px;
+
+      margin-bottom:4px;
+    }
+
+    .cotizador-sub{
+      color:var(--gris);
+
+      margin-bottom:20px;
+    }
+
+    .form-grid{
+      display:grid;
+
+      grid-template-columns:
+        repeat(2,1fr);
+
+      gap:14px;
+    }
+
+    .campo-completo{
+      grid-column:1/-1;
+    }
+
+    label{
+      display:block;
+
+      margin-bottom:6px;
+
+      color:#344653;
+
+      font-size:13px;
+      font-weight:900;
     }
 
     input,
     select,
-    textarea {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #d0d5dd;
-      border-radius: 11px;
-      background: white;
+    textarea{
+      width:100%;
+
+      padding:12px 13px;
+
+      border:
+        1px solid #d5dee3;
+
+      border-radius:12px;
+
+      background:white;
+
+      outline:none;
     }
 
     input:focus,
     select:focus,
-    textarea:focus {
-      outline: 2px solid rgba(18,57,93,.15);
-      border-color: var(--azul-claro);
+    textarea:focus{
+      border-color:var(--turquesa);
+
+      box-shadow:
+        0 0 0 3px rgba(22,167,170,.12);
     }
 
-    .tipo-viaje {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
+    .viaje-tipos{
+      display:grid;
+
+      grid-template-columns:
+        repeat(2,1fr);
+
+      gap:7px;
     }
 
-    .tipo-viaje label {
-      margin: 0;
+    .viaje-opcion{
+      border:
+        1px solid var(--borde);
+
+      border-radius:12px;
+
+      padding:11px 8px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      gap:6px;
     }
 
-    .tipo-viaje input {
-      width: auto;
-      margin-right: 5px;
+    .viaje-opcion input{
+      width:auto;
     }
 
-    .opcion-viaje {
-      padding: 11px;
-      border: 1px solid var(--borde);
-      border-radius: 10px;
-      text-align: center;
+    .especial{
+      padding:14px;
+
+      background:#f7fafb;
+
+      border:
+        1px solid var(--borde);
+
+      border-radius:14px;
     }
 
-    .especial {
-      padding: 14px;
-      border: 1px solid var(--borde);
-      border-radius: 12px;
-      background: #fafafa;
+    .especial-opciones{
+      display:flex;
+      flex-wrap:wrap;
+
+      gap:8px;
+
+      margin-top:9px;
     }
 
-    .especial-opciones {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
+    .especial-opcion{
+      padding:7px 10px;
+
+      border:
+        1px solid var(--borde);
+
+      border-radius:999px;
+
+      background:white;
+
+      display:flex;
+      align-items:center;
+
+      gap:5px;
+
+      font-size:13px;
+      font-weight:700;
     }
 
-    .especial-opciones label {
-      font-weight: normal;
-      border: 1px solid var(--borde);
-      background: white;
-      padding: 8px 10px;
-      border-radius: 20px;
+    .especial-opcion input{
+      width:auto;
     }
 
-    .especial-opciones input {
-      width: auto;
-      margin-right: 5px;
+    .boton-principal{
+      width:100%;
+
+      border:none;
+
+      border-radius:13px;
+
+      padding:15px;
+
+      font-size:15px;
+      font-weight:950;
+
+      color:#17222b;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--dorado),
+          var(--arena)
+        );
+
+      box-shadow:
+        0 11px 30px rgba(220,168,78,.25);
     }
 
-    .boton-principal {
-      width: 100%;
-      border: none;
-      background: linear-gradient(
-        135deg,
-        var(--dorado),
-        var(--dorado-claro)
-      );
-      color: #17202a;
-      padding: 14px;
-      border-radius: 12px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 16px;
+    .boton-principal:hover{
+      transform:translateY(-1px);
     }
 
-    /* RESULTADO */
 
-    #resultado {
-      display: none;
-      margin-top: 18px;
-      background: #f7faff;
-      border: 1px solid #d8e4ef;
-      padding: 18px;
-      border-radius: 16px;
+    /* =========================================
+       RESULTADO
+    ========================================= */
+
+    .resultado{
+      display:none;
+
+      margin-top:19px;
+
+      padding:19px;
+
+      border:
+        1px solid #d9e5eb;
+
+      border-radius:18px;
+
+      background:
+        linear-gradient(
+          145deg,
+          #f4fbfd,
+          white
+        );
     }
 
-    #resultado.mostrar {
-      display: block;
+    .resultado.mostrar{
+      display:block;
     }
 
-    .resultado-arriba {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
+    .resultado-top{
+      display:flex;
+
+      align-items:flex-start;
+      justify-content:space-between;
+
+      gap:20px;
     }
 
-    .precio {
-      color: var(--azul);
-      font-size: 30px;
-      font-weight: bold;
+    .resultado-ruta{
+      color:var(--azul);
+
+      font-weight:950;
+      font-size:17px;
     }
 
-    .precio-rd {
-      color: var(--gris);
-      font-weight: bold;
+    .resultado-detalles{
+      margin-top:3px;
+
+      color:var(--gris);
+
+      font-size:14px;
     }
 
-    .vehiculo {
-      margin-top: 15px;
-      background: white;
-      border: 1px solid var(--borde);
-      padding: 13px;
-      border-radius: 11px;
+    .precio-usd{
+      color:var(--azul);
+
+      font-size:33px;
+      line-height:1;
+
+      font-weight:950;
+
+      text-align:right;
     }
 
-    .acciones {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 15px;
+    .precio-rd{
+      color:var(--gris);
+
+      font-weight:800;
+
+      text-align:right;
+
+      margin-top:5px;
     }
 
-    .reservar,
-    .whatsapp {
-      padding: 12px;
-      text-align: center;
-      border-radius: 10px;
-      font-weight: bold;
+    .resultado-info{
+      margin-top:13px;
+
+      padding:13px;
+
+      border:
+        1px solid var(--borde);
+
+      border-radius:12px;
+
+      background:white;
     }
 
-    .reservar {
-      background: var(--azul);
-      color: white;
+    .resultado-info strong{
+      color:var(--azul);
     }
 
-    .whatsapp {
-      background: var(--whatsapp);
-      color: #073b23;
+    .resultado-botones{
+      margin-top:14px;
+
+      display:grid;
+
+      grid-template-columns:
+        repeat(2,1fr);
+
+      gap:9px;
     }
 
-    /* SECCIONES */
+    .btn-reservar{
+      border:none;
 
-    section {
-      padding: 70px 0;
+      border-radius:12px;
+
+      padding:13px;
+
+      background:var(--azul);
+      color:white;
+
+      font-weight:950;
     }
 
-    .titulo-seccion {
-      max-width: 750px;
-      margin-bottom: 30px;
+    .btn-wa{
+      border:none;
+
+      border-radius:12px;
+
+      padding:13px;
+
+      text-align:center;
+
+      background:var(--verde);
+      color:#073b23;
+
+      font-weight:950;
     }
 
-    .titulo-seccion span {
-      color: var(--dorado);
-      text-transform: uppercase;
-      font-weight: bold;
-      font-size: 13px;
-      letter-spacing: 1px;
+    .sin-tarifa{
+      display:none;
+
+      margin-top:19px;
+
+      padding:17px;
+
+      border:
+        1px solid #f0dac2;
+
+      border-radius:14px;
+
+      background:#fff9f1;
     }
 
-    .titulo-seccion h2 {
-      color: var(--azul);
-      font-size: clamp(30px, 5vw, 45px);
-      margin: 7px 0 10px;
+    .sin-tarifa.mostrar{
+      display:block;
     }
 
-    .titulo-seccion p {
-      color: var(--gris);
+    .sin-tarifa p{
+      color:var(--gris);
+
+      margin:5px 0 12px;
     }
 
-    .tarjetas {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
+
+    /* =========================================
+       SECCIONES
+    ========================================= */
+
+    .seccion{
+      padding:76px 0;
     }
 
-    .tarjeta {
-      background: white;
-      padding: 25px;
-      border-radius: 18px;
-      border: 1px solid var(--borde);
+    .cabecera-seccion{
+      max-width:780px;
+
+      margin-bottom:32px;
     }
 
-    .tarjeta .icono {
-      font-size: 30px;
-      margin-bottom: 15px;
+    .kicker{
+      color:var(--dorado);
+
+      text-transform:uppercase;
+
+      font-size:12px;
+      font-weight:950;
+
+      letter-spacing:1.5px;
     }
 
-    .tarjeta h3 {
-      color: var(--azul);
-      margin-bottom: 8px;
+    .cabecera-seccion h2{
+      color:var(--azul);
+
+      font-size:
+        clamp(31px,5vw,48px);
+
+      line-height:1.08;
+
+      margin:8px 0 11px;
     }
 
-    .tarjeta p {
-      color: var(--gris);
+    .cabecera-seccion p{
+      color:var(--gris);
+
+      font-size:17px;
     }
 
-    /* TOURS */
 
-    .tour-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
+    /* =========================================
+       SERVICIOS
+    ========================================= */
+
+    .servicios{
+      background:white;
     }
 
-    .tour {
-      background: white;
-      border-radius: 18px;
-      overflow: hidden;
-      border: 1px solid var(--borde);
+    .servicios-grid{
+      display:grid;
+
+      grid-template-columns:
+        repeat(3,1fr);
+
+      gap:20px;
     }
 
-    .tour-imagen {
-      height: 180px;
+    .servicio-card{
+      padding:27px;
+
+      border:
+        1px solid var(--borde);
+
+      border-radius:22px;
+
+      background:
+        linear-gradient(
+          180deg,
+          white,
+          #fafcfd
+        );
+
+      box-shadow:
+        0 12px 35px rgba(6,50,74,.06);
+
+      transition:.25s;
+    }
+
+    .servicio-card:hover{
+      transform:translateY(-5px);
+
+      box-shadow:var(--sombra);
+    }
+
+    .servicio-icono{
+      width:60px;
+      height:60px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      border-radius:18px;
+
+      margin-bottom:19px;
+
+      background:
+        linear-gradient(
+          145deg,
+          #e7f7f7,
+          #f4fbfc
+        );
+    }
+
+    .servicio-icono svg{
+      width:32px;
+      height:32px;
+
+      stroke:var(--turquesa);
+
+      fill:none;
+
+      stroke-width:1.8;
+    }
+
+    .servicio-card h3{
+      color:var(--azul);
+
+      font-size:21px;
+
+      margin-bottom:8px;
+    }
+
+    .servicio-card p{
+      color:var(--gris);
+    }
+
+
+    /* =========================================
+       VEHICULOS
+    ========================================= */
+
+    .vehiculos{
+      background:
+        linear-gradient(
+          180deg,
+          #edf6f7,
+          #f8fbfc
+        );
+
+      overflow:hidden;
+    }
+
+    .vehiculos-aviso{
+      color:var(--gris);
+
+      max-width:820px;
+
+      margin-bottom:25px;
+    }
+
+    .vehiculos-ventana{
+      overflow:hidden;
+
+      width:100%;
+    }
+
+    .vehiculos-track{
+      display:flex;
+
+      width:max-content;
+
+      gap:20px;
+
+      padding:10px 0 25px;
+
+      animation:
+        mover 34s linear infinite;
+    }
+
+    .vehiculos-ventana:hover
+    .vehiculos-track{
+      animation-play-state:paused;
+    }
+
+    @keyframes mover{
+      from{
+        transform:translateX(0);
+      }
+
+      to{
+        transform:translateX(-50%);
+      }
+    }
+
+    .vehiculo-card{
+      width:300px;
+
+      flex-shrink:0;
+
+      padding:19px;
+
+      border-radius:23px;
+
+      color:white;
+
+      background:
+        linear-gradient(
+          145deg,
+          #08344e,
+          #087694
+        );
+
+      box-shadow:
+        0 16px 38px rgba(6,50,74,.16);
+    }
+
+    .vehiculo-figura{
+      height:145px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .vehiculo-figura svg{
+      width:250px;
+
+      filter:
+        drop-shadow(
+          0 14px 10px rgba(0,0,0,.20)
+        );
+    }
+
+    .vehiculo-card h3{
+      margin-top:3px;
+
+      font-size:20px;
+    }
+
+    .vehiculo-card p{
+      margin-top:4px;
+
+      color:
+        rgba(255,255,255,.76);
+
+      font-size:13px;
+    }
+
+
+    /* =========================================
+       TOURS
+    ========================================= */
+
+    .tours{
+      background:white;
+    }
+
+    .tour-grid{
+      display:grid;
+
+      grid-template-columns:
+        repeat(3,1fr);
+
+      gap:20px;
+    }
+
+    .tour-card{
+      overflow:hidden;
+
+      border:
+        1px solid var(--borde);
+
+      border-radius:22px;
+
+      background:white;
+
+      box-shadow:
+        0 12px 35px rgba(6,50,74,.08);
+    }
+
+    .tour-imagen{
+      height:230px;
+
+      position:relative;
+
+      background-size:cover;
+      background-position:center;
+    }
+
+    .tour-imagen::after{
+      content:"";
+
+      position:absolute;
+      inset:0;
+
+      background:
+        linear-gradient(
+          180deg,
+          transparent 36%,
+          rgba(4,33,48,.85)
+        );
+    }
+
+    .tour-imagen h3{
+      position:absolute;
+
+      z-index:2;
+
+      left:20px;
+      bottom:17px;
+
+      color:white;
+
+      font-size:26px;
+    }
+
+    .city{
+      background-image:
+        url(
+          "https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?auto=format&fit=crop&w=1000&q=82"
+        );
+    }
+
+    .saona{
+      background-image:
+        url(
+          "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=82"
+        );
+    }
+
+    .buggies{
+      background-image:
+        url(
+          "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1000&q=82"
+        );
+    }
+
+    .tour-body{
+      padding:20px;
+    }
+
+    .tour-body p{
+      min-height:68px;
+
+      color:var(--gris);
+
+      margin-bottom:15px;
+    }
+
+    .tour-boton{
+      width:100%;
+
+      border:none;
+
+      border-radius:12px;
+
+      padding:12px;
+
+      background:var(--azul);
+      color:white;
+
+      font-weight:950;
+    }
+
+
+    /* =========================================
+       CONFIANZA
+    ========================================= */
+
+    .confianza{
+      color:white;
+
+      background-image:
+
+        linear-gradient(
+          90deg,
+          rgba(4,34,50,.94),
+          rgba(5,58,71,.75)
+        ),
+
+        url(
+          "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1900&q=82"
+        );
+
+      background-size:cover;
+      background-position:center;
+    }
+
+    .confianza-grid{
+      display:grid;
+
+      grid-template-columns:
+        .9fr 1.1fr;
+
+      gap:48px;
+
+      align-items:center;
+    }
+
+    .confianza
+    .cabecera-seccion h2{
+      color:white;
+    }
+
+    .confianza
+    .cabecera-seccion p{
+      color:
+        rgba(255,255,255,.77);
+    }
+
+    .confianza-items{
+      display:grid;
+
+      grid-template-columns:
+        repeat(2,1fr);
+
+      gap:13px;
+    }
+
+    .confianza-item{
+      padding:17px;
+
+      border:
+        1px solid rgba(255,255,255,.16);
+
+      border-radius:17px;
+
+      background:
+        rgba(255,255,255,.10);
+
+      backdrop-filter:blur(10px);
+    }
+
+    .confianza-item strong{
+      display:block;
+
+      margin-bottom:4px;
+    }
+
+
+    /* =========================================
+       CONTACTO
+    ========================================= */
+
+    .contacto{
+      background:white;
+    }
+
+    .contacto-card{
+      padding:34px;
+
+      border-radius:27px;
+
+      display:grid;
+
+      grid-template-columns:
+        1fr auto;
+
+      gap:25px;
+
+      align-items:center;
+
+      color:white;
+
       background:
         linear-gradient(
           135deg,
           var(--azul),
-          #17618f
+          var(--azul3)
         );
-      color: white;
-      display: flex;
-      align-items: flex-end;
-      padding: 20px;
-      font-size: 24px;
-      font-weight: bold;
+
+      box-shadow:var(--sombra);
     }
 
-    .tour-contenido {
-      padding: 20px;
+    .contacto-card h2{
+      font-size:
+        clamp(28px,5vw,43px);
     }
 
-    .tour-contenido p {
-      color: var(--gris);
-      margin-bottom: 15px;
+    .contacto-card p{
+      margin-top:5px;
+
+      color:
+        rgba(255,255,255,.78);
     }
 
-    .tour-contenido a {
-      display: block;
-      background: var(--whatsapp);
-      padding: 11px;
-      text-align: center;
-      border-radius: 10px;
-      font-weight: bold;
+    .contacto-card a{
+      padding:14px 22px;
+
+      border-radius:999px;
+
+      background:var(--verde);
+
+      color:#073b23;
+
+      font-weight:950;
     }
 
-    /* NOSOTROS */
 
-    .nosotros {
-      background: #edf2f7;
+    /* =========================================
+       FOOTER
+    ========================================= */
+
+    footer{
+      padding:44px 0 24px;
+
+      background:#041923;
+
+      color:white;
     }
 
-    .nosotros-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      align-items: center;
-    }
+    .footer-grid{
+      display:grid;
 
-    .panel {
-      min-height: 300px;
-      border-radius: 25px;
-      background:
-        linear-gradient(
-          135deg,
-          var(--azul),
-          var(--azul-claro)
-        );
-      color: white;
-      padding: 30px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-    }
+      grid-template-columns:
+        1.3fr 1fr 1fr;
 
-    .panel h3 {
-      font-size: 30px;
-      margin-bottom: 10px;
-    }
-
-    /* FOOTER */
-
-    footer {
-      background: #061725;
-      color: white;
-      padding: 40px 0 25px;
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr 1fr;
-      gap: 30px;
-    }
-
-    footer p,
-    footer a {
-      color: rgba(255,255,255,.7);
+      gap:30px;
     }
 
     footer h3,
-    footer h4 {
-      margin-bottom: 12px;
+    footer h4{
+      margin-bottom:9px;
     }
 
-    .copyright {
-      margin-top: 30px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255,255,255,.1);
-      color: rgba(255,255,255,.55);
+    footer p,
+    footer a{
+      color:
+        rgba(255,255,255,.67);
     }
 
-    /* WHATSAPP FLOTANTE */
-
-    .whatsapp-flotante {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      background: var(--whatsapp);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 25px;
-      z-index: 200;
-      box-shadow: 0 10px 25px rgba(0,0,0,.25);
+    footer p{
+      margin-bottom:5px;
     }
 
-    /* RESPONSIVE */
+    .copyright{
+      margin-top:28px;
 
-    @media(max-width: 900px) {
+      padding-top:19px;
 
-      nav {
-        display: none;
-      }
+      border-top:
+        1px solid rgba(255,255,255,.10);
 
-      .hero-grid,
-      .nosotros-grid {
-        grid-template-columns: 1fr;
-      }
+      color:
+        rgba(255,255,255,.47);
 
-      .tarjetas,
-      .tour-grid {
-        grid-template-columns: 1fr 1fr;
-      }
+      font-size:13px;
     }
 
-    @media(max-width: 650px) {
 
-      .topbar-content {
-        flex-direction: column;
+    /* =========================================
+       WHATSAPP FLOTANTE
+    ========================================= */
+
+    .wa-flotante{
+      position:fixed;
+
+      right:18px;
+      bottom:18px;
+
+      z-index:500;
+
+      width:60px;
+      height:60px;
+
+      border-radius:50%;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      background:var(--verde);
+
+      box-shadow:
+        0 14px 35px rgba(0,0,0,.25);
+    }
+
+    .wa-flotante svg{
+      width:30px;
+      height:30px;
+
+      fill:white;
+    }
+
+
+    /* =========================================
+       MODALES
+    ========================================= */
+
+    .modal{
+      display:none;
+
+      position:fixed;
+
+      z-index:1000;
+
+      inset:0;
+
+      align-items:center;
+      justify-content:center;
+
+      padding:20px;
+
+      background:
+        rgba(2,17,26,.75);
+
+      backdrop-filter:blur(8px);
+    }
+
+    .modal.activo{
+      display:flex;
+    }
+
+    .modal-box{
+      width:min(760px,100%);
+
+      max-height:92vh;
+
+      overflow-y:auto;
+
+      padding:27px;
+
+      border-radius:24px;
+
+      background:white;
+
+      box-shadow:
+        0 35px 90px rgba(0,0,0,.35);
+    }
+
+    .modal-top{
+      display:flex;
+
+      justify-content:space-between;
+
+      gap:20px;
+
+      align-items:flex-start;
+
+      margin-bottom:20px;
+    }
+
+    .modal-top h2{
+      color:var(--azul);
+
+      font-size:28px;
+    }
+
+    .modal-top p{
+      margin-top:4px;
+
+      color:var(--gris);
+    }
+
+    .modal-cerrar{
+      width:39px;
+      height:39px;
+
+      min-width:39px;
+
+      border:none;
+
+      border-radius:50%;
+
+      background:#edf2f4;
+
+      font-size:20px;
+    }
+
+    .resumen{
+      padding:14px;
+
+      margin-bottom:17px;
+
+      border:
+        1px solid #dbe6eb;
+
+      border-radius:14px;
+
+      background:#f5fafc;
+
+      font-size:14px;
+    }
+
+
+    /* =========================================
+       RESPONSIVE TABLET
+    ========================================= */
+
+    @media(max-width:1000px){
+
+      .menu{
+        display:none;
+
+        position:absolute;
+
+        top:80px;
+        left:4%;
+        right:4%;
+
+        padding:20px;
+
+        border-radius:18px;
+
+        flex-direction:column;
+        align-items:stretch;
+
+        background:white;
+
+        box-shadow:var(--sombra);
       }
 
-      .hero {
-        padding: 45px 0;
+      .menu.abierto{
+        display:flex;
       }
 
-      .hero h1 {
-        font-size: 40px;
+      .menu-movil{
+        display:block;
       }
 
-      .beneficios {
-        grid-template-columns: 1fr;
+      .hero-grid{
+        grid-template-columns:
+          1fr 1fr;
+
+        gap:26px;
       }
 
-      .cotizador {
-        padding: 18px;
+      .servicios-grid,
+      .tour-grid{
+        grid-template-columns:
+          repeat(2,1fr);
       }
 
-      .form-grid {
-        grid-template-columns: 1fr;
+      .confianza-grid{
+        grid-template-columns:1fr;
       }
 
-      .campo-completo {
-        grid-column: auto;
+    }
+
+
+    /* =========================================
+       RESPONSIVE MOVIL
+    ========================================= */
+
+    @media(max-width:720px){
+
+      .navbar{
+        min-height:69px;
       }
 
-      .tarjetas,
-      .tour-grid,
-      .footer-grid {
-        grid-template-columns: 1fr;
+      .marca-subtitulo{
+        display:none;
       }
 
-      .acciones {
-        grid-template-columns: 1fr;
+      .logo{
+        width:45px;
+        height:45px;
       }
 
-      section {
-        padding: 50px 0;
+      .idiomas{
+        margin-left:auto;
       }
+
+      .whatsapp-header{
+        display:none;
+      }
+
+      .menu{
+        top:69px;
+      }
+
+      .hero{
+        min-height:auto;
+
+        background-position:
+          62% center;
+      }
+
+      .hero-grid{
+        grid-template-columns:1fr;
+
+        padding:48px 0;
+      }
+
+      .hero h1{
+        font-size:
+          clamp(
+            38px,
+            12vw,
+            54px
+          );
+      }
+
+      .beneficios{
+        grid-template-columns:1fr;
+      }
+
+      .cotizador{
+        padding:19px;
+
+        border-radius:22px;
+      }
+
+      .form-grid{
+        grid-template-columns:1fr;
+      }
+
+      .campo-completo{
+        grid-column:auto;
+      }
+
+      .resultado-top{
+        flex-direction:column;
+      }
+
+      .precio-usd,
+      .precio-rd{
+        text-align:left;
+      }
+
+      .resultado-botones{
+        grid-template-columns:1fr;
+      }
+
+      .servicios-grid,
+      .tour-grid{
+        grid-template-columns:1fr;
+      }
+
+      .confianza-items{
+        grid-template-columns:1fr;
+      }
+
+      .contacto-card{
+        grid-template-columns:1fr;
+      }
+
+      .contacto-card a{
+        text-align:center;
+      }
+
+      .footer-grid{
+        grid-template-columns:1fr;
+      }
+
+      .vehiculo-card{
+        width:275px;
+      }
+
+      .modal-box{
+        padding:19px;
+      }
+
     }
 
   </style>
 </head>
 
+
 <body>
 
-<div class="topbar">
-  <div class="container topbar-content">
 
-    <div id="textoSuperior">
-      Servicio privado en República Dominicana · Atención por WhatsApp
-    </div>
+<!-- =========================================
+     HEADER
+========================================= -->
 
-    <div class="idiomas">
-      <button id="btnES" class="activo" onclick="cambiarIdioma('es')">
-        ES
-      </button>
-
-      <button id="btnEN" onclick="cambiarIdioma('en')">
-        EN
-      </button>
-    </div>
-
-  </div>
-</div>
-
-
-<header>
+<header class="header">
 
   <div class="container navbar">
 
-    <div class="marca">
+    <a href="#inicio" class="marca">
 
       <div class="logo">
         JG
       </div>
 
       <div>
-        <h2>José García</h2>
-        <small>
+
+        <div class="marca-nombre">
+          José García
+        </div>
+
+        <span class="marca-subtitulo">
           Private Transfers & Transportation
-        </small>
+        </span>
+
       </div>
 
-    </div>
+    </a>
 
-    <nav>
 
-      <a href="#inicio" data-es="Inicio" data-en="Home">
+    <nav
+      class="menu"
+      id="menuPrincipal"
+    >
+
+      <a
+        href="#inicio"
+        data-es="Inicio"
+        data-en="Home"
+      >
         Inicio
       </a>
 
-      <a href="#cotizar" data-es="Cotizar" data-en="Quote">
+      <a
+        href="#cotizar"
+        data-es="Cotizar"
+        data-en="Quote"
+      >
         Cotizar
       </a>
 
-      <a href="#servicios" data-es="Servicios" data-en="Services">
+      <a
+        href="#servicios"
+        data-es="Servicios"
+        data-en="Services"
+      >
         Servicios
       </a>
 
@@ -707,18 +1646,62 @@
         Tours
       </a>
 
-      <a href="#nosotros" data-es="Nosotros" data-en="About">
-        Nosotros
+      <a
+        href="#elegirnos"
+        data-es="Por qué elegirnos"
+        data-en="Why us"
+      >
+        Por qué elegirnos
       </a>
 
       <a
-        class="boton-nav"
-        href="https://wa.me/18298182426"
-        target="_blank">
-        WhatsApp
+        href="#contacto"
+        data-es="Contacto"
+        data-en="Contact"
+      >
+        Contacto
       </a>
 
     </nav>
+
+
+    <div class="idiomas">
+
+      <button
+        class="idioma activo"
+        id="btnES"
+        onclick="cambiarIdioma('es')"
+      >
+        ES
+      </button>
+
+      <button
+        class="idioma"
+        id="btnEN"
+        onclick="cambiarIdioma('en')"
+      >
+        EN
+      </button>
+
+    </div>
+
+
+    <a
+      class="whatsapp-header"
+      href="https://wa.me/18298182426"
+      target="_blank"
+    >
+      WhatsApp
+    </a>
+
+
+    <button
+      class="menu-movil"
+      id="botonMenu"
+      aria-label="Menú"
+    >
+      ☰
+    </button>
 
   </div>
 
@@ -727,1411 +1710,2338 @@
 
 <main>
 
-<section class="hero" id="inicio">
 
-<div class="container hero-grid">
-
-<div>
-
-  <div
-    class="etiqueta"
-    data-es="🇩🇴 República Dominicana"
-    data-en="🇩🇴 Dominican Republic">
-    🇩🇴 República Dominicana
-  </div>
-
-  <h1
-    data-es="Traslados privados, cómodos y confiables."
-    data-en="Private, comfortable and reliable transfers.">
-
-    Traslados privados, cómodos y confiables.
-
-  </h1>
-
-  <p
-    class="hero-texto"
-    data-es="Transporte privado desde y hacia aeropuertos, hoteles, ciudades y destinos turísticos en República Dominicana."
-    data-en="Private transportation to and from airports, hotels, cities and tourist destinations throughout the Dominican Republic.">
-
-    Transporte privado desde y hacia aeropuertos,
-    hoteles, ciudades y destinos turísticos
-    en República Dominicana.
-
-  </p>
-
-  <div class="beneficios">
-
-    <div
-      data-es="Servicio privado"
-      data-en="Private service">
-      Servicio privado
-    </div>
-
-    <div
-      data-es="Pago al finalizar"
-      data-en="Pay after service">
-      Pago al finalizar
-    </div>
-
-    <div
-      data-es="Atención por WhatsApp"
-      data-en="WhatsApp assistance">
-      Atención por WhatsApp
-    </div>
-
-    <div
-      data-es="Vehículo según pasajeros y equipaje"
-      data-en="Vehicle according to passengers and luggage">
-      Vehículo según pasajeros y equipaje
-    </div>
-
-  </div>
-
-</div>
-
-
-<div class="cotizador" id="cotizar">
-
-<h2
-  data-es="Cotiza tu traslado"
-  data-en="Get your transfer quote">
-  Cotiza tu traslado
-</h2>
-
-<p
-  class="subtexto"
-  data-es="Selecciona origen, destino y los datos de tu viaje."
-  data-en="Select your pickup, destination and trip details.">
-
-  Selecciona origen, destino y los datos de tu viaje.
-
-</p>
-
-
-<form id="formCotizador">
-
-<div class="form-grid">
-
-
-<div>
-
-<label
-  data-es="Origen"
-  data-en="Pickup">
-  Origen
-</label>
-
-<select id="origen" required>
-
-<option value="">
-Seleccionar origen
-</option>
-
-<option value="SDQ">
-Aeropuerto Las Américas (SDQ)
-</option>
-
-<option value="PUJ">
-Aeropuerto Punta Cana (PUJ)
-</option>
-
-<option value="BOCACHICA">
-Boca Chica
-</option>
-
-<option value="JUANDOLIO">
-Juan Dolio
-</option>
-
-<option value="SANTO_DOMINGO">
-Santo Domingo
-</option>
-
-<option value="ZONA_COLONIAL">
-Zona Colonial
-</option>
-
-<option value="SAN_PEDRO">
-San Pedro de Macorís
-</option>
-
-<option value="LA_ROMANA">
-La Romana
-</option>
-
-<option value="BAYAHIBE">
-Bayahíbe
-</option>
-
-<option value="PUNTA_CANA">
-Punta Cana
-</option>
-
-<option value="BAVARO">
-Bávaro
-</option>
-
-<option value="CAP_CANA">
-Cap Cana
-</option>
-
-<option value="UVERO_ALTO">
-Uvero Alto / Macao
-</option>
-
-<option value="SAMANA">
-Samaná
-</option>
-
-<option value="LAS_TERRENAS">
-Las Terrenas
-</option>
-
-</select>
-
-</div>
-
-
-<div>
-
-<label
-  data-es="Destino"
-  data-en="Destination">
-  Destino
-</label>
-
-<select id="destino" required>
-
-<option value="">
-Seleccionar destino
-</option>
-
-<option value="SDQ">
-Aeropuerto Las Américas (SDQ)
-</option>
-
-<option value="PUJ">
-Aeropuerto Punta Cana (PUJ)
-</option>
-
-<option value="BOCACHICA">
-Boca Chica
-</option>
-
-<option value="JUANDOLIO">
-Juan Dolio
-</option>
-
-<option value="SANTO_DOMINGO">
-Santo Domingo
-</option>
-
-<option value="ZONA_COLONIAL">
-Zona Colonial
-</option>
-
-<option value="SAN_PEDRO">
-San Pedro de Macorís
-</option>
-
-<option value="LA_ROMANA">
-La Romana
-</option>
-
-<option value="BAYAHIBE">
-Bayahíbe
-</option>
-
-<option value="PUNTA_CANA">
-Punta Cana
-</option>
-
-<option value="BAVARO">
-Bávaro
-</option>
-
-<option value="CAP_CANA">
-Cap Cana
-</option>
-
-<option value="UVERO_ALTO">
-Uvero Alto / Macao
-</option>
-
-<option value="SAMANA">
-Samaná
-</option>
-
-<option value="LAS_TERRENAS">
-Las Terrenas
-</option>
-
-</select>
-
-</div>
-
-
-<div>
-
-<label
-  data-es="Fecha"
-  data-en="Date">
-  Fecha
-</label>
-
-<input
-  type="date"
-  id="fecha"
-  required>
-
-</div>
-
-
-<div>
-
-<label
-  data-es="Hora de recogida"
-  data-en="Pickup time">
-  Hora de recogida
-</label>
-
-<input
-  type="time"
-  id="hora"
-  required>
-
-</div>
-
-
-<div>
-
-<label
-  data-es="Pasajeros"
-  data-en="Passengers">
-  Pasajeros
-</label>
-
-<input
-  type="number"
-  id="pasajeros"
-  min="1"
-  value="2"
-  required>
-
-</div>
-
-
-<div>
-
-<label
-  data-es="Maletas grandes"
-  data-en="Large suitcases">
-  Maletas grandes
-</label>
-
-<input
-  type="number"
-  id="maletas"
-  min="0"
-  value="2"
-  required>
-
-</div>
-
-
-<div>
-
-<label
-  data-es="Equipaje de mano"
-  data-en="Carry-on bags">
-  Equipaje de mano
-</label>
-
-<input
-  type="number"
-  id="equipajeMano"
-  min="0"
-  value="0"
-  required>
-
-</div>
-
-
-<div>
-
-<label
-  data-es="Tipo de viaje"
-  data-en="Trip type">
-  Tipo de viaje
-</label>
-
-<div class="tipo-viaje">
-
-<label class="opcion-viaje">
-
-<input
-  type="radio"
-  name="tipoViaje"
-  value="ida"
-  checked>
-
-<span
-  data-es="Solo ida"
-  data-en="One way">
-  Solo ida
-</span>
-
-</label>
-
-
-<label class="opcion-viaje">
-
-<input
-  type="radio"
-  name="tipoViaje"
-  value="idaVuelta">
-
-<span
-  data-es="Ida y vuelta"
-  data-en="Round trip">
-  Ida y vuelta
-</span>
-
-</label>
-
-</div>
-
-</div>
-
-
-<div
-  id="datosRegreso"
-  class="campo-completo"
-  style="display:none;">
-
-<div class="form-grid">
-
-<div>
-
-<label
-  data-es="Fecha de regreso"
-  data-en="Return date">
-  Fecha de regreso
-</label>
-
-<input
-  type="date"
-  id="fechaRegreso">
-
-</div>
-
-
-<div>
-
-<label
-  data-es="Hora de regreso"
-  data-en="Return time">
-  Hora de regreso
-</label>
-
-<input
-  type="time"
-  id="horaRegreso">
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="campo-completo especial">
-
-<label
-  data-es="¿Viaja con equipaje o necesidad especial?"
-  data-en="Are you traveling with special luggage or mobility needs?">
-
-  ¿Viaja con equipaje o necesidad especial?
-
-</label>
-
-
-<div class="especial-opciones">
-
-<label>
-<input type="checkbox" value="Silla de ruedas" class="especialCheck">
-<span
-  data-es="Silla de ruedas"
-  data-en="Wheelchair">
-  Silla de ruedas
-</span>
-</label>
-
-
-<label>
-<input type="checkbox" value="Coche de niño" class="especialCheck">
-<span
-  data-es="Coche de niño"
-  data-en="Stroller">
-  Coche de niño
-</span>
-</label>
-
-
-<label>
-<input type="checkbox" value="Silla infantil" class="especialCheck">
-<span
-  data-es="Silla infantil"
-  data-en="Child seat">
-  Silla infantil
-</span>
-</label>
-
-
-<label>
-<input type="checkbox" value="Equipo deportivo" class="especialCheck">
-<span
-  data-es="Equipo deportivo"
-  data-en="Sports equipment">
-  Equipo deportivo
-</span>
-</label>
-
-
-<label>
-<input type="checkbox" value="Equipaje sobredimensionado" class="especialCheck">
-<span
-  data-es="Equipaje sobredimensionado"
-  data-en="Oversized luggage">
-  Equipaje sobredimensionado
-</span>
-</label>
-
-</div>
-
-</div>
-
-
-<div class="campo-completo">
-
-<button
-  type="submit"
-  class="boton-principal"
-  data-es="VER TARIFA"
-  data-en="GET PRICE">
-
-  VER TARIFA
-
-</button>
-
-</div>
-
-</div>
-
-</form>
-
-
-<div id="resultado">
-
-<div class="resultado-arriba">
-
-<div>
-
-<strong id="rutaResultado"></strong>
-
-<p
-  id="datosResultado"
-  class="precio-rd">
-</p>
-
-</div>
-
-
-<div>
-
-<div
-  class="precio"
-  id="precioUSD">
-</div>
-
-<div
-  class="precio-rd"
-  id="precioDOP">
-</div>
-
-</div>
-
-</div>
-
-
-<div class="vehiculo">
-
-<strong
-  data-es="Vehículo recomendado:"
-  data-en="Recommended vehicle:">
-
-  Vehículo recomendado:
-
-</strong>
-
-<p id="vehiculoResultado"></p>
-
-</div>
-
-
-<div
-  class="vehiculo"
-  id="descuentoResultado"
-  style="display:none;">
-</div>
-
-
-<div class="acciones">
-
-<a
-  href="#reserva"
-  class="reservar"
-  data-es="RESERVAR"
-  data-en="BOOK">
-
-  RESERVAR
-
-</a>
-
-<a
-  href="#"
-  id="whatsappCotizacion"
-  class="whatsapp"
-  target="_blank">
-
-  WHATSAPP
-
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<section id="servicios">
-
-<div class="container">
-
-<div class="titulo-seccion">
-
-<span
-  data-es="Nuestra especialidad"
-  data-en="Our specialty">
-  Nuestra especialidad
-</span>
-
-<h2
-  data-es="Transporte privado en República Dominicana"
-  data-en="Private transportation in the Dominican Republic">
-
-  Transporte privado en República Dominicana
-
-</h2>
-
-<p
-  data-es="Nuestra prioridad son los traslados aeroportuarios y el transporte privado entre destinos."
-  data-en="Our priority is airport transfers and private transportation between destinations.">
-
-  Nuestra prioridad son los traslados aeroportuarios
-  y el transporte privado entre destinos.
-
-</p>
-
-</div>
-
-
-<div class="tarjetas">
-
-<div class="tarjeta">
-
-<div class="icono">
-✈️
-</div>
-
-<h3
-  data-es="Traslados aeroportuarios"
-  data-en="Airport transfers">
-
-  Traslados aeroportuarios
-
-</h3>
-
-<p
-  data-es="Traslados privados desde y hacia los principales aeropuertos del país."
-  data-en="Private transfers to and from the country's main airports.">
-
-  Traslados privados desde y hacia los principales
-  aeropuertos del país.
-
-</p>
-
-</div>
-
-
-<div class="tarjeta">
-
-<div class="icono">
-🛣️
-</div>
-
-<h3
-  data-es="Transporte nacional"
-  data-en="Nationwide transportation">
-
-  Transporte nacional
-
-</h3>
-
-<p
-  data-es="Viajes privados entre ciudades, provincias, hoteles y destinos turísticos."
-  data-en="Private trips between cities, provinces, hotels and tourist destinations.">
-
-  Viajes privados entre ciudades, provincias,
-  hoteles y destinos turísticos.
-
-</p>
-
-</div>
-
-
-<div class="tarjeta">
-
-<div class="icono">
-💬
-</div>
-
-<h3
-  data-es="Atención personalizada"
-  data-en="Personal assistance">
-
-  Atención personalizada
-
-</h3>
-
-<p
-  data-es="Cotización, reserva y coordinación directa por WhatsApp."
-  data-en="Quotes, bookings and direct coordination through WhatsApp.">
-
-  Cotización, reserva y coordinación directa
-  por WhatsApp.
-
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<section id="tours">
-
-<div class="container">
-
-<div class="titulo-seccion">
-
-<span>
-Tours & Experiences
-</span>
-
-<h2
-  data-es="Experiencias privadas en República Dominicana"
-  data-en="Private experiences in the Dominican Republic">
-
-  Experiencias privadas en República Dominicana
-
-</h2>
-
-<p
-  data-es="Los tours son un servicio complementario. Cada experiencia se cotiza por WhatsApp según punto de recogida y cantidad de personas."
-  data-en="Tours are a complementary service. Each experience is quoted through WhatsApp according to pickup location and group size.">
-
-  Los tours son un servicio complementario.
-  Cada experiencia se cotiza por WhatsApp.
-
-</p>
-
-</div>
-
-
-<div class="tour-grid">
-
-
-<div class="tour">
-
-<div class="tour-imagen">
-City Tour
-</div>
-
-<div class="tour-contenido">
-
-<p
-  data-es="Recorrido privado para conocer lugares históricos, culturales y emblemáticos."
-  data-en="Private sightseeing experience covering historical, cultural and iconic locations.">
-
-  Recorrido privado para conocer lugares
-  históricos, culturales y emblemáticos.
-
-</p>
-
-<a
-  href="https://wa.me/18298182426?text=Hola%2C%20deseo%20cotizar%20el%20City%20Tour."
-  target="_blank"
-  data-es="COTIZAR POR WHATSAPP"
-  data-en="GET A QUOTE ON WHATSAPP">
-
-  COTIZAR POR WHATSAPP
-
-</a>
-
-</div>
-
-</div>
-
-
-<div class="tour">
-
-<div class="tour-imagen">
-Isla Saona
-</div>
-
-<div class="tour-contenido">
-
-<p
-  data-es="Consulta la experiencia según tu lugar de recogida y cantidad de personas."
-  data-en="Request information according to your pickup location and group size.">
-
-  Consulta la experiencia según tu lugar
-  de recogida y cantidad de personas.
-
-</p>
-
-<a
-  href="https://wa.me/18298182426?text=Hola%2C%20deseo%20cotizar%20Isla%20Saona."
-  target="_blank"
-  data-es="COTIZAR POR WHATSAPP"
-  data-en="GET A QUOTE ON WHATSAPP">
-
-  COTIZAR POR WHATSAPP
-
-</a>
-
-</div>
-
-</div>
-
-
-<div class="tour">
-
-<div class="tour-imagen">
-Buggies
-</div>
-
-<div class="tour-contenido">
-
-<p
-  data-es="Disponibilidad y logística según ubicación, cantidad de personas y operador."
-  data-en="Availability and logistics depend on location, group size and operator.">
-
-  Disponibilidad y logística según ubicación,
-  cantidad de personas y operador.
-
-</p>
-
-<a
-  href="https://wa.me/18298182426?text=Hola%2C%20deseo%20cotizar%20Buggies."
-  target="_blank"
-  data-es="COTIZAR POR WHATSAPP"
-  data-en="GET A QUOTE ON WHATSAPP">
-
-  COTIZAR POR WHATSAPP
-
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
+<!-- =========================================
+     HERO
+========================================= -->
 
 <section
-  class="nosotros"
-  id="nosotros">
+  class="hero"
+  id="inicio"
+>
 
-<div class="container nosotros-grid">
-
-<div class="titulo-seccion">
-
-<span>
-José García
-</span>
-
-<h2
-  data-es="Transporte privado con atención directa"
-  data-en="Private transportation with direct assistance">
-
-  Transporte privado con atención directa
-
-</h2>
-
-<p
-  data-es="Nuestra sede principal está en Boca Chica, República Dominicana. Coordinamos servicios privados utilizando vehículos propios y unidades colaboradoras según las necesidades de cada traslado."
-  data-en="Our main base is in Boca Chica, Dominican Republic. We coordinate private transportation using our own vehicles and trusted partners according to each service.">
-
-  Nuestra sede principal está en Boca Chica,
-  República Dominicana.
-
-</p>
-
-</div>
+  <div class="container hero-grid">
 
 
-<div class="panel">
+    <div>
 
-<h3
-  data-es="Tu viaje, bien coordinado."
-  data-en="Your trip, properly coordinated.">
+      <div
+        class="etiqueta"
+        data-es="🇩🇴 Transporte privado en República Dominicana"
+        data-en="🇩🇴 Private transportation in the Dominican Republic"
+      >
+        🇩🇴 Transporte privado en República Dominicana
+      </div>
 
-  Tu viaje, bien coordinado.
 
-</h3>
+      <h1
+        data-es="Tu traslado comienza con confianza."
+        data-en="Your journey starts with confidence."
+      >
+        Tu traslado comienza con confianza.
+      </h1>
 
-<p
-  data-es="El vehículo asignado puede variar según disponibilidad, manteniendo siempre capacidad adecuada para la cantidad de pasajeros y equipaje indicados."
-  data-en="The assigned vehicle may vary depending on availability while always maintaining suitable capacity for the passengers and luggage provided.">
 
-  El vehículo asignado puede variar según
-  disponibilidad, manteniendo siempre una capacidad
-  adecuada.
+      <p
+        class="hero-descripcion"
+        data-es="Traslados privados desde y hacia aeropuertos, hoteles, ciudades y destinos turísticos. Atención directa antes, durante y después de tu reserva."
+        data-en="Private transfers to and from airports, hotels, cities and tourist destinations. Direct assistance before, during and after your booking."
+      >
+        Traslados privados desde y hacia aeropuertos,
+        hoteles, ciudades y destinos turísticos.
+      </p>
 
-</p>
 
-</div>
+      <div class="beneficios">
 
-</div>
+        <div class="beneficio">
+          <span class="check">✓</span>
+          <span
+            data-es="Servicio totalmente privado"
+            data-en="Fully private service"
+          >
+            Servicio totalmente privado
+          </span>
+        </div>
+
+
+        <div class="beneficio">
+          <span class="check">✓</span>
+          <span
+            data-es="Pago al finalizar"
+            data-en="Pay after service"
+          >
+            Pago al finalizar
+          </span>
+        </div>
+
+
+        <div class="beneficio">
+          <span class="check">✓</span>
+          <span
+            data-es="Atención directa por WhatsApp"
+            data-en="Direct WhatsApp assistance"
+          >
+            Atención directa por WhatsApp
+          </span>
+        </div>
+
+
+        <div class="beneficio">
+          <span class="check">✓</span>
+          <span
+            data-es="Vehículo según pasajeros y equipaje"
+            data-en="Vehicle based on passengers and luggage"
+          >
+            Vehículo según pasajeros y equipaje
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- COTIZADOR -->
+
+    <div
+      class="cotizador"
+      id="cotizar"
+    >
+
+      <h2
+        data-es="Cotiza tu traslado"
+        data-en="Get your transfer quote"
+      >
+        Cotiza tu traslado
+      </h2>
+
+      <p
+        class="cotizador-sub"
+        data-es="Indica los datos principales de tu viaje."
+        data-en="Enter the main details of your trip."
+      >
+        Indica los datos principales de tu viaje.
+      </p>
+
+
+      <form id="formCotizador">
+
+        <div class="form-grid">
+
+
+          <div>
+
+            <label
+              for="origen"
+              data-es="Origen"
+              data-en="Pickup location"
+            >
+              Origen
+            </label>
+
+            <select
+              id="origen"
+              required
+            >
+            </select>
+
+          </div>
+
+
+          <div>
+
+            <label
+              for="destino"
+              data-es="Destino"
+              data-en="Destination"
+            >
+              Destino
+            </label>
+
+            <select
+              id="destino"
+              required
+            >
+            </select>
+
+          </div>
+
+
+          <div>
+
+            <label
+              for="fecha"
+              data-es="Fecha"
+              data-en="Date"
+            >
+              Fecha
+            </label>
+
+            <input
+              id="fecha"
+              type="date"
+              required
+            >
+
+          </div>
+
+
+          <div>
+
+            <label
+              for="hora"
+              data-es="Hora de recogida"
+              data-en="Pickup time"
+            >
+              Hora de recogida
+            </label>
+
+            <input
+              id="hora"
+              type="time"
+              required
+            >
+
+          </div>
+
+
+          <div>
+
+            <label
+              for="pasajeros"
+              data-es="Pasajeros"
+              data-en="Passengers"
+            >
+              Pasajeros
+            </label>
+
+            <input
+              id="pasajeros"
+              type="number"
+              min="1"
+              max="60"
+              value="2"
+              required
+            >
+
+          </div>
+
+
+          <div>
+
+            <label
+              for="maletas"
+              data-es="Maletas grandes"
+              data-en="Large suitcases"
+            >
+              Maletas grandes
+            </label>
+
+            <input
+              id="maletas"
+              type="number"
+              min="0"
+              max="60"
+              value="2"
+              required
+            >
+
+          </div>
+
+
+          <div>
+
+            <label
+              for="mano"
+              data-es="Equipaje de mano"
+              data-en="Carry-on bags"
+            >
+              Equipaje de mano
+            </label>
+
+            <input
+              id="mano"
+              type="number"
+              min="0"
+              max="60"
+              value="0"
+              required
+            >
+
+          </div>
+
+
+          <div>
+
+            <label
+              data-es="Tipo de viaje"
+              data-en="Trip type"
+            >
+              Tipo de viaje
+            </label>
+
+            <div class="viaje-tipos">
+
+              <label class="viaje-opcion">
+
+                <input
+                  type="radio"
+                  name="tipoViaje"
+                  value="ida"
+                  checked
+                >
+
+                <span
+                  data-es="Solo ida"
+                  data-en="One way"
+                >
+                  Solo ida
+                </span>
+
+              </label>
+
+
+              <label class="viaje-opcion">
+
+                <input
+                  type="radio"
+                  name="tipoViaje"
+                  value="idaVuelta"
+                >
+
+                <span
+                  data-es="Ida y vuelta"
+                  data-en="Round trip"
+                >
+                  Ida y vuelta
+                </span>
+
+              </label>
+
+            </div>
+
+          </div>
+
+
+          <div
+            id="regresoBox"
+            class="campo-completo"
+            style="display:none"
+          >
+
+            <div class="form-grid">
+
+              <div>
+
+                <label
+                  for="fechaRegreso"
+                  data-es="Fecha de regreso"
+                  data-en="Return date"
+                >
+                  Fecha de regreso
+                </label>
+
+                <input
+                  id="fechaRegreso"
+                  type="date"
+                >
+
+              </div>
+
+
+              <div>
+
+                <label
+                  for="horaRegreso"
+                  data-es="Hora del regreso"
+                  data-en="Return time"
+                >
+                  Hora del regreso
+                </label>
+
+                <input
+                  id="horaRegreso"
+                  type="time"
+                >
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="campo-completo">
+
+            <div class="especial">
+
+              <label
+                data-es="¿Viaja con equipaje o necesidad especial?"
+                data-en="Special luggage or mobility needs?"
+              >
+                ¿Viaja con equipaje o necesidad especial?
+              </label>
+
+
+              <div class="especial-opciones">
+
+                <label class="especial-opcion">
+
+                  <input
+                    type="checkbox"
+                    class="especialCheck"
+                    value="Silla de ruedas"
+                  >
+
+                  <span
+                    data-es="Silla de ruedas"
+                    data-en="Wheelchair"
+                  >
+                    Silla de ruedas
+                  </span>
+
+                </label>
+
+
+                <label class="especial-opcion">
+
+                  <input
+                    type="checkbox"
+                    class="especialCheck"
+                    value="Coche de niño"
+                  >
+
+                  <span
+                    data-es="Coche de niño"
+                    data-en="Stroller"
+                  >
+                    Coche de niño
+                  </span>
+
+                </label>
+
+
+                <label class="especial-opcion">
+
+                  <input
+                    type="checkbox"
+                    class="especialCheck"
+                    value="Silla infantil"
+                  >
+
+                  <span
+                    data-es="Silla infantil"
+                    data-en="Child seat"
+                  >
+                    Silla infantil
+                  </span>
+
+                </label>
+
+
+                <label class="especial-opcion">
+
+                  <input
+                    type="checkbox"
+                    class="especialCheck"
+                    value="Equipo deportivo"
+                  >
+
+                  <span
+                    data-es="Equipo deportivo"
+                    data-en="Sports equipment"
+                  >
+                    Equipo deportivo
+                  </span>
+
+                </label>
+
+
+                <label class="especial-opcion">
+
+                  <input
+                    type="checkbox"
+                    class="especialCheck"
+                    value="Equipaje sobredimensionado"
+                  >
+
+                  <span
+                    data-es="Equipaje sobredimensionado"
+                    data-en="Oversized luggage"
+                  >
+                    Equipaje sobredimensionado
+                  </span>
+
+                </label>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="campo-completo">
+
+            <button
+              type="submit"
+              class="boton-principal"
+              data-es="VER TARIFA"
+              data-en="GET PRICE"
+            >
+              VER TARIFA
+            </button>
+
+          </div>
+
+        </div>
+
+      </form>
+
+
+      <!-- RESULTADO -->
+
+      <div
+        class="resultado"
+        id="resultado"
+      >
+
+        <div class="resultado-top">
+
+          <div>
+
+            <div
+              class="resultado-ruta"
+              id="resultadoRuta"
+            >
+            </div>
+
+            <div
+              class="resultado-detalles"
+              id="resultadoDetalles"
+            >
+            </div>
+
+          </div>
+
+
+          <div>
+
+            <div
+              class="precio-usd"
+              id="precioUSD"
+            >
+            </div>
+
+            <div
+              class="precio-rd"
+              id="precioRD"
+            >
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="resultado-info">
+
+          <strong
+            data-es="Vehículo recomendado:"
+            data-en="Recommended vehicle:"
+          >
+            Vehículo recomendado:
+          </strong>
+
+          <p id="resultadoVehiculo"></p>
+
+        </div>
+
+
+        <div
+          class="resultado-info"
+          id="rutaInfo"
+        >
+        </div>
+
+
+        <div
+          class="resultado-info"
+          id="descuentoBox"
+          style="display:none"
+        >
+
+          <strong
+            data-es="Descuento de ida y vuelta:"
+            data-en="Round-trip discount:"
+          >
+            Descuento de ida y vuelta:
+          </strong>
+
+          <p id="descuentoTexto"></p>
+
+        </div>
+
+
+        <div class="resultado-botones">
+
+          <button
+            type="button"
+            class="btn-reservar"
+            onclick="abrirReserva()"
+            data-es="RESERVAR ESTE TRASLADO"
+            data-en="BOOK THIS TRANSFER"
+          >
+            RESERVAR ESTE TRASLADO
+          </button>
+
+
+          <a
+            class="btn-wa"
+            id="quoteWhatsapp"
+            target="_blank"
+          >
+            WhatsApp
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- SIN TARIFA -->
+
+      <div
+        class="sin-tarifa"
+        id="sinTarifa"
+      >
+
+        <strong
+          data-es="Esta ruta requiere cotización personalizada."
+          data-en="This route requires a custom quote."
+        >
+          Esta ruta requiere cotización personalizada.
+        </strong>
+
+        <p
+          data-es="No vamos a inventar una tarifa. Puedes enviarnos los datos por WhatsApp para confirmarla."
+          data-en="We will not invent a fare. Send the trip details through WhatsApp and we will confirm it."
+        >
+          No vamos a inventar una tarifa.
+        </p>
+
+        <a
+          class="btn-wa"
+          id="sinTarifaWhatsapp"
+          target="_blank"
+        >
+          WhatsApp
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
 
 </section>
 
 
-<section id="reserva">
+<!-- =========================================
+     SERVICIOS
+========================================= -->
 
-<div class="container">
+<section
+  class="seccion servicios"
+  id="servicios"
+>
 
-<div class="titulo-seccion">
+  <div class="container">
 
-<span
-  data-es="Reserva"
-  data-en="Booking">
-  Reserva
-</span>
+    <div class="cabecera-seccion">
 
-<h2
-  data-es="Reserva tu traslado"
-  data-en="Book your transfer">
+      <span
+        class="kicker"
+        data-es="Nuestra especialidad"
+        data-en="Our specialty"
+      >
+        Nuestra especialidad
+      </span>
 
-  Reserva tu traslado
 
-</h2>
+      <h2
+        data-es="Mucho más que llevarte de un punto a otro"
+        data-en="More than simply getting you from one place to another"
+      >
+        Mucho más que llevarte de un punto a otro
+      </h2>
 
-<p
-  data-es="Completa los datos principales. Los datos de vuelo y necesidades especiales se indican cuando el servicio los requiere."
-  data-en="Enter the main information. Flight and special-needs information is provided when required by the service.">
 
-  Completa los datos principales.
+      <p
+        data-es="Coordinamos cada traslado pensando en tu horario, vuelo, pasajeros, equipaje y tranquilidad."
+        data-en="Every transfer is coordinated around your schedule, flight, passengers, luggage and peace of mind."
+      >
+        Coordinamos cada traslado pensando en
+        tu horario, vuelo, pasajeros y equipaje.
+      </p>
 
-</p>
+    </div>
 
-</div>
 
+    <div class="servicios-grid">
 
-<div class="tarjeta">
 
-<form id="formReserva">
+      <article class="servicio-card">
 
-<div class="form-grid">
+        <div class="servicio-icono">
 
+          <svg viewBox="0 0 24 24">
+            <path d="M22 2L9 15"/>
+            <path d="M22 2L15 22L11 13L2 9L22 2Z"/>
+          </svg>
 
-<div>
+        </div>
 
-<label
-  data-es="Nombre completo"
-  data-en="Full name">
-  Nombre completo
-</label>
+        <h3
+          data-es="Del aeropuerto a tu destino, sin complicaciones"
+          data-en="From the airport to your destination, without complications"
+        >
+          Del aeropuerto a tu destino, sin complicaciones
+        </h3>
 
-<input
-  id="nombre"
-  required>
+        <p
+          data-es="Coordinamos tu traslado privado tomando en cuenta vuelo, horario, pasajeros y equipaje para que tu llegada o salida sea más tranquila."
+          data-en="Your private transfer is coordinated around your flight, schedule, passengers and luggage for a smoother arrival or departure."
+        >
+          Coordinamos tu traslado privado tomando
+          en cuenta todos los detalles importantes.
+        </p>
 
-</div>
+      </article>
 
 
-<div>
+      <article class="servicio-card">
 
-<label>
-WhatsApp
-</label>
+        <div class="servicio-icono">
 
-<input
-  id="telefono"
-  type="tel"
-  required>
+          <svg viewBox="0 0 24 24">
+            <path d="M4 20L9 4"/>
+            <path d="M15 4L20 20"/>
+            <path d="M12 4V8"/>
+            <path d="M12 12V16"/>
+          </svg>
 
-</div>
+        </div>
 
+        <h3
+          data-es="República Dominicana, a tu manera"
+          data-en="Travel the Dominican Republic your way"
+        >
+          República Dominicana, a tu manera
+        </h3>
 
-<div>
+        <p
+          data-es="Viajes privados entre aeropuertos, hoteles, ciudades y provincias, sin compartir el servicio con pasajeros desconocidos."
+          data-en="Private travel between airports, hotels, cities and provinces without sharing the service with unknown passengers."
+        >
+          Viajes privados entre aeropuertos,
+          hoteles, ciudades y provincias.
+        </p>
 
-<label
-  data-es="Origen"
-  data-en="Pickup">
-  Origen
-</label>
+      </article>
 
-<input
-  id="reservaOrigen"
-  required>
 
-</div>
+      <article class="servicio-card">
 
+        <div class="servicio-icono">
 
-<div>
+          <svg viewBox="0 0 24 24">
+            <path d="M21 11.5A8.5 8.5 0 1 1 12.5 3"/>
+            <path d="M8 21L12 17H6"/>
+          </svg>
 
-<label
-  data-es="Destino"
-  data-en="Destination">
-  Destino
-</label>
+        </div>
 
-<input
-  id="reservaDestino"
-  required>
+        <h3
+          data-es="Atención directa cuando la necesitas"
+          data-en="Direct assistance when you need it"
+        >
+          Atención directa cuando la necesitas
+        </h3>
 
-</div>
+        <p
+          data-es="WhatsApp será uno de nuestros principales canales para ayudarte a coordinar cambios, dudas y detalles de tu traslado."
+          data-en="WhatsApp is one of our main channels to help coordinate changes, questions and transfer details."
+        >
+          Tendrás comunicación directa para
+          coordinar correctamente tu servicio.
+        </p>
 
+      </article>
 
-<div>
+    </div>
 
-<label
-  data-es="Fecha"
-  data-en="Date">
-  Fecha
-</label>
-
-<input
-  id="reservaFecha"
-  type="date"
-  required>
-
-</div>
-
-
-<div>
-
-<label
-  data-es="Hora"
-  data-en="Time">
-  Hora
-</label>
-
-<input
-  id="reservaHora"
-  type="time"
-  required>
-
-</div>
-
-
-<div>
-
-<label
-  data-es="Pasajeros"
-  data-en="Passengers">
-  Pasajeros
-</label>
-
-<input
-  id="reservaPasajeros"
-  type="number"
-  min="1"
-  required>
-
-</div>
-
-
-<div>
-
-<label
-  data-es="Maletas grandes"
-  data-en="Large suitcases">
-  Maletas grandes
-</label>
-
-<input
-  id="reservaMaletas"
-  type="number"
-  min="0"
-  required>
-
-</div>
-
-
-<div>
-
-<label
-  data-es="Número de vuelo — si lo requiere"
-  data-en="Flight number — if required">
-
-  Número de vuelo — si lo requiere
-
-</label>
-
-<input id="vuelo">
-
-</div>
-
-
-<div>
-
-<label
-  data-es="Aerolínea — si lo requiere"
-  data-en="Airline — if required">
-
-  Aerolínea — si lo requiere
-
-</label>
-
-<input id="aerolinea">
-
-</div>
-
-
-<div class="campo-completo">
-
-<label
-  data-es="Equipaje o necesidad especial — si lo requiere"
-  data-en="Special luggage or need — if required">
-
-  Equipaje o necesidad especial — si lo requiere
-
-</label>
-
-<input id="necesidadEspecial">
-
-</div>
-
-
-<div class="campo-completo">
-
-<label
-  data-es="Observaciones — si lo requiere"
-  data-en="Notes — if required">
-
-  Observaciones — si lo requiere
-
-</label>
-
-<textarea
-  id="observaciones"
-  rows="4">
-</textarea>
-
-</div>
-
-
-<div class="campo-completo">
-
-<button
-  type="submit"
-  class="boton-principal"
-  data-es="ENVIAR RESERVA POR WHATSAPP"
-  data-en="SEND BOOKING ON WHATSAPP">
-
-  ENVIAR RESERVA POR WHATSAPP
-
-</button>
-
-</div>
-
-</div>
-
-</form>
-
-</div>
-
-</div>
+  </div>
 
 </section>
+
+
+<!-- =========================================
+     VEHICULOS
+========================================= -->
+
+<section class="seccion vehiculos">
+
+  <div class="container">
+
+    <div class="cabecera-seccion">
+
+      <span
+        class="kicker"
+        data-es="Vehículos"
+        data-en="Vehicles"
+      >
+        Vehículos
+      </span>
+
+
+      <h2
+        data-es="El espacio adecuado para cada grupo"
+        data-en="The right space for every group"
+      >
+        El espacio adecuado para cada grupo
+      </h2>
+
+
+      <p
+        data-es="No prometemos una marca o modelo específico. Recomendamos una categoría según pasajeros, equipaje y necesidades del servicio."
+        data-en="We do not guarantee a specific make or model. We recommend a category based on passengers, luggage and service requirements."
+      >
+        Recomendamos la categoría apropiada según
+        pasajeros y equipaje.
+      </p>
+
+    </div>
+
+
+    <p
+      class="vehiculos-aviso"
+      data-es="Las imágenes son ilustrativas. El vehículo asignado puede variar según disponibilidad, manteniendo siempre una capacidad adecuada para tu grupo."
+      data-en="Images are illustrative. The assigned vehicle may vary depending on availability while always maintaining appropriate capacity for your group."
+    >
+      Las imágenes son ilustrativas.
+    </p>
+
+
+    <div class="vehiculos-ventana">
+
+      <div class="vehiculos-track">
+
+
+        <!-- VEHICULO PRIVADO -->
+
+        <div class="vehiculo-card">
+
+          <div class="vehiculo-figura">
+
+            <svg viewBox="0 0 400 190">
+
+              <ellipse
+                cx="200"
+                cy="157"
+                rx="150"
+                ry="16"
+                fill="rgba(0,0,0,.18)"
+              />
+
+              <path
+                d="
+                  M58 125
+                  L82 91
+                  Q92 76 112 73
+                  L167 63
+                  Q186 45 211 45
+                  H267
+                  Q286 46 303 67
+                  L324 92
+                  Q350 99 356 116
+                  L356 137
+                  H49
+                  Q45 128 58 125Z
+                "
+                fill="#ffffff"
+                stroke="#cad2d7"
+                stroke-width="3"
+              />
+
+              <path
+                d="
+                  M175 64
+                  L203 50
+                  H263
+                  Q277 52 290 69
+                  L298 78
+                  H160Z
+                "
+                fill="#b6d8e7"
+              />
+
+              <circle
+                cx="112"
+                cy="139"
+                r="28"
+                fill="#24292e"
+              />
+
+              <circle
+                cx="301"
+                cy="139"
+                r="28"
+                fill="#24292e"
+              />
+
+            </svg>
+
+          </div>
+
+          <h3
+            data-es="Vehículo privado"
+            data-en="Private vehicle"
+          >
+            Vehículo privado
+          </h3>
+
+          <p
+            data-es="Para grupos pequeños con equipaje moderado."
+            data-en="For smaller groups with moderate luggage."
+          >
+            Para grupos pequeños.
+          </p>
+
+        </div>
+
+
+        <!-- SUV -->
+
+        <div class="vehiculo-card">
+
+          <div class="vehiculo-figura">
+
+            <svg viewBox="0 0 400 190">
+
+              <ellipse
+                cx="200"
+                cy="157"
+                rx="150"
+                ry="16"
+                fill="rgba(0,0,0,.18)"
+              />
+
+              <path
+                d="
+                  M50 127
+                  L65 82
+                  Q70 68 88 65
+                  L151 54
+                  Q169 37 195 37
+                  H282
+                  Q302 38 317 60
+                  L338 88
+                  Q358 95 361 115
+                  V140
+                  H43
+                  V132
+                  Q44 128 50 127Z
+                "
+                fill="#ffffff"
+                stroke="#cad2d7"
+                stroke-width="3"
+              />
+
+              <path
+                d="
+                  M156 56
+                  L185 43
+                  H276
+                  Q290 45 302 63
+                  L312 78
+                  H144Z
+                "
+                fill="#b6d8e7"
+              />
+
+              <circle
+                cx="108"
+                cy="141"
+                r="30"
+                fill="#24292e"
+              />
+
+              <circle
+                cx="305"
+                cy="141"
+                r="30"
+                fill="#24292e"
+              />
+
+            </svg>
+
+          </div>
+
+          <h3>
+            SUV
+          </h3>
+
+          <p
+            data-es="Más espacio y comodidad para determinados grupos."
+            data-en="Additional space and comfort for certain groups."
+          >
+            Más espacio y comodidad.
+          </p>
+
+        </div>
+
+
+        <!-- MINIVAN -->
+
+        <div class="vehiculo-card">
+
+          <div class="vehiculo-figura">
+
+            <svg viewBox="0 0 400 190">
+
+              <ellipse
+                cx="200"
+                cy="157"
+                rx="157"
+                ry="16"
+                fill="rgba(0,0,0,.18)"
+              />
+
+              <path
+                d="
+                  M45 130
+                  L55 62
+                  Q58 48 77 45
+                  H278
+                  Q305 46 323 64
+                  L348 91
+                  Q360 103 361 123
+                  V140
+                  H44Z
+                "
+                fill="#ffffff"
+                stroke="#cad2d7"
+                stroke-width="3"
+              />
+
+              <path
+                d="
+                  M72 55
+                  H273
+                  Q293 55 308 72
+                  L323 90
+                  H65Z
+                "
+                fill="#b6d8e7"
+              />
+
+              <circle
+                cx="107"
+                cy="140"
+                r="29"
+                fill="#24292e"
+              />
+
+              <circle
+                cx="306"
+                cy="140"
+                r="29"
+                fill="#24292e"
+              />
+
+            </svg>
+
+          </div>
+
+          <h3>
+            Minivan
+          </h3>
+
+          <p
+            data-es="Cuando el grupo o el equipaje necesitan más capacidad."
+            data-en="When the group or luggage requires additional capacity."
+          >
+            Más capacidad para pasajeros y equipaje.
+          </p>
+
+        </div>
+
+
+        <!-- VAN -->
+
+        <div class="vehiculo-card">
+
+          <div class="vehiculo-figura">
+
+            <svg viewBox="0 0 400 190">
+
+              <ellipse
+                cx="200"
+                cy="159"
+                rx="160"
+                ry="17"
+                fill="rgba(0,0,0,.18)"
+              />
+
+              <path
+                d="
+                  M42 132
+                  L48 49
+                  Q51 35 70 34
+                  H282
+                  Q310 34 328 55
+                  L353 86
+                  Q362 98 363 119
+                  V142
+                  H41Z
+                "
+                fill="#ffffff"
+                stroke="#cad2d7"
+                stroke-width="3"
+              />
+
+              <path
+                d="
+                  M67 45
+                  H279
+                  Q298 45 311 61
+                  L329 84
+                  H61Z
+                "
+                fill="#b6d8e7"
+              />
+
+              <circle
+                cx="106"
+                cy="142"
+                r="31"
+                fill="#24292e"
+              />
+
+              <circle
+                cx="307"
+                cy="142"
+                r="31"
+                fill="#24292e"
+              />
+
+            </svg>
+
+          </div>
+
+          <h3>
+            Van
+          </h3>
+
+          <p
+            data-es="Recomendada para grupos mayores o bastante equipaje."
+            data-en="Recommended for larger groups or significant luggage."
+          >
+            Para grupos y equipaje mayores.
+          </p>
+
+        </div>
+
+
+        <!-- DUPLICADOS -->
+
+        <div class="vehiculo-card">
+
+          <div class="vehiculo-figura">
+
+            <svg viewBox="0 0 400 190">
+
+              <ellipse
+                cx="200"
+                cy="157"
+                rx="150"
+                ry="16"
+                fill="rgba(0,0,0,.18)"
+              />
+
+              <path
+                d="
+                  M58 125
+                  L82 91
+                  Q92 76 112 73
+                  L167 63
+                  Q186 45 211 45
+                  H267
+                  Q286 46 303 67
+                  L324 92
+                  Q350 99 356 116
+                  L356 137
+                  H49
+                  Q45 128 58 125Z
+                "
+                fill="#ffffff"
+                stroke="#cad2d7"
+                stroke-width="3"
+              />
+
+              <circle
+                cx="112"
+                cy="139"
+                r="28"
+                fill="#24292e"
+              />
+
+              <circle
+                cx="301"
+                cy="139"
+                r="28"
+                fill="#24292e"
+              />
+
+            </svg>
+
+          </div>
+
+          <h3
+            data-es="Vehículo privado"
+            data-en="Private vehicle"
+          >
+            Vehículo privado
+          </h3>
+
+          <p
+            data-es="Para grupos pequeños."
+            data-en="For smaller groups."
+          >
+            Para grupos pequeños.
+          </p>
+
+        </div>
+
+
+        <div class="vehiculo-card">
+
+          <div class="vehiculo-figura">
+
+            <svg viewBox="0 0 400 190">
+
+              <ellipse
+                cx="200"
+                cy="159"
+                rx="160"
+                ry="17"
+                fill="rgba(0,0,0,.18)"
+              />
+
+              <path
+                d="
+                  M42 132
+                  L48 49
+                  Q51 35 70 34
+                  H282
+                  Q310 34 328 55
+                  L353 86
+                  Q362 98 363 119
+                  V142
+                  H41Z
+                "
+                fill="#ffffff"
+                stroke="#cad2d7"
+                stroke-width="3"
+              />
+
+              <circle
+                cx="106"
+                cy="142"
+                r="31"
+                fill="#24292e"
+              />
+
+              <circle
+                cx="307"
+                cy="142"
+                r="31"
+                fill="#24292e"
+              />
+
+            </svg>
+
+          </div>
+
+          <h3>
+            Van
+          </h3>
+
+          <p
+            data-es="Capacidad para grupos mayores."
+            data-en="Capacity for larger groups."
+          >
+            Capacidad para grupos mayores.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================
+     TOURS
+========================================= -->
+
+<section
+  class="seccion tours"
+  id="tours"
+>
+
+  <div class="container">
+
+    <div class="cabecera-seccion">
+
+      <span class="kicker">
+        Tours & Experiences
+      </span>
+
+
+      <h2
+        data-es="También podemos ayudarte a disfrutar República Dominicana"
+        data-en="We can also help you experience the Dominican Republic"
+      >
+        También podemos ayudarte a disfrutar República Dominicana
+      </h2>
+
+
+      <p
+        data-es="Las experiencias se cotizan de forma personalizada según lugar de recogida, fecha y cantidad de personas."
+        data-en="Experiences are quoted individually according to pickup location, date and group size."
+      >
+        Las experiencias se cotizan de forma personalizada.
+      </p>
+
+    </div>
+
+
+    <div class="tour-grid">
+
+
+      <article class="tour-card">
+
+        <div class="tour-imagen city">
+
+          <h3>
+            City Tour
+          </h3>
+
+        </div>
+
+        <div class="tour-body">
+
+          <p
+            data-es="Conoce lugares históricos, culturales y emblemáticos con una experiencia coordinada según tu punto de partida."
+            data-en="Discover historical, cultural and iconic locations with an experience coordinated around your pickup point."
+          >
+            Conoce lugares históricos y emblemáticos.
+          </p>
+
+          <button
+            class="tour-boton"
+            onclick="abrirTour('City Tour')"
+            data-es="COTIZAR ESTE TOUR"
+            data-en="GET A TOUR QUOTE"
+          >
+            COTIZAR ESTE TOUR
+          </button>
+
+        </div>
+
+      </article>
+
+
+      <article class="tour-card">
+
+        <div class="tour-imagen saona">
+
+          <h3>
+            Isla Saona
+          </h3>
+
+        </div>
+
+        <div class="tour-body">
+
+          <p
+            data-es="Consulta la experiencia de Isla Saona tomando en cuenta tu ubicación, grupo y logística de transporte."
+            data-en="Request a Saona Island experience based on your location, group size and transportation logistics."
+          >
+            Consulta la experiencia según tu ubicación y grupo.
+          </p>
+
+          <button
+            class="tour-boton"
+            onclick="abrirTour('Isla Saona')"
+            data-es="COTIZAR ESTE TOUR"
+            data-en="GET A TOUR QUOTE"
+          >
+            COTIZAR ESTE TOUR
+          </button>
+
+        </div>
+
+      </article>
+
+
+      <article class="tour-card">
+
+        <div class="tour-imagen buggies">
+
+          <h3>
+            Buggies
+          </h3>
+
+        </div>
+
+        <div class="tour-body">
+
+          <p
+            data-es="Consulta disponibilidad, punto de recogida y logística según la ubicación y cantidad de personas."
+            data-en="Check availability, pickup point and logistics according to location and group size."
+          >
+            Consulta disponibilidad y logística.
+          </p>
+
+          <button
+            class="tour-boton"
+            onclick="abrirTour('Buggies')"
+            data-es="COTIZAR ESTE TOUR"
+            data-en="GET A TOUR QUOTE"
+          >
+            COTIZAR ESTE TOUR
+          </button>
+
+        </div>
+
+      </article>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================
+     POR QUE ELEGIRNOS
+========================================= -->
+
+<section
+  class="seccion confianza"
+  id="elegirnos"
+>
+
+  <div class="container confianza-grid">
+
+    <div class="cabecera-seccion">
+
+      <span class="kicker">
+        José García
+      </span>
+
+      <h2
+        data-es="Tu viaje merece una coordinación clara desde el principio"
+        data-en="Your journey deserves clear coordination from the start"
+      >
+        Tu viaje merece una coordinación clara desde el principio
+      </h2>
+
+      <p
+        data-es="Nuestra sede principal está en Boca Chica y coordinamos transporte privado en diferentes puntos de República Dominicana."
+        data-en="Our main base is in Boca Chica and we coordinate private transportation across different areas of the Dominican Republic."
+      >
+        Nuestra sede principal está en Boca Chica.
+      </p>
+
+    </div>
+
+
+    <div class="confianza-items">
+
+      <div class="confianza-item">
+
+        <strong
+          data-es="Servicio privado"
+          data-en="Private service"
+        >
+          Servicio privado
+        </strong>
+
+        <span
+          data-es="El traslado se coordina exclusivamente para tu grupo."
+          data-en="The transfer is coordinated exclusively for your group."
+        >
+          El traslado se coordina para tu grupo.
+        </span>
+
+      </div>
+
+
+      <div class="confianza-item">
+
+        <strong
+          data-es="Capacidad adecuada"
+          data-en="Suitable capacity"
+        >
+          Capacidad adecuada
+        </strong>
+
+        <span
+          data-es="Recomendamos una categoría según pasajeros y equipaje."
+          data-en="We recommend a category based on passengers and luggage."
+        >
+          Categoría según pasajeros y equipaje.
+        </span>
+
+      </div>
+
+
+      <div class="confianza-item">
+
+        <strong
+          data-es="Atención directa"
+          data-en="Direct assistance"
+        >
+          Atención directa
+        </strong>
+
+        <span
+          data-es="Podrás comunicarte con nosotros por WhatsApp para coordinar."
+          data-en="You can contact us through WhatsApp for coordination."
+        >
+          Comunicación por WhatsApp.
+        </span>
+
+      </div>
+
+
+      <div class="confianza-item">
+
+        <strong
+          data-es="Cobertura nacional"
+          data-en="Nationwide coverage"
+        >
+          Cobertura nacional
+        </strong>
+
+        <span
+          data-es="Aeropuertos, hoteles, ciudades, provincias y destinos turísticos."
+          data-en="Airports, hotels, cities, provinces and tourist destinations."
+        >
+          Aeropuertos, hoteles, ciudades y provincias.
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================
+     CONTACTO
+========================================= -->
+
+<section
+  class="seccion contacto"
+  id="contacto"
+>
+
+  <div class="container">
+
+    <div class="contacto-card">
+
+      <div>
+
+        <h2
+          data-es="¿Tu ruta no aparece en el cotizador?"
+          data-en="Can't find your route in the quote system?"
+        >
+          ¿Tu ruta no aparece en el cotizador?
+        </h2>
+
+        <p
+          data-es="Envíanos los datos y confirmaremos la tarifa sin inventar precios."
+          data-en="Send us the trip details and we will confirm the fare without guessing prices."
+        >
+          Envíanos los datos y confirmaremos la tarifa.
+        </p>
+
+      </div>
+
+
+      <a
+        href="https://wa.me/18298182426"
+        target="_blank"
+        data-es="HABLAR POR WHATSAPP"
+        data-en="CHAT ON WHATSAPP"
+      >
+        HABLAR POR WHATSAPP
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
 
 </main>
 
 
+<!-- =========================================
+     FOOTER
+========================================= -->
+
 <footer>
 
-<div class="container">
+  <div class="container">
 
-<div class="footer-grid">
+    <div class="footer-grid">
 
-<div>
+      <div>
 
-<h3>
-José García
-</h3>
+        <h3>
+          José García
+        </h3>
 
-<p
-  data-es="Traslados privados y transporte en República Dominicana."
-  data-en="Private transfers and transportation in the Dominican Republic.">
+        <p
+          data-es="Traslados privados y transporte en República Dominicana."
+          data-en="Private transfers and transportation in the Dominican Republic."
+        >
+          Traslados privados y transporte en República Dominicana.
+        </p>
 
-  Traslados privados y transporte
-  en República Dominicana.
-
-</p>
-
-</div>
+      </div>
 
 
-<div>
+      <div>
 
-<h4
-  data-es="Contacto"
-  data-en="Contact">
-  Contacto
-</h4>
+        <h4
+          data-es="Contacto"
+          data-en="Contact"
+        >
+          Contacto
+        </h4>
 
-<p>
-<a
-  href="https://wa.me/18298182426"
-  target="_blank">
+        <p>
+          WhatsApp: +1 829-818-2426
+        </p>
 
-  WhatsApp: +1 829-818-2426
+        <p>
+          Boca Chica, República Dominicana
+        </p>
 
-</a>
-</p>
-
-<p>
-Boca Chica, República Dominicana
-</p>
-
-</div>
+      </div>
 
 
-<div>
+      <div>
 
-<h4
-  data-es="Servicios"
-  data-en="Services">
-  Servicios
-</h4>
+        <h4
+          data-es="Enlaces"
+          data-en="Links"
+        >
+          Enlaces
+        </h4>
 
-<p>
-<a href="#cotizar">
-Cotizar traslado
-</a>
-</p>
+        <p>
+          <a href="#cotizar">
+            Cotizar
+          </a>
+        </p>
 
-<p>
-<a href="#tours">
-Tours & Experiences
-</a>
-</p>
+        <p>
+          <a href="#tours">
+            Tours
+          </a>
+        </p>
 
-<p>
-<a href="#reserva">
-Reservar
-</a>
-</p>
+        <p>
+          <a href="#contacto">
+            Contacto
+          </a>
+        </p>
 
-</div>
+      </div>
 
-</div>
+    </div>
 
 
-<div class="copyright">
+    <div class="copyright">
 
-© <span id="ano"></span> José García.
-<span
-  data-es="Todos los derechos reservados."
-  data-en="All rights reserved.">
+      ©
+      <span id="ano"></span>
+      José García.
 
-  Todos los derechos reservados.
+      <span
+        data-es="Todos los derechos reservados."
+        data-en="All rights reserved."
+      >
+        Todos los derechos reservados.
+      </span>
 
-</span>
+    </div>
 
-</div>
-
-</div>
+  </div>
 
 </footer>
 
 
+<!-- =========================================
+     WHATSAPP FLOTANTE
+========================================= -->
+
 <a
-  class="whatsapp-flotante"
+  class="wa-flotante"
   href="https://wa.me/18298182426"
   target="_blank"
-  aria-label="WhatsApp">
+  aria-label="WhatsApp"
+>
 
-💬
+  <svg viewBox="0 0 32 32">
+
+    <path
+      d="
+        M19.11 17.55
+        c-.3-.15-1.77-.87-2.04-.97
+        -.27-.1-.47-.15-.67.15
+        -.2.3-.77.97-.94 1.17
+        -.17.2-.35.22-.65.07
+        -.3-.15-1.26-.46-2.4-1.48
+        -.89-.79-1.49-1.76-1.66-2.06
+        -.17-.3-.02-.46.13-.61
+        .14-.13.3-.35.45-.52
+        .15-.17.2-.3.3-.5
+        .1-.2.05-.37-.02-.52
+        -.08-.15-.67-1.62-.92-2.22
+        -.24-.58-.49-.5-.67-.51
+        h-.57
+        c-.2 0-.52.07-.79.37
+        -.27.3-1.04 1.02-1.04 2.49
+        0 1.47 1.07 2.89 1.22 3.09
+        .15.2 2.1 3.21 5.09 4.5
+        .71.31 1.27.49 1.7.63
+        .71.23 1.36.19 1.87.12
+        .57-.08 1.77-.72 2.02-1.42
+        .25-.7.25-1.3.17-1.42
+        -.07-.13-.27-.2-.57-.35Z
+      "
+    />
+
+    <path
+      d="
+        M16.04 3
+        C8.85 3 3 8.75 3 15.82
+        c0 2.25.6 4.45 1.74 6.38
+        L3 29
+        l7.02-1.82
+        a13.2 13.2 0 0 0 6.02 1.45
+        h.01
+        C23.24 28.63 29 22.88 29 15.81
+        29 8.74 23.23 3 16.04 3Z
+      "
+    />
+
+  </svg>
 
 </a>
 
 
+<!-- =========================================
+     MODAL RESERVA
+========================================= -->
+
+<div
+  class="modal"
+  id="modalReserva"
+>
+
+  <div class="modal-box">
+
+    <div class="modal-top">
+
+      <div>
+
+        <h2
+          data-es="Reserva tu traslado"
+          data-en="Book your transfer"
+        >
+          Reserva tu traslado
+        </h2>
+
+        <p
+          data-es="Los datos que ya colocaste en el cotizador se conservan."
+          data-en="The information already entered in the quote form is preserved."
+        >
+          Los datos del cotizador ya están incluidos.
+        </p>
+
+      </div>
+
+
+      <button
+        class="modal-cerrar"
+        onclick="cerrarReserva()"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div
+      class="resumen"
+      id="resumenReserva"
+    >
+    </div>
+
+
+    <form id="formReserva">
+
+      <div class="form-grid">
+
+
+        <div>
+
+          <label
+            data-es="Nombre completo"
+            data-en="Full name"
+          >
+            Nombre completo
+          </label>
+
+          <input
+            id="reservaNombre"
+            required
+          >
+
+        </div>
+
+
+        <div>
+
+          <label>
+            WhatsApp
+          </label>
+
+          <input
+            id="reservaWhatsapp"
+            type="tel"
+            required
+          >
+
+        </div>
+
+
+        <div>
+
+          <label
+            data-es="Número de vuelo — si lo requiere"
+            data-en="Flight number — if required"
+          >
+            Número de vuelo — si lo requiere
+          </label>
+
+          <input id="reservaVuelo">
+
+        </div>
+
+
+        <div>
+
+          <label
+            data-es="Aerolínea — si lo requiere"
+            data-en="Airline — if required"
+          >
+            Aerolínea — si lo requiere
+          </label>
+
+          <input id="reservaAerolinea">
+
+        </div>
+
+
+        <div class="campo-completo">
+
+          <label
+            data-es="Equipaje o necesidad especial — si lo requiere"
+            data-en="Special luggage or need — if required"
+          >
+            Equipaje o necesidad especial — si lo requiere
+          </label>
+
+          <input id="reservaEspecial">
+
+        </div>
+
+
+        <div class="campo-completo">
+
+          <label
+            data-es="Observaciones — si lo requiere"
+            data-en="Notes — if required"
+          >
+            Observaciones — si lo requiere
+          </label>
+
+          <textarea
+            id="reservaObservaciones"
+            rows="4"
+          >
+          </textarea>
+
+        </div>
+
+
+        <div class="campo-completo">
+
+          <button
+            class="boton-principal"
+            type="submit"
+            data-es="CONTINUAR RESERVA POR WHATSAPP"
+            data-en="CONTINUE BOOKING ON WHATSAPP"
+          >
+            CONTINUAR RESERVA POR WHATSAPP
+          </button>
+
+        </div>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================
+     MODAL TOUR
+========================================= -->
+
+<div
+  class="modal"
+  id="modalTour"
+>
+
+  <div class="modal-box">
+
+    <div class="modal-top">
+
+      <div>
+
+        <h2 id="tourTitulo">
+          Cotizar tour
+        </h2>
+
+        <p
+          data-es="Completa los datos y después podrás enviar la solicitud por WhatsApp."
+          data-en="Complete the information and then send your request through WhatsApp."
+        >
+          Completa los datos de tu solicitud.
+        </p>
+
+      </div>
+
+
+      <button
+        class="modal-cerrar"
+        onclick="cerrarTour()"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <form id="formTour">
+
+      <div class="form-grid">
+
+
+        <div>
+
+          <label
+            data-es="Nombre completo"
+            data-en="Full name"
+          >
+            Nombre completo
+          </label>
+
+          <input
+            id="tourNombre"
+            required
+          >
+
+        </div>
+
+
+        <div>
+
+          <label>
+            WhatsApp
+          </label>
+
+          <input
+            id="tourWhatsapp"
+            type="tel"
+            required
+          >
+
+        </div>
+
+
+        <div>
+
+          <label
+            data-es="Fecha"
+            data-en="Date"
+          >
+            Fecha
+          </label>
+
+          <input
+            id="tourFecha"
+            type="date"
+            required
+          >
+
+        </div>
+
+
+        <div>
+
+          <label
+            data-es="Cantidad de personas"
+            data-en="Number of people"
+          >
+            Cantidad de personas
+          </label>
+
+          <input
+            id="tourPersonas"
+            type="number"
+            min="1"
+            required
+          >
+
+        </div>
+
+
+        <div class="campo-completo">
+
+          <label
+            data-es="Lugar de recogida / hotel"
+            data-en="Pickup location / hotel"
+          >
+            Lugar de recogida / hotel
+          </label>
+
+          <input
+            id="tourRecogida"
+            required
+          >
+
+        </div>
+
+
+        <div class="campo-completo">
+
+          <label
+            data-es="Observaciones — si lo requiere"
+            data-en="Notes — if required"
+          >
+            Observaciones — si lo requiere
+          </label>
+
+          <textarea
+            id="tourObservaciones"
+            rows="4"
+          >
+          </textarea>
+
+        </div>
+
+
+        <div class="campo-completo">
+
+          <button
+            class="boton-principal"
+            type="submit"
+            data-es="ENVIAR SOLICITUD POR WHATSAPP"
+            data-en="SEND REQUEST ON WHATSAPP"
+          >
+            ENVIAR SOLICITUD POR WHATSAPP
+          </button>
+
+        </div>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
 <script>
 
-/* ==========================================
-   CONFIGURACIÓN GENERAL
-   Más adelante esto vendrá del panel /admin
-========================================== */
+
+/* =========================================
+   CONFIGURACIÓN
+========================================= */
 
 const CONFIG = {
 
-  whatsapp: "18298182426",
+  whatsapp:
+    "18298182426",
 
-  tasaCambio: 60,
+  tasaCambio:
+    60,
 
-  pasajerosIncluidos: 4,
+  pasajerosIncluidos:
+    4,
 
-  pasajeroAdicional: 10,
+  pasajeroAdicional:
+    10,
 
-  descuentoIdaVuelta: 10
+  descuentoIdaVuelta:
+    10
 
 };
 
 
-/* ==========================================
-   TARIFAS INICIALES
-   Más adelante serán editables desde Supabase
-========================================== */
+/* =========================================
+   RUTAS
+   Tarifa base hasta 4 pasajeros.
+========================================= */
 
-const TARIFAS = [
+const RUTAS = [
 
-  {
-    origen: "SDQ",
-    destino: "BOCACHICA",
-    precio: 30
-  },
+  ["Aeropuerto De Punta Cana (PUJ)","Grand Bávaro Princess",40,"34 min","24 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Wyndham Alltra Punta Cana",70,"55 min","44 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Grand Sirenis Punta Cana Resort",70,"50 min","42 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","La Sivory Punta Cana By PortBlue Boutique",80,"1 h","47 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Excellence Punta Cana",70,"50 min","42 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Jewel Punta Cana",70,"50 min","42 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Dreams Macao Beach Punta Cana",60,"40 min","36 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Hoteles Iberostar – Bávaro",40,"40 min","27 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Hotel Riu Palace Punta Cana",40,"40 min","29 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Hotel Riu Bambu",40,"40 min","29 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Hotel Riu Naiboa",40,"40 min","29 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Cortecito Inn",40,"30 min","21 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","whala!urban punta cana",35,"27 min","19 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Meliá Caribe Tropical",35,"28 min","19 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Paradisus Palma Real Golf & Spa Resort",35,"28 min","19 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Barceló Bávaro Palace - All Inclusive",35,"25 min","18 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Plaza San Juan",30,"20 min","14 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","AC Hotel by Marriott Punta Cana",30,"20 min","14 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Dreams Flora Resort & Spa",35,"27 min","17 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Jewel Palm Beach",35,"25 min","17 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Pearl Beach Club",35,"28 min","17 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Serenade Punta Cana Beach & Spa Resort",30,"22 min","16 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Catalonia Punta Cana",35,"22 min","16 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Radisson Blu Punta Cana, an All-Inclusive Resort",35,"22 min","16 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Cap Cana",30,"18 min","13 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Hyatt Ziva Cap Cana",30,"18 min","13 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Margaritaville Island Reserve Cap Cana Hammock",30,"18 min","13 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Secrets Cap Cana",30,"18 min","13 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Dreams Onyx Resort & Spa",70,"55 min","45 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Las Terrenas",280,"4 h 50 min","332 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Samana",280,"4 h 50 min","332 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","La Galeras",370,"5 h","371 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Royalton CHIC Punta Cana",70,"50 min","42 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Hard Rock Hotel & Casino Punta Cana",50,"35 min","28 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Bahía Príncipe – Bávaro",40,"42 min","30 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Hotel Riu Republica",40,"40 min","29 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Hotel RIU Palace Bavaro",40,"40 min","29 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Hotel Riu Palace Macao",40,"40 min","29 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Royalton Punta Cana",40,"40 min","29 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Grand Memories Punta Cana",40,"40 min","29 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Bayahíbe",95,"55 min","69 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Majestic Colonial Punta Cana",40,"40 min","29 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Ocean Blue & Sand",40,"38 min","26 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","VIK Hotel Cayena Beach",40,"37 min","26 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Arena Blanca Plaza",40,"37 min","26 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Hotel Maracas Punta Cana",35,"34 min","24 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Grand Palladium Punta Cana Resort & Spa",35,"35 min","25 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Occidental Punta Cana - All Inclusive",35,"34 min","24 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Caribe Deluxe Princess",40,"35 min","25 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Ocean El Faro",70,"55 min","44 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Paradisus Punta Cana Resort",40,"34 min","24 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Dreams Royal Beach Punta Cana",40,"32 min","22 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Vista Sol Punta Cana Beach Resort & Spa",40,"32 min","22 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Impressive Punta Cana",40,"31 min","22 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Plaza Bávaro",40,"30 min","21 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Santo Domingo",140,"2 h 40 min","203 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Hotel Viva Samana By Wyndham",280,"4 h 50 min","332 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Zoetry Agua Punta Cana",80,"1 h","47 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Breathless Punta Cana Resort & Spa",70,"55 min","45 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Secrets Tides Punta Cana",70,"58 min","46 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Excellence El Carmen",70,"55 min","45 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Nickelodeon",70,"55 min","45 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Live Aqua Punta Cana",70,"55 min","44 km"],
+  ["Aeropuerto De Punta Cana (PUJ)","Finest Punta Cana",70,"55 min","44 km"],
 
-  {
-    origen: "SDQ",
-    destino: "JUANDOLIO",
-    precio: 35
-  },
+  ["Aeropuerto De Santo Domingo (AILA)","Aeropuerto De Punta Cana (PUJ)",125,"2 h 47 min","117 km"],
+  ["Aeropuerto De Santo Domingo (AILA)","Playa Nueva Romana",69,"1 h 6 min","77 km"],
+  ["Aeropuerto De Santo Domingo (AILA)","Punta Cana",125,"2 h 10 min","170 km"],
+  ["Aeropuerto De Santo Domingo (AILA)","Juan Dolio",45,"40 min","45 km"],
+  ["Aeropuerto De Santo Domingo (AILA)","Boca Chica",30,"20 min","18 km"],
+  ["Aeropuerto De Santo Domingo (AILA)","Bávaro",125,"2 h 10 min","170 km"],
+  ["Aeropuerto De Santo Domingo (AILA)","Las Terrenas",168,"2 h 22 min","154 km"],
+  ["Aeropuerto De Santo Domingo (AILA)","Samana",155,"2 h 40 min","162 km"],
+  ["Aeropuerto De Santo Domingo (AILA)","La Galeras",206,"3 h 9 min","190 km"],
+  ["Aeropuerto De Santo Domingo (AILA)","Puerto Plata",220,"3 h 53 min","271 km"],
+  ["Aeropuerto De Santo Domingo (AILA)","Santo Domingo (Centro)",45,"58 min","35 km"],
+  ["Aeropuerto De Santo Domingo (AILA)","Sosua",190,"3 h 35 min","250 km"],
+  ["Aeropuerto De Santo Domingo (AILA)","Bonao",115,"1 h 46 min","120 km"],
+  ["Aeropuerto De Santo Domingo (AILA)","Jarabacoa",140,"2 h 28 min","182 km"],
+  ["Aeropuerto De Santo Domingo (AILA)","Santiago",130,"2 h 40 min","206 km"],
+  ["Aeropuerto De Santo Domingo (AILA)","Zona Colonial",40,"45 min","30 km"],
+  ["Aeropuerto De Santo Domingo (AILA)","San Pedro de Macorís",50,"50 min","49 km"],
+  ["Aeropuerto De Santo Domingo (AILA)","Bayahíbe",95,"1 h 35 min","121 km"],
+  ["Aeropuerto De Santo Domingo (AILA)","Miche",145,"3 h 7 min","189 km"],
+  ["Aeropuerto De Santo Domingo (AILA)","La Romana",86,"1 h 20 min","105 km"],
 
-  {
-    origen: "SDQ",
-    destino: "SANTO_DOMINGO",
-    precio: 40
-  },
+  ["Bavaro","Hotel Viva Samana By Wyndham",280,"4 h 50 min","332 km"],
+  ["Bavaro","Bayahíbe",95,"55 min","69 km"],
+  ["Bavaro","Samana",280,"4 h 50 min","332 km"],
+  ["Bavaro","Las Terrenas",280,"4 h 50 min","332 km"],
+  ["Bavaro","La Galeras",370,"5 h","371 km"],
 
-  {
-    origen: "SDQ",
-    destino: "ZONA_COLONIAL",
-    precio: 40
-  },
+  ["Bayahíbe","La Galeras",301,"4 h 44 min","311 km"],
+  ["Bayahíbe","Samana",255,"4 h 15 min","283 km"],
+  ["Bayahíbe","Las Terrenas",255,"4 h 15 min","283 km"],
 
-  {
-    origen: "SDQ",
-    destino: "SAN_PEDRO",
-    precio: 45
-  },
+  ["Boca Chica","Bayahíbe",85,"1 h 18 min","104 km"],
+  ["Boca Chica","Juan Dolio",35,"20 min","25 km"],
+  ["Boca Chica","Santo Domingo (Centro)",45,"58 min","37 km"],
+  ["Boca Chica","San Pedro de Macorís",45,"39 min","40 km"],
+  ["Boca Chica","Playa Nueva Romana",60,"43 min","58 km"],
+  ["Boca Chica","La Romana",80,"1 h 3 min","89 km"],
+  ["Boca Chica","Aeropuerto De Punta Cana (PUJ)",115,"1 h 47 min","157 km"],
+  ["Boca Chica","Bavaro",120,"2 h 5 min","167 km"],
+  ["Boca Chica","Miche",145,"2 h 35 min","157 km"],
+  ["Boca Chica","Samana",155,"1 h 37 min","165 km"],
+  ["Boca Chica","La Galeras",230,"3 h 23 min","192 km"],
+  ["Boca Chica","Las Terrenas",170,"2 h 22 min","154 km"],
+  ["Boca Chica","Sosua",205,"3 h 45 min","252 km"],
+  ["Boca Chica","Bonao",130,"1 h 46 min","129 km"],
+  ["Boca Chica","Jarabacoa",150,"2 h 28 min","182 km"],
+  ["Boca Chica","Santiago",140,"2 h 29 min","192 km"],
+  ["Boca Chica","Zona Colonial",40,"40 min","32 km"],
+  ["Boca Chica","Aeropuerto internacional de la Romana (LRM)",80,"1 h 29 min","63 km"],
 
-  {
-    origen: "SDQ",
-    destino: "LA_ROMANA",
-    precio: 85
-  },
+  ["Caribe Tours Las Américas","Aeropuerto De Santo Domingo (AILA)",25,"20 min","15 km"],
+  ["Caribe Tours Las Américas","Boca Chica",35,"28 min","20 km"],
 
-  {
-    origen: "SDQ",
-    destino: "BAYAHIBE",
-    precio: 110
-  },
+  ["Miche","Punta Cana",112,"1 h 25 min","95 km"],
 
-  {
-    origen: "SDQ",
-    destino: "PUNTA_CANA",
-    precio: 150
-  },
+  ["Punta Cana","La Galeras",370,"5 h","371 km"],
+  ["Punta Cana","Playa Nueva Romana",105,"1 h 15 min","105 km"],
+  ["Punta Cana","La Romana",100,"1 h","80 km"],
+  ["Punta Cana","Samana",280,"4 h 50 min","332 km"],
+  ["Punta Cana","Las Terrenas",280,"4 h 50 min","332 km"],
+  ["Punta Cana","Hotel Viva Samana By Wyndham",280,"4 h 50 min","332 km"],
+  ["Punta Cana","Boca Chica",120,"1 h 50 min","150 km"],
+  ["Punta Cana","Juan Dolio",110,"1 h 32 min","127 km"],
+  ["Punta Cana","Bayahíbe",95,"55 min","65 km"],
+  ["Punta Cana","San Pedro de Macorís",110,"1 h 20 min","116 km"],
+  ["Punta Cana","Santiago de los Caballeros",298,"4 h 39 min","350 km"],
 
-  {
-    origen: "SDQ",
-    destino: "BAVARO",
-    precio: 150
-  },
+  ["Santo Domingo","Boca Chica",46,"45 min","38 km"],
+  ["Santo Domingo","Bayahíbe",115,"2 h 5 min","145 km"],
+  ["Santo Domingo","Juan Dolio",70,"1 h","50 km"],
+  ["Santo Domingo","La Romana",106,"1 h 55 min","140 km"],
+  ["Santo Domingo","Playa Nueva Romana",94,"1 h 35 min","107 km"],
+  ["Santo Domingo","San Pedro de Macorís",81,"1 h 20 min","70 km"],
 
-  {
-    origen: "SDQ",
-    destino: "UVERO_ALTO",
-    precio: 170
-  },
+  ["Santo Domingo (Centro)","Samana",155,"2 h 40 min","162 km"],
+  ["Santo Domingo (Centro)","Aeropuerto De Punta Cana (PUJ)",140,"2 h 40 min","203 km"],
+  ["Santo Domingo (Centro)","Punta Cana",140,"2 h 40 min","203 km"],
+  ["Santo Domingo (Centro)","Bavaro",140,"2 h 40 min","203 km"],
+  ["Santo Domingo (Centro)","Aeropuerto internacional de la Romana (LRM)",105,"1 h 43 min","125 km"],
+  ["Santo Domingo (Centro)","Aeropuerto internacional, Carey-Presidente Juan Bosch (AZS)",155,"2 h 40 min","182 km"],
+  ["Santo Domingo (Centro)","La Romana",105,"1 h 35 min","123 km"],
+  ["Santo Domingo (Centro)","Bayahíbe",110,"1 h 53 min","140 km"],
+  ["Santo Domingo (Centro)","Juan Dolio",60,"1 h 4 min","61 km"],
+  ["Santo Domingo (Centro)","San Pedro de Macorís",70,"1 h 24 min","74 km"],
+  ["Santo Domingo (Centro)","Playa Nueva Romana",85,"1 h 23 min","98 km"],
+  ["Santo Domingo (Centro)","La Galeras",206,"3 h 9 min","190 km"],
+  ["Santo Domingo (Centro)","Las Terrenas",168,"2 h 22 min","154 km"],
 
-  {
-    origen: "PUJ",
-    destino: "BAVARO",
-    precio: 40
-  },
+  ["Zona Colonial","Playa Nueva Romana",85,"1 h 23 min","98 km"],
+  ["Zona Colonial","San Pedro de Macorís",70,"1 h 24 min","73 km"],
+  ["Zona Colonial","Juan Dolio",55,"1 h 4 min","56 km"],
+  ["Zona Colonial","Bayahíbe",110,"1 h 53 min","140 km"],
+  ["Zona Colonial","La Romana",105,"2 h 43 min","125 km"],
+  ["Zona Colonial","Aeropuerto internacional de la Romana (LRM)",105,"1 h 35 min","119 km"],
+  ["Zona Colonial","Bavaro",140,"2 h 40 min","195 km"],
+  ["Zona Colonial","Punta Cana",140,"2 h 40 min","195 km"],
+  ["Zona Colonial","Aeropuerto De Punta Cana (PUJ)",140,"2 h 40 min","195 km"]
 
-  {
-    origen: "PUJ",
-    destino: "CAP_CANA",
-    precio: 45
-  },
-
-  {
-    origen: "PUJ",
-    destino: "BAYAHIBE",
-    precio: 55
-  },
-
-  {
-    origen: "PUJ",
-    destino: "LA_ROMANA",
-    precio: 65
-  }
-
-];
+].map(
+  r => ({
+    origen:r[0],
+    destino:r[1],
+    precio:r[2],
+    tiempo:r[3],
+    distancia:r[4]
+  })
+);
 
 
-/* ==========================================
+/* =========================================
    IDIOMA
-========================================== */
+========================================= */
 
 let idioma = "es";
 
 
-function cambiarIdioma(nuevoIdioma) {
+function cambiarIdioma(nuevoIdioma){
 
   idioma = nuevoIdioma;
 
-  document.documentElement.lang = nuevoIdioma;
+  document.documentElement.lang =
+    nuevoIdioma;
+
 
   document
     .getElementById("btnES")
-    .classList.toggle(
+    .classList
+    .toggle(
       "activo",
       nuevoIdioma === "es"
     );
 
+
   document
     .getElementById("btnEN")
-    .classList.toggle(
+    .classList
+    .toggle(
       "activo",
       nuevoIdioma === "en"
     );
@@ -2139,111 +4049,267 @@ function cambiarIdioma(nuevoIdioma) {
 
   document
     .querySelectorAll("[data-es]")
-    .forEach(elemento => {
+    .forEach(
+      elemento => {
 
-      elemento.textContent =
-        elemento.dataset[nuevoIdioma];
+        const texto =
+          elemento.dataset[nuevoIdioma];
 
-    });
-
-
-  document.getElementById("textoSuperior").textContent =
-    nuevoIdioma === "es"
-      ? "Servicio privado en República Dominicana · Atención por WhatsApp"
-      : "Private service in the Dominican Republic · WhatsApp assistance";
-
-}
-
-
-/* ==========================================
-   IDA Y VUELTA
-========================================== */
-
-document
-  .querySelectorAll(
-    'input[name="tipoViaje"]'
-  )
-  .forEach(radio => {
-
-    radio.addEventListener(
-      "change",
-      function() {
-
-        const regreso =
-          document.getElementById(
-            "datosRegreso"
-          );
-
-        if (
-          this.value === "idaVuelta"
-        ) {
-
-          regreso.style.display =
-            "block";
-
-        } else {
-
-          regreso.style.display =
-            "none";
-
+        if(texto){
+          elemento.textContent = texto;
         }
 
       }
     );
 
-  });
+}
 
 
-/* ==========================================
-   BUSCAR TARIFA
-========================================== */
+/* =========================================
+   MENU MOVIL
+========================================= */
 
-function buscarTarifa(
-  origen,
-  destino
-) {
+document
+  .getElementById("botonMenu")
+  .addEventListener(
+    "click",
+    function(){
 
-  return TARIFAS.find(
-    ruta =>
+      document
+        .getElementById("menuPrincipal")
+        .classList
+        .toggle("abierto");
 
-      (
-        ruta.origen === origen &&
-        ruta.destino === destino
+    }
+  );
+
+
+document
+  .querySelectorAll("#menuPrincipal a")
+  .forEach(
+    enlace => {
+
+      enlace.addEventListener(
+        "click",
+        function(){
+
+          document
+            .getElementById("menuPrincipal")
+            .classList
+            .remove("abierto");
+
+        }
+      );
+
+    }
+  );
+
+
+/* =========================================
+   CREAR LISTA DE ORIGENES
+========================================= */
+
+function llenarOrigenes(){
+
+  const origenSelect =
+    document.getElementById("origen");
+
+  origenSelect.innerHTML =
+    idioma === "es"
+    ? '<option value="">Seleccionar origen</option>'
+    : '<option value="">Select pickup</option>';
+
+
+  const origenes =
+    [
+      ...new Set(
+        RUTAS.map(r => r.origen)
       )
+    ]
+    .sort(
+      (a,b) =>
+        a.localeCompare(b)
+    );
 
-      ||
 
-      (
-        ruta.origen === destino &&
-        ruta.destino === origen
+  origenes.forEach(
+    origen => {
+
+      const option =
+        document.createElement("option");
+
+      option.value =
+        origen;
+
+      option.textContent =
+        origen;
+
+      origenSelect.appendChild(option);
+
+    }
+  );
+
+
+  llenarDestinos();
+
+}
+
+
+function llenarDestinos(){
+
+  const origen =
+    document.getElementById("origen").value;
+
+  const destinoSelect =
+    document.getElementById("destino");
+
+
+  destinoSelect.innerHTML =
+    idioma === "es"
+    ? '<option value="">Seleccionar destino</option>'
+    : '<option value="">Select destination</option>';
+
+
+  if(!origen){
+    return;
+  }
+
+
+  const destinos =
+    RUTAS
+      .filter(
+        ruta =>
+          ruta.origen === origen
       )
+      .map(
+        ruta =>
+          ruta.destino
+      )
+      .sort(
+        (a,b) =>
+          a.localeCompare(b)
+      );
 
+
+  destinos.forEach(
+    destino => {
+
+      const option =
+        document.createElement("option");
+
+      option.value =
+        destino;
+
+      option.textContent =
+        destino;
+
+      destinoSelect.appendChild(option);
+
+    }
   );
 
 }
 
 
-/* ==========================================
-   RECOMENDACIÓN DE VEHÍCULO
-========================================== */
+document
+  .getElementById("origen")
+  .addEventListener(
+    "change",
+    llenarDestinos
+  );
+
+
+/* =========================================
+   VIAJE IDA/VUELTA
+========================================= */
+
+document
+  .querySelectorAll(
+    'input[name="tipoViaje"]'
+  )
+  .forEach(
+    radio => {
+
+      radio.addEventListener(
+        "change",
+        function(){
+
+          const box =
+            document.getElementById("regresoBox");
+
+          const idaVuelta =
+            this.value === "idaVuelta";
+
+
+          box.style.display =
+            idaVuelta
+            ? "block"
+            : "none";
+
+
+          document
+            .getElementById("fechaRegreso")
+            .required =
+            idaVuelta;
+
+
+          document
+            .getElementById("horaRegreso")
+            .required =
+            idaVuelta;
+
+        }
+      );
+
+    }
+  );
+
+
+/* =========================================
+   BUSCAR RUTA
+========================================= */
+
+function obtenerRuta(
+  origen,
+  destino
+){
+
+  return RUTAS.find(
+    ruta =>
+      ruta.origen === origen
+      &&
+      ruta.destino === destino
+  );
+
+}
+
+
+/* =========================================
+   RECOMENDAR VEHICULO
+========================================= */
 
 function recomendarVehiculo(
   pasajeros,
   maletas,
-  equipajeMano
-) {
+  equipajeMano,
+  especiales
+){
 
   const carga =
-    maletas +
+    maletas
+    +
     Math.ceil(
       equipajeMano / 2
-    );
+    )
+    +
+    especiales;
 
 
-  if (
-    pasajeros <= 4 &&
+  if(
+    pasajeros <= 4
+    &&
     carga <= 4
-  ) {
+  ){
 
     return idioma === "es"
       ? "Vehículo privado"
@@ -2252,29 +4318,31 @@ function recomendarVehiculo(
   }
 
 
-  if (
-    pasajeros <= 6 &&
+  if(
+    pasajeros <= 6
+    &&
     carga <= 7
-  ) {
+  ){
 
     return "Minivan";
 
   }
 
 
-  if (
-    pasajeros <= 10 &&
+  if(
+    pasajeros <= 10
+    &&
     carga <= 12
-  ) {
+  ){
 
     return "Van";
 
   }
 
 
-  if (
+  if(
     pasajeros <= 20
-  ) {
+  ){
 
     return idioma === "es"
       ? "Minibús"
@@ -2290,17 +4358,18 @@ function recomendarVehiculo(
 }
 
 
-/* ==========================================
+/* =========================================
    COTIZADOR
-========================================== */
+========================================= */
+
+let ultimaCotizacion = null;
+
 
 document
-  .getElementById(
-    "formCotizador"
-  )
+  .getElementById("formCotizador")
   .addEventListener(
     "submit",
-    function(evento) {
+    function(evento){
 
       evento.preventDefault();
 
@@ -2332,9 +4401,7 @@ document
       const pasajeros =
         Number(
           document
-            .getElementById(
-              "pasajeros"
-            )
+            .getElementById("pasajeros")
             .value
         );
 
@@ -2342,9 +4409,7 @@ document
       const maletas =
         Number(
           document
-            .getElementById(
-              "maletas"
-            )
+            .getElementById("maletas")
             .value
         );
 
@@ -2352,94 +4417,9 @@ document
       const equipajeMano =
         Number(
           document
-            .getElementById(
-              "equipajeMano"
-            )
+            .getElementById("mano")
             .value
         );
-
-
-      if (
-        origen === destino
-      ) {
-
-        alert(
-          idioma === "es"
-            ? "El origen y el destino deben ser diferentes."
-            : "Pickup and destination must be different."
-        );
-
-        return;
-
-      }
-
-
-      const ruta =
-        buscarTarifa(
-          origen,
-          destino
-        );
-
-
-      if (!ruta) {
-
-        const mensaje =
-          idioma === "es"
-
-          ? `Hola, deseo cotizar un traslado.
-
-Origen: ${origen}
-Destino: ${destino}
-Fecha: ${fecha}
-Hora: ${hora}
-Pasajeros: ${pasajeros}
-Maletas grandes: ${maletas}
-Equipaje de mano: ${equipajeMano}`
-
-          : `Hello, I would like a transfer quote.
-
-Pickup: ${origen}
-Destination: ${destino}
-Date: ${fecha}
-Time: ${hora}
-Passengers: ${pasajeros}
-Large suitcases: ${maletas}
-Carry-on bags: ${equipajeMano}`;
-
-
-        window.open(
-
-          "https://wa.me/" +
-          CONFIG.whatsapp +
-          "?text=" +
-          encodeURIComponent(
-            mensaje
-          ),
-
-          "_blank"
-
-        );
-
-        return;
-
-      }
-
-
-      let precio =
-        ruta.precio;
-
-
-      const pasajerosExtra =
-        Math.max(
-          0,
-          pasajeros -
-          CONFIG.pasajerosIncluidos
-        );
-
-
-      precio +=
-        pasajerosExtra *
-        CONFIG.pasajeroAdicional;
 
 
       const tipoViaje =
@@ -2450,142 +4430,37 @@ Carry-on bags: ${equipajeMano}`;
           .value;
 
 
-      let descuento = 0;
-
-
-      if (
-        tipoViaje ===
-        "idaVuelta"
-      ) {
-
-        precio =
-          precio * 2;
-
-
-        descuento =
-          precio *
-          (
-            CONFIG
-              .descuentoIdaVuelta
-            /
-            100
-          );
-
-
-        precio -=
-          descuento;
-
-      }
-
-
-      const vehiculo =
-        recomendarVehiculo(
-          pasajeros,
-          maletas,
-          equipajeMano
-        );
-
-
-      const precioRD =
-        precio *
-        CONFIG.tasaCambio;
-
-
-      document
-        .getElementById(
-          "rutaResultado"
-        )
-        .textContent =
-        origen +
-        " → " +
-        destino;
-
-
-      document
-        .getElementById(
-          "datosResultado"
-        )
-        .textContent =
-        pasajeros +
-        (
-          idioma === "es"
-          ? " pasajeros"
-          : " passengers"
-        );
-
-
-      document
-        .getElementById(
-          "precioUSD"
-        )
-        .textContent =
-        "US$" +
-        precio.toFixed(2);
-
-
-      document
-        .getElementById(
-          "precioDOP"
-        )
-        .textContent =
-        "RD$" +
-        Math.round(
-          precioRD
-        )
-        .toLocaleString();
-
-
-      document
-        .getElementById(
-          "vehiculoResultado"
-        )
-        .textContent =
-        vehiculo +
-        (
-          idioma === "es"
-
-          ? ". El vehículo asignado puede variar según disponibilidad, manteniendo capacidad adecuada para pasajeros y equipaje."
-
-          : ". The assigned vehicle may vary depending on availability while maintaining suitable passenger and luggage capacity."
-        );
-
-
-      const cajaDescuento =
+      const especiales =
         document
-          .getElementById(
-            "descuentoResultado"
+          .querySelectorAll(
+            ".especialCheck:checked"
           );
 
 
-      if (
-        descuento > 0
-      ) {
-
-        cajaDescuento.style.display =
-          "block";
-
-
-        cajaDescuento.textContent =
-
-          idioma === "es"
-
-          ? `Descuento ida y vuelta: ${CONFIG.descuentoIdaVuelta}% — US$${descuento.toFixed(2)}`
-
-          : `Round-trip discount: ${CONFIG.descuentoIdaVuelta}% — US$${descuento.toFixed(2)}`;
-
-      } else {
-
-        cajaDescuento.style.display =
-          "none";
-
-      }
+      const rutaIda =
+        obtenerRuta(
+          origen,
+          destino
+        );
 
 
-      const mensajeWhatsApp =
+      document
+        .getElementById("resultado")
+        .classList
+        .remove("mostrar");
 
-        idioma === "es"
 
-        ? `Hola, deseo continuar con esta cotización:
+      document
+        .getElementById("sinTarifa")
+        .classList
+        .remove("mostrar");
+
+
+      if(!rutaIda){
+
+        const mensaje =
+
+`Hola, deseo cotizar un traslado.
 
 Origen: ${origen}
 Destino: ${destino}
@@ -2594,235 +4469,875 @@ Hora: ${hora}
 Pasajeros: ${pasajeros}
 Maletas grandes: ${maletas}
 Equipaje de mano: ${equipajeMano}
-Vehículo recomendado: ${vehiculo}
-Tipo de viaje: ${tipoViaje === "idaVuelta" ? "Ida y vuelta" : "Solo ida"}
-Tarifa: US$${precio.toFixed(2)}
 
-Quiero continuar con la reserva.`
+Por favor, confírmenme la tarifa para esta ruta.`;
 
-        : `Hello, I would like to continue with this quote:
 
-Pickup: ${origen}
-Destination: ${destino}
-Date: ${fecha}
-Time: ${hora}
-Passengers: ${pasajeros}
-Large suitcases: ${maletas}
-Carry-on bags: ${equipajeMano}
-Recommended vehicle: ${vehiculo}
-Trip type: ${tipoViaje === "idaVuelta" ? "Round trip" : "One way"}
-Fare: US$${precio.toFixed(2)}
+        document
+          .getElementById("sinTarifaWhatsapp")
+          .href =
 
-I would like to continue with the booking.`;
+          "https://wa.me/"
+          +
+          CONFIG.whatsapp
+          +
+          "?text="
+          +
+          encodeURIComponent(
+            mensaje
+          );
+
+
+        document
+          .getElementById("sinTarifa")
+          .classList
+          .add("mostrar");
+
+
+        return;
+
+      }
+
+
+      /* PRECIO BASE */
+
+      let precioIda =
+        rutaIda.precio;
+
+
+      /* OPCIÓN A:
+         hasta 4 pasajeros
+         desde el quinto +10
+      */
+
+      const pasajerosExtra =
+        Math.max(
+          0,
+          pasajeros -
+          CONFIG.pasajerosIncluidos
+        );
+
+
+      precioIda +=
+        pasajerosExtra
+        *
+        CONFIG.pasajeroAdicional;
+
+
+      let precioRegreso = 0;
+
+      let subtotal =
+        precioIda;
+
+      let descuento = 0;
+
+      let rutaRegreso = null;
+
+      let regresoAutomatico = true;
+
+
+      if(
+        tipoViaje === "idaVuelta"
+      ){
+
+        rutaRegreso =
+          obtenerRuta(
+            destino,
+            origen
+          );
+
+
+        if(rutaRegreso){
+
+          precioRegreso =
+            rutaRegreso.precio
+            +
+            (
+              pasajerosExtra
+              *
+              CONFIG.pasajeroAdicional
+            );
+
+
+          subtotal =
+            precioIda
+            +
+            precioRegreso;
+
+
+          descuento =
+            subtotal
+            *
+            (
+              CONFIG.descuentoIdaVuelta
+              /
+              100
+            );
+
+        }else{
+
+          regresoAutomatico =
+            false;
+
+          subtotal =
+            precioIda;
+
+          descuento = 0;
+
+        }
+
+      }
+
+
+      const total =
+        subtotal -
+        descuento;
+
+
+      const vehiculo =
+        recomendarVehiculo(
+          pasajeros,
+          maletas,
+          equipajeMano,
+          especiales.length
+        );
+
+
+      ultimaCotizacion = {
+
+        origen,
+
+        destino,
+
+        fecha,
+
+        hora,
+
+        pasajeros,
+
+        maletas,
+
+        equipajeMano,
+
+        tipoViaje,
+
+        vehiculo,
+
+        precioIda,
+
+        precioRegreso,
+
+        subtotal,
+
+        descuento,
+
+        total,
+
+        regresoAutomatico,
+
+        fechaRegreso:
+          document
+            .getElementById("fechaRegreso")
+            .value,
+
+        horaRegreso:
+          document
+            .getElementById("horaRegreso")
+            .value,
+
+        tiempo:
+          rutaIda.tiempo,
+
+        distancia:
+          rutaIda.distancia
+
+      };
 
 
       document
-        .getElementById(
-          "whatsappCotizacion"
+        .getElementById("resultadoRuta")
+        .textContent =
+
+        origen
+        +
+        " → "
+        +
+        destino;
+
+
+      document
+        .getElementById("resultadoDetalles")
+        .textContent =
+
+        pasajeros
+        +
+        (
+          idioma === "es"
+          ? " pasajeros · "
+          : " passengers · "
         )
+        +
+        maletas
+        +
+        (
+          idioma === "es"
+          ? " maletas grandes"
+          : " large suitcases"
+        );
+
+
+      if(
+        tipoViaje === "idaVuelta"
+        &&
+        !regresoAutomatico
+      ){
+
+        document
+          .getElementById("precioUSD")
+          .textContent =
+
+          "US$"
+          +
+          precioIda.toFixed(2);
+
+
+        document
+          .getElementById("precioRD")
+          .textContent =
+
+          idioma === "es"
+          ? "Tarifa de ida"
+          : "Outbound fare";
+
+      }else{
+
+        document
+          .getElementById("precioUSD")
+          .textContent =
+
+          "US$"
+          +
+          total.toFixed(2);
+
+
+        document
+          .getElementById("precioRD")
+          .textContent =
+
+          "RD$"
+          +
+          Math.round(
+            total *
+            CONFIG.tasaCambio
+          )
+          .toLocaleString();
+
+      }
+
+
+      document
+        .getElementById("resultadoVehiculo")
+        .textContent =
+
+        vehiculo
+        +
+        (
+          idioma === "es"
+
+          ?
+          ". La categoría se recomienda según pasajeros y equipaje. La unidad específica puede variar según disponibilidad."
+
+          :
+          ". The category is recommended according to passengers and luggage. The specific vehicle may vary depending on availability."
+        );
+
+
+      document
+        .getElementById("rutaInfo")
+        .innerHTML =
+
+        `
+        <strong>
+          ${
+            idioma === "es"
+            ? "Recorrido aproximado:"
+            : "Approximate trip:"
+          }
+        </strong>
+
+        <p>
+          ${rutaIda.tiempo}
+          ·
+          ${rutaIda.distancia}
+        </p>
+        `;
+
+
+      if(
+        descuento > 0
+      ){
+
+        document
+          .getElementById("descuentoBox")
+          .style.display =
+          "block";
+
+
+        document
+          .getElementById("descuentoTexto")
+          .textContent =
+
+          CONFIG.descuentoIdaVuelta
+          +
+          "% · -US$"
+          +
+          descuento.toFixed(2);
+
+      }else{
+
+        document
+          .getElementById("descuentoBox")
+          .style.display =
+          "none";
+
+      }
+
+
+      let mensajeWhatsApp;
+
+
+      if(
+        tipoViaje === "idaVuelta"
+        &&
+        !regresoAutomatico
+      ){
+
+        mensajeWhatsApp =
+
+`Hola, deseo continuar con esta cotización.
+
+IDA
+Origen: ${origen}
+Destino: ${destino}
+Fecha: ${fecha}
+Hora: ${hora}
+Pasajeros: ${pasajeros}
+Maletas grandes: ${maletas}
+Equipaje de mano: ${equipajeMano}
+Vehículo recomendado: ${vehiculo}
+Tarifa de ida: US$${precioIda.toFixed(2)}
+
+REGRESO
+Fecha: ${ultimaCotizacion.fechaRegreso}
+Hora: ${ultimaCotizacion.horaRegreso}
+
+La página indica que la tarifa de regreso debe confirmarse por separado.`;
+
+
+      }else{
+
+        mensajeWhatsApp =
+
+`Hola, deseo continuar con esta cotización.
+
+Origen: ${origen}
+Destino: ${destino}
+Fecha: ${fecha}
+Hora: ${hora}
+Pasajeros: ${pasajeros}
+Maletas grandes: ${maletas}
+Equipaje de mano: ${equipajeMano}
+Tipo de viaje: ${
+  tipoViaje === "idaVuelta"
+  ? "Ida y vuelta"
+  : "Solo ida"
+}
+Vehículo recomendado: ${vehiculo}
+Tarifa: US$${total.toFixed(2)}
+
+Deseo continuar con la reserva.`;
+
+      }
+
+
+      document
+        .getElementById("quoteWhatsapp")
         .href =
 
-        "https://wa.me/" +
-        CONFIG.whatsapp +
-        "?text=" +
+        "https://wa.me/"
+        +
+        CONFIG.whatsapp
+        +
+        "?text="
+        +
         encodeURIComponent(
           mensajeWhatsApp
         );
 
 
       document
-        .getElementById(
-          "resultado"
-        )
+        .getElementById("resultado")
         .classList
-        .add(
-          "mostrar"
-        );
-
-
-      /* PASAR DATOS A RESERVA */
-
-      document
-        .getElementById(
-          "reservaOrigen"
-        )
-        .value =
-        origen;
+        .add("mostrar");
 
 
       document
-        .getElementById(
-          "reservaDestino"
-        )
-        .value =
-        destino;
-
-
-      document
-        .getElementById(
-          "reservaFecha"
-        )
-        .value =
-        fecha;
-
-
-      document
-        .getElementById(
-          "reservaHora"
-        )
-        .value =
-        hora;
-
-
-      document
-        .getElementById(
-          "reservaPasajeros"
-        )
-        .value =
-        pasajeros;
-
-
-      document
-        .getElementById(
-          "reservaMaletas"
-        )
-        .value =
-        maletas;
+        .getElementById("resultado")
+        .scrollIntoView({
+          behavior:"smooth",
+          block:"nearest"
+        });
 
     }
-
   );
 
 
-/* ==========================================
-   FORMULARIO DE RESERVA
-========================================== */
+/* =========================================
+   RESERVA
+========================================= */
+
+function abrirReserva(){
+
+  if(!ultimaCotizacion){
+    return;
+  }
+
+
+  const c =
+    ultimaCotizacion;
+
+
+  document
+    .getElementById("resumenReserva")
+    .innerHTML =
+
+`
+<strong>
+${c.origen} → ${c.destino}
+</strong>
+
+<br>
+
+${c.fecha}
+·
+${c.hora}
+
+<br>
+
+${c.pasajeros}
+${idioma === "es" ? " pasajeros" : " passengers"}
+
+·
+
+${c.maletas}
+${idioma === "es" ? " maletas" : " suitcases"}
+
+<br>
+
+${c.vehiculo}
+
+<br>
+
+<strong>
+US$${c.total.toFixed(2)}
+</strong>
+`;
+
+
+  document
+    .getElementById("modalReserva")
+    .classList
+    .add("activo");
+
+
+  document
+    .body
+    .classList
+    .add("modal-abierto");
+
+}
+
+
+function cerrarReserva(){
+
+  document
+    .getElementById("modalReserva")
+    .classList
+    .remove("activo");
+
+
+  document
+    .body
+    .classList
+    .remove("modal-abierto");
+
+}
+
 
 document
-  .getElementById(
-    "formReserva"
-  )
+  .getElementById("formReserva")
   .addEventListener(
     "submit",
-    function(evento) {
+    function(evento){
 
       evento.preventDefault();
 
 
+      if(!ultimaCotizacion){
+        return;
+      }
+
+
+      const c =
+        ultimaCotizacion;
+
+
       const nombre =
         document
-          .getElementById(
-            "nombre"
-          )
-          .value;
+          .getElementById("reservaNombre")
+          .value.trim();
 
 
-      const telefono =
+      const whatsapp =
         document
-          .getElementById(
-            "telefono"
-          )
-          .value;
-
-
-      const origen =
-        document
-          .getElementById(
-            "reservaOrigen"
-          )
-          .value;
-
-
-      const destino =
-        document
-          .getElementById(
-            "reservaDestino"
-          )
-          .value;
-
-
-      const fecha =
-        document
-          .getElementById(
-            "reservaFecha"
-          )
-          .value;
-
-
-      const hora =
-        document
-          .getElementById(
-            "reservaHora"
-          )
-          .value;
-
-
-      const pasajeros =
-        document
-          .getElementById(
-            "reservaPasajeros"
-          )
-          .value;
-
-
-      const maletas =
-        document
-          .getElementById(
-            "reservaMaletas"
-          )
-          .value;
+          .getElementById("reservaWhatsapp")
+          .value.trim();
 
 
       const vuelo =
         document
-          .getElementById(
-            "vuelo"
-          )
-          .value;
+          .getElementById("reservaVuelo")
+          .value.trim();
 
 
       const aerolinea =
         document
-          .getElementById(
-            "aerolinea"
-          )
-          .value;
+          .getElementById("reservaAerolinea")
+          .value.trim();
 
 
       const especial =
         document
-          .getElementById(
-            "necesidadEspecial"
-          )
-          .value;
+          .getElementById("reservaEspecial")
+          .value.trim();
 
 
       const observaciones =
         document
-          .getElementById(
-            "observaciones"
-          )
-          .value;
+          .getElementById("reservaObservaciones")
+          .value.trim();
 
 
       const mensaje =
 
 `NUEVA RESERVA — JOSÉ GARCÍA
 
-Cliente: ${nombre}
-WhatsApp: ${telefono}
+Titular:
+${nombre}
 
-Origen: ${origen}
-Destino: ${destino}
+WhatsApp:
+${whatsapp}
 
-Fecha: ${fecha}
-Hora: ${hora}
+Origen:
+${c.origen}
 
-Pasajeros: ${pasajeros}
-Maletas grandes: ${maletas}
+Destino:
+${c.destino}
 
-Vuelo: ${vuelo || "No requerido / no indicado"}
-Aerolínea: ${aerolinea || "No requerida / no indicada"}
+Fecha:
+${c.fecha}
+
+Hora:
+${c.hora}
+
+Pasajeros:
+${c.pasajeros}
+
+Maletas grandes:
+${c.maletas}
+
+Equipaje de mano:
+${c.equipajeMano}
+
+Tipo de viaje:
+${
+  c.tipoViaje === "idaVuelta"
+  ? "Ida y vuelta"
+  : "Solo ida"
+}
+
+${
+  c.tipoViaje === "idaVuelta"
+  ?
+`Fecha regreso:
+${c.fechaRegreso}
+
+Hora regreso:
+${c.horaRegreso}`
+  :
+""
+}
+
+Vehículo recomendado:
+${c.vehiculo}
+
+Tarifa calculada:
+US$${c.total.toFixed(2)}
+
+Vuelo si lo requiere:
+${vuelo || "No indicado"}
+
+Aerolínea si lo requiere:
+${aerolinea || "No indicada"}
 
 Equipaje o necesidad especial:
-${especial || "N
+${especial || "Ninguna indicada"}
+
+Observaciones:
+${observaciones || "Ninguna"}
+
+Deseo continuar con la reserva.`;
+
+
+      window.open(
+
+        "https://wa.me/"
+        +
+        CONFIG.whatsapp
+        +
+        "?text="
+        +
+        encodeURIComponent(
+          mensaje
+        ),
+
+        "_blank"
+
+      );
+
+    }
+  );
+
+
+/* =========================================
+   TOURS
+========================================= */
+
+let tourSeleccionado = "";
+
+
+function abrirTour(nombre){
+
+  tourSeleccionado =
+    nombre;
+
+
+  document
+    .getElementById("tourTitulo")
+    .textContent =
+
+    idioma === "es"
+    ? "Cotizar " + nombre
+    : "Get a quote: " + nombre;
+
+
+  document
+    .getElementById("modalTour")
+    .classList
+    .add("activo");
+
+
+  document
+    .body
+    .classList
+    .add("modal-abierto");
+
+}
+
+
+function cerrarTour(){
+
+  document
+    .getElementById("modalTour")
+    .classList
+    .remove("activo");
+
+
+  document
+    .body
+    .classList
+    .remove("modal-abierto");
+
+}
+
+
+document
+  .getElementById("formTour")
+  .addEventListener(
+    "submit",
+    function(evento){
+
+      evento.preventDefault();
+
+
+      const nombre =
+        document
+          .getElementById("tourNombre")
+          .value.trim();
+
+
+      const whatsapp =
+        document
+          .getElementById("tourWhatsapp")
+          .value.trim();
+
+
+      const fecha =
+        document
+          .getElementById("tourFecha")
+          .value;
+
+
+      const personas =
+        document
+          .getElementById("tourPersonas")
+          .value;
+
+
+      const recogida =
+        document
+          .getElementById("tourRecogida")
+          .value.trim();
+
+
+      const observaciones =
+        document
+          .getElementById("tourObservaciones")
+          .value.trim();
+
+
+      const mensaje =
+
+`SOLICITUD DE COTIZACIÓN DE TOUR
+
+Experiencia:
+${tourSeleccionado}
+
+Nombre:
+${nombre}
+
+WhatsApp:
+${whatsapp}
+
+Fecha:
+${fecha}
+
+Cantidad de personas:
+${personas}
+
+Lugar de recogida / hotel:
+${recogida}
+
+Observaciones:
+${observaciones || "Ninguna"}
+
+Deseo recibir una cotización personalizada.`;
+
+
+      window.open(
+
+        "https://wa.me/"
+        +
+        CONFIG.whatsapp
+        +
+        "?text="
+        +
+        encodeURIComponent(
+          mensaje
+        ),
+
+        "_blank"
+
+      );
+
+    }
+  );
+
+
+/* =========================================
+   CERRAR MODALES
+========================================= */
+
+window
+  .addEventListener(
+    "click",
+    function(evento){
+
+      if(
+        evento.target ===
+        document.getElementById("modalReserva")
+      ){
+        cerrarReserva();
+      }
+
+
+      if(
+        evento.target ===
+        document.getElementById("modalTour")
+      ){
+        cerrarTour();
+      }
+
+    }
+  );
+
+
+/* =========================================
+   FECHAS
+========================================= */
+
+const hoy =
+  new Date()
+    .toISOString()
+    .split("T")[0];
+
+
+document
+  .getElementById("fecha")
+  .min =
+  hoy;
+
+
+document
+  .getElementById("fechaRegreso")
+  .min =
+  hoy;
+
+
+document
+  .getElementById("tourFecha")
+  .min =
+  hoy;
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+document
+  .getElementById("ano")
+  .textContent =
+  new Date().getFullYear();
+
+
+/* =========================================
+   INICIALIZAR
+========================================= */
+
+llenarOrigenes();
+
+</script>
+
+
+</body>
+</html>
