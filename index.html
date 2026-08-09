@@ -1,780 +1,878 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>José García Transfers | Transporte Privado República Dominicana</title>
-
-  <meta name="description" content="Traslados privados, transporte turístico y tours en República Dominicana. Aeropuertos, hoteles y destinos turísticos.">
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f5f7fa;
-      color: #222;
-      line-height: 1.6;
-    }
-
-    /* ENCABEZADO */
-
-    header {
-      background: #0b1f33;
-      color: white;
-      padding: 16px 6%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .marca h2 {
-      color: #ffffff;
-      font-size: 23px;
-    }
-
-    .marca span {
-      color: #f4b400;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 20px;
-      font-size: 15px;
-    }
-
-    nav a:hover {
-      color: #f4b400;
-    }
-
-    /* PORTADA */
-
-    .hero {
-      min-height: 560px;
-      background:
-        linear-gradient(rgba(5, 22, 38, 0.76), rgba(5, 22, 38, 0.76)),
-        url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80");
-      background-size: cover;
-      background-position: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: white;
-      padding: 50px 20px;
-    }
-
-    .hero-contenido {
-      max-width: 850px;
-    }
-
-    .hero h1 {
-      font-size: 48px;
-      line-height: 1.15;
-      margin-bottom: 18px;
-    }
-
-    .hero p {
-      font-size: 20px;
-      margin-bottom: 30px;
-    }
-
-    .boton {
-      display: inline-block;
-      background: #f4b400;
-      color: #111;
-      padding: 15px 27px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    .boton:hover {
-      background: #ffca28;
-    }
-
-    /* SECCIONES */
-
-    section {
-      padding: 65px 6%;
-    }
-
-    .titulo {
-      text-align: center;
-      margin-bottom: 38px;
-    }
-
-    .titulo h2 {
-      font-size: 34px;
-      color: #0b1f33;
-      margin-bottom: 8px;
-    }
-
-    .titulo p {
-      color: #666;
-    }
-
-    /* SERVICIOS */
-
-    .servicios {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
-      max-width: 1150px;
-      margin: auto;
-    }
-
-    .servicio {
-      background: white;
-      padding: 32px 24px;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    }
-
-    .servicio .icono {
-      font-size: 40px;
-      margin-bottom: 14px;
-    }
-
-    .servicio h3 {
-      color: #0b1f33;
-      margin-bottom: 10px;
-    }
-
-    /* COTIZADOR */
-
-    .cotizador-seccion {
-      background: #eaf0f6;
-    }
-
-    .cotizador {
-      max-width: 850px;
-      margin: auto;
-      background: white;
-      padding: 35px;
-      border-radius: 14px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
-
-    .campo {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .campo label {
-      font-weight: bold;
-      margin-bottom: 6px;
-      color: #333;
-    }
-
-    .campo input,
-    .campo select {
-      padding: 13px;
-      border: 1px solid #ccc;
-      border-radius: 7px;
-      font-size: 16px;
-      width: 100%;
-      background: white;
-    }
-
-    .campo-completo {
-      grid-column: 1 / -1;
-    }
-
-    .resultado {
-      margin-top: 25px;
-      background: #f6f8fa;
-      border-left: 5px solid #f4b400;
-      padding: 20px;
-      border-radius: 7px;
-      display: none;
-    }
-
-    .precio {
-      font-size: 30px;
-      font-weight: bold;
-      color: #0b1f33;
-      margin: 5px 0;
-    }
-
-    .aviso {
-      font-size: 14px;
-      color: #666;
-      margin-top: 10px;
-    }
-
-    /* VENTAJAS */
-
-    .ventajas {
-      background: #0b1f33;
-      color: white;
-    }
-
-    .ventajas .titulo h2 {
-      color: white;
-    }
-
-    .ventajas-grid {
-      max-width: 1000px;
-      margin: auto;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      text-align: center;
-    }
-
-    .ventaja {
-      padding: 20px;
-    }
-
-    .ventaja strong {
-      display: block;
-      font-size: 18px;
-      color: #f4b400;
-      margin-bottom: 6px;
-    }
-
-    /* WHATSAPP */
-
-    .whatsapp-seccion {
-      text-align: center;
-      background: white;
-    }
-
-    .whatsapp-seccion p {
-      max-width: 700px;
-      margin: 0 auto 25px;
-    }
-
-    .boton-whatsapp {
-      display: inline-block;
-      background: #25D366;
-      color: white;
-      padding: 15px 28px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    /* FOOTER */
-
-    footer {
-      background: #071421;
-      color: #ccc;
-      text-align: center;
-      padding: 30px 20px;
-    }
-
-    footer strong {
-      color: white;
-    }
-
-    /* MÓVIL */
-
-    @media (max-width: 800px) {
-
-      header {
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      nav {
-        display: none;
-      }
-
-      .hero {
-        min-height: 500px;
-      }
-
-      .hero h1 {
-        font-size: 34px;
-      }
-
-      .hero p {
-        font-size: 17px;
-      }
-
-      .servicios {
-        grid-template-columns: 1fr;
-      }
-
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .campo-completo {
-        grid-column: auto;
-      }
-
-      .ventajas-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .cotizador {
-        padding: 24px 18px;
-      }
-
-      section {
-        padding: 50px 20px;
-      }
-    }
-
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>José García Transfers | Transporte Privado RD</title>
+
+    <meta name="description"
+          content="Traslados privados, aeropuertos, hoteles y viajes en República Dominicana. Servicio seguro, cómodo y confiable.">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            color: #222;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #111;
+            color: white;
+            padding: 18px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #f5b700;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 16px;
+            font-size: 14px;
+        }
+
+        .hero {
+            background:
+                linear-gradient(rgba(0,0,0,.62), rgba(0,0,0,.62)),
+                linear-gradient(135deg, #1b1b1b, #333);
+            color: white;
+            min-height: 520px;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .hero-content {
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 8vw, 68px);
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: #f5b700;
+        }
+
+        .hero p {
+            font-size: 19px;
+            max-width: 700px;
+            margin: auto auto 28px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 23px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background: #f5b700;
+            color: #111;
+        }
+
+        .btn-whatsapp {
+            background: #25d366;
+            color: white;
+        }
+
+        .benefits {
+            background: white;
+            padding: 25px 20px;
+        }
+
+        .benefit-grid {
+            max-width: 1000px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            text-align: center;
+        }
+
+        .benefit {
+            font-weight: bold;
+        }
+
+        section {
+            padding: 60px 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .section-title h2 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .section-title p {
+            color: #666;
+        }
+
+        .calculator {
+            background: white;
+            max-width: 760px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 8px 30px rgba(0,0,0,.08);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .field-full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        select,
+        input {
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            width: 100%;
+            background: white;
+        }
+
+        .result {
+            background: #111;
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 22px;
+            text-align: center;
+            display: none;
+        }
+
+        .result-price {
+            font-size: 38px;
+            font-weight: bold;
+            color: #f5b700;
+        }
+
+        .services {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 28px;
+            box-shadow: 0 6px 22px rgba(0,0,0,.07);
+        }
+
+        .card-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+        }
+
+        .routes {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .route {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,.06);
+        }
+
+        .route strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .route-price {
+            color: #b88600;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .about {
+            background: #111;
+            color: white;
+        }
+
+        .about-content {
+            max-width: 850px;
+            margin: auto;
+            text-align: center;
+        }
+
+        .about h2 {
+            margin-bottom: 20px;
+            font-size: 34px;
+        }
+
+        .contact {
+            text-align: center;
+        }
+
+        .contact p {
+            margin-bottom: 22px;
+        }
+
+        footer {
+            background: #080808;
+            color: #aaa;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .floating-whatsapp {
+            position: fixed;
+            right: 18px;
+            bottom: 18px;
+            width: 58px;
+            height: 58px;
+            background: #25d366;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 29px;
+            box-shadow: 0 4px 16px rgba(0,0,0,.3);
+            z-index: 2000;
+        }
+
+        @media (max-width: 800px) {
+            nav {
+                display: none;
+            }
+
+            .benefit-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .form-grid,
+            .services,
+            .routes {
+                grid-template-columns: 1fr;
+            }
+
+            .field-full {
+                grid-column: auto;
+            }
+
+            .hero {
+                min-height: 470px;
+            }
+
+            .calculator {
+                padding: 22px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
 <header>
+    <div class="nav">
+        <div class="logo">
+            José <span>García</span> Transfers
+        </div>
 
-  <div class="marca">
-    <h2>José García <span>Transfers</span></h2>
-  </div>
-
-  <nav>
-    <a href="#inicio">Inicio</a>
-    <a href="#servicios">Servicios</a>
-    <a href="#cotizar">Cotizar</a>
-    <a href="#contacto">Contacto</a>
-  </nav>
-
+        <nav>
+            <a href="#cotizar">Cotizar</a>
+            <a href="#servicios">Servicios</a>
+            <a href="#rutas">Rutas</a>
+            <a href="#nosotros">Nosotros</a>
+            <a href="#contacto">Contacto</a>
+        </nav>
+    </div>
 </header>
 
+<section class="hero">
+    <div class="hero-content">
+        <h1>
+            Transporte privado en
+            <span>República Dominicana</span>
+        </h1>
 
-<section class="hero" id="inicio">
+        <p>
+            Traslados desde y hacia aeropuertos, hoteles, playas y ciudades.
+            Servicio privado, seguro y confiable.
+        </p>
 
-  <div class="hero-contenido">
-
-    <h1>Traslados privados en República Dominicana 🇩🇴</h1>
-
-    <p>
-      Transporte seguro y cómodo desde aeropuertos, hoteles
-      y destinos turísticos de República Dominicana.
-    </p>
-
-    <a href="#cotizar" class="boton">
-      Cotizar mi traslado
-    </a>
-
-  </div>
-
+        <a href="#cotizar" class="btn btn-primary">
+            Cotizar traslado
+        </a>
+    </div>
 </section>
 
+<div class="benefits">
+    <div class="benefit-grid">
+        <div class="benefit">🚐 Servicio privado</div>
+        <div class="benefit">🕐 Servicio 24/7</div>
+        <div class="benefit">💵 Pago al finalizar</div>
+        <div class="benefit">🇩🇴 Toda República Dominicana</div>
+    </div>
+</div>
+
+<section id="cotizar">
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Cotiza tu traslado</h2>
+            <p>Selecciona tu ruta y cantidad de pasajeros.</p>
+        </div>
+
+        <div class="calculator">
+
+            <div class="form-grid">
+
+                <div class="field field-full">
+                    <label for="route">Ruta</label>
+
+                    <select id="route">
+                        <option value="">Selecciona una ruta</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="passengers">Pasajeros</label>
+
+                    <input
+                        id="passengers"
+                        type="number"
+                        min="1"
+                        value="2"
+                    >
+                </div>
+
+                <div class="field">
+                    <label for="tripType">Tipo de viaje</label>
+
+                    <select id="tripType">
+                        <option value="oneway">Solo ida</option>
+                        <option value="roundtrip">Ida y vuelta</option>
+                    </select>
+                </div>
+
+                <div class="field field-full">
+                    <button
+                        class="btn btn-primary"
+                        onclick="calculatePrice()"
+                    >
+                        Ver precio
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="result" id="result">
+                <div>Precio estimado</div>
+
+                <div
+                    class="result-price"
+                    id="priceUSD"
+                >
+                </div>
+
+                <div id="priceDOP"></div>
+
+                <p style="margin-top:12px;font-size:14px;color:#ccc">
+                    Tarifa por vehículo. El precio puede variar según cantidad
+                    de pasajeros, equipaje o características especiales del servicio.
+                </p>
+
+                <br>
+
+                <button
+                    class="btn btn-whatsapp"
+                    onclick="reserveWhatsApp()"
+                >
+                    Reservar por WhatsApp
+                </button>
+            </div>
+
+        </div>
+    </div>
+</section>
 
 <section id="servicios">
+    <div class="container">
 
-  <div class="titulo">
-    <h2>Nuestros servicios</h2>
-    <p>Transporte privado adaptado a cada viaje.</p>
-  </div>
+        <div class="section-title">
+            <h2>Nuestros servicios</h2>
+            <p>Transporte privado adaptado a cada viaje.</p>
+        </div>
 
-  <div class="servicios">
+        <div class="services">
 
-    <div class="servicio">
-      <div class="icono">✈️</div>
-      <h3>Traslados de aeropuerto</h3>
-      <p>
-        Recogida y traslado privado desde y hacia los principales
-        aeropuertos de República Dominicana.
-      </p>
+            <div class="card">
+                <div class="card-icon">✈️</div>
+                <h3>Traslados de aeropuerto</h3>
+                <p>
+                    Recogidas y traslados desde los principales aeropuertos
+                    de República Dominicana.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🏨</div>
+                <h3>Hoteles y resorts</h3>
+                <p>
+                    Transporte privado desde aeropuertos hacia hoteles,
+                    resorts y alojamientos.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🌴</div>
+                <h3>Viajes y excursiones</h3>
+                <p>
+                    Transporte hacia playas, ciudades y destinos turísticos
+                    dentro del país.
+                </p>
+            </div>
+
+        </div>
     </div>
-
-    <div class="servicio">
-      <div class="icono">🚐</div>
-      <h3>Transporte privado</h3>
-      <p>
-        Vehículos para parejas, familias y grupos,
-        según la cantidad de pasajeros y equipaje.
-      </p>
-    </div>
-
-    <div class="servicio">
-      <div class="icono">🏝️</div>
-      <h3>Tours y excursiones</h3>
-      <p>
-        Transporte a destinos turísticos y excursiones
-        dentro de República Dominicana.
-      </p>
-    </div>
-
-  </div>
-
 </section>
 
+<section id="rutas">
+    <div class="container">
 
-<section class="cotizador-seccion" id="cotizar">
+        <div class="section-title">
+            <h2>Rutas populares</h2>
+            <p>Algunas de nuestras rutas más solicitadas.</p>
+        </div>
 
-  <div class="titulo">
-    <h2>Cotiza tu traslado</h2>
-    <p>Selecciona tu origen y destino para conocer la tarifa.</p>
-  </div>
+        <div class="routes">
 
-  <div class="cotizador">
+            <div class="route">
+                <strong>Aeropuerto SDQ → Boca Chica</strong>
+                <div class="route-price">US$30</div>
+            </div>
 
-    <div class="form-grid">
+            <div class="route">
+                <strong>Aeropuerto SDQ → Juan Dolio</strong>
+                <div class="route-price">US$35</div>
+            </div>
 
-      <div class="campo">
-        <label>Origen</label>
+            <div class="route">
+                <strong>Aeropuerto SDQ → Zona Colonial</strong>
+                <div class="route-price">US$40</div>
+            </div>
 
-        <select id="origen">
-          <option value="">Seleccionar origen</option>
-          <option value="SDQ">Aeropuerto Las Américas (SDQ)</option>
-          <option value="PUJ">Aeropuerto Punta Cana (PUJ)</option>
-          <option value="BOCACHICA">Boca Chica</option>
-          <option value="SANTO_DOMINGO">Santo Domingo</option>
-        </select>
-      </div>
+            <div class="route">
+                <strong>Aeropuerto SDQ → La Romana</strong>
+                <div class="route-price">US$85</div>
+            </div>
 
+            <div class="route">
+                <strong>Aeropuerto SDQ → Bayahíbe</strong>
+                <div class="route-price">US$110</div>
+            </div>
 
-      <div class="campo">
+            <div class="route">
+                <strong>Aeropuerto SDQ → Punta Cana</strong>
+                <div class="route-price">Desde US$140</div>
+            </div>
 
-        <label>Destino</label>
+        </div>
+    </div>
+</section>
 
-        <select id="destino">
-          <option value="">Seleccionar destino</option>
-          <option value="BOCACHICA">Boca Chica</option>
-          <option value="JUANDO">Juan Dolio</option>
-          <option value="SANTO_DOMINGO">Santo Domingo</option>
-          <option value="LAROMANA">La Romana</option>
-          <option value="BAYAHIBE">Bayahíbe</option>
-          <option value="PUNTACANA">Punta Cana / Bávaro</option>
-        </select>
+<section class="about" id="nosotros">
+    <div class="container">
 
-      </div>
+        <div class="about-content">
+            <h2>José García Transfers</h2>
 
+            <p>
+                Nuestro objetivo es ofrecer transporte privado con atención
+                personalizada, comodidad y confianza durante cada traslado.
+            </p>
 
-      <div class="campo">
+            <br>
 
-        <label>Pasajeros</label>
+            <p>
+                Disponemos de diferentes tipos de vehículos según la cantidad
+                de pasajeros y equipaje.
+            </p>
 
-        <input
-          type="number"
-          id="pasajeros"
-          value="2"
-          min="1"
-          max="30"
+            <br>
+
+            <strong>Más que un servicio, es confianza.</strong>
+        </div>
+
+    </div>
+</section>
+
+<section id="contacto">
+    <div class="container contact">
+
+        <div class="section-title">
+            <h2>¿Necesitas un traslado?</h2>
+        </div>
+
+        <p>
+            Solicita tu cotización o reserva directamente por WhatsApp.
+        </p>
+
+        <button
+            class="btn btn-whatsapp"
+            onclick="openWhatsApp()"
         >
-
-      </div>
-
-
-      <div class="campo">
-
-        <label>Tipo de viaje</label>
-
-        <select id="tipoViaje">
-          <option value="ida">Solo ida</option>
-          <option value="vuelta">Ida y vuelta</option>
-        </select>
-
-      </div>
-
-
-      <div class="campo campo-completo">
-
-        <button class="boton" onclick="cotizar()">
-          Ver tarifa
+            Hablar por WhatsApp
         </button>
 
-      </div>
-
     </div>
-
-
-    <div class="resultado" id="resultado">
-
-      <p>Tarifa estimada:</p>
-
-      <div class="precio" id="precio"></div>
-
-      <p id="detalle"></p>
-
-      <br>
-
-      <a
-        id="reservarWhatsApp"
-        class="boton-whatsapp"
-        href="#"
-        target="_blank"
-      >
-        Reservar por WhatsApp
-      </a>
-
-      <p class="aviso">
-        Pago al finalizar el servicio. No requiere depósito previo.
-      </p>
-
-    </div>
-
-  </div>
-
 </section>
-
-
-<section class="ventajas">
-
-  <div class="titulo">
-    <h2>Viaja con confianza</h2>
-  </div>
-
-  <div class="ventajas-grid">
-
-    <div class="ventaja">
-      <strong>24/7</strong>
-      Servicio disponible
-    </div>
-
-    <div class="ventaja">
-      <strong>Privado</strong>
-      Vehículo exclusivo
-    </div>
-
-    <div class="ventaja">
-      <strong>Sin depósito</strong>
-      Reserva sin adelanto
-    </div>
-
-    <div class="ventaja">
-      <strong>Pago al finalizar</strong>
-      Mayor tranquilidad
-    </div>
-
-  </div>
-
-</section>
-
-
-<section class="whatsapp-seccion" id="contacto">
-
-  <div class="titulo">
-    <h2>¿Necesitas ayuda?</h2>
-  </div>
-
-  <p>
-    Contáctanos directamente por WhatsApp para consultar
-    disponibilidad, destinos especiales o grupos.
-  </p>
-
-  <a
-    href="https://wa.me/18090000000"
-    class="boton-whatsapp"
-    target="_blank"
-  >
-    💬 Hablar por WhatsApp
-  </a>
-
-</section>
-
 
 <footer>
-
-  <p>
-    <strong>José García Transfers</strong>
-  </p>
-
-  <p>
-    Transporte privado y turístico en República Dominicana 🇩🇴
-  </p>
-
-  <p>
-    © 2026 José García. Todos los derechos reservados.
-  </p>
-
+    © 2026 José García Transfers · República Dominicana
 </footer>
 
+<a
+    href="javascript:void(0)"
+    onclick="openWhatsApp()"
+    class="floating-whatsapp"
+    aria-label="WhatsApp"
+>
+    ☎
+</a>
 
 <script>
 
-const tarifas = {
+/* ======================================================
+   PANEL DE CONFIGURACIÓN
+   AQUÍ PODREMOS CAMBIAR TARIFAS, RUTAS Y TASA DEL DÓLAR
+====================================================== */
 
-  "SDQ-BOCACHICA": 30,
-  "SDQ-JUANDO": 35,
-  "SDQ-SANTO_DOMINGO": 40,
-  "SDQ-LAROMANA": 85,
-  "SDQ-BAYAHIBE": 110,
-  "SDQ-PUNTACANA": 150,
+const CONFIG = {
 
-  "PUJ-PUNTACANA": 40,
-  "PUJ-LAROMANA": 85,
-  "PUJ-BAYAHIBE": 90,
-  "PUJ-SANTO_DOMINGO": 150,
+    exchangeRate: 58.60,
 
-  "BOCACHICA-SANTO_DOMINGO": 40,
-  "BOCACHICA-PUNTACANA": 150,
+    whatsappNumber: "",
 
-  "SANTO_DOMINGO-BOCACHICA": 40,
-  "SANTO_DOMINGO-PUNTACANA": 160
+    additionalPassengerPrice: 10,
 
+    routes: [
+
+        {
+            id: "sdq-boca-chica",
+            name: "Aeropuerto SDQ → Boca Chica",
+            price: 30,
+            includedPassengers: 4
+        },
+
+        {
+            id: "sdq-juan-dolio",
+            name: "Aeropuerto SDQ → Juan Dolio",
+            price: 35,
+            includedPassengers: 4
+        },
+
+        {
+            id: "sdq-zona-colonial",
+            name: "Aeropuerto SDQ → Zona Colonial",
+            price: 40,
+            includedPassengers: 4
+        },
+
+        {
+            id: "sdq-san-pedro",
+            name: "Aeropuerto SDQ → San Pedro de Macorís",
+            price: 45,
+            includedPassengers: 4
+        },
+
+        {
+            id: "sdq-la-romana",
+            name: "Aeropuerto SDQ → La Romana",
+            price: 85,
+            includedPassengers: 4
+        },
+
+        {
+            id: "sdq-bayahibe",
+            name: "Aeropuerto SDQ → Bayahíbe",
+            price: 110,
+            includedPassengers: 4
+        },
+
+        {
+            id: "sdq-punta-cana",
+            name: "Aeropuerto SDQ → Punta Cana / Bávaro",
+            price: 140,
+            includedPassengers: 6
+        },
+
+        {
+            id: "sdq-uvero-alto",
+            name: "Aeropuerto SDQ → Uvero Alto / Macao",
+            price: 160,
+            includedPassengers: 6
+        },
+
+        {
+            id: "puj-bavaro",
+            name: "Aeropuerto PUJ → Bávaro",
+            price: 40,
+            includedPassengers: 4
+        },
+
+        {
+            id: "puj-bayahibe",
+            name: "Aeropuerto PUJ → Bayahíbe",
+            price: 45,
+            includedPassengers: 4
+        }
+
+    ]
 };
 
 
-function cotizar() {
+/* ======================================================
+   NO NECESITAMOS TOCAR ESTA PARTE PARA CAMBIAR PRECIOS
+====================================================== */
 
-  const origen =
-    document.getElementById("origen").value;
+const routeSelect = document.getElementById("route");
 
-  const destino =
-    document.getElementById("destino").value;
+CONFIG.routes.forEach(route => {
 
-  const pasajeros =
-    parseInt(document.getElementById("pasajeros").value);
+    const option = document.createElement("option");
 
-  const tipoViaje =
-    document.getElementById("tipoViaje").value;
+    option.value = route.id;
 
+    option.textContent =
+        route.name + " — US$" + route.price;
 
-  if (!origen || !destino) {
+    routeSelect.appendChild(option);
 
-    alert("Selecciona el origen y el destino.");
-
-    return;
-  }
+});
 
 
-  if (origen === destino) {
-
-    alert("El origen y el destino deben ser diferentes.");
-
-    return;
-  }
+let currentQuote = null;
 
 
-  const ruta = origen + "-" + destino;
+function calculatePrice() {
 
-  let tarifa = tarifas[ruta];
+    const routeId =
+        document.getElementById("route").value;
 
+    const passengers =
+        parseInt(
+            document.getElementById("passengers").value
+        );
 
-  if (!tarifa) {
-
-    document.getElementById("resultado").style.display = "block";
-
-    document.getElementById("precio").innerHTML =
-      "Consultar";
-
-    document.getElementById("detalle").innerHTML =
-      "Esta ruta requiere una cotización personalizada.";
-
-    crearWhatsApp(
-      origen,
-      destino,
-      pasajeros,
-      tipoViaje,
-      "Consultar"
-    );
-
-    return;
-  }
+    const tripType =
+        document.getElementById("tripType").value;
 
 
-  /*
-  Tarifa base hasta 4 pasajeros.
-  A partir del quinto pasajero:
-  US$10 adicionales por persona.
-  */
+    if (!routeId) {
 
-  if (pasajeros > 4) {
+        alert("Selecciona una ruta.");
 
-    tarifa += (pasajeros - 4) * 10;
-
-  }
+        return;
+    }
 
 
-  if (tipoViaje === "vuelta") {
+    if (!passengers || passengers < 1) {
 
-    tarifa = tarifa * 2;
+        alert("Indica la cantidad de pasajeros.");
 
-  }
-
-
-  document.getElementById("resultado").style.display =
-    "block";
+        return;
+    }
 
 
-  document.getElementById("precio").innerHTML =
-    "US$" + tarifa;
+    const route =
+        CONFIG.routes.find(
+            item => item.id === routeId
+        );
 
 
-  document.getElementById("detalle").innerHTML =
-    pasajeros +
-    " pasajero(s) · " +
-    (tipoViaje === "ida"
-      ? "Solo ida"
-      : "Ida y vuelta");
+    let price = route.price;
 
 
-  crearWhatsApp(
-    origen,
-    destino,
-    pasajeros,
-    tipoViaje,
-    tarifa
-  );
+    if (passengers > route.includedPassengers) {
+
+        const additionalPassengers =
+            passengers - route.includedPassengers;
+
+        price +=
+            additionalPassengers *
+            CONFIG.additionalPassengerPrice;
+    }
+
+
+    if (tripType === "roundtrip") {
+
+        price = price * 2;
+    }
+
+
+    const priceDOP =
+        price * CONFIG.exchangeRate;
+
+
+    currentQuote = {
+
+        route: route.name,
+
+        passengers: passengers,
+
+        tripType:
+            tripType === "roundtrip"
+                ? "Ida y vuelta"
+                : "Solo ida",
+
+        price: price
+
+    };
+
+
+    document.getElementById("priceUSD").textContent =
+        "US$" + price.toFixed(2);
+
+
+    document.getElementById("priceDOP").textContent =
+        "RD$" +
+        priceDOP.toLocaleString(
+            "es-DO",
+            {
+                maximumFractionDigits: 0
+            }
+        );
+
+
+    document.getElementById("result").style.display =
+        "block";
 
 }
 
 
-function crearWhatsApp(
-  origen,
-  destino,
-  pasajeros,
-  tipoViaje,
-  tarifa
-) {
+function reserveWhatsApp() {
 
-  /*
-  IMPORTANTE:
-  Más adelante cambiaremos este número
-  por tu WhatsApp real.
-  */
+    if (!currentQuote) {
 
-  const telefono = "18090000000";
+        calculatePrice();
+
+        return;
+    }
 
 
-  const mensaje =
-`Hola José García.
+    const message =
+`Hola, quiero solicitar una reserva.
 
-Quiero solicitar una reserva de traslado.
+Ruta: ${currentQuote.route}
+Pasajeros: ${currentQuote.passengers}
+Viaje: ${currentQuote.tripType}
+Precio estimado: US$${currentQuote.price}
 
-Origen: ${origen}
-Destino: ${destino}
-Pasajeros: ${pasajeros}
-Viaje: ${tipoViaje}
-Tarifa mostrada: US$${tarifa}
-
-Quisiera confirmar disponibilidad.`;
+Quiero completar los datos de mi traslado.`;
 
 
-  const enlace =
-    "https://wa.me/" +
-    telefono +
-    "?text=" +
-    encodeURIComponent(mensaje);
+    sendWhatsApp(message);
+
+}
 
 
-  document.getElementById("reservarWhatsApp").href =
-    enlace;
+function openWhatsApp() {
+
+    const message =
+        "Hola, quiero información sobre un traslado privado.";
+
+    sendWhatsApp(message);
+
+}
+
+
+function sendWhatsApp(message) {
+
+    if (!CONFIG.whatsappNumber) {
+
+        alert(
+            "Todavía falta colocar el número oficial de WhatsApp de José García Transfers."
+        );
+
+        return;
+    }
+
+
+    const url =
+        "https://wa.me/" +
+        CONFIG.whatsappNumber +
+        "?text=" +
+        encodeURIComponent(message);
+
+
+    window.open(url, "_blank");
 
 }
 
