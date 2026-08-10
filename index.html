@@ -937,16 +937,22 @@ textarea:focus{
    8. VEHICULOS
 ========================================================= */
 
-.vehiculos{
+..vehiculos{
   overflow:hidden;
 
   background:
-  linear-gradient(
-    180deg,
-    #eaf5f4,
-    #f7faf9
-  );
+    linear-gradient(
+      180deg,
+      #eaf5f4 0%,
+      #f7faf9 100%
+    );
+
+  padding-top:20px;
+  padding-bottom:20px;
 }
+
+
+/* TEXTO DE ACLARACIÓN */
 
 .vehiculo-nota{
   max-width:850px;
@@ -956,87 +962,441 @@ textarea:focus{
   color:var(--gris);
 
   font-size:13px;
+
+  line-height:1.6;
 }
 
+
+/* =========================================================
+   SLIDER
+========================================================= */
+
 .slider{
+  width:100%;
+
   overflow:hidden;
+
+  position:relative;
+
+  padding:
+    10px 0
+    30px;
 }
+
 
 .slider-track{
   display:flex;
 
+  align-items:stretch;
+
   width:max-content;
 
-  gap:18px;
+  gap:20px;
 
-  padding:8px 0 20px;
+  padding:
+    8px 0
+    20px;
 
   animation:
-  moverVehiculos 30s linear infinite;
+    moverVehiculos
+    35s
+    linear
+    infinite;
 }
+
+
+/* CUANDO PONES EL MOUSE ENCIMA SE DETIENE */
 
 .slider:hover .slider-track{
   animation-play-state:paused;
 }
 
+
+/* MOVIMIENTO AUTOMÁTICO */
+
 @keyframes moverVehiculos{
-  to{
-    transform:translateX(-50%);
+
+  from{
+    transform:
+      translateX(0);
   }
+
+  to{
+    transform:
+      translateX(-50%);
+  }
+
 }
 
+
+/* =========================================================
+   TARJETA DE VEHÍCULO
+========================================================= */
+
 .vehicle-card{
-  width:290px;
-  min-height:245px;
+
+  width:310px;
+
+  min-height:315px;
 
   flex-shrink:0;
 
-  padding:17px;
+  overflow:hidden;
 
-  border-radius:22px;
+  padding:0;
 
-  color:white;
+  border-radius:24px;
+
+  color:#ffffff;
 
   background:
-  linear-gradient(
-    145deg,
-    #073847,
-    #087d83
-  );
+    linear-gradient(
+      145deg,
+      #063643,
+      #087c82
+    );
 
   box-shadow:
-  0 15px 35px rgba(4,42,52,.15);
+    0 15px 35px
+    rgba(4,42,52,.18);
+
+  transition:
+    transform .30s ease,
+    box-shadow .30s ease;
 }
+
+
+.vehicle-card:hover{
+
+  transform:
+    translateY(-6px);
+
+  box-shadow:
+    0 22px 45px
+    rgba(4,42,52,.28);
+}
+
+
+/* =========================================================
+   ESPACIO DONDE APARECE LA FOTO
+========================================================= */
 
 .vehicle-image{
-  height:145px;
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  width:100%;
+
+  height:205px;
+
+  position:relative;
+
+  display:block;
+
+  overflow:hidden;
+
+  background-color:#eef3f3;
+
+  background-size:cover;
+
+  background-position:center;
+
+  background-repeat:no-repeat;
 }
+
+
+/* QUITAMOS LOS VEHÍCULOS DIBUJADOS ANTERIORES */
 
 .vehicle-image svg{
-  width:250px;
-
-  filter:
-  drop-shadow(
-    0 14px 12px rgba(0,0,0,.25)
-  );
+  display:none !important;
 }
+
+
+/* =========================================================
+   VEHÍCULO 1
+   CARRO
+========================================================= */
+
+.vehicle-card:nth-child(1) .vehicle-image{
+
+  background-image:
+    url("CARRO.jpeg");
+
+}
+
+
+/* =========================================================
+   VEHÍCULO 2
+   YIPETA / SUV
+========================================================= */
+
+.vehicle-card:nth-child(2) .vehicle-image{
+
+  background-image:
+    url("DE 4 YIPETA.jpeg");
+
+}
+
+
+/* =========================================================
+   VEHÍCULO 3
+   HASTA 7 PASAJEROS
+========================================================= */
+
+.vehicle-card:nth-child(3) .vehicle-image{
+
+  background-image:
+    url("DE 7.jpeg");
+
+}
+
+
+/* =========================================================
+   VEHÍCULO 4
+   HASTA 17 PASAJEROS
+========================================================= */
+
+.vehicle-card:nth-child(4) .vehicle-image{
+
+  background-image:
+    url("DE 17.jpeg");
+
+}
+
+
+/* =========================================================
+   VEHÍCULO 5
+   HASTA 30 PASAJEROS
+========================================================= */
+
+.vehicle-card:nth-child(5) .vehicle-image{
+
+  background-image:
+    url("DE 30.jpeg");
+
+}
+
+
+/* =========================================================
+   VEHÍCULO 6
+   HASTA 60 PASAJEROS
+========================================================= */
+
+.vehicle-card:nth-child(6) .vehicle-image{
+
+  background-image:
+    url("DE 60.jpeg");
+
+}
+
+
+/* =========================================================
+   SI EL SLIDER TIENE LAS TARJETAS REPETIDAS
+   PARA HACER EL MOVIMIENTO INFINITO
+========================================================= */
+
+.vehicle-card:nth-child(7) .vehicle-image{
+
+  background-image:
+    url("CARRO.jpeg");
+
+}
+
+
+.vehicle-card:nth-child(8) .vehicle-image{
+
+  background-image:
+    url("DE 4 YIPETA.jpeg");
+
+}
+
+
+.vehicle-card:nth-child(9) .vehicle-image{
+
+  background-image:
+    url("DE 7.jpeg");
+
+}
+
+
+.vehicle-card:nth-child(10) .vehicle-image{
+
+  background-image:
+    url("DE 17.jpeg");
+
+}
+
+
+.vehicle-card:nth-child(11) .vehicle-image{
+
+  background-image:
+    url("DE 30.jpeg");
+
+}
+
+
+.vehicle-card:nth-child(12) .vehicle-image{
+
+  background-image:
+    url("DE 60.jpeg");
+
+}
+
+
+/* =========================================================
+   EFECTO PROFESIONAL SOBRE LA FOTO
+========================================================= */
+
+.vehicle-image::after{
+
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  right:0;
+  bottom:0;
+
+  height:70px;
+
+  pointer-events:none;
+
+  background:
+    linear-gradient(
+      180deg,
+      transparent,
+      rgba(4,42,52,.40)
+    );
+}
+
+
+/* =========================================================
+   NOMBRE DEL VEHÍCULO
+========================================================= */
 
 .vehicle-card h3{
-  font-size:19px;
+
+  margin:
+    17px
+    18px
+    5px;
+
+  color:#ffffff;
+
+  font-size:20px;
+
+  font-weight:800;
+
+  line-height:1.2;
 }
+
+
+/* =========================================================
+   DESCRIPCIÓN
+========================================================= */
 
 .vehicle-card p{
-  margin-top:3px;
 
-  color:rgba(255,255,255,.77);
+  margin:
+    0
+    18px
+    20px;
 
-  font-size:12px;
+  color:
+    rgba(255,255,255,.82);
+
+  font-size:13px;
+
+  line-height:1.5;
 }
 
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media(max-width:900px){
+
+  .vehicle-card{
+
+    width:290px;
+
+    min-height:300px;
+  }
+
+
+  .vehicle-image{
+
+    height:190px;
+  }
+
+}
+
+
+/* =========================================================
+   CELULAR
+========================================================= */
+
+@media(max-width:600px){
+
+  .vehiculos{
+
+    padding-top:10px;
+
+    padding-bottom:10px;
+  }
+
+
+  .slider{
+
+    padding-bottom:20px;
+  }
+
+
+  .slider-track{
+
+    gap:14px;
+
+    animation-duration:30s;
+  }
+
+
+  .vehicle-card{
+
+    width:270px;
+
+    min-height:285px;
+
+    border-radius:20px;
+  }
+
+
+  .vehicle-image{
+
+    height:175px;
+  }
+
+
+  .vehicle-card h3{
+
+    margin:
+      15px
+      16px
+      5px;
+
+    font-size:18px;
+  }
+
+
+  .vehicle-card p{
+
+    margin:
+      0
+      16px
+      17px;
+
+    font-size:12px;
+  }
+
+}
 
 /* =========================================================
    9. TOURS
