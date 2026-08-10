@@ -3463,151 +3463,309 @@ Capacidad adecuada para grupos mayores.
      TOURS
 ========================================================= -->
 
-<section
-  class="section tours"
-  id="tours">
+/* =========================================================
+   TOURS Y EXPERIENCIAS — JOSÉ GARCÍA
+========================================================= */
+
+.tours{
+  background:white;
+}
 
 
-<div class="container">
+/* =========================================================
+   CONTENEDOR DE LOS TOURS
+========================================================= */
+
+.tours-grid{
+  display:grid;
+
+  grid-template-columns:
+  repeat(3,minmax(0,1fr));
+
+  gap:22px;
+}
 
 
-<div class="section-title">
+/* =========================================================
+   TARJETA
+========================================================= */
 
-<span class="kicker">
-Tours & Experiences
-</span>
+.tour{
+  overflow:hidden;
 
+  border:
+  1px solid var(--borde);
 
-<h2
-  data-es="Descubre República Dominicana a tu manera."
-  data-en="Experience the Dominican Republic your way.">
+  border-radius:24px;
 
-Descubre República Dominicana a tu manera.
+  background:white;
 
-</h2>
+  box-shadow:
+  0 14px 35px
+  rgba(4,42,52,.10);
 
-
-<p
-  data-es="Las experiencias son un servicio complementario y se cotizan individualmente según fecha, cantidad de personas y lugar de recogida."
-  data-en="Experiences are a complementary service and are quoted individually according to date, group size and pickup location.">
-
-Las experiencias se cotizan individualmente
-según fecha, personas y lugar de recogida.
-
-</p>
-
-</div>
+  transition:
+  transform .30s ease,
+  box-shadow .30s ease;
+}
 
 
-<div class="tours-grid">
+.tour:hover{
+  transform:
+  translateY(-6px);
+
+  box-shadow:
+  0 22px 45px
+  rgba(4,42,52,.18);
+}
 
 
-<article class="tour">
+/* =========================================================
+   FOTOGRAFÍA
+========================================================= */
+
+.tour-photo{
+  position:relative;
+
+  width:100%;
+
+  height:250px;
+
+  overflow:hidden;
+
+  background-color:#073847;
+
+  background-size:cover;
+
+  background-position:center;
+
+  background-repeat:no-repeat;
+}
 
 
-<div class="tour-photo city">
+/* =========================================================
+   DIFUMINADO SOBRE LA FOTOGRAFÍA
+========================================================= */
 
-<h3>City Tour</h3>
+.tour-photo::after{
+  content:"";
 
-</div>
+  position:absolute;
 
+  inset:0;
 
-<div class="tour-body">
+  z-index:1;
 
-<p
-data-es="Recorre lugares históricos y emblemáticos con una experiencia coordinada según tu punto de salida."
-data-en="Explore historical and iconic locations with an experience coordinated around your pickup point.">
-Recorre lugares históricos y emblemáticos
-con una experiencia coordinada.
-</p>
-
-<button
-class="btn-tour"
-type="button"
-data-tour="City Tour"
-data-es="COTIZAR ESTE TOUR"
-data-en="GET A TOUR QUOTE">
-COTIZAR ESTE TOUR
-</button>
-
-</div>
-
-</article>
+  background:
+  linear-gradient(
+    180deg,
+    rgba(0,0,0,0) 25%,
+    rgba(3,31,39,.10) 50%,
+    rgba(3,31,39,.90) 100%
+  );
+}
 
 
-<article class="tour">
+/* =========================================================
+   NOMBRE DEL TOUR
+========================================================= */
+
+.tour-photo h3{
+  position:absolute;
+
+  z-index:2;
+
+  left:20px;
+
+  right:20px;
+
+  bottom:18px;
+
+  margin:0;
+
+  color:white;
+
+  font-size:27px;
+
+  font-weight:900;
+
+  line-height:1.1;
+
+  text-shadow:
+  0 3px 12px
+  rgba(0,0,0,.45);
+}
 
 
-<div class="tour-photo saona">
+/* =========================================================
+   CITY TOUR
+   IMAGEN: PARQUE COLON.webp
+========================================================= */
 
-<h3>Isla Saona</h3>
-
-</div>
-
-
-<div class="tour-body">
-
-<p
-data-es="Consulta una experiencia hacia Isla Saona según tu ubicación, grupo y logística de transporte."
-data-en="Request a Saona Island experience according to your location, group size and transportation logistics.">
-Consulta la experiencia de Isla Saona
-según tu ubicación y grupo.
-</p>
-
-<button
-class="btn-tour"
-type="button"
-data-tour="Isla Saona"
-data-es="COTIZAR ESTE TOUR"
-data-en="GET A TOUR QUOTE">
-COTIZAR ESTE TOUR
-</button>
-
-</div>
-
-</article>
+.city{
+  background-image:
+  url("https://licjosemanuel1990-lang.github.io/jose-garcia-transfers/PARQUE%20COLON.webp") !important;
+}
 
 
-<article class="tour">
+/* =========================================================
+   ISLA SAONA
+   IMAGEN: SAONA.jfif
+========================================================= */
+
+.saona{
+  background-image:
+  url("https://licjosemanuel1990-lang.github.io/jose-garcia-transfers/SAONA.jfif") !important;
+}
 
 
-<div class="tour-photo buggies">
+/* =========================================================
+   BUGGIES
+   IMAGEN: BUGGY.jpg
+========================================================= */
 
-<h3>Buggies</h3>
-
-</div>
-
-
-<div class="tour-body">
-
-<p
-data-es="Consulta disponibilidad, logística y transporte según la zona donde te encuentres."
-data-en="Check availability, logistics and transportation according to your pickup area.">
-Consulta disponibilidad y logística
-según tu lugar de recogida.
-</p>
-
-<button
-class="btn-tour"
-type="button"
-data-tour="Buggies"
-data-es="COTIZAR ESTE TOUR"
-data-en="GET A TOUR QUOTE">
-COTIZAR ESTE TOUR
-</button>
-
-</div>
-
-</article>
+.buggies{
+  background-image:
+  url("https://licjosemanuel1990-lang.github.io/jose-garcia-transfers/BUGGY.jpg") !important;
+}
 
 
-</div>
+/* =========================================================
+   PARTE INFERIOR DE LA TARJETA
+========================================================= */
 
-</div>
+.tour-body{
+  padding:21px;
+}
 
-</section>
+
+.tour-body p{
+  min-height:75px;
+
+  margin-top:0;
+
+  margin-bottom:17px;
+
+  color:var(--gris);
+
+  font-size:14px;
+
+  line-height:1.55;
+}
 
 
+/* =========================================================
+   BOTÓN
+========================================================= */
+
+.btn-tour{
+  width:100%;
+
+  padding:13px 15px;
+
+  border:none;
+
+  border-radius:12px;
+
+  cursor:pointer;
+
+  color:white;
+
+  background:
+  linear-gradient(
+    135deg,
+    var(--verde),
+    #087d83
+  );
+
+  font-size:13px;
+
+  font-weight:900;
+
+  transition:
+  transform .20s ease,
+  box-shadow .20s ease;
+}
+
+
+.btn-tour:hover{
+  transform:
+  translateY(-2px);
+
+  box-shadow:
+  0 8px 20px
+  rgba(4,42,52,.22);
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media(max-width:950px){
+
+  .tours-grid{
+    grid-template-columns:
+    repeat(2,minmax(0,1fr));
+  }
+
+
+  .tour-photo{
+    height:235px;
+  }
+
+}
+
+
+/* =========================================================
+   CELULAR
+========================================================= */
+
+@media(max-width:650px){
+
+  .tours-grid{
+    grid-template-columns:1fr;
+
+    gap:18px;
+  }
+
+
+  .tour{
+    border-radius:20px;
+  }
+
+
+  .tour-photo{
+    height:230px;
+  }
+
+
+  .tour-photo h3{
+    left:17px;
+
+    bottom:16px;
+
+    font-size:24px;
+  }
+
+
+  .tour-body{
+    padding:18px;
+  }
+
+
+  .tour-body p{
+    min-height:auto;
+
+    font-size:13px;
+  }
+
+
+  .btn-tour{
+    padding:13px;
+  }
+
+}
 <!-- =========================================================
      POR QUE ELEGIRNOS
 ========================================================= -->
