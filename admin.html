@@ -1,0 +1,4878 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#062f3d">
+
+<title>Administración | José García</title>
+
+<style>
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+:root{
+  --verde:#062f3d;
+  --verde2:#0a5261;
+  --turquesa:#0a8b8f;
+  --dorado:#e0ad47;
+  --fondo:#f3f6f7;
+  --blanco:#ffffff;
+  --texto:#17272d;
+  --gris:#68787e;
+  --borde:#dfe7e9;
+  --verde-ok:#169c5a;
+  --rojo:#d84848;
+  --amarillo:#f0a72c;
+  --azul:#2878c7;
+
+  --sombra:
+  0 10px 30px rgba(4,42,52,.09);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+
+  font-family:
+  Inter,
+  system-ui,
+  -apple-system,
+  BlinkMacSystemFont,
+  "Segoe UI",
+  Arial,
+  sans-serif;
+
+  color:var(--texto);
+  background:var(--fondo);
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+
+/* =========================================================
+   LAYOUT
+========================================================= */
+
+.admin{
+  min-height:100vh;
+
+  display:grid;
+
+  grid-template-columns:
+  255px 1fr;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar{
+  position:fixed;
+
+  top:0;
+  left:0;
+  bottom:0;
+
+  width:255px;
+
+  z-index:100;
+
+  overflow-y:auto;
+
+  padding:22px 15px;
+
+  color:white;
+
+  background:
+  linear-gradient(
+    180deg,
+    #052d39,
+    #064754
+  );
+}
+
+
+.logo-area{
+  display:flex;
+  align-items:center;
+
+  gap:11px;
+
+  padding:4px 8px 23px;
+
+  border-bottom:
+  1px solid rgba(255,255,255,.10);
+}
+
+
+.logo{
+  width:52px;
+  height:52px;
+
+  overflow:hidden;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:50%;
+
+  border:
+  2px solid var(--dorado);
+
+  background:white;
+}
+
+
+.logo img{
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+}
+
+
+.logo-fallback{
+  display:none;
+
+  width:100%;
+  height:100%;
+
+  place-items:center;
+
+  color:white;
+  background:var(--verde);
+
+  font-weight:900;
+}
+
+
+.logo-area strong{
+  display:block;
+
+  font-size:17px;
+}
+
+
+.logo-area span{
+  display:block;
+
+  margin-top:2px;
+
+  color:
+  rgba(255,255,255,.60);
+
+  font-size:11px;
+}
+
+
+.menu{
+  margin-top:21px;
+
+  display:flex;
+  flex-direction:column;
+
+  gap:5px;
+}
+
+
+.menu button{
+  width:100%;
+
+  display:flex;
+  align-items:center;
+
+  gap:11px;
+
+  padding:11px 12px;
+
+  border:none;
+
+  border-radius:11px;
+
+  text-align:left;
+
+  color:
+  rgba(255,255,255,.75);
+
+  background:transparent;
+
+  font-size:13px;
+  font-weight:750;
+}
+
+
+.menu button:hover{
+  background:
+  rgba(255,255,255,.08);
+
+  color:white;
+}
+
+
+.menu button.activo{
+  color:white;
+
+  background:
+  linear-gradient(
+    135deg,
+    rgba(224,173,71,.28),
+    rgba(255,255,255,.10)
+  );
+}
+
+
+.menu .icono{
+  width:24px;
+
+  text-align:center;
+
+  font-size:17px;
+}
+
+
+.sidebar-footer{
+  margin-top:25px;
+
+  padding:
+  18px 8px 5px;
+
+  border-top:
+  1px solid rgba(255,255,255,.10);
+}
+
+
+.sidebar-footer a{
+  display:block;
+
+  padding:9px 0;
+
+  color:
+  rgba(255,255,255,.65);
+
+  font-size:12px;
+}
+
+
+/* =========================================================
+   CONTENIDO
+========================================================= */
+
+.main{
+  grid-column:2;
+
+  min-width:0;
+}
+
+
+.topbar{
+  position:sticky;
+
+  top:0;
+
+  z-index:80;
+
+  min-height:73px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:20px;
+
+  padding:
+  12px 30px;
+
+  border-bottom:
+  1px solid var(--borde);
+
+  background:
+  rgba(255,255,255,.95);
+
+  backdrop-filter:
+  blur(12px);
+}
+
+
+.topbar h1{
+  color:var(--verde);
+
+  font-size:22px;
+}
+
+
+.topbar p{
+  margin-top:2px;
+
+  color:var(--gris);
+
+  font-size:12px;
+}
+
+
+.top-actions{
+  display:flex;
+  align-items:center;
+
+  gap:9px;
+}
+
+
+.btn{
+  border:none;
+
+  border-radius:10px;
+
+  padding:
+  10px 14px;
+
+  font-size:12px;
+  font-weight:850;
+}
+
+
+.btn-primary{
+  color:white;
+  background:var(--verde);
+}
+
+
+.btn-gold{
+  color:#20282a;
+
+  background:
+  linear-gradient(
+    135deg,
+    var(--dorado),
+    #f0cf83
+  );
+}
+
+
+.btn-light{
+  color:var(--verde);
+
+  border:
+  1px solid var(--borde);
+
+  background:white;
+}
+
+
+.btn-danger{
+  color:white;
+  background:var(--rojo);
+}
+
+
+.contenido{
+  padding:28px 30px 50px;
+}
+
+
+.pantalla{
+  display:none;
+}
+
+
+.pantalla.activa{
+  display:block;
+}
+
+
+/* =========================================================
+   TARJETAS DASHBOARD
+========================================================= */
+
+.metricas{
+  display:grid;
+
+  grid-template-columns:
+  repeat(4,minmax(0,1fr));
+
+  gap:16px;
+
+  margin-bottom:24px;
+}
+
+
+.metrica{
+  padding:19px;
+
+  border:
+  1px solid var(--borde);
+
+  border-radius:17px;
+
+  background:white;
+
+  box-shadow:var(--sombra);
+}
+
+
+.metrica-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:10px;
+}
+
+
+.metrica-icono{
+  width:43px;
+  height:43px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:13px;
+
+  background:#edf7f7;
+
+  font-size:20px;
+}
+
+
+.metrica span{
+  color:var(--gris);
+
+  font-size:12px;
+  font-weight:700;
+}
+
+
+.metrica strong{
+  display:block;
+
+  margin-top:10px;
+
+  color:var(--verde);
+
+  font-size:29px;
+}
+
+
+.grid-2{
+  display:grid;
+
+  grid-template-columns:
+  1.35fr .65fr;
+
+  gap:18px;
+}
+
+
+/* =========================================================
+   CAJAS
+========================================================= */
+
+.card{
+  border:
+  1px solid var(--borde);
+
+  border-radius:18px;
+
+  background:white;
+
+  box-shadow:var(--sombra);
+
+  overflow:hidden;
+}
+
+
+.card-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:15px;
+
+  padding:
+  17px 19px;
+
+  border-bottom:
+  1px solid var(--borde);
+}
+
+
+.card-header h2{
+  color:var(--verde);
+
+  font-size:17px;
+}
+
+
+.card-header p{
+  margin-top:2px;
+
+  color:var(--gris);
+
+  font-size:11px;
+}
+
+
+.card-body{
+  padding:18px;
+}
+
+
+/* =========================================================
+   SERVICIO PRÓXIMO
+========================================================= */
+
+.proximo{
+  padding:18px;
+
+  border-radius:15px;
+
+  color:white;
+
+  background:
+  linear-gradient(
+    135deg,
+    var(--verde),
+    var(--turquesa)
+  );
+}
+
+
+.proximo-etiqueta{
+  font-size:10px;
+
+  text-transform:uppercase;
+
+  letter-spacing:1.2px;
+
+  color:
+  rgba(255,255,255,.65);
+}
+
+
+.proximo h3{
+  margin-top:7px;
+
+  font-size:23px;
+}
+
+
+.proximo p{
+  margin-top:4px;
+
+  color:
+  rgba(255,255,255,.78);
+
+  font-size:13px;
+}
+
+
+.proximo-datos{
+  display:grid;
+
+  grid-template-columns:
+  repeat(2,1fr);
+
+  gap:9px;
+
+  margin-top:15px;
+}
+
+
+.proximo-dato{
+  padding:10px;
+
+  border-radius:10px;
+
+  background:
+  rgba(255,255,255,.11);
+
+  font-size:11px;
+}
+
+
+.proximo-dato strong{
+  display:block;
+
+  margin-top:2px;
+
+  font-size:13px;
+}
+
+
+/* =========================================================
+   TABLAS
+========================================================= */
+
+.tabla-wrap{
+  width:100%;
+
+  overflow-x:auto;
+}
+
+
+table{
+  width:100%;
+
+  border-collapse:collapse;
+
+  min-width:800px;
+}
+
+
+th{
+  padding:
+  11px 12px;
+
+  text-align:left;
+
+  color:var(--gris);
+
+  background:#f7f9fa;
+
+  font-size:10px;
+  text-transform:uppercase;
+
+  letter-spacing:.5px;
+}
+
+
+td{
+  padding:
+  12px;
+
+  border-top:
+  1px solid #edf1f2;
+
+  font-size:12px;
+
+  vertical-align:middle;
+}
+
+
+td strong{
+  color:var(--verde);
+}
+
+
+.estado{
+  display:inline-flex;
+
+  align-items:center;
+
+  padding:
+  5px 9px;
+
+  border-radius:50px;
+
+  font-size:10px;
+  font-weight:900;
+}
+
+
+.estado-nueva{
+  color:#825600;
+  background:#fff2c9;
+}
+
+
+.estado-completada{
+  color:#08663a;
+  background:#dff7e9;
+}
+
+
+.estado-cancelada{
+  color:#942d2d;
+  background:#ffe4e4;
+}
+
+
+.acciones{
+  display:flex;
+
+  gap:5px;
+}
+
+
+.accion{
+  border:none;
+
+  border-radius:8px;
+
+  padding:
+  7px 9px;
+
+  font-size:10px;
+  font-weight:850;
+}
+
+
+.accion-ver{
+  color:#1c5f96;
+  background:#e7f2fb;
+}
+
+
+.accion-ok{
+  color:#0a683b;
+  background:#dff7e9;
+}
+
+
+.accion-cancelar{
+  color:#9c3535;
+  background:#ffe5e5;
+}
+
+
+/* =========================================================
+   FORMULARIOS
+========================================================= */
+
+.form-grid{
+  display:grid;
+
+  grid-template-columns:
+  repeat(2,minmax(0,1fr));
+
+  gap:14px;
+}
+
+
+.full{
+  grid-column:1/-1;
+}
+
+
+label{
+  display:block;
+
+  margin-bottom:5px;
+
+  color:#384a50;
+
+  font-size:11px;
+  font-weight:850;
+}
+
+
+input,
+select,
+textarea{
+  width:100%;
+
+  padding:
+  10px 11px;
+
+  border:
+  1px solid #d5dfe1;
+
+  border-radius:9px;
+
+  outline:none;
+
+  background:white;
+
+  color:var(--texto);
+}
+
+
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:var(--turquesa);
+
+  box-shadow:
+  0 0 0 3px rgba(10,139,143,.10);
+}
+
+
+.form-actions{
+  display:flex;
+
+  justify-content:flex-end;
+
+  gap:8px;
+
+  margin-top:17px;
+}
+
+
+/* =========================================================
+   FILTROS
+========================================================= */
+
+.filtros{
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:8px;
+
+  margin-bottom:16px;
+}
+
+
+.filtros input,
+.filtros select{
+  width:auto;
+
+  min-width:160px;
+}
+
+
+/* =========================================================
+   TARIFAS / RUTAS
+========================================================= */
+
+.config-box{
+  display:grid;
+
+  grid-template-columns:
+  repeat(3,minmax(0,1fr));
+
+  gap:15px;
+}
+
+
+.config-item{
+  padding:17px;
+
+  border:
+  1px solid var(--borde);
+
+  border-radius:15px;
+
+  background:white;
+
+  box-shadow:var(--sombra);
+}
+
+
+.config-item h3{
+  color:var(--verde);
+
+  font-size:14px;
+}
+
+
+.config-item p{
+  margin:
+  3px 0 12px;
+
+  color:var(--gris);
+
+  font-size:11px;
+}
+
+
+/* =========================================================
+   VEHICULOS
+========================================================= */
+
+.vehiculos-grid{
+  display:grid;
+
+  grid-template-columns:
+  repeat(3,minmax(0,1fr));
+
+  gap:15px;
+}
+
+
+.vehiculo{
+  overflow:hidden;
+
+  border:
+  1px solid var(--borde);
+
+  border-radius:16px;
+
+  background:white;
+
+  box-shadow:var(--sombra);
+}
+
+
+.vehiculo-top{
+  padding:17px;
+
+  color:white;
+
+  background:
+  linear-gradient(
+    135deg,
+    var(--verde),
+    var(--turquesa)
+  );
+}
+
+
+.vehiculo-top h3{
+  font-size:18px;
+}
+
+
+.vehiculo-body{
+  padding:16px;
+}
+
+
+.vehiculo-linea{
+  display:flex;
+
+  justify-content:space-between;
+
+  gap:10px;
+
+  padding:
+  7px 0;
+
+  border-bottom:
+  1px solid #edf1f2;
+
+  font-size:11px;
+}
+
+
+.vehiculo-linea span{
+  color:var(--gris);
+}
+
+
+/* =========================================================
+   TOURS
+========================================================= */
+
+.tours-grid{
+  display:grid;
+
+  grid-template-columns:
+  repeat(3,minmax(0,1fr));
+
+  gap:15px;
+}
+
+
+.tour{
+  padding:18px;
+
+  border:
+  1px solid var(--borde);
+
+  border-radius:16px;
+
+  background:white;
+
+  box-shadow:var(--sombra);
+}
+
+
+.tour h3{
+  color:var(--verde);
+
+  font-size:18px;
+}
+
+
+.tour p{
+  margin:
+  5px 0 13px;
+
+  color:var(--gris);
+
+  font-size:12px;
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal{
+  display:none;
+
+  position:fixed;
+
+  z-index:500;
+
+  inset:0;
+
+  padding:20px;
+
+  align-items:center;
+  justify-content:center;
+
+  background:
+  rgba(3,23,29,.72);
+}
+
+
+.modal.activo{
+  display:flex;
+}
+
+
+.modal-box{
+  width:min(650px,100%);
+
+  max-height:90vh;
+
+  overflow-y:auto;
+
+  padding:22px;
+
+  border-radius:18px;
+
+  background:white;
+
+  box-shadow:
+  0 25px 70px rgba(0,0,0,.3);
+}
+
+
+.modal-top{
+  display:flex;
+
+  justify-content:space-between;
+
+  gap:20px;
+
+  margin-bottom:18px;
+}
+
+
+.modal-top h2{
+  color:var(--verde);
+
+  font-size:20px;
+}
+
+
+.cerrar{
+  width:36px;
+  height:36px;
+
+  border:none;
+
+  border-radius:50%;
+
+  background:#eef2f3;
+
+  font-size:18px;
+}
+
+
+/* =========================================================
+   MENSAJES
+========================================================= */
+
+.alerta{
+  display:none;
+
+  position:fixed;
+
+  z-index:1000;
+
+  right:20px;
+  bottom:20px;
+
+  max-width:350px;
+
+  padding:
+  13px 16px;
+
+  border-radius:11px;
+
+  color:white;
+  background:var(--verde-ok);
+
+  box-shadow:
+  0 15px 35px rgba(0,0,0,.18);
+
+  font-size:12px;
+  font-weight:800;
+}
+
+
+.alerta.visible{
+  display:block;
+}
+
+
+/* =========================================================
+   MENÚ MÓVIL
+========================================================= */
+
+.btn-menu{
+  display:none;
+
+  width:42px;
+  height:42px;
+
+  border:none;
+  border-radius:10px;
+
+  color:white;
+  background:var(--verde);
+
+  font-size:19px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1100px){
+
+  .metricas{
+    grid-template-columns:
+    repeat(2,1fr);
+  }
+
+  .grid-2{
+    grid-template-columns:1fr;
+  }
+
+  .config-box,
+  .vehiculos-grid,
+  .tours-grid{
+    grid-template-columns:
+    repeat(2,1fr);
+  }
+
+}
+
+
+@media(max-width:800px){
+
+  .admin{
+    display:block;
+  }
+
+
+  .sidebar{
+    transform:
+    translateX(-100%);
+
+    transition:.25s;
+
+    box-shadow:
+    10px 0 35px rgba(0,0,0,.2);
+  }
+
+
+  .sidebar.abierta{
+    transform:
+    translateX(0);
+  }
+
+
+  .main{
+    width:100%;
+  }
+
+
+  .btn-menu{
+    display:block;
+  }
+
+
+  .topbar{
+    padding:
+    11px 16px;
+  }
+
+
+  .contenido{
+    padding:
+    20px 15px 40px;
+  }
+
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+
+  .full{
+    grid-column:auto;
+  }
+
+
+  .config-box,
+  .vehiculos-grid,
+  .tours-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+
+@media(max-width:520px){
+
+  .metricas{
+    grid-template-columns:1fr;
+  }
+
+
+  .top-actions .btn-light{
+    display:none;
+  }
+
+
+  .topbar h1{
+    font-size:18px;
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="admin">
+
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside
+  class="sidebar"
+  id="sidebar"
+>
+
+
+<div class="logo-area">
+
+<div class="logo">
+
+<img
+  src="logo-jose-garcia.png"
+  alt="José García"
+  onerror="
+    this.style.display='none';
+    this.nextElementSibling.style.display='grid';
+  "
+>
+
+<div class="logo-fallback">
+JG
+</div>
+
+</div>
+
+
+<div>
+
+<strong>
+José García
+</strong>
+
+<span>
+Panel Administrativo
+</span>
+
+</div>
+
+</div>
+
+
+<nav class="menu">
+
+
+<button
+  class="activo"
+  data-seccion="dashboard"
+>
+
+<span class="icono">
+📊
+</span>
+
+Dashboard
+
+</button>
+
+
+<button data-seccion="agenda">
+
+<span class="icono">
+📅
+</span>
+
+Agenda
+
+</button>
+
+
+<button data-seccion="historial">
+
+<span class="icono">
+🗂️
+</span>
+
+Historial
+
+</button>
+
+
+<button data-seccion="reservas">
+
+<span class="icono">
+📋
+</span>
+
+Reservas
+
+</button>
+
+
+<button data-seccion="rutas">
+
+<span class="icono">
+🛣️
+</span>
+
+Rutas y tarifas
+
+</button>
+
+
+<button data-seccion="vehiculos">
+
+<span class="icono">
+🚐
+</span>
+
+Vehículos
+
+</button>
+
+
+<button data-seccion="tours">
+
+<span class="icono">
+🏝️
+</span>
+
+Tours
+
+</button>
+
+
+<button data-seccion="configuracion">
+
+<span class="icono">
+⚙️
+</span>
+
+Configuración
+
+</button>
+
+
+</nav>
+
+
+<div class="sidebar-footer">
+
+<a
+  href="index.html"
+  target="_blank"
+>
+🌐 Ver página pública
+</a>
+
+<a href="#">
+🔒 Cerrar sesión
+</a>
+
+</div>
+
+
+</aside>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<div class="main">
+
+
+<header class="topbar">
+
+
+<div style="display:flex;align-items:center;gap:12px;">
+
+
+<button
+  class="btn-menu"
+  id="btnMenu"
+>
+☰
+</button>
+
+
+<div>
+
+<h1 id="tituloSeccion">
+Dashboard
+</h1>
+
+<p>
+José García · Administración
+</p>
+
+</div>
+
+
+</div>
+
+
+<div class="top-actions">
+
+<a
+  href="index.html"
+  target="_blank"
+  class="btn btn-light"
+>
+Ver web
+</a>
+
+<button
+  class="btn btn-gold"
+  id="btnNuevaReserva"
+>
++ Nueva reserva
+</button>
+
+</div>
+
+
+</header>
+
+
+<div class="contenido">
+
+
+<!-- =========================================================
+     DASHBOARD
+========================================================= -->
+
+<section
+  class="pantalla activa"
+  id="dashboard"
+>
+
+
+<div class="metricas">
+
+
+<div class="metrica">
+
+<div class="metrica-top">
+
+<span>
+Servicios hoy
+</span>
+
+<div class="metrica-icono">
+📅
+</div>
+
+</div>
+
+<strong id="contadorHoy">
+0
+</strong>
+
+</div>
+
+
+<div class="metrica">
+
+<div class="metrica-top">
+
+<span>
+Servicios mañana
+</span>
+
+<div class="metrica-icono">
+🌅
+</div>
+
+</div>
+
+<strong id="contadorManana">
+0
+</strong>
+
+</div>
+
+
+<div class="metrica">
+
+<div class="metrica-top">
+
+<span>
+Reservas nuevas
+</span>
+
+<div class="metrica-icono">
+🆕
+</div>
+
+</div>
+
+<strong id="contadorNuevas">
+0
+</strong>
+
+</div>
+
+
+<div class="metrica">
+
+<div class="metrica-top">
+
+<span>
+Historial total
+</span>
+
+<div class="metrica-icono">
+🗂️
+</div>
+
+</div>
+
+<strong id="contadorHistorial">
+0
+</strong>
+
+</div>
+
+
+</div>
+
+
+<div class="grid-2">
+
+
+<div class="card">
+
+<div class="card-header">
+
+<div>
+
+<h2>
+Próximas reservas
+</h2>
+
+<p>
+Ordenadas por fecha y hora del servicio.
+</p>
+
+</div>
+
+<button
+  class="btn btn-light"
+  onclick="abrirSeccion('agenda')"
+>
+Ver agenda
+</button>
+
+</div>
+
+
+<div class="tabla-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>
+Fecha
+</th>
+
+<th>
+Hora
+</th>
+
+<th>
+Cliente
+</th>
+
+<th>
+Ruta
+</th>
+
+<th>
+Pax
+</th>
+
+<th>
+Estado
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="dashboardReservas">
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="card-header">
+
+<div>
+
+<h2>
+Próximo servicio
+</h2>
+
+<p>
+Servicio pendiente más cercano.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="card-body">
+
+<div
+  class="proximo"
+  id="proximoServicio"
+>
+
+<div class="proximo-etiqueta">
+Próximo servicio
+</div>
+
+<h3>
+Sin reservas pendientes
+</h3>
+
+<p>
+Cuando agregues una reserva aparecerá aquí.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+<!-- =========================================================
+     AGENDA
+========================================================= -->
+
+<section
+  class="pantalla"
+  id="agenda"
+>
+
+
+<div class="card">
+
+<div class="card-header">
+
+<div>
+
+<h2>
+Agenda de servicios
+</h2>
+
+<p>
+Solo aparecen reservas NUEVAS pendientes de realizar.
+</p>
+
+</div>
+
+
+<button
+  class="btn btn-primary"
+  onclick="abrirModalReserva()"
+>
++ Agregar reserva
+</button>
+
+</div>
+
+
+<div class="card-body">
+
+<div class="filtros">
+
+<input
+  id="buscarAgenda"
+  placeholder="Buscar cliente, ruta o WhatsApp..."
+  oninput="renderAgenda()"
+>
+
+<input
+  id="fechaAgenda"
+  type="date"
+  onchange="renderAgenda()"
+>
+
+</div>
+
+</div>
+
+
+<div class="tabla-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>
+Código
+</th>
+
+<th>
+Fecha
+</th>
+
+<th>
+Hora
+</th>
+
+<th>
+Cliente
+</th>
+
+<th>
+Ruta
+</th>
+
+<th>
+Pax
+</th>
+
+<th>
+Tarifa
+</th>
+
+<th>
+Acciones
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tablaAgenda">
+</tbody>
+
+</table>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     HISTORIAL
+========================================================= -->
+
+<section
+  class="pantalla"
+  id="historial"
+>
+
+
+<div class="card">
+
+<div class="card-header">
+
+<div>
+
+<h2>
+Historial
+</h2>
+
+<p>
+Reservas completadas y canceladas.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="card-body">
+
+<div class="filtros">
+
+<input
+  id="buscarHistorial"
+  placeholder="Cliente, WhatsApp, código o ruta..."
+  oninput="renderHistorial()"
+>
+
+<select
+  id="estadoHistorial"
+  onchange="renderHistorial()"
+>
+
+<option value="">
+Todos los estados
+</option>
+
+<option value="COMPLETADA">
+Completadas
+</option>
+
+<option value="CANCELADA">
+Canceladas
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<div class="tabla-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>
+Código
+</th>
+
+<th>
+Fecha
+</th>
+
+<th>
+Cliente
+</th>
+
+<th>
+WhatsApp
+</th>
+
+<th>
+Ruta
+</th>
+
+<th>
+Tarifa
+</th>
+
+<th>
+Estado
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tablaHistorial">
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     RESERVAS
+========================================================= -->
+
+<section
+  class="pantalla"
+  id="reservas"
+>
+
+
+<div class="card">
+
+<div class="card-header">
+
+<div>
+
+<h2>
+Todas las reservas
+</h2>
+
+<p>
+Nuevas, completadas y canceladas.
+</p>
+
+</div>
+
+
+<button
+  class="btn btn-primary"
+  onclick="abrirModalReserva()"
+>
++ Nueva reserva
+</button>
+
+</div>
+
+
+<div class="card-body">
+
+<div class="filtros">
+
+<input
+  id="buscarReservas"
+  placeholder="Buscar..."
+  oninput="renderReservas()"
+>
+
+<select
+  id="filtroReservas"
+  onchange="renderReservas()"
+>
+
+<option value="">
+Todos
+</option>
+
+<option value="NUEVA">
+Nuevas
+</option>
+
+<option value="COMPLETADA">
+Completadas
+</option>
+
+<option value="CANCELADA">
+Canceladas
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<div class="tabla-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>
+Código
+</th>
+
+<th>
+Fecha
+</th>
+
+<th>
+Cliente
+</th>
+
+<th>
+WhatsApp
+</th>
+
+<th>
+Ruta
+</th>
+
+<th>
+Pax
+</th>
+
+<th>
+Tarifa
+</th>
+
+<th>
+Estado
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tablaReservas">
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     RUTAS Y TARIFAS
+========================================================= -->
+
+<section
+  class="pantalla"
+  id="rutas"
+>
+
+
+<div class="card">
+
+<div class="card-header">
+
+<div>
+
+<h2>
+Rutas y tarifas
+</h2>
+
+<p>
+Aquí podrás administrar precios, distancia y duración.
+</p>
+
+</div>
+
+
+<button
+  class="btn btn-primary"
+  onclick="abrirModalRuta()"
+>
++ Nueva ruta
+</button>
+
+</div>
+
+
+<div class="card-body">
+
+<div class="filtros">
+
+<input
+  id="buscarRuta"
+  placeholder="Buscar origen o destino..."
+  oninput="renderRutas()"
+>
+
+</div>
+
+</div>
+
+
+<div class="tabla-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>
+Origen
+</th>
+
+<th>
+Destino
+</th>
+
+<th>
+Tarifa
+</th>
+
+<th>
+Distancia
+</th>
+
+<th>
+Duración
+</th>
+
+<th>
+Estado
+</th>
+
+<th>
+Acción
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tablaRutas">
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     VEHICULOS
+========================================================= -->
+
+<section
+  class="pantalla"
+  id="vehiculos"
+>
+
+
+<div class="card-header"
+style="
+background:white;
+border:1px solid var(--borde);
+border-radius:16px;
+margin-bottom:16px;
+">
+
+<div>
+
+<h2>
+Categorías de vehículos
+</h2>
+
+<p>
+Capacidad interna para recomendación automática.
+</p>
+
+</div>
+
+</div>
+
+
+<div
+  class="vehiculos-grid"
+  id="vehiculosGrid"
+>
+</div>
+
+
+</section>
+
+
+<!-- =========================================================
+     TOURS
+========================================================= -->
+
+<section
+  class="pantalla"
+  id="tours"
+>
+
+
+<div class="card-header"
+style="
+background:white;
+border:1px solid var(--borde);
+border-radius:16px;
+margin-bottom:16px;
+">
+
+<div>
+
+<h2>
+Tours y experiencias
+</h2>
+
+<p>
+Controla cuáles experiencias aparecen publicadas.
+</p>
+
+</div>
+
+</div>
+
+
+<div
+  class="tours-grid"
+  id="toursGrid"
+>
+</div>
+
+
+</section>
+
+
+<!-- =========================================================
+     CONFIGURACION
+========================================================= -->
+
+<section
+  class="pantalla"
+  id="configuracion"
+>
+
+
+<div class="config-box">
+
+
+<div class="config-item">
+
+<h3>
+💱 Tasa de cambio
+</h3>
+
+<p>
+Conversión utilizada para mostrar RD$.
+</p>
+
+<label>
+1 USD =
+</label>
+
+<input
+  id="configTasa"
+  type="number"
+  step=".01"
+>
+
+</div>
+
+
+<div class="config-item">
+
+<h3>
+👥 Pasajeros incluidos
+</h3>
+
+<p>
+Cantidad incluida en la tarifa base.
+</p>
+
+<label>
+Pasajeros
+</label>
+
+<input
+  id="configIncluidos"
+  type="number"
+  min="1"
+>
+
+</div>
+
+
+<div class="config-item">
+
+<h3>
+➕ Pasajero adicional
+</h3>
+
+<p>
+Cargo desde el siguiente pasajero.
+</p>
+
+<label>
+US$
+</label>
+
+<input
+  id="configAdicional"
+  type="number"
+  min="0"
+>
+
+</div>
+
+
+<div class="config-item">
+
+<h3>
+🔁 Ida y vuelta
+</h3>
+
+<p>
+Porcentaje general de descuento.
+</p>
+
+<label>
+Descuento %
+</label>
+
+<input
+  id="configDescuento"
+  type="number"
+  min="0"
+  max="100"
+>
+
+</div>
+
+
+<div class="config-item">
+
+<h3>
+📱 WhatsApp
+</h3>
+
+<p>
+Número principal del negocio.
+</p>
+
+<label>
+Número
+</label>
+
+<input
+  id="configWhatsapp"
+>
+
+</div>
+
+
+<div class="config-item">
+
+<h3>
+🏢 Información general
+</h3>
+
+<p>
+Base principal de operaciones.
+</p>
+
+<label>
+Sede
+</label>
+
+<input
+  id="configSede"
+>
+
+</div>
+
+
+</div>
+
+
+<div
+  class="form-actions"
+  style="margin-top:20px;"
+>
+
+<button
+  class="btn btn-gold"
+  onclick="guardarConfiguracion()"
+>
+Guardar configuración
+</button>
+
+</div>
+
+
+</section>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =========================================================
+     MODAL NUEVA RESERVA
+========================================================= -->
+
+<div
+  class="modal"
+  id="modalReserva"
+>
+
+
+<div class="modal-box">
+
+
+<div class="modal-top">
+
+<div>
+
+<h2>
+Nueva reserva
+</h2>
+
+<p>
+Agrega un servicio manualmente a la agenda.
+</p>
+
+</div>
+
+
+<button
+  class="cerrar"
+  onclick="cerrarModal('modalReserva')"
+>
+×
+</button>
+
+</div>
+
+
+<form id="formReserva">
+
+
+<div class="form-grid">
+
+
+<div>
+
+<label>
+Nombre completo
+</label>
+
+<input
+  id="rNombre"
+  required
+>
+
+</div>
+
+
+<div>
+
+<label>
+WhatsApp
+</label>
+
+<input
+  id="rWhatsapp"
+  required
+>
+
+</div>
+
+
+<div>
+
+<label>
+Fecha
+</label>
+
+<input
+  id="rFecha"
+  type="date"
+  required
+>
+
+</div>
+
+
+<div>
+
+<label>
+Hora
+</label>
+
+<input
+  id="rHora"
+  type="time"
+  required
+>
+
+</div>
+
+
+<div>
+
+<label>
+Origen
+</label>
+
+<input
+  id="rOrigen"
+  required
+>
+
+</div>
+
+
+<div>
+
+<label>
+Destino
+</label>
+
+<input
+  id="rDestino"
+  required
+>
+
+</div>
+
+
+<div>
+
+<label>
+Pasajeros
+</label>
+
+<input
+  id="rPax"
+  type="number"
+  min="1"
+  value="1"
+  required
+>
+
+</div>
+
+
+<div>
+
+<label>
+Tarifa US$
+</label>
+
+<input
+  id="rTarifa"
+  type="number"
+  min="0"
+  step=".01"
+  required
+>
+
+</div>
+
+
+<div>
+
+<label>
+Maletas grandes
+</label>
+
+<input
+  id="rMaletas"
+  type="number"
+  min="0"
+  value="0"
+>
+
+</div>
+
+
+<div>
+
+<label>
+Equipaje de mano
+</label>
+
+<input
+  id="rMano"
+  type="number"
+  min="0"
+  value="0"
+>
+
+</div>
+
+
+<div class="full">
+
+<label>
+Vuelo / observaciones
+</label>
+
+<textarea
+  id="rNotas"
+  rows="3"
+></textarea>
+
+</div>
+
+
+</div>
+
+
+<div class="form-actions">
+
+<button
+  type="button"
+  class="btn btn-light"
+  onclick="cerrarModal('modalReserva')"
+>
+Cancelar
+</button>
+
+<button
+  type="submit"
+  class="btn btn-gold"
+>
+Guardar reserva
+</button>
+
+</div>
+
+
+</form>
+
+
+</div>
+
+</div>
+
+
+<!-- =========================================================
+     MODAL RUTA
+========================================================= -->
+
+<div
+  class="modal"
+  id="modalRuta"
+>
+
+
+<div class="modal-box">
+
+
+<div class="modal-top">
+
+<div>
+
+<h2>
+Agregar ruta
+</h2>
+
+<p>
+Crea una nueva tarifa para el cotizador.
+</p>
+
+</div>
+
+
+<button
+  class="cerrar"
+  onclick="cerrarModal('modalRuta')"
+>
+×
+</button>
+
+</div>
+
+
+<form id="formRuta">
+
+
+<div class="form-grid">
+
+
+<div>
+
+<label>
+Origen
+</label>
+
+<input
+  id="rutaOrigen"
+  required
+>
+
+</div>
+
+
+<div>
+
+<label>
+Destino
+</label>
+
+<input
+  id="rutaDestino"
+  required
+>
+
+</div>
+
+
+<div>
+
+<label>
+Tarifa base US$
+</label>
+
+<input
+  id="rutaPrecio"
+  type="number"
+  min="0"
+  step=".01"
+  required
+>
+
+</div>
+
+
+<div>
+
+<label>
+Distancia aproximada
+</label>
+
+<input
+  id="rutaDistancia"
+  placeholder="Ej. 45 km"
+>
+
+</div>
+
+
+<div>
+
+<label>
+Duración aproximada
+</label>
+
+<input
+  id="rutaDuracion"
+  placeholder="Ej. 40 min"
+>
+
+</div>
+
+
+<div>
+
+<label>
+Estado
+</label>
+
+<select id="rutaEstado">
+
+<option value="ACTIVA">
+Activa
+</option>
+
+<option value="INACTIVA">
+Inactiva
+</option>
+
+</select>
+
+</div>
+
+
+</div>
+
+
+<div class="form-actions">
+
+<button
+  type="button"
+  class="btn btn-light"
+  onclick="cerrarModal('modalRuta')"
+>
+Cancelar
+</button>
+
+<button
+  type="submit"
+  class="btn btn-gold"
+>
+Guardar ruta
+</button>
+
+</div>
+
+
+</form>
+
+
+</div>
+
+</div>
+
+
+<!-- =========================================================
+     ALERTA
+========================================================= -->
+
+<div
+  class="alerta"
+  id="alerta"
+>
+Cambios guardados.
+</div>
+
+
+<script>
+
+/* =========================================================
+   DATOS INICIALES
+========================================================= */
+
+const DATOS_INICIALES = {
+
+  configuracion:{
+    tasaCambio:60,
+    pasajerosIncluidos:4,
+    pasajeroAdicional:10,
+    descuentoIdaVuelta:10,
+    whatsapp:"18298182426",
+    sede:"Boca Chica, República Dominicana"
+  },
+
+
+  reservas:[
+
+    {
+      codigo:"JG-260814-1001",
+      nombre:"Ejemplo Cliente",
+      whatsapp:"+1 000-000-0000",
+      fecha:"2026-08-14",
+      hora:"14:30",
+      origen:"Aeropuerto Las Américas (SDQ)",
+      destino:"Juan Dolio",
+      pasajeros:2,
+      maletas:2,
+      mano:1,
+      tarifa:45,
+      notas:"Reserva de ejemplo",
+      estado:"NUEVA"
+    }
+
+  ],
+
+
+  rutas:[
+
+    {
+      origen:"Aeropuerto Las Américas (SDQ)",
+      destino:"Boca Chica",
+      precio:30,
+      distancia:"18 km",
+      duracion:"20 min",
+      estado:"ACTIVA"
+    },
+
+    {
+      origen:"Aeropuerto Las Américas (SDQ)",
+      destino:"Juan Dolio",
+      precio:45,
+      distancia:"45 km",
+      duracion:"40 min",
+      estado:"ACTIVA"
+    },
+
+    {
+      origen:"Aeropuerto Las Américas (SDQ)",
+      destino:"Zona Colonial",
+      precio:40,
+      distancia:"30 km",
+      duracion:"45 min",
+      estado:"ACTIVA"
+    },
+
+    {
+      origen:"Aeropuerto Las Américas (SDQ)",
+      destino:"Punta Cana",
+      precio:125,
+      distancia:"170 km",
+      duracion:"2 h 10 min",
+      estado:"ACTIVA"
+    }
+
+  ],
+
+
+  vehiculos:[
+
+    {
+      nombre:"Vehículo privado",
+      pasajeros:"1 - 4",
+      grandes:4,
+      mano:4,
+      estado:"ACTIVO"
+    },
+
+    {
+      nombre:"SUV",
+      pasajeros:"1 - 4",
+      grandes:5,
+      mano:4,
+      estado:"ACTIVO"
+    },
+
+    {
+      nombre:"Minivan",
+      pasajeros:"1 - 7",
+      grandes:7,
+      mano:6,
+      estado:"ACTIVO"
+    },
+
+    {
+      nombre:"Van",
+      pasajeros:"1 - 17",
+      grandes:15,
+      mano:12,
+      estado:"ACTIVO"
+    },
+
+    {
+      nombre:"Minibús",
+      pasajeros:"1 - 30",
+      grandes:25,
+      mano:20,
+      estado:"ACTIVO"
+    },
+
+    {
+      nombre:"Autobús",
+      pasajeros:"1 - 60",
+      grandes:50,
+      mano:40,
+      estado:"ACTIVO"
+    }
+
+  ],
+
+
+  tours:[
+
+    {
+      nombre:"City Tour",
+      publicado:true
+    },
+
+    {
+      nombre:"Isla Saona",
+      publicado:true
+    },
+
+    {
+      nombre:"Buggies",
+      publicado:true
+    }
+
+  ]
+
+};
+
+
+/* =========================================================
+   LOCAL STORAGE
+========================================================= */
+
+function cargarDatos(){
+
+  const guardado =
+  localStorage.getItem(
+    "jg_admin_datos"
+  );
+
+
+  if(guardado){
+
+    return JSON.parse(
+      guardado
+    );
+
+  }
+
+
+  localStorage.setItem(
+    "jg_admin_datos",
+    JSON.stringify(
+      DATOS_INICIALES
+    )
+  );
+
+
+  return JSON.parse(
+    JSON.stringify(
+      DATOS_INICIALES
+    )
+  );
+
+}
+
+
+let datos =
+cargarDatos();
+
+
+function guardarDatos(){
+
+  localStorage.setItem(
+    "jg_admin_datos",
+    JSON.stringify(datos)
+  );
+
+}
+
+
+/* =========================================================
+   NAVEGACIÓN
+========================================================= */
+
+const nombresSecciones = {
+
+  dashboard:"Dashboard",
+  agenda:"Agenda",
+  historial:"Historial",
+  reservas:"Reservas",
+  rutas:"Rutas y tarifas",
+  vehiculos:"Vehículos",
+  tours:"Tours",
+  configuracion:"Configuración"
+
+};
+
+
+document
+.querySelectorAll(
+  ".menu button[data-seccion]"
+)
+.forEach(
+  boton => {
+
+    boton.addEventListener(
+      "click",
+      function(){
+
+        abrirSeccion(
+          this.dataset.seccion
+        );
+
+      }
+    );
+
+  }
+);
+
+
+function abrirSeccion(id){
+
+  document
+  .querySelectorAll(
+    ".pantalla"
+  )
+  .forEach(
+    pantalla =>
+    pantalla.classList.remove(
+      "activa"
+    )
+  );
+
+
+  document
+  .getElementById(id)
+  .classList.add(
+    "activa"
+  );
+
+
+  document
+  .querySelectorAll(
+    ".menu button"
+  )
+  .forEach(
+    boton =>
+    boton.classList.remove(
+      "activo"
+    )
+  );
+
+
+  const boton =
+  document.querySelector(
+    `[data-seccion="${id}"]`
+  );
+
+
+  if(boton){
+
+    boton.classList.add(
+      "activo"
+    );
+
+  }
+
+
+  document
+  .getElementById(
+    "tituloSeccion"
+  )
+  .textContent =
+  nombresSecciones[id];
+
+
+  document
+  .getElementById(
+    "sidebar"
+  )
+  .classList.remove(
+    "abierta"
+  );
+
+
+  renderTodo();
+
+}
+
+
+/* =========================================================
+   MENU MOVIL
+========================================================= */
+
+document
+.getElementById(
+  "btnMenu"
+)
+.addEventListener(
+  "click",
+  function(){
+
+    document
+    .getElementById(
+      "sidebar"
+    )
+    .classList.toggle(
+      "abierta"
+    );
+
+  }
+);
+
+
+/* =========================================================
+   FECHAS
+========================================================= */
+
+function fechaLocal(offset=0){
+
+  const fecha =
+  new Date();
+
+
+  fecha.setDate(
+    fecha.getDate()
+    +
+    offset
+  );
+
+
+  const year =
+  fecha.getFullYear();
+
+
+  const month =
+  String(
+    fecha.getMonth()+1
+  )
+  .padStart(2,"0");
+
+
+  const day =
+  String(
+    fecha.getDate()
+  )
+  .padStart(2,"0");
+
+
+  return (
+    `${year}-${month}-${day}`
+  );
+
+}
+
+
+function fechaBonita(fecha){
+
+  if(!fecha){
+    return "";
+  }
+
+
+  const [
+    y,
+    m,
+    d
+  ] =
+  fecha.split("-");
+
+
+  return (
+    `${d}/${m}/${y}`
+  );
+
+}
+
+
+/* =========================================================
+   RESERVAS
+========================================================= */
+
+function reservasNuevas(){
+
+  return datos.reservas
+  .filter(
+    r =>
+    r.estado === "NUEVA"
+  )
+  .sort(
+    (a,b) => {
+
+      const da =
+      new Date(
+        `${a.fecha}T${a.hora}`
+      );
+
+
+      const db =
+      new Date(
+        `${b.fecha}T${b.hora}`
+      );
+
+
+      return da-db;
+
+    }
+  );
+
+}
+
+
+function generarCodigo(){
+
+  const hoy =
+  new Date();
+
+
+  const yy =
+  String(
+    hoy.getFullYear()
+  )
+  .slice(-2);
+
+
+  const mm =
+  String(
+    hoy.getMonth()+1
+  )
+  .padStart(2,"0");
+
+
+  const dd =
+  String(
+    hoy.getDate()
+  )
+  .padStart(2,"0");
+
+
+  const numero =
+  Math.floor(
+    1000 +
+    Math.random()*9000
+  );
+
+
+  return (
+    `JG-${yy}${mm}${dd}-${numero}`
+  );
+
+}
+
+
+function claseEstado(
+  estado
+){
+
+  if(
+    estado ===
+    "COMPLETADA"
+  ){
+
+    return "estado-completada";
+
+  }
+
+
+  if(
+    estado ===
+    "CANCELADA"
+  ){
+
+    return "estado-cancelada";
+
+  }
+
+
+  return "estado-nueva";
+
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+function renderDashboard(){
+
+  const hoy =
+  fechaLocal(0);
+
+
+  const manana =
+  fechaLocal(1);
+
+
+  const nuevas =
+  reservasNuevas();
+
+
+  document
+  .getElementById(
+    "contadorHoy"
+  )
+  .textContent =
+
+  nuevas.filter(
+    r =>
+    r.fecha === hoy
+  ).length;
+
+
+  document
+  .getElementById(
+    "contadorManana"
+  )
+  .textContent =
+
+  nuevas.filter(
+    r =>
+    r.fecha === manana
+  ).length;
+
+
+  document
+  .getElementById(
+    "contadorNuevas"
+  )
+  .textContent =
+  nuevas.length;
+
+
+  document
+  .getElementById(
+    "contadorHistorial"
+  )
+  .textContent =
+
+  datos.reservas.filter(
+    r =>
+    r.estado !== "NUEVA"
+  ).length;
+
+
+  const tbody =
+  document.getElementById(
+    "dashboardReservas"
+  );
+
+
+  tbody.innerHTML = "";
+
+
+  nuevas
+  .slice(0,6)
+  .forEach(
+    r => {
+
+      tbody.innerHTML +=
+      `
+      <tr>
+
+      <td>
+      ${fechaBonita(r.fecha)}
+      </td>
+
+      <td>
+      ${r.hora}
+      </td>
+
+      <td>
+      <strong>
+      ${r.nombre}
+      </strong>
+      </td>
+
+      <td>
+      ${r.origen}
+      →
+      ${r.destino}
+      </td>
+
+      <td>
+      ${r.pasajeros}
+      </td>
+
+      <td>
+      <span class="estado estado-nueva">
+      NUEVA
+      </span>
+      </td>
+
+      </tr>
+      `;
+
+    }
+  );
+
+
+  const proximo =
+  nuevas[0];
+
+
+  const caja =
+  document.getElementById(
+    "proximoServicio"
+  );
+
+
+  if(!proximo){
+
+    caja.innerHTML =
+    `
+    <div class="proximo-etiqueta">
+    Próximo servicio
+    </div>
+
+    <h3>
+    Sin reservas pendientes
+    </h3>
+
+    <p>
+    Cuando agregues una reserva aparecerá aquí.
+    </p>
+    `;
+
+    return;
+
+  }
+
+
+  caja.innerHTML =
+  `
+  <div class="proximo-etiqueta">
+  Próximo servicio
+  </div>
+
+  <h3>
+  ${fechaBonita(proximo.fecha)}
+  ·
+  ${proximo.hora}
+  </h3>
+
+  <p>
+  ${proximo.origen}
+  →
+  ${proximo.destino}
+  </p>
+
+  <div class="proximo-datos">
+
+  <div class="proximo-dato">
+  Cliente
+  <strong>
+  ${proximo.nombre}
+  </strong>
+  </div>
+
+  <div class="proximo-dato">
+  Pasajeros
+  <strong>
+  ${proximo.pasajeros}
+  </strong>
+  </div>
+
+  <div class="proximo-dato">
+  WhatsApp
+  <strong>
+  ${proximo.whatsapp}
+  </strong>
+  </div>
+
+  <div class="proximo-dato">
+  Tarifa
+  <strong>
+  US$${Number(
+    proximo.tarifa
+  ).toFixed(2)}
+  </strong>
+  </div>
+
+  </div>
+  `;
+
+}
+
+
+/* =========================================================
+   AGENDA
+========================================================= */
+
+function renderAgenda(){
+
+  const buscar =
+  document
+  .getElementById(
+    "buscarAgenda"
+  )
+  .value
+  .toLowerCase();
+
+
+  const fecha =
+  document
+  .getElementById(
+    "fechaAgenda"
+  )
+  .value;
+
+
+  let lista =
+  reservasNuevas();
+
+
+  if(buscar){
+
+    lista =
+    lista.filter(
+      r => {
+
+        const texto =
+        (
+          r.codigo
+          +
+          " "
+          +
+          r.nombre
+          +
+          " "
+          +
+          r.whatsapp
+          +
+          " "
+          +
+          r.origen
+          +
+          " "
+          +
+          r.destino
+        )
+        .toLowerCase();
+
+
+        return texto.includes(
+          buscar
+        );
+
+      }
+    );
+
+  }
+
+
+  if(fecha){
+
+    lista =
+    lista.filter(
+      r =>
+      r.fecha === fecha
+    );
+
+  }
+
+
+  const tbody =
+  document.getElementById(
+    "tablaAgenda"
+  );
+
+
+  tbody.innerHTML = "";
+
+
+  lista.forEach(
+    r => {
+
+      tbody.innerHTML +=
+      `
+      <tr>
+
+      <td>
+      <strong>
+      ${r.codigo}
+      </strong>
+      </td>
+
+      <td>
+      ${fechaBonita(r.fecha)}
+      </td>
+
+      <td>
+      ${r.hora}
+      </td>
+
+      <td>
+      ${r.nombre}
+
+      <br>
+
+      <small>
+      ${r.whatsapp}
+      </small>
+      </td>
+
+      <td>
+      ${r.origen}
+      →
+      ${r.destino}
+      </td>
+
+      <td>
+      ${r.pasajeros}
+      </td>
+
+      <td>
+      US$${Number(
+        r.tarifa
+      ).toFixed(2)}
+      </td>
+
+      <td>
+
+      <div class="acciones">
+
+      <button
+      class="accion accion-ok"
+      onclick="cambiarEstado('${r.codigo}','COMPLETADA')"
+      >
+      Completar
+      </button>
+
+      <button
+      class="accion accion-cancelar"
+      onclick="cambiarEstado('${r.codigo}','CANCELADA')"
+      >
+      Cancelar
+      </button>
+
+      </div>
+
+      </td>
+
+      </tr>
+      `;
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   HISTORIAL
+========================================================= */
+
+function renderHistorial(){
+
+  const buscar =
+  document
+  .getElementById(
+    "buscarHistorial"
+  )
+  .value
+  .toLowerCase();
+
+
+  const estado =
+  document
+  .getElementById(
+    "estadoHistorial"
+  )
+  .value;
+
+
+  let lista =
+  datos.reservas
+  .filter(
+    r =>
+    r.estado !== "NUEVA"
+  );
+
+
+  if(estado){
+
+    lista =
+    lista.filter(
+      r =>
+      r.estado === estado
+    );
+
+  }
+
+
+  if(buscar){
+
+    lista =
+    lista.filter(
+      r => {
+
+        const texto =
+        (
+          r.codigo
+          +
+          " "
+          +
+          r.nombre
+          +
+          " "
+          +
+          r.whatsapp
+          +
+          " "
+          +
+          r.origen
+          +
+          " "
+          +
+          r.destino
+        )
+        .toLowerCase();
+
+
+        return texto.includes(
+          buscar
+        );
+
+      }
+    );
+
+  }
+
+
+  const tbody =
+  document.getElementById(
+    "tablaHistorial"
+  );
+
+
+  tbody.innerHTML = "";
+
+
+  lista
+  .sort(
+    (a,b) =>
+    b.fecha.localeCompare(
+      a.fecha
+    )
+  )
+  .forEach(
+    r => {
+
+      tbody.innerHTML +=
+      `
+      <tr>
+
+      <td>
+      <strong>
+      ${r.codigo}
+      </strong>
+      </td>
+
+      <td>
+      ${fechaBonita(r.fecha)}
+      </td>
+
+      <td>
+      ${r.nombre}
+      </td>
+
+      <td>
+      ${r.whatsapp}
+      </td>
+
+      <td>
+      ${r.origen}
+      →
+      ${r.destino}
+      </td>
+
+      <td>
+      US$${Number(
+        r.tarifa
+      ).toFixed(2)}
+      </td>
+
+      <td>
+
+      <span
+      class="estado ${claseEstado(r.estado)}"
+      >
+      ${r.estado}
+      </span>
+
+      </td>
+
+      </tr>
+      `;
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   TODAS RESERVAS
+========================================================= */
+
+function renderReservas(){
+
+  const buscar =
+  document
+  .getElementById(
+    "buscarReservas"
+  )
+  .value
+  .toLowerCase();
+
+
+  const estado =
+  document
+  .getElementById(
+    "filtroReservas"
+  )
+  .value;
+
+
+  let lista =
+  [...datos.reservas];
+
+
+  if(estado){
+
+    lista =
+    lista.filter(
+      r =>
+      r.estado === estado
+    );
+
+  }
+
+
+  if(buscar){
+
+    lista =
+    lista.filter(
+      r => {
+
+        return JSON
+        .stringify(r)
+        .toLowerCase()
+        .includes(buscar);
+
+      }
+    );
+
+  }
+
+
+  const tbody =
+  document.getElementById(
+    "tablaReservas"
+  );
+
+
+  tbody.innerHTML = "";
+
+
+  lista
+  .sort(
+    (a,b) =>
+    b.fecha.localeCompare(
+      a.fecha
+    )
+  )
+  .forEach(
+    r => {
+
+      tbody.innerHTML +=
+      `
+      <tr>
+
+      <td>
+      <strong>
+      ${r.codigo}
+      </strong>
+      </td>
+
+      <td>
+      ${fechaBonita(r.fecha)}
+      </td>
+
+      <td>
+      ${r.nombre}
+      </td>
+
+      <td>
+      ${r.whatsapp}
+      </td>
+
+      <td>
+      ${r.origen}
+      →
+      ${r.destino}
+      </td>
+
+      <td>
+      ${r.pasajeros}
+      </td>
+
+      <td>
+      US$${Number(
+        r.tarifa
+      ).toFixed(2)}
+      </td>
+
+      <td>
+
+      <span
+      class="estado ${claseEstado(r.estado)}"
+      >
+      ${r.estado}
+      </span>
+
+      </td>
+
+      </tr>
+      `;
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   CAMBIAR ESTADO
+========================================================= */
+
+function cambiarEstado(
+  codigo,
+  estado
+){
+
+  const reserva =
+  datos.reservas.find(
+    r =>
+    r.codigo === codigo
+  );
+
+
+  if(!reserva){
+    return;
+  }
+
+
+  reserva.estado =
+  estado;
+
+
+  guardarDatos();
+
+
+  renderTodo();
+
+
+  mostrarAlerta(
+    `Reserva ${estado.toLowerCase()}.`
+  );
+
+}
+
+
+/* =========================================================
+   RUTAS
+========================================================= */
+
+function renderRutas(){
+
+  const buscar =
+  document
+  .getElementById(
+    "buscarRuta"
+  )
+  .value
+  .toLowerCase();
+
+
+  let lista =
+  [...datos.rutas];
+
+
+  if(buscar){
+
+    lista =
+    lista.filter(
+      r =>
+      (
+        r.origen
+        +
+        " "
+        +
+        r.destino
+      )
+      .toLowerCase()
+      .includes(buscar)
+    );
+
+  }
+
+
+  const tbody =
+  document.getElementById(
+    "tablaRutas"
+  );
+
+
+  tbody.innerHTML = "";
+
+
+  lista.forEach(
+    (r,index) => {
+
+      tbody.innerHTML +=
+      `
+      <tr>
+
+      <td>
+      ${r.origen}
+      </td>
+
+      <td>
+      ${r.destino}
+      </td>
+
+      <td>
+      <strong>
+      US$${Number(
+        r.precio
+      ).toFixed(2)}
+      </strong>
+      </td>
+
+      <td>
+      ${r.distancia || "—"}
+      </td>
+
+      <td>
+      ${r.duracion || "—"}
+      </td>
+
+      <td>
+
+      <span
+      class="estado ${
+        r.estado === "ACTIVA"
+        ?
+        "estado-completada"
+        :
+        "estado-cancelada"
+      }"
+      >
+      ${r.estado}
+      </span>
+
+      </td>
+
+      <td>
+
+      <button
+      class="accion accion-cancelar"
+      onclick="eliminarRuta(${index})"
+      >
+      Eliminar
+      </button>
+
+      </td>
+
+      </tr>
+      `;
+
+    }
+  );
+
+}
+
+
+function eliminarRuta(
+  index
+){
+
+  if(
+    !confirm(
+      "¿Eliminar esta ruta?"
+    )
+  ){
+    return;
+  }
+
+
+  datos.rutas.splice(
+    index,
+    1
+  );
+
+
+  guardarDatos();
+
+
+  renderRutas();
+
+
+  mostrarAlerta(
+    "Ruta eliminada."
+  );
+
+}
+
+
+/* =========================================================
+   VEHICULOS
+========================================================= */
+
+function renderVehiculos(){
+
+  const grid =
+  document.getElementById(
+    "vehiculosGrid"
+  );
+
+
+  grid.innerHTML = "";
+
+
+  datos.vehiculos.forEach(
+    v => {
+
+      grid.innerHTML +=
+      `
+      <div class="vehiculo">
+
+      <div class="vehiculo-top">
+
+      <h3>
+      ${v.nombre}
+      </h3>
+
+      </div>
+
+      <div class="vehiculo-body">
+
+      <div class="vehiculo-linea">
+
+      <span>
+      Pasajeros
+      </span>
+
+      <strong>
+      ${v.pasajeros}
+      </strong>
+
+      </div>
+
+      <div class="vehiculo-linea">
+
+      <span>
+      Maletas grandes
+      </span>
+
+      <strong>
+      ${v.grandes}
+      </strong>
+
+      </div>
+
+      <div class="vehiculo-linea">
+
+      <span>
+      Equipaje de mano
+      </span>
+
+      <strong>
+      ${v.mano}
+      </strong>
+
+      </div>
+
+      <div class="vehiculo-linea">
+
+      <span>
+      Estado
+      </span>
+
+      <strong>
+      ${v.estado}
+      </strong>
+
+      </div>
+
+      </div>
+
+      </div>
+      `;
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   TOURS
+========================================================= */
+
+function renderTours(){
+
+  const grid =
+  document.getElementById(
+    "toursGrid"
+  );
+
+
+  grid.innerHTML = "";
+
+
+  datos.tours.forEach(
+    (tour,index) => {
+
+      grid.innerHTML +=
+      `
+      <div class="tour">
+
+      <h3>
+      ${tour.nombre}
+      </h3>
+
+      <p>
+
+      ${
+        tour.publicado
+        ?
+        "Actualmente visible en la página pública."
+        :
+        "Actualmente oculto."
+      }
+
+      </p>
+
+      <button
+      class="btn ${
+        tour.publicado
+        ?
+        "btn-danger"
+        :
+        "btn-primary"
+      }"
+      onclick="toggleTour(${index})"
+      >
+
+      ${
+        tour.publicado
+        ?
+        "Desactivar"
+        :
+        "Activar"
+      }
+
+      </button>
+
+      </div>
+      `;
+
+    }
+  );
+
+}
+
+
+function toggleTour(
+  index
+){
+
+  datos.tours[index]
+  .publicado =
+  !datos.tours[index]
+  .publicado;
+
+
+  guardarDatos();
+
+
+  renderTours();
+
+
+  mostrarAlerta(
+    "Estado del tour actualizado."
+  );
+
+}
+
+
+/* =========================================================
+   CONFIGURACION
+========================================================= */
+
+function cargarConfiguracion(){
+
+  const c =
+  datos.configuracion;
+
+
+  document
+  .getElementById(
+    "configTasa"
+  )
+  .value =
+  c.tasaCambio;
+
+
+  document
+  .getElementById(
+    "configIncluidos"
+  )
+  .value =
+  c.pasajerosIncluidos;
+
+
+  document
+  .getElementById(
+    "configAdicional"
+  )
+  .value =
+  c.pasajeroAdicional;
+
+
+  document
+  .getElementById(
+    "configDescuento"
+  )
+  .value =
+  c.descuentoIdaVuelta;
+
+
+  document
+  .getElementById(
+    "configWhatsapp"
+  )
+  .value =
+  c.whatsapp;
+
+
+  document
+  .getElementById(
+    "configSede"
+  )
+  .value =
+  c.sede;
+
+}
+
+
+function guardarConfiguracion(){
+
+  datos.configuracion = {
+
+    tasaCambio:
+    Number(
+      document
+      .getElementById(
+        "configTasa"
+      )
+      .value
+    ),
+
+    pasajerosIncluidos:
+    Number(
+      document
+      .getElementById(
+        "configIncluidos"
+      )
+      .value
+    ),
+
+    pasajeroAdicional:
+    Number(
+      document
+      .getElementById(
+        "configAdicional"
+      )
+      .value
+    ),
+
+    descuentoIdaVuelta:
+    Number(
+      document
+      .getElementById(
+        "configDescuento"
+      )
+      .value
+    ),
+
+    whatsapp:
+    document
+    .getElementById(
+      "configWhatsapp"
+    )
+    .value,
+
+    sede:
+    document
+    .getElementById(
+      "configSede"
+    )
+    .value
+
+  };
+
+
+  guardarDatos();
+
+
+  mostrarAlerta(
+    "Configuración guardada."
+  );
+
+}
+
+
+/* =========================================================
+   MODALES
+========================================================= */
+
+function abrirModalReserva(){
+
+  document
+  .getElementById(
+    "modalReserva"
+  )
+  .classList.add(
+    "activo"
+  );
+
+}
+
+
+function abrirModalRuta(){
+
+  document
+  .getElementById(
+    "modalRuta"
+  )
+  .classList.add(
+    "activo"
+  );
+
+}
+
+
+function cerrarModal(id){
+
+  document
+  .getElementById(id)
+  .classList.remove(
+    "activo"
+  );
+
+}
+
+
+document
+.getElementById(
+  "btnNuevaReserva"
+)
+.addEventListener(
+  "click",
+  abrirModalReserva
+);
+
+
+/* =========================================================
+   GUARDAR NUEVA RESERVA
+========================================================= */
+
+document
+.getElementById(
+  "formReserva"
+)
+.addEventListener(
+  "submit",
+  function(event){
+
+    event.preventDefault();
+
+
+    datos.reservas.push({
+
+      codigo:
+      generarCodigo(),
+
+      nombre:
+      document
+      .getElementById(
+        "rNombre"
+      )
+      .value.trim(),
+
+      whatsapp:
+      document
+      .getElementById(
+        "rWhatsapp"
+      )
+      .value.trim(),
+
+      fecha:
+      document
+      .getElementById(
+        "rFecha"
+      )
+      .value,
+
+      hora:
+      document
+      .getElementById(
+        "rHora"
+      )
+      .value,
+
+      origen:
+      document
+      .getElementById(
+        "rOrigen"
+      )
+      .value.trim(),
+
+      destino:
+      document
+      .getElementById(
+        "rDestino"
+      )
+      .value.trim(),
+
+      pasajeros:
+      Number(
+        document
+        .getElementById(
+          "rPax"
+        )
+        .value
+      ),
+
+      tarifa:
+      Number(
+        document
+        .getElementById(
+          "rTarifa"
+        )
+        .value
+      ),
+
+      maletas:
+      Number(
+        document
+        .getElementById(
+          "rMaletas"
+        )
+        .value
+      ),
+
+      mano:
+      Number(
+        document
+        .getElementById(
+          "rMano"
+        )
+        .value
+      ),
+
+      notas:
+      document
+      .getElementById(
+        "rNotas"
+      )
+      .value.trim(),
+
+      estado:
+      "NUEVA"
+
+    });
+
+
+    guardarDatos();
+
+
+    this.reset();
+
+
+    cerrarModal(
+      "modalReserva"
+    );
+
+
+    renderTodo();
+
+
+    mostrarAlerta(
+      "Reserva agregada a la agenda."
+    );
+
+  }
+);
+
+
+/* =========================================================
+   GUARDAR NUEVA RUTA
+========================================================= */
+
+document
+.getElementById(
+  "formRuta"
+)
+.addEventListener(
+  "submit",
+  function(event){
+
+    event.preventDefault();
+
+
+    datos.rutas.push({
+
+      origen:
+      document
+      .getElementById(
+        "rutaOrigen"
+      )
+      .value.trim(),
+
+      destino:
+      document
+      .getElementById(
+        "rutaDestino"
+      )
+      .value.trim(),
+
+      precio:
+      Number(
+        document
+        .getElementById(
+          "rutaPrecio"
+        )
+        .value
+      ),
+
+      distancia:
+      document
+      .getElementById(
+        "rutaDistancia"
+      )
+      .value.trim(),
+
+      duracion:
+      document
+      .getElementById(
+        "rutaDuracion"
+      )
+      .value.trim(),
+
+      estado:
+      document
+      .getElementById(
+        "rutaEstado"
+      )
+      .value
+
+    });
+
+
+    guardarDatos();
+
+
+    this.reset();
+
+
+    cerrarModal(
+      "modalRuta"
+    );
+
+
+    renderRutas();
+
+
+    mostrarAlerta(
+      "Nueva ruta guardada."
+    );
+
+  }
+);
+
+
+/* =========================================================
+   ALERTA
+========================================================= */
+
+function mostrarAlerta(
+  texto
+){
+
+  const alerta =
+  document.getElementById(
+    "alerta"
+  );
+
+
+  alerta.textContent =
+  texto;
+
+
+  alerta.classList.add(
+    "visible"
+  );
+
+
+  setTimeout(
+    () => {
+
+      alerta.classList.remove(
+        "visible"
+      );
+
+    },
+    2500
+  );
+
+}
+
+
+/* =========================================================
+   RENDER GENERAL
+========================================================= */
+
+function renderTodo(){
+
+  renderDashboard();
+
+  renderAgenda();
+
+  renderHistorial();
+
+  renderReservas();
+
+  renderRutas();
+
+  renderVehiculos();
+
+  renderTours();
+
+  cargarConfiguracion();
+
+}
+
+
+/* =========================================================
+   INICIO
+========================================================= */
+
+const hoy =
+fechaLocal();
+
+
+document
+.getElementById(
+  "rFecha"
+)
+.min =
+hoy;
+
+
+renderTodo();
+
+</script>
+
+
+</body>
+</html>
