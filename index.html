@@ -1402,109 +1402,64 @@ textarea:focus{
    9. TOURS
 ========================================================= */
 
-.tours{
-  background:white;
-}
-
-.tours-grid{
-  display:grid;
-
-  grid-template-columns:repeat(3,minmax(0,1fr));
-
-  gap:19px;
-}
-
-.tour{
-  overflow:hidden;
-
-  border:1px solid var(--borde);
-
-  border-radius:22px;
-
-  background:white;
-
-  box-shadow:
-  0 12px 32px rgba(4,42,52,.08);
-}
-
 .tour-photo{
   position:relative;
 
-  height:230px;
+  height:250px;
+
+  overflow:hidden;
 
   background-size:cover;
+
   background-position:center;
+
+  background-repeat:no-repeat;
 }
+
+
+/* DIFUMINADO PARA PODER LEER EL NOMBRE */
 
 .tour-photo::after{
   content:"";
 
   position:absolute;
+
   inset:0;
 
   background:
   linear-gradient(
-    transparent 34%,
-    rgba(3,31,39,.86)
+    180deg,
+    rgba(0,0,0,0) 35%,
+    rgba(3,31,39,.12) 55%,
+    rgba(3,31,39,.90) 100%
   );
 }
+
+
+/* NOMBRE SOBRE LA FOTO */
 
 .tour-photo h3{
   position:absolute;
 
   z-index:2;
 
-  left:18px;
-  bottom:16px;
+  left:20px;
+
+  bottom:18px;
+
+  margin:0;
 
   color:white;
 
-  font-size:25px;
-}
-
-.city{
-  background-image:
-  url("https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?auto=format&fit=crop&w=900&q=80");
-}
-
-.saona{
-  background-image:
-  url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80");
-}
-
-.buggies{
-  background-image:
-  url("https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=900&q=80");
-}
-
-.tour-body{
-  padding:19px;
-}
-
-.tour-body p{
-  min-height:69px;
-
-  margin-bottom:13px;
-
-  color:var(--gris);
-
-  font-size:14px;
-}
-
-.btn-tour{
-  width:100%;
-
-  padding:11px;
-
-  border:none;
-
-  border-radius:11px;
-
-  color:white;
-  background:var(--verde);
+  font-size:27px;
 
   font-weight:900;
+
+  text-shadow:
+  0 3px 10px
+  rgba(0,0,0,.35);
 }
+
 
 
 /* =========================================================
