@@ -1,167 +1,6735 @@
-JG
-José García
-ES 
-EN
-☰
-🇩🇴 Transporte privado en República Dominicana
-Tú eliges el destino. Nosotros hacemos fácil el camino.
-Traslados privados a aeropuertos, hoteles, ciudades y destinos turísticos. Reserva fácil, atención personalizada y pago al finalizar.
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
 
-✓
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#062f3d">
+
+<title>José García | Traslados Privados República Dominicana</title>
+
+<meta
+name="description"
+content="Traslados privados desde y hacia aeropuertos, hoteles, ciudades y destinos de República Dominicana. Cotiza y reserva tu transporte privado."
+>
+
+<meta name="robots" content="index,follow">
+
+<link
+rel="canonical"
+href="https://licjosemanuel1990-lang.github.io/jose-garcia-transfers/"
+>
+
+<meta property="og:title"
+content="José García | Private Transfers Dominican Republic">
+
+<meta property="og:description"
+content="Traslados privados, transporte nacional y experiencias en República Dominicana.">
+
+<meta property="og:type" content="website">
+
+<meta
+property="og:url"
+content="https://licjosemanuel1990-lang.github.io/jose-garcia-transfers/"
+>
+
+<style>
+
+/* =========================================================
+   1. VARIABLES GENERALES
+========================================================= */
+
+:root{
+  --verde:#062f3d;
+  --verde2:#0a5060;
+  --turquesa:#08a7a8;
+  --turquesa2:#25c3bd;
+  --dorado:#e1ad43;
+  --dorado2:#f4cf7a;
+  --blanco:#ffffff;
+  --fondo:#f5f8f8;
+  --texto:#16252b;
+  --gris:#68777d;
+  --borde:#dfe7e8;
+  --wa:#25d366;
+  --sombra:0 18px 50px rgba(4,42,52,.13);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:
+  Inter,
+  system-ui,
+  -apple-system,
+  BlinkMacSystemFont,
+  "Segoe UI",
+  Arial,
+  sans-serif;
+
+  background:var(--fondo);
+  color:var(--texto);
+  line-height:1.55;
+}
+
+body.modal-abierto{
+  overflow:hidden;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+img{
+  max-width:100%;
+}
+
+.container{
+  width:min(1180px,92%);
+  margin:auto;
+}
+
+
+/* =========================================================
+   2. HEADER
+========================================================= */
+
+.header{
+  position:sticky;
+  top:0;
+  z-index:500;
+
+  background:rgba(255,255,255,.96);
+
+  backdrop-filter:blur(15px);
+
+  border-bottom:1px solid rgba(0,0,0,.06);
+}
+
+.navbar{
+  min-height:84px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:18px;
+}
+
+.marca{
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  flex-shrink:0;
+}
+
+.logo-contenedor{
+  width:67px;
+  height:67px;
+
+  border-radius:50%;
+
+  overflow:hidden;
+
+  display:grid;
+  place-items:center;
+
+  background:white;
+
+  border:2px solid var(--dorado);
+
+  box-shadow:
+  0 6px 18px rgba(0,0,0,.15);
+}
+
+.logo-contenedor img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.logo-fallback{
+  width:100%;
+  height:100%;
+
+  display:none;
+
+  place-items:center;
+
+  color:white;
+  background:var(--verde);
+
+  font-weight:900;
+  font-size:20px;
+}
+
+.marca-texto strong{
+  display:block;
+
+  color:var(--verde);
+
+  font-size:20px;
+  line-height:1.1;
+}
+
+.marca-texto span{
+  display:block;
+
+  margin-top:3px;
+
+  color:var(--gris);
+
+  font-size:11px;
+  font-weight:700;
+}
+
+.menu{
+  display:flex;
+  align-items:center;
+
+  gap:18px;
+
+  font-size:13px;
+  font-weight:850;
+}
+
+.menu a{
+  position:relative;
+  padding:8px 0;
+}
+
+.menu a::after{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  right:100%;
+  bottom:2px;
+
+  height:2px;
+
+  background:var(--dorado);
+
+  transition:.2s;
+}
+
+.menu a:hover::after{
+  right:0;
+}
+
+.idiomas{
+  display:flex;
+  gap:4px;
+}
+
+.btn-idioma{
+  border:1px solid var(--borde);
+
+  background:white;
+  color:var(--verde);
+
+  border-radius:50px;
+
+  padding:7px 9px;
+
+  font-size:12px;
+  font-weight:900;
+}
+
+.btn-idioma.activo{
+  color:white;
+  background:var(--verde);
+}
+
+.header-wa{
+  padding:11px 16px;
+
+  border-radius:50px;
+
+  color:#05351e;
+  background:var(--wa);
+
+  font-size:13px;
+  font-weight:950;
+
+  white-space:nowrap;
+}
+
+.menu-movil{
+  display:none;
+
+  width:44px;
+  height:44px;
+
+  border:none;
+  border-radius:12px;
+
+  color:white;
+  background:var(--verde);
+
+  font-size:20px;
+}
+
+
+/* =========================================================
+   3.  / PORTADA
+========================================================= */
+
+.hero{
+  position:relative;
+
+  min-height:690px;
+
+  display:flex;
+  align-items:center;
+
+  overflow:hidden;
+
+  color:white;
+
+  background-image:
+  linear-gradient(
+    90deg,
+    rgba(3,28,37,.94) 0%,
+    rgba(4,45,54,.80) 38%,
+    rgba(4,45,54,.34) 67%,
+    rgba(4,45,54,.16) 100%
+  ),
+  url(MONTESINO.jpg);
+
+  background-size:cover;
+  background-position:center;
+}
+
+.hero::before{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  background:
+  radial-gradient(
+    circle at 86% 12%,
+    rgba(244,207,122,.22),
+    transparent 24%
+  );
+
+  pointer-events:none;
+}
+
+.hero-grid{
+  position:relative;
+  z-index:2;
+
+  display:grid;
+
+  grid-template-columns:
+  minmax(0,.92fr)
+  minmax(430px,1.08fr);
+
+  gap:48px;
+
+  align-items:center;
+
+  padding:60px 0;
+}
+
+.hero-copy{
+  max-width:610px;
+}
+
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+
+  gap:8px;
+
+  padding:8px 13px;
+
+  margin-bottom:19px;
+
+  border:1px solid rgba(255,255,255,.28);
+
+  border-radius:50px;
+
+  background:rgba(255,255,255,.08);
+
+  backdrop-filter:blur(8px);
+
+  font-size:15px;
+  font-weight:800;
+}
+
+.hero h1{
+  max-width:670px;
+
+  margin-bottom:20px;
+
+  font-size:clamp(42px,6vw,74px);
+  line-height:.98;
+
+  letter-spacing:-2px;
+
+  text-shadow:
+  0 7px 25px rgba(0,0,0,.3);
+}
+
+.hero-copy > p{
+  max-width:590px;
+
+  margin-bottom:27px;
+
+  color:rgba(255,255,255,.88);
+
+  font-size:18px;
+}
+
+.hero-beneficios{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+
+  gap:11px;
+}
+
+.hero-beneficio{
+  display:flex;
+  align-items:center;
+
+  gap:9px;
+
+  font-weight:750;
+  font-size:14px;
+}
+
+.check{
+  width:23px;
+  height:23px;
+
+  min-width:23px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:50%;
+
+  color:var(--verde);
+  background:var(--dorado2);
+
+  font-size:12px;
+  font-weight:950;
+}
+
+
+/* =========================================================
+   4. COTIZADOR
+========================================================= */
+
+.cotizador{
+  padding:27px;
+
+  border-radius:27px;
+
+  color:var(--texto);
+  background:rgba(255,255,255,.97);
+
+  box-shadow:
+  0 30px 75px rgba(0,0,0,.30);
+}
+
+.cotizador-titulo{
+  margin-bottom:19px;
+}
+
+.cotizador h2{
+  color:var(--verde);
+
+  font-size:29px;
+  line-height:1.1;
+}
+
+.cotizador-titulo p{
+  margin-top:5px;
+
+  color:var(--gris);
+
+  font-size:14px;
+}
+
+.form-grid{
+  display:grid;
+
+  grid-template-columns:repeat(2,minmax(0,1fr));
+
+  gap:13px;
+}
+
+.campo-completo{
+  grid-column:1/-1;
+}
+
+label{
+  display:block;
+
+  margin-bottom:5px;
+
+  color:#34464b;
+
+  font-size:12px;
+  font-weight:900;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+
+  padding:11px 12px;
+
+  border:1px solid #d6dfe1;
+
+  border-radius:11px;
+
+  color:var(--texto);
+  background:white;
+
+  outline:none;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:var(--turquesa);
+
+  box-shadow:
+  0 0 0 3px rgba(8,167,168,.11);
+}
+
+.tipo-viaje{
+  display:grid;
+
+  grid-template-columns:repeat(2,1fr);
+
+  gap:7px;
+}
+
+.tipo-viaje label{
+  margin:0;
+}
+
+.tipo-opcion{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  gap:5px;
+
+  padding:10px 8px;
+
+  border:1px solid var(--borde);
+
+  border-radius:11px;
+}
+
+.tipo-opcion input{
+  width:auto;
+}
+
+.necesidades{
+  padding:13px;
+
+  border:1px solid var(--borde);
+
+  border-radius:13px;
+
+  background:#f8fbfb;
+}
+
+.necesidades-lista{
+  display:flex;
+  flex-wrap:wrap;
+
+  gap:7px;
+
+  margin-top:8px;
+}
+
+.necesidad{
+  display:flex;
+  align-items:center;
+
+  gap:5px;
+
+  padding:7px 9px;
+
+  border:1px solid #dce5e5;
+
+  border-radius:50px;
+
+  background:white;
+
+  font-size:12px;
+  font-weight:700;
+}
+
+.necesidad input{
+  width:auto;
+}
+
+.btn-cotizar{
+  width:100%;
+
+  padding:14px;
+
+  border:none;
+
+  border-radius:12px;
+
+  color:#172329;
+
+  background:
+  linear-gradient(
+    135deg,
+    var(--dorado),
+    var(--dorado2)
+  );
+
+  box-shadow:
+  0 10px 25px rgba(225,173,67,.25);
+
+  font-size:14px;
+  font-weight:950;
+}
+
+.btn-cotizar:hover{
+  transform:translateY(-1px);
+}
+
+
+/* =========================================================
+   5. RESULTADO DE COTIZACION
+========================================================= */
+
+.resultado{
+  display:none;
+
+  margin-top:18px;
+  padding:17px;
+
+  border:1px solid #d7e5e6;
+
+  border-radius:17px;
+
+  background:
+  linear-gradient(
+    145deg,
+    #f3fbfb,
+    white
+  );
+}
+
+.resultado.visible{
+  display:block;
+}
+
+.resultado-superior{
+  display:flex;
+
+  align-items:flex-start;
+  justify-content:space-between;
+
+  gap:18px;
+}
+
+.resultado-ruta{
+  color:var(--verde);
+
+  font-size:16px;
+  font-weight:950;
+}
+
+.resultado-meta{
+  margin-top:3px;
+
+  color:var(--gris);
+
+  font-size:13px;
+}
+
+.resultado-precio{
+  text-align:right;
+}
+
+.precio-usd{
+  color:var(--verde);
+
+  font-size:32px;
+  line-height:1;
+
+  font-weight:950;
+}
+
+.precio-rd{
+  margin-top:4px;
+
+  color:var(--gris);
+
+  font-size:13px;
+  font-weight:800;
+}
+
+.resultado-caja{
+  margin-top:11px;
+  padding:11px;
+
+  border:1px solid var(--borde);
+
+  border-radius:11px;
+
+  background:white;
+
+  font-size:13px;
+}
+
+.resultado-caja strong{
+  color:var(--verde);
+}
+
+.resultado-acciones{
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  gap:8px;
+
+  margin-top:13px;
+}
+
+.btn-reservar,
+.btn-whatsapp{
+  padding:12px;
+
+  border:none;
+  border-radius:11px;
+
+  text-align:center;
+
+  font-size:13px;
+  font-weight:950;
+}
+
+.btn-reservar{
+  color:white;
+  background:var(--verde);
+}
+
+.btn-whatsapp{
+  color:#06371f;
+  background:var(--wa);
+}
+
+.cotizacion-manual{
+  display:none;
+
+  margin-top:18px;
+  padding:16px;
+
+  border:1px solid #ead8bb;
+
+  border-radius:15px;
+
+  background:#fff9ef;
+}
+
+.cotizacion-manual.visible{
+  display:block;
+}
+
+.cotizacion-manual strong{
+  color:var(--verde);
+}
+
+.cotizacion-manual p{
+  margin:5px 0 12px;
+
+  color:var(--gris);
+
+  font-size:13px;
+}
+
+
+/* =========================================================
+   6. SECCIONES GENERALES
+========================================================= */
+
+.section{
+  padding:76px 0;
+}
+
+.section-title{
+  max-width:780px;
+
+  margin-bottom:32px;
+}
+
+.kicker{
+  color:var(--dorado);
+
+  text-transform:uppercase;
+
+  letter-spacing:1.4px;
+
+  font-size:11px;
+  font-weight:950;
+}
+
+.section-title h2{
+  margin:7px 0 11px;
+
+  color:var(--verde);
+
+  font-size:clamp(31px,5vw,48px);
+  line-height:1.08;
+}
+
+.section-title p{
+  color:var(--gris);
+
+  font-size:16px;
+}
+
+
+/* =========================================================
+   7. SERVICIOS
+========================================================= */
+
+.servicios{
+  background:white;
+}
+
+.servicios-grid{
+  display:grid;
+
+  grid-template-columns:repeat(3,minmax(0,1fr));
+
+  gap:19px;
+}
+
+.servicio{
+  position:relative;
+
+  overflow:hidden;
+
+  min-height:300px;
+
+  padding:26px;
+
+  border:1px solid var(--borde);
+
+  border-radius:21px;
+
+  background:
+  linear-gradient(
+    180deg,
+    white,
+    #f9fbfb
+  );
+
+  box-shadow:
+  0 10px 30px rgba(4,42,52,.06);
+
+  transition:.25s;
+}
+
+.servicio::after{
+  content:"";
+
+  position:absolute;
+
+  right:-70px;
+  bottom:-70px;
+
+  width:170px;
+  height:170px;
+
+  border-radius:50%;
+
+  background:
+  rgba(8,167,168,.06);
+}
+
+.servicio:hover{
+  transform:translateY(-5px);
+
+  box-shadow:var(--sombra);
+}
+
+.servicio-icon{
+  width:58px;
+  height:58px;
+
+  display:grid;
+  place-items:center;
+
+  margin-bottom:19px;
+
+  border-radius:17px;
+
+  color:var(--turquesa);
+
+  background:#eaf8f8;
+}
+
+.servicio-icon svg{
+  width:30px;
+  height:30px;
+
+  fill:none;
+  stroke:currentColor;
+
+  stroke-width:1.8;
+}
+
+.servicio h3{
+  position:relative;
+  z-index:2;
+
+  margin-bottom:9px;
+
+  color:var(--verde);
+
+  font-size:20px;
+  line-height:1.2;
+}
+
+.servicio p{
+  position:relative;
+  z-index:2;
+
+  color:var(--gris);
+}
+
+
+/* =========================================================
+   8. VEHICULOS
+========================================================= */
+
+..vehiculos{
+  overflow:hidden;
+
+  background:
+    linear-gradient(
+      180deg,
+      #eaf5f4 0%,
+      #f7faf9 100%
+    );
+
+  padding-top:20px;
+  padding-bottom:20px;
+}
+
+
+/* TEXTO DE ACLARACIÓN */
+
+.vehiculo-nota{
+  max-width:850px;
+
+  margin-bottom:25px;
+
+  color:var(--gris);
+
+  font-size:13px;
+
+  line-height:1.6;
+}
+
+
+/* =========================================================
+   SLIDER
+========================================================= */
+
+.slider{
+  width:100%;
+
+  overflow:hidden;
+
+  position:relative;
+
+  padding:
+    10px 0
+    30px;
+}
+
+
+.slider-track{
+  display:flex;
+
+  align-items:stretch;
+
+  width:max-content;
+
+  gap:20px;
+
+  padding:
+    8px 0
+    20px;
+
+  animation:
+    moverVehiculos
+    35s
+    linear
+    infinite;
+}
+
+
+/* CUANDO PONES EL MOUSE ENCIMA SE DETIENE */
+
+.slider:hover .slider-track{
+  animation-play-state:paused;
+}
+
+
+/* MOVIMIENTO AUTOMÁTICO */
+
+@keyframes moverVehiculos{
+
+  from{
+    transform:
+      translateX(0);
+  }
+
+  to{
+    transform:
+      translateX(-50%);
+  }
+
+}
+
+
+/* =========================================================
+   TARJETA DE VEHÍCULO
+========================================================= */
+
+.vehicle-card{
+
+  width:310px;
+
+  min-height:315px;
+
+  flex-shrink:0;
+
+  overflow:hidden;
+
+  padding:0;
+
+  border-radius:24px;
+
+  color:#ffffff;
+
+  background:
+    linear-gradient(
+      145deg,
+      #063643,
+      #087c82
+    );
+
+  box-shadow:
+    0 15px 35px
+    rgba(4,42,52,.18);
+
+  transition:
+    transform .30s ease,
+    box-shadow .30s ease;
+}
+
+
+.vehicle-card:hover{
+
+  transform:
+    translateY(-6px);
+
+  box-shadow:
+    0 22px 45px
+    rgba(4,42,52,.28);
+}
+
+
+/* =========================================================
+   ESPACIO DONDE APARECE LA FOTO
+========================================================= */
+
+.vehicle-image{
+
+  width:100%;
+
+  height:205px;
+
+  position:relative;
+
+  display:block;
+
+  overflow:hidden;
+
+  background-color:#eef3f3;
+
+  background-size:cover;
+
+  background-position:center;
+
+  background-repeat:no-repeat;
+}
+
+
+/* QUITAMOS LOS VEHÍCULOS DIBUJADOS ANTERIORES */
+
+.vehicle-image svg{
+  display:none !important;
+}
+
+
+/* =========================================================
+   VEHÍCULO 1
+   CARRO
+========================================================= */
+
+.vehicle-card:nth-child(1) .vehicle-image{
+
+  background-image:
+    url("CARRO.jpeg");
+
+}
+
+
+/* =========================================================
+   VEHÍCULO 2
+   YIPETA / SUV
+========================================================= */
+
+.vehicle-card:nth-child(2) .vehicle-image{
+
+  background-image:
+    url("DE 4 YIPETA.jpeg");
+
+}
+
+
+/* =========================================================
+   VEHÍCULO 3
+   HASTA 7 PASAJEROS
+========================================================= */
+
+.vehicle-card:nth-child(3) .vehicle-image{
+
+  background-image:
+    url("DE 7.jpeg");
+
+}
+
+
+/* =========================================================
+   VEHÍCULO 4
+   HASTA 17 PASAJEROS
+========================================================= */
+
+.vehicle-card:nth-child(4) .vehicle-image{
+
+  background-image:
+    url("DE 17.jpeg");
+
+}
+
+
+/* =========================================================
+   VEHÍCULO 5
+   HASTA 30 PASAJEROS
+========================================================= */
+
+.vehicle-card:nth-child(5) .vehicle-image{
+
+  background-image:
+    url("DE 30.jpeg");
+
+}
+
+
+/* =========================================================
+   VEHÍCULO 6
+   HASTA 60 PASAJEROS
+========================================================= */
+
+.vehicle-card:nth-child(6) .vehicle-image{
+
+  background-image:
+    url("DE 60.jpeg");
+
+}
+
+
+/* =========================================================
+   SI EL SLIDER TIENE LAS TARJETAS REPETIDAS
+   PARA HACER EL MOVIMIENTO INFINITO
+========================================================= */
+
+.vehicle-card:nth-child(7) .vehicle-image{
+
+  background-image:
+    url("CARRO.jpeg");
+
+}
+
+
+.vehicle-card:nth-child(8) .vehicle-image{
+
+  background-image:
+    url("DE 4 YIPETA.jpeg");
+
+}
+
+
+.vehicle-card:nth-child(9) .vehicle-image{
+
+  background-image:
+    url("DE 7.jpeg");
+
+}
+
+
+.vehicle-card:nth-child(10) .vehicle-image{
+
+  background-image:
+    url("DE 17.jpeg");
+
+}
+
+
+.vehicle-card:nth-child(11) .vehicle-image{
+
+  background-image:
+    url("DE 30.jpeg");
+
+}
+
+
+.vehicle-card:nth-child(12) .vehicle-image{
+
+  background-image:
+    url("DE 60.jpeg");
+
+}
+
+
+/* =========================================================
+   EFECTO PROFESIONAL SOBRE LA FOTO
+========================================================= */
+
+.vehicle-image::after{
+
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  right:0;
+  bottom:0;
+
+  height:70px;
+
+  pointer-events:none;
+
+  background:
+    linear-gradient(
+      180deg,
+      transparent,
+      rgba(4,42,52,.40)
+    );
+}
+
+
+/* =========================================================
+   NOMBRE DEL VEHÍCULO
+========================================================= */
+
+.vehicle-card h3{
+
+  margin:
+    17px
+    18px
+    5px;
+
+  color:#ffffff;
+
+  font-size:20px;
+
+  font-weight:800;
+
+  line-height:1.2;
+}
+
+
+/* =========================================================
+   DESCRIPCIÓN
+========================================================= */
+
+.vehicle-card p{
+
+  margin:
+    0
+    18px
+    20px;
+
+  color:
+    rgba(255,255,255,.82);
+
+  font-size:13px;
+
+  line-height:1.5;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media(max-width:900px){
+
+  .vehicle-card{
+
+    width:290px;
+
+    min-height:300px;
+  }
+
+
+  .vehicle-image{
+
+    height:190px;
+  }
+
+}
+
+
+/* =========================================================
+   CELULAR
+========================================================= */
+
+@media(max-width:600px){
+
+  .vehiculos{
+
+    padding-top:10px;
+
+    padding-bottom:10px;
+  }
+
+
+  .slider{
+
+    padding-bottom:20px;
+  }
+
+
+  .slider-track{
+
+    gap:14px;
+
+    animation-duration:30s;
+  }
+
+
+  .vehicle-card{
+
+    width:270px;
+
+    min-height:285px;
+
+    border-radius:20px;
+  }
+
+
+  .vehicle-image{
+
+    height:175px;
+  }
+
+
+  .vehicle-card h3{
+
+    margin:
+      15px
+      16px
+      5px;
+
+    font-size:18px;
+  }
+
+
+  .vehicle-card p{
+
+    margin:
+      0
+      16px
+      17px;
+
+    font-size:12px;
+  }
+}
+/* =========================================================
+   10. CONFIANZA
+========================================================= */
+
+.confianza{
+  color:white;
+
+  background:
+  linear-gradient(
+    120deg,
+    #052f3d,
+    #08787d
+  );
+}
+
+.confianza-grid{
+  display:grid;
+
+  grid-template-columns:.9fr 1.1fr;
+
+  gap:48px;
+
+  align-items:center;
+}
+
+.confianza .section-title{
+  margin:0;
+}
+
+.confianza .section-title h2{
+  color:white;
+}
+
+.confianza .section-title p{
+  color:rgba(255,255,255,.76);
+}
+
+.confianza-cards{
+  display:grid;
+
+  grid-template-columns:repeat(2,1fr);
+
+  gap:12px;
+}
+
+.confianza-card{
+  padding:17px;
+
+  border:1px solid rgba(255,255,255,.16);
+
+  border-radius:16px;
+
+  background:rgba(255,255,255,.09);
+}
+
+.confianza-card strong{
+  display:block;
+
+  margin-bottom:3px;
+}
+
+.confianza-card span{
+  color:rgba(255,255,255,.76);
+
+  font-size:13px;
+}
+
+
+/* =========================================================
+   11. CONTACTO
+========================================================= */
+
+.contacto{
+  background:white;
+}
+
+.contact-card{
+  display:grid;
+
+  grid-template-columns:1fr auto;
+
+  gap:20px;
+
+  align-items:center;
+
+  padding:32px;
+
+  border-radius:25px;
+
+  color:white;
+
+  background:
+  linear-gradient(
+    135deg,
+    var(--verde),
+    var(--verde2)
+  );
+
+  box-shadow:var(--sombra);
+}
+
+.contact-card h2{
+  font-size:clamp(28px,4vw,42px);
+}
+
+.contact-card p{
+  margin-top:5px;
+
+  color:rgba(255,255,255,.75);
+}
+
+.contact-card a{
+  padding:14px 21px;
+
+  border-radius:50px;
+
+  color:#05371f;
+  background:var(--wa);
+
+  font-weight:950;
+
+  text-align:center;
+}
+
+
+/* =========================================================
+   12. FOOTER
+========================================================= */
+
+.footer{
+  padding:42px 0 23px;
+
+  color:white;
+  background:#031a21;
+}
+
+.footer-grid{
+  display:grid;
+
+  grid-template-columns:1.3fr 1fr 1fr;
+
+  gap:28px;
+}
+
+.footer h3,
+.footer h4{
+  margin-bottom:9px;
+}
+
+.footer p,
+.footer a{
+  color:rgba(255,255,255,.66);
+
+  font-size:13px;
+}
+
+.footer p{
+  margin-bottom:5px;
+}
+
+.sociales{
+  display:flex;
+  flex-wrap:wrap;
+
+  gap:7px;
+
+  margin-top:12px;
+}
+
+.social{
+  display:none;
+
+  padding:7px 9px;
+
+  border:1px solid rgba(255,255,255,.14);
+
+  border-radius:50px;
+}
+
+.copyright{
+  margin-top:27px;
+  padding-top:18px;
+
+  border-top:
+  1px solid rgba(255,255,255,.09);
+
+  color:rgba(255,255,255,.42);
+
+  font-size:12px;
+}
+
+
+/* =========================================================
+   13. WHATSAPP FLOTANTE
+========================================================= */
+
+.floating-wa{
+  position:fixed;
+
+  right:18px;
+  bottom:18px;
+
+  z-index:700;
+
+  width:58px;
+  height:58px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:50%;
+
+  color:white;
+  background:var(--wa);
+
+  box-shadow:
+  0 12px 30px rgba(0,0,0,.24);
+
+  font-size:25px;
+}
+
+
+/* =========================================================
+   14. MODALES
+========================================================= */
+
+.modal{
+  display:none;
+
+  position:fixed;
+
+  z-index:1000;
+  inset:0;
+
+  padding:20px;
+
+  align-items:center;
+  justify-content:center;
+
+  background:
+  rgba(2,18,23,.77);
+
+  backdrop-filter:blur(8px);
+}
+
+.modal.activo{
+  display:flex;
+}
+
+.modal-box{
+  width:min(760px,100%);
+
+  max-height:92vh;
+
+  overflow:auto;
+
+  padding:26px;
+
+  border-radius:23px;
+
+  background:white;
+
+  box-shadow:
+  0 35px 90px rgba(0,0,0,.38);
+}
+
+.modal-top{
+  display:flex;
+
+  align-items:flex-start;
+  justify-content:space-between;
+
+  gap:18px;
+
+  margin-bottom:18px;
+}
+
+.modal-top h2{
+  color:var(--verde);
+
+  font-size:27px;
+}
+
+.modal-top p{
+  margin-top:4px;
+
+  color:var(--gris);
+
+  font-size:13px;
+}
+
+.close{
+  width:39px;
+  height:39px;
+
+  flex-shrink:0;
+
+  border:none;
+  border-radius:50%;
+
+  background:#edf2f2;
+
+  font-size:20px;
+}
+
+.resumen{
+  margin-bottom:16px;
+  padding:13px;
+
+  border:1px solid #d9e5e5;
+
+  border-radius:13px;
+
+  background:#f5faf9;
+
+  font-size:13px;
+}
+
+
+/* =========================================================
+   15. RESPONSIVE TABLET
+========================================================= */
+
+@media(max-width:1050px){
+
+  .menu{
+    display:none;
+
+    position:absolute;
+
+    top:84px;
+    left:4%;
+    right:4%;
+
+    padding:19px;
+
+    flex-direction:column;
+    align-items:stretch;
+
+    border:1px solid var(--borde);
+
+    border-radius:17px;
+
+    background:white;
+
+    box-shadow:var(--sombra);
+  }
+
+  .menu.abierto{
+    display:flex;
+  }
+
+  .menu-movil{
+    display:block;
+  }
+
+  .hero-grid{
+    grid-template-columns:
+    minmax(0,1fr)
+    minmax(390px,1fr);
+
+    gap:25px;
+  }
+
+  .servicios-grid,
+  .tours-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .confianza-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+
+/* =========================================================
+   16. RESPONSIVE MOVIL
+========================================================= */
+
+@media(max-width:740px){
+
+  .navbar{
+    min-height:70px;
+  }
+
+  .logo-contenedor{
+    width:49px;
+    height:49px;
+  }
+
+  .marca-texto strong{
+    font-size:17px;
+  }
+
+  .marca-texto span{
+    display:none;
+  }
+
+  .header-wa{
+    display:none;
+  }
+
+  .idiomas{
+    margin-left:auto;
+  }
+
+  .menu{
+    top:70px;
+  }
+
+  .hero{
+    min-height:auto;
+
+    background-position:
+    60% center;
+  }
+
+  .hero-grid{
+    grid-template-columns:1fr;
+
+    padding:43px 0;
+  }
+
+  .hero h1{
+    font-size:clamp(40px,12vw,55px);
+  }
+
+  .hero-beneficios{
+    grid-template-columns:1fr;
+  }
+
+  .cotizador{
+    padding:18px;
+
+    border-radius:21px;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .campo-completo{
+    grid-column:auto;
+  }
+
+  .resultado-superior{
+    flex-direction:column;
+  }
+
+  .resultado-precio{
+    text-align:left;
+  }
+
+  .precio-rd{
+    text-align:left;
+  }
+
+  .resultado-acciones{
+    grid-template-columns:1fr;
+  }
+
+  .servicios-grid,
+  .tours-grid{
+    grid-template-columns:1fr;
+  }
+
+  .confianza-cards{
+    grid-template-columns:1fr;
+  }
+
+  .contact-card{
+    grid-template-columns:1fr;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .vehicle-card{
+    width:270px;
+  }
+
+  .modal-box{
+    padding:18px;
+  }
+
+}
+/* =========================================================
+   POR QUÉ ELEGIRNOS - 3 TARJETAS PREMIUM
+========================================================= */
+
+.servicios-premium{
+  padding:76px 0;
+  background:#ffffff;
+}
+
+.servicios-premium .section-title{
+  max-width:780px;
+  margin-bottom:36px;
+}
+
+.servicios-premium .servicios-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:22px;
+}
+
+/* TARJETAS */
+
+.servicios-premium .servicio{
+  position:relative;
+  min-height:290px;
+  padding:28px;
+  overflow:hidden;
+
+  border:1px solid #dfe8e9;
+  border-radius:24px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff 0%,
+      #f4faf9 100%
+    );
+
+  box-shadow:
+    0 14px 35px rgba(6,47,61,.09);
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
+
+.servicios-premium .servicio:hover{
+  transform:translateY(-6px);
+  border-color:#c5dedf;
+
+  box-shadow:
+    0 22px 48px rgba(6,47,61,.15);
+}
+
+/* DECORACIÓN */
+
+.servicios-premium .servicio::after{
+  content:"";
+  position:absolute;
+
+  width:160px;
+  height:160px;
+
+  right:-80px;
+  bottom:-80px;
+
+  border-radius:50%;
+
+  background:rgba(8,125,131,.06);
+}
+
+/* ICONO */
+
+.servicios-premium .servicio-icon{
+  position:relative;
+  z-index:2;
+
+  width:64px;
+  height:64px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  margin-bottom:24px;
+
+  border-radius:18px;
+
+  color:#087d83;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ddf4f3,
+      #effafa
+    );
+
+  box-shadow:
+    0 8px 20px rgba(8,125,131,.10);
+}
+
+.servicios-premium .servicio-icon svg{
+  width:31px;
+  height:31px;
+
+  fill:none;
+  stroke:currentColor;
+
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+/* NÚMERO 01 - 02 - 03 */
+
+.servicios-premium .servicio-num{
+  position:absolute;
+
+  top:27px;
+  right:27px;
+
+  color:rgba(6,47,61,.18);
+
+  font-size:26px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+/* TÍTULO */
+
+.servicios-premium .servicio h3{
+  position:relative;
+  z-index:2;
+
+  margin:0 0 12px;
+
+  color:#062f3d;
+
+  font-size:21px;
+  line-height:1.25;
+
+  font-weight:900;
+}
+
+/* TEXTO */
+
+.servicios-premium .servicio p{
+  position:relative;
+  z-index:2;
+
+  margin:0;
+
+  color:#68777d;
+
+  font-size:14px;
+  line-height:1.65;
+}
+
+/* PEQUEÑA LÍNEA DORADA */
+
+.servicios-premium .servicio::before{
+  content:"";
+
+  position:absolute;
+
+  left:28px;
+  bottom:22px;
+
+  width:42px;
+  height:3px;
+
+  border-radius:10px;
+
+  background:#e5b735;
+}
+
+/* TABLET */
+
+@media(max-width:900px){
+
+  .servicios-premium .servicios-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .servicios-premium .servicio:last-child{
+    grid-column:1/-1;
+  }
+
+}
+
+/* CELULAR */
+
+@media(max-width:650px){
+
+  .servicios-premium{
+    padding:55px 0;
+  }
+
+  .servicios-premium .servicios-grid{
+    grid-template-columns:1fr;
+    gap:16px;
+  }
+
+  .servicios-premium .servicio:last-child{
+    grid-column:auto;
+  }
+
+  .servicios-premium .servicio{
+    min-height:260px;
+    padding:24px;
+  }
+
+  .servicios-premium .servicio-num{
+    top:23px;
+    right:23px;
+  }
+
+}
+
+
+#contacto{
+  display:none !important;
+}
+
+/* OCULTAR MODALES HASTA QUE SE ABRAN */
+
+/* CIERRE DEFINITIVO DE LA PAGINA */
+
+footer.footer ~ *:not(script):not(.floating-wa){
+  display:none !important;
+}
+
+#bookingModal,
+#tourModal,
+.modal{
+  display:none !important;
+}
+
+#bookingModal.activo,
+#tourModal.activo,
+.modal.activo{
+    display:flex !important;
+}
+</style>
+
+
+<!-- =========================================================
+     DATOS ESTRUCTURADOS PARA GOOGLE
+========================================================= -->
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"TransportationService",
+  "name":"José García",
+  "description":"Traslados privados y transporte turístico en República Dominicana.",
+  "areaServed":{
+    "@type":"Country",
+    "name":"República Dominicana"
+  },
+  "telephone":"+1-829-818-2426",
+  "address":{
+    "@type":"PostalAddress",
+    "addressLocality":"Boca Chica",
+    "addressCountry":"DO"
+  }
+}
+</script>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="header">
+
+<div class="container navbar">
+
+
+<a href="#inicio" class="marca">
+
+  <div class="logo-contenedor">
+
+    <img
+      id="logoReal"
+      src="logo-jose-garcia.png"
+      alt="José García Transporte"
+    >
+
+    <div
+      class="logo-fallback"
+      id="logoFallback"
+    >
+      JG
+    </div>
+
+  </div>
+
+
+  <div class="marca-texto">
+
+    <strong>
+      José García
+    </strong>
+
+    <span>
+      Private Transfers & Transportation
+    </span>
+
+  </div>
+
+</a>
+
+
+<nav class="menu" id="menu">
+
+<a
+  href="#inicio"
+  data-es="Inicio"
+  data-en="Home">
+Inicio
+</a>
+
+<a
+  href="#cotizar"
+  data-es="Cotizar"
+  data-en="Quote">
+Cotizar
+</a>
+
+<a
+  href="#servicios"
+  data-es="Servicios"
+  data-en="Services">
+Servicios
+</a>
+
+<a
+  href="#vehiculos"
+  data-es="Vehículos"
+  data-en="Vehicles">
+Vehículos
+</a>
+
+<a href="#tours">
+Tours
+</a>
+
+<a
+  href="#nosotros"
+  data-es="Por qué elegirnos"
+  data-en="Why us">
+Por qué elegirnos
+</a>
+
+<a
+  href="#contacto"
+  data-es="Contacto"
+  data-en="Contact">
+Contacto
+</a>
+
+</nav>
+
+
+<div class="idiomas">
+
+<button
+  class="btn-idioma activo"
+  id="esBtn"
+  type="button">
+ES
+</button>
+
+<button
+  class="btn-idioma"
+  id="enBtn"
+  type="button">
+EN
+</button>
+
+</div>
+
+
+<a
+  href="https://wa.me/18298182426"
+  target="_blank"
+  class="header-wa">
+WhatsApp
+</a>
+
+
+<button
+  class="menu-movil"
+  id="menuBtn"
+  type="button"
+  aria-label="Abrir menú">
+☰
+</button>
+
+</div>
+
+</header>
+
+
+<main>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="hero" id="inicio">
+
+<div class="container hero-grid">
+
+
+<div class="hero-copy">
+
+<div
+  class="eyebrow"
+  data-es="🇩🇴 Transporte privado en República Dominicana"
+  data-en="🇩🇴 Private transportation in the Dominican Republic">
+
+🇩🇴 Transporte privado en República Dominicana
+
+</div>
+
+
+<h1
+    data-es="Tú eliges el destino. Nosotros hacemos fácil el camino."
+    data-en="You choose the destination. We make the journey easy.">
+    Tú eliges el destino. Nosotros hacemos fácil el camino.
+</h1>
+
+
+<p
+    data-es="Traslados privados a aeropuertos, hoteles, ciudades y destinos turísticos. Reserva fácil, atención personalizada y pago al finalizar."
+    data-en="Private transfers to airports, hotels, cities and tourist destinations. Easy booking, personalized service and payment at the end.">
+    Traslados privados a aeropuertos, hoteles, ciudades y destinos turísticos. Reserva fácil, atención personalizada y pago al finalizar.
+</p>
+
+
+<div class="hero-beneficios">
+
+
+<div class="hero-beneficio">
+
+<span class="check">✓</span>
+
+<span
+  data-es="Servicio privado"
+  data-en="Private service">
+
 Servicio privado
-✓
+
+</span>
+
+</div>
+
+
+<div class="hero-beneficio">
+
+<span class="check">✓</span>
+
+<span
+  data-es="Pago al finalizar"
+  data-en="Pay after service">
+
 Pago al finalizar
-✓
+
+</span>
+
+</div>
+
+
+<div class="hero-beneficio">
+
+<span class="check">✓</span>
+
+<span
+  data-es="Sin depósito previo"
+  data-en="No advance deposit">
+
 Sin depósito previo
-✓
+
+</span>
+
+</div>
+
+
+<div class="hero-beneficio">
+
+<span class="check">✓</span>
+
+<span
+  data-es="Atención por WhatsApp"
+  data-en="WhatsApp assistance">
+
 Atención por WhatsApp
+
+</span>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- =========================================================
+     COTIZADOR
+========================================================= -->
+
+<div class="cotizador" id="cotizar">
+
+
+<div class="cotizador-titulo">
+
+<h2
+  data-es="Cotiza tu traslado"
+  data-en="Get your transfer quote">
+
 Cotiza tu traslado
+
+</h2>
+
+<p
+  data-es="Selecciona la ruta y los datos principales del viaje."
+  data-en="Select your route and main trip details.">
+
 Selecciona la ruta y los datos principales del viaje.
 
+</p>
+
+</div>
+
+
+<form id="quoteForm">
+
+
+<div class="form-grid">
+
+
+<div>
+
+<label
+  for="origin"
+  data-es="Origen"
+  data-en="Pickup location">
+
 Origen
-Escribe o selecciona un origen
-Destino
-Escribe o selecciona un destino
+
+</label>
+
+<input
+  id="origin"
+  list="locationOptions"
+  required
+  autocomplete="off"
+  placeholder="Escribe o selecciona un origen"
+  onfocus="if(this.showPicker) this.showPicker()"
+  onclick="if(this.showPicker) this.showPicker()"
+  oninput="if(this.showPicker) this.showPicker()">
+</div>
+<datalist id="locationOptions"></datalist>
+
+<div>
+
+    <label
+        for="destination"
+        data-es="Destino"
+        data-en="Destination">
+        Destino
+    </label>
+
+    <input
+        id="destination"
+        list="locationOptions"
+        required
+        autocomplete="off"
+        placeholder="Escribe o selecciona un destino">
+
+</div>
+
+
+<div>
+
+<label
+  for="date"
+  data-es="Fecha"
+  data-en="Date">
+
 Fecha
 
-dd/mm/aaaa
+</label>
+
+<input
+  id="date"
+  type="date"
+  required
+>
+
+</div>
+
+
+<div>
+
+<label
+  for="time"
+  data-es="Hora de recogida"
+  data-en="Pickup time">
+
 Hora de recogida
 
---:-- -----
+</label>
+
+<input
+  id="time"
+  type="time"
+  required
+>
+
+</div>
+
+
+<div>
+
+<label
+  for="passengers"
+  data-es="Pasajeros"
+  data-en="Passengers">
+
 Pasajeros
-2
+
+</label>
+
+<input
+  id="passengers"
+  type="number"
+  min="1"
+  max="60"
+  value="2"
+  required
+>
+
+</div>
+
+
+<div>
+
+<label
+  for="largeBags"
+  data-es="Maletas grandes"
+  data-en="Large suitcases">
+
 Maletas grandes
-2
+
+</label>
+
+<input
+  id="largeBags"
+  type="number"
+  min="0"
+  max="60"
+  value="2"
+  required
+>
+
+</div>
+
+
+<div>
+
+<label
+  for="carryOn"
+  data-es="Equipaje de mano"
+  data-en="Carry-on luggage">
+
 Equipaje de mano
-0
+
+</label>
+
+<input
+  id="carryOn"
+  type="number"
+  min="0"
+  max="60"
+  value="0"
+  required
+>
+
+</div>
+
+
+<div>
+
+<label
+  data-es="Tipo de viaje"
+  data-en="Trip type">
+
 Tipo de viaje
+
+</label>
+
+
+<div class="tipo-viaje">
+
+
+<label class="tipo-opcion">
+
+<input
+  type="radio"
+  name="trip"
+  value="oneway"
+  checked
+>
+
+<span
+  data-es="Solo ida"
+  data-en="One way">
 
 Solo ida
 
+</span>
+
+</label>
+
+
+<label class="tipo-opcion">
+
+<input
+  type="radio"
+  name="trip"
+  value="roundtrip"
+>
+
+<span
+  data-es="Ida y vuelta"
+  data-en="Round trip">
+
 Ida y vuelta
+
+</span>
+
+</label>
+
+
+</div>
+
+</div>
+
+
+<div
+  id="returnFields"
+  class="campo-completo"
+  style="display:none">
+
+<div class="form-grid">
+
+
+<div>
+
+<label
+  for="returnDate"
+  data-es="Fecha de regreso"
+  data-en="Return date">
+
+Fecha de regreso
+
+</label>
+
+<input
+  id="returnDate"
+  type="date"
+>
+
+</div>
+
+
+<div>
+
+<label
+  for="returnTime"
+  data-es="Hora de regreso"
+  data-en="Return time">
+
+Hora de regreso
+
+</label>
+
+<input
+  id="returnTime"
+  type="time"
+>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<div class="campo-completo">
+
+
+<div class="necesidades">
+
+
+<label
+  data-es="¿Viaja con algún equipaje o necesidad especial?"
+  data-en="Any special luggage or mobility needs?">
+
 ¿Viaja con algún equipaje o necesidad especial?
+
+</label>
+
+
+<div class="necesidades-lista">
+
+
+<label class="necesidad">
+
+<input
+  type="checkbox"
+  class="special"
+  value="Silla de ruedas">
+
+<span
+  data-es="Silla de ruedas"
+  data-en="Wheelchair">
 
 Silla de ruedas
 
+</span>
+
+</label>
+
+
+<label class="necesidad">
+
+<input
+  type="checkbox"
+  class="special"
+  value="Coche de niño">
+
+<span
+  data-es="Coche de niño"
+  data-en="Stroller">
+
 Coche de niño
+
+</span>
+
+</label>
+
+
+<label class="necesidad">
+
+<input
+  type="checkbox"
+  class="special"
+  value="Silla infantil">
+
+<span
+  data-es="Silla infantil"
+  data-en="Child seat">
 
 Silla infantil
 
+</span>
+
+</label>
+
+
+<label class="necesidad">
+
+<input
+  type="checkbox"
+  class="special"
+  value="Equipo deportivo">
+
+<span
+  data-es="Equipo deportivo"
+  data-en="Sports equipment">
+
 Equipo deportivo
 
+</span>
+
+</label>
+
+
+<label class="necesidad">
+
+<input
+  type="checkbox"
+  class="special"
+  value="Equipaje sobredimensionado">
+
+<span
+  data-es="Equipaje sobredimensionado"
+  data-en="Oversized luggage">
+
 Equipaje sobredimensionado
+
+</span>
+
+</label>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="campo-completo">
+
+<button
+  class="btn-cotizar"
+  type="submit"
+  data-es="VER TARIFA"
+  data-en="GET PRICE">
+
 VER TARIFA
-Viaja con confianza
-Tu traslado, coordinado de principio a fin.
-Organizamos cada servicio pensando en tu llegada, tu grupo y los detalles que hacen que tu traslado sea más cómodo y sencillo.
 
-01
-Tu llegada, coordinada
-Coordinamos tu recogida considerando aeropuerto, horario, pasajeros, equipaje y datos de vuelo cuando corresponda.
+</button>
 
-02
-El espacio adecuado para tu grupo
-Recomendamos la categoría de vehículo según pasajeros, equipaje y necesidades del viaje.
+</div>
 
-03
-Atención humana y directa
-Antes de tu servicio puedes comunicarte directamente por WhatsApp para confirmar cada detalle de tu traslado.
 
-Vehículos
-El espacio adecuado para cada grupo.
-Seleccionamos la categoría de vehículo según la cantidad de pasajeros, equipaje y necesidades de tu servicio.
+</div>
 
-Las imágenes son representativas. La unidad asignada puede variar según disponibilidad, manteniendo siempre una capacidad adecuada para tu grupo y equipaje.
+</form>
 
-Vehículo privado
-Vehículo privado
-1–4 pasajeros
-Ideal para viajeros individuales, parejas y grupos pequeños con equipaje moderado.
 
-✓
-Servicio privado
-SUV privada
-SUV
-1–4 pasajeros
-Mayor comodidad y espacio para grupos pequeños que viajan con más equipaje.
+<!-- =========================================================
+     RESULTADO
+========================================================= -->
 
-✓
-Mayor espacio
-Minivan privada
-Minivan
-Hasta 7 pasajeros
-Una excelente opción para familias y grupos medianos que necesitan comodidad y espacio para equipaje.
+<div
+  class="resultado"
+  id="quoteResult">
 
-✓
-Familias y grupos
-Van para grupos
-Van
-Hasta 17 pasajeros
-Indicada para grupos numerosos y servicios que requieren mayor capacidad para pasajeros y equipaje.
 
-✓
-Grupos numerosos
-Minibús privado
-Minibús
-Hasta 30 pasajeros
-Transporte privado para grupos grandes, excursiones, familias numerosas y servicios especiales.
+<div class="resultado-superior">
 
-✓
-Alta capacidad
-Autobús para grupos grandes
-Autobús
-Hasta 60 pasajeros
-Solución para grupos de gran tamaño, eventos, excursiones y traslados privados coordinados.
 
-✓
-Grupos grandes
-José García Transporte
-Tu viaje merece una coordinación en la que puedas confiar.
-Nuestra base principal está en Boca Chica, República Dominicana. Coordinamos traslados privados desde y hacia aeropuertos, hoteles, ciudades y diferentes destinos del país.
+<div>
 
-🚐
-Servicio privado
-El traslado se coordina exclusivamente para tu grupo.
+<div
+  class="resultado-ruta"
+  id="routeResult">
+</div>
 
-👥
-Capacidad adecuada
-La categoría se selecciona según pasajeros y equipaje.
+<div
+  class="resultado-meta"
+  id="metaResult">
+</div>
 
-💬
-Atención directa
-Comunicación por WhatsApp antes y durante la coordinación del servicio.
+</div>
 
-📍
-Cobertura nacional
-Aeropuertos, hoteles, ciudades, provincias y otros destinos.
 
-★ Opiniones de clientes
-Consulta nuestras valoraciones reales en Google.
-La experiencia de nuestros clientes también forma parte de nuestra presentación. Puedes consultar las opiniones publicadas directamente en Google.
+<div class="resultado-precio">
 
-VER OPINIONES EN GOOGLE
-DEJAR UNA OPINIÓN
-Conecta con nosotros
-Síguenos en nuestras redes sociales o comunícate directamente.
+<div
+  class="precio-usd"
+  id="usdResult">
+</div>
 
-◎
-Instagram
-f
+<div
+  class="precio-rd"
+  id="dopResult">
+</div>
+
+</div>
+
+
+</div>
+
+
+<div class="resultado-caja">
+
+<strong
+  data-es="Vehículo recomendado:"
+  data-en="Recommended vehicle:">
+
+Vehículo recomendado:
+
+</strong>
+
+<div id="vehicleResult"></div>
+
+</div>
+
+
+<div class="resultado-caja">
+
+<strong
+  data-es="Recorrido aproximado:"
+  data-en="Approximate journey:">
+
+Recorrido aproximado:
+
+</strong>
+
+<div id="routeInfo"></div>
+
+</div>
+
+
+<div
+  class="resultado-caja"
+  id="discountBox"
+  style="display:none">
+
+<strong
+  data-es="Descuento ida y vuelta:"
+  data-en="Round-trip discount:">
+
+Descuento ida y vuelta:
+
+</strong>
+
+<div id="discountResult"></div>
+
+</div>
+
+
+<div
+  class="resultado-caja"
+  id="returnWarning"
+  style="display:none">
+</div>
+
+
+<div class="resultado-acciones">
+
+
+<button
+  class="btn-reservar"
+  type="button"
+  id="bookingButton"
+  data-es="RESERVAR ESTE TRASLADO"
+  data-en="BOOK THIS TRANSFER">
+
+RESERVAR ESTE TRASLADO
+
+</button>
+
+
+<a
+  class="btn-whatsapp"
+  id="quoteWhatsapp"
+  target="_blank">
+
+WHATSAPP
+
+</a>
+
+
+</div>
+
+</div>
+
+
+<!-- SIN TARIFA -->
+
+
+<div
+  class="cotizacion-manual"
+  id="manualQuote">
+
+
+<strong
+  data-es="Esta ruta requiere una cotización personalizada."
+  data-en="This route requires a custom quote.">
+
+Esta ruta requiere una cotización personalizada.
+
+</strong>
+
+
+<p
+  data-es="No mostraremos un precio que no esté registrado. Envíanos los datos y confirmaremos la tarifa."
+  data-en="We will not show an unregistered price. Send your trip information and we will confirm the fare.">
+
+No mostraremos un precio que no esté registrado.
+Envíanos los datos y confirmaremos la tarifa.
+
+</p>
+
+
+<a
+  id="manualWhatsapp"
+  class="btn-whatsapp"
+  target="_blank">
+
+WHATSAPP
+
+</a>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     SERVICIOS
+========================================================= -->
+
+
+
+
+<!-- =========================================================
+     VEHICULOS
+========================================================= -->
+
+<!-- =========================================================
+     POR QUÉ ELEGIRNOS - 3 TARJETAS
+========================================================= -->
+
+<section class="section servicios-premium" id="por-que-elegirnos">
+
+  <div class="container">
+
+    <div class="section-title">
+
+      <span
+        class="kicker"
+        data-es="Viaja con confianza"
+        data-en="Travel with confidence">
+        Viaja con confianza
+      </span>
+
+      <h2
+        data-es="Tu traslado, coordinado de principio a fin."
+        data-en="Your transfer, coordinated from start to finish.">
+        Tu traslado, coordinado de principio a fin.
+      </h2>
+
+      <p
+        data-es="Organizamos cada servicio pensando en tu llegada, tu grupo y los detalles que hacen que tu traslado sea más cómodo y sencillo."
+        data-en="We organize every service around your arrival, your group and the details that make your transfer easier and more comfortable.">
+        Organizamos cada servicio pensando en tu llegada, tu grupo y los
+        detalles que hacen que tu traslado sea más cómodo y sencillo.
+      </p>
+
+    </div>
+
+
+    <div class="servicios-grid">
+
+
+      <!-- TARJETA 1 -->
+      <article class="servicio servicio-premium">
+
+        <div class="servicio-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M22 2L9 15"></path>
+            <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
+          </svg>
+        </div>
+
+        <div class="servicio-num">01</div>
+
+        <h3
+          data-es="Tu llegada, coordinada"
+          data-en="Your arrival, coordinated">
+          Tu llegada, coordinada
+        </h3>
+
+        <p
+          data-es="Coordinamos tu recogida considerando aeropuerto, horario, pasajeros, equipaje y datos de vuelo cuando corresponda."
+          data-en="We coordinate your pickup considering the airport, schedule, passengers, luggage and flight information when required.">
+          Coordinamos tu recogida considerando aeropuerto, horario,
+          pasajeros, equipaje y datos de vuelo cuando corresponda.
+        </p>
+
+      </article>
+
+
+      <!-- TARJETA 2 -->
+      <article class="servicio servicio-premium">
+
+        <div class="servicio-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 17H21"></path>
+            <path d="M5 17L7 10H17L20 17"></path>
+            <path d="M8 10L10 7H15L17 10"></path>
+            <circle cx="7" cy="18" r="2"></circle>
+            <circle cx="18" cy="18" r="2"></circle>
+          </svg>
+        </div>
+
+        <div class="servicio-num">02</div>
+
+        <h3
+          data-es="El espacio adecuado para tu grupo"
+          data-en="The right space for your group">
+          El espacio adecuado para tu grupo
+        </h3>
+
+        <p
+          data-es="Recomendamos la categoría de vehículo según pasajeros, equipaje y necesidades del viaje, sin comprometerte con una marca o modelo específico."
+          data-en="We recommend the vehicle category according to passengers, luggage and travel needs, without limiting your service to a specific make or model.">
+          Recomendamos la categoría de vehículo según pasajeros,
+          equipaje y necesidades del viaje.
+        </p>
+
+      </article>
+
+
+      <!-- TARJETA 3 -->
+      <article class="servicio servicio-premium">
+
+        <div class="servicio-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 11.5A8.5 8.5 0 1 1 12.5 3"></path>
+            <path d="M8 21L12 17H6"></path>
+            <path d="M8 10H16"></path>
+            <path d="M8 14H13"></path>
+          </svg>
+        </div>
+
+        <div class="servicio-num">03</div>
+
+        <h3
+          data-es="Atención humana y directa"
+          data-en="Direct, personal assistance">
+          Atención humana y directa
+        </h3>
+
+        <p
+          data-es="Antes de tu servicio puedes comunicarte directamente por WhatsApp para confirmar detalles, informar cambios o resolver cualquier duda."
+          data-en="Before your service, you can contact us directly through WhatsApp to confirm details, report changes or ask any questions.">
+          Antes de tu servicio puedes comunicarte directamente por
+          WhatsApp para confirmar cada detalle de tu traslado.
+        </p>
+
+      </article>
+
+
+    </div>
+
+  </div>
+
+</section>
+   
+  <!-- =========================================================
+     VEHÍCULOS
+========================================================= -->
+
+<style>
+
+/* REDUCE EL ESPACIO ANTES Y DESPUÉS DE VEHÍCULOS */
+
+.vehiculos-nueva{
+  padding:42px 0 55px;
+  background:
+    linear-gradient(
+      180deg,
+      #f8fbfb 0%,
+      #edf6f5 100%
+    );
+}
+
+.vehiculos-nueva .section-title{
+  margin-bottom:24px;
+}
+
+.vehiculos-nueva .section-title h2{
+  margin-bottom:8px;
+}
+
+.vehiculos-aclaracion{
+  max-width:850px;
+  margin:0 0 25px;
+
+  color:#68777d;
+
+  font-size:13px;
+  line-height:1.6;
+}
+
+
+/* CONTENEDOR */
+
+.vehiculos-catalogo{
+  display:grid;
+
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
+
+  gap:20px;
+}
+
+
+/* TARJETA */
+
+.vehiculo-catalogo{
+  overflow:hidden;
+
+  border-radius:22px;
+
+  background:#ffffff;
+
+  border:1px solid #dfe8e9;
+
+  box-shadow:
+    0 12px 30px
+    rgba(6,47,61,.09);
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.vehiculo-catalogo:hover{
+  transform:translateY(-5px);
+
+  box-shadow:
+    0 20px 42px
+    rgba(6,47,61,.15);
+}
+
+
+/* FOTO */
+
+.vehiculo-catalogo img{
+  width:100%;
+  height:210px;
+
+  display:block;
+
+  object-fit:cover;
+  object-position:center;
+
+  background:#edf2f2;
+}
+
+
+/* INFORMACIÓN */
+
+.vehiculo-info{
+  padding:18px 19px 20px;
+}
+
+.vehiculo-tipo{
+  display:flex;
+
+  align-items:center;
+  justify-content:space-between;
+
+  gap:12px;
+
+  margin-bottom:8px;
+}
+
+.vehiculo-tipo h3{
+  margin:0;
+
+  color:#062f3d;
+
+  font-size:20px;
+  font-weight:900;
+}
+
+.capacidad{
+  flex-shrink:0;
+
+  padding:6px 9px;
+
+  border-radius:50px;
+
+  color:#075e64;
+
+  background:#e2f5f4;
+
+  font-size:11px;
+  font-weight:900;
+}
+
+.vehiculo-info p{
+  margin:0;
+
+  color:#68777d;
+
+  font-size:13px;
+  line-height:1.55;
+}
+
+.vehiculo-caracteristica{
+  display:flex;
+
+  align-items:center;
+
+  gap:7px;
+
+  margin-top:13px;
+
+  color:#087d83;
+
+  font-size:12px;
+  font-weight:800;
+}
+
+.vehiculo-caracteristica span{
+  width:20px;
+  height:20px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:50%;
+
+  color:#087d83;
+  background:#e3f6f5;
+
+  font-size:11px;
+}
+
+
+/* TABLET */
+
+@media(max-width:950px){
+
+  .vehiculos-catalogo{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+}
+
+
+/* CELULAR */
+
+@media(max-width:650px){
+
+  .vehiculos-nueva{
+    padding:35px 0 45px;
+  }
+
+  .vehiculos-catalogo{
+    grid-template-columns:1fr;
+    gap:16px;
+  }
+
+  .vehiculo-catalogo img{
+    height:220px;
+  }
+
+}
+
+</style>
+
+
+<section
+  class="vehiculos-nueva"
+  id="vehiculos"
+>
+
+<div class="container">
+
+
+  <div class="section-title">
+
+    <span
+      class="kicker"
+      data-es="Vehículos"
+      data-en="Vehicles"
+    >
+      Vehículos
+    </span>
+
+
+    <h2
+      data-es="El espacio adecuado para cada grupo."
+      data-en="The right space for every group."
+    >
+      El espacio adecuado para cada grupo.
+    </h2>
+
+
+    <p
+      data-es="Seleccionamos la categoría de vehículo según la cantidad de pasajeros, equipaje y necesidades de tu servicio."
+      data-en="We select the vehicle category according to passengers, luggage and service requirements."
+    >
+      Seleccionamos la categoría de vehículo según la cantidad
+      de pasajeros, equipaje y necesidades de tu servicio.
+    </p>
+
+  </div>
+
+
+  <p
+    class="vehiculos-aclaracion"
+    data-es="Las imágenes son representativas. La unidad asignada puede variar según disponibilidad, manteniendo siempre una capacidad adecuada para tu grupo y equipaje."
+    data-en="Images are representative. The assigned vehicle may vary depending on availability while always maintaining suitable capacity for your group and luggage."
+  >
+    Las imágenes son representativas. La unidad asignada puede variar
+    según disponibilidad, manteniendo siempre una capacidad adecuada
+    para tu grupo y equipaje.
+  </p>
+
+
+  <div class="vehiculos-catalogo">
+
+
+    <!-- =====================================================
+         1. VEHÍCULO PRIVADO
+    ====================================================== -->
+
+    <article class="vehiculo-catalogo">
+
+      <img
+        src="CARRO.jpeg"
+        alt="Vehículo privado"
+        loading="lazy"
+      >
+
+      <div class="vehiculo-info">
+
+        <div class="vehiculo-tipo">
+
+          <h3
+            data-es="Vehículo privado"
+            data-en="Private vehicle"
+          >
+            Vehículo privado
+          </h3>
+
+          <span class="capacidad">
+            1–4 pasajeros
+          </span>
+
+        </div>
+
+        <p
+          data-es="Ideal para viajeros individuales, parejas y grupos pequeños con equipaje moderado."
+          data-en="Ideal for individual travelers, couples and small groups with moderate luggage."
+        >
+          Ideal para viajeros individuales, parejas y grupos pequeños
+          con equipaje moderado.
+        </p>
+
+        <div class="vehiculo-caracteristica">
+          <span>✓</span>
+          Servicio privado
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- =====================================================
+         2. SUV / JIPETA
+    ====================================================== -->
+
+    <article class="vehiculo-catalogo">
+
+      <img
+        src="DE 4 YIPETA.jpeg"
+        alt="SUV privada"
+        loading="lazy"
+      >
+
+      <div class="vehiculo-info">
+
+        <div class="vehiculo-tipo">
+
+          <h3>
+            SUV
+          </h3>
+
+          <span class="capacidad">
+            1–4 pasajeros
+          </span>
+
+        </div>
+
+        <p
+          data-es="Mayor comodidad y espacio para grupos pequeños que viajan con más equipaje."
+          data-en="Additional comfort and space for small groups traveling with more luggage."
+        >
+          Mayor comodidad y espacio para grupos pequeños
+          que viajan con más equipaje.
+        </p>
+
+        <div class="vehiculo-caracteristica">
+          <span>✓</span>
+          Mayor espacio
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- =====================================================
+         3. MINIVAN
+    ====================================================== -->
+
+    <article class="vehiculo-catalogo">
+
+      <img
+        src="DE 7.jpeg"
+        alt="Minivan privada"
+        loading="lazy"
+      >
+
+      <div class="vehiculo-info">
+
+        <div class="vehiculo-tipo">
+
+          <h3>
+            Minivan
+          </h3>
+
+          <span class="capacidad">
+            Hasta 7 pasajeros
+          </span>
+
+        </div>
+
+        <p
+          data-es="Una excelente opción para familias y grupos medianos que necesitan comodidad y espacio para equipaje."
+          data-en="A great option for families and medium-sized groups requiring comfort and luggage space."
+        >
+          Una excelente opción para familias y grupos medianos
+          que necesitan comodidad y espacio para equipaje.
+        </p>
+
+        <div class="vehiculo-caracteristica">
+          <span>✓</span>
+          Familias y grupos
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- =====================================================
+         4. VAN
+    ====================================================== -->
+
+    <article class="vehiculo-catalogo">
+
+      <img
+        src="DE 17.jpeg"
+        alt="Van para grupos"
+        loading="lazy"
+      >
+
+      <div class="vehiculo-info">
+
+        <div class="vehiculo-tipo">
+
+          <h3>
+            Van
+          </h3>
+
+          <span class="capacidad">
+            Hasta 17 pasajeros
+          </span>
+
+        </div>
+
+        <p
+          data-es="Indicada para grupos numerosos y servicios que requieren mayor capacidad para pasajeros y equipaje."
+          data-en="Suitable for larger groups requiring additional passenger and luggage capacity."
+        >
+          Indicada para grupos numerosos y servicios que requieren
+          mayor capacidad para pasajeros y equipaje.
+        </p>
+
+        <div class="vehiculo-caracteristica">
+          <span>✓</span>
+          Grupos numerosos
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- =====================================================
+         5. MINIBÚS
+    ====================================================== -->
+
+    <article class="vehiculo-catalogo">
+
+      <img
+        src="DE 30.jpeg"
+        alt="Minibús privado"
+        loading="lazy"
+      >
+
+      <div class="vehiculo-info">
+
+        <div class="vehiculo-tipo">
+
+          <h3
+            data-es="Minibús"
+            data-en="Minibus"
+          >
+            Minibús
+          </h3>
+
+          <span class="capacidad">
+            Hasta 30 pasajeros
+          </span>
+
+        </div>
+
+        <p
+          data-es="Transporte privado para grupos grandes, excursiones, familias numerosas y servicios especiales."
+          data-en="Private transportation for large groups, excursions, large families and special services."
+        >
+          Transporte privado para grupos grandes, excursiones,
+          familias numerosas y servicios especiales.
+        </p>
+
+        <div class="vehiculo-caracteristica">
+          <span>✓</span>
+          Alta capacidad
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- =====================================================
+         6. AUTOBÚS
+    ====================================================== -->
+
+    <article class="vehiculo-catalogo">
+
+      <img
+        src="DE 60.jpeg"
+        alt="Autobús para grupos grandes"
+        loading="lazy"
+      >
+
+      <div class="vehiculo-info">
+
+        <div class="vehiculo-tipo">
+
+          <h3
+            data-es="Autobús"
+            data-en="Bus"
+          >
+            Autobús
+          </h3>
+
+          <span class="capacidad">
+            Hasta 60 pasajeros
+          </span>
+
+        </div>
+
+        <p
+          data-es="Solución para grupos de gran tamaño, eventos, excursiones y traslados privados coordinados."
+          data-en="A transportation solution for large groups, events, excursions and coordinated private transfers."
+        >
+          Solución para grupos de gran tamaño, eventos,
+          excursiones y traslados privados coordinados.
+        </p>
+
+        <div class="vehiculo-caracteristica">
+          <span>✓</span>
+          Grupos grandes
+        </div>
+
+      </div>
+
+    </article>
+
+
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     POR QUE ELEGIRNOS
+========================================================= -->
+
+<!-- =========================================================
+     CONFIANZA + GOOGLE + REDES SOCIALES
+========================================================= -->
+
+<style>
+
+/* =========================================================
+   BLOQUE DE CONFIANZA
+========================================================= */
+
+.jg-confianza{
+  padding:70px 0;
+  overflow:hidden;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f8fbfb 0%,
+      #edf6f5 100%
+    );
+}
+
+.jg-confianza-wrap{
+  width:min(1180px,92%);
+  margin:auto;
+}
+
+
+/* CABECERA */
+
+.jg-confianza-head{
+  max-width:820px;
+  margin-bottom:35px;
+}
+
+.jg-confianza-kicker{
+  display:inline-block;
+
+  margin-bottom:9px;
+
+  color:#d7a638;
+
+  font-size:12px;
+  font-weight:900;
+
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+}
+
+.jg-confianza-head h2{
+  max-width:760px;
+
+  margin:0 0 14px;
+
+  color:#062f3d;
+
+  font-size:clamp(32px,4vw,48px);
+  line-height:1.08;
+
+  font-weight:900;
+}
+
+.jg-confianza-head p{
+  max-width:760px;
+
+  margin:0;
+
+  color:#63757b;
+
+  font-size:16px;
+  line-height:1.65;
+}
+
+
+/* =========================================================
+   VENTAJAS
+========================================================= */
+
+.jg-confianza-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(4,minmax(0,1fr));
+
+  gap:15px;
+
+  margin-bottom:34px;
+}
+
+.jg-confianza-item{
+  min-height:145px;
+
+  padding:20px;
+
+  border:
+    1px solid #dce7e8;
+
+  border-radius:18px;
+
+  background:
+    rgba(255,255,255,.82);
+
+  box-shadow:
+    0 10px 26px
+    rgba(6,47,61,.06);
+}
+
+.jg-confianza-icon{
+  width:42px;
+  height:42px;
+
+  display:grid;
+  place-items:center;
+
+  margin-bottom:13px;
+
+  border-radius:12px;
+
+  color:#087d83;
+
+  background:#e3f5f4;
+
+  font-size:19px;
+}
+
+.jg-confianza-item strong{
+  display:block;
+
+  margin-bottom:5px;
+
+  color:#062f3d;
+
+  font-size:14px;
+}
+
+.jg-confianza-item p{
+  margin:0;
+
+  color:#68777d;
+
+  font-size:12px;
+  line-height:1.5;
+}
+
+
+/* =========================================================
+   GOOGLE
+========================================================= */
+
+.jg-google{
+  display:grid;
+
+  grid-template-columns:
+    1.2fr .8fr;
+
+  gap:25px;
+
+  align-items:center;
+
+  margin-top:15px;
+
+  padding:28px;
+
+  border-radius:24px;
+
+  color:white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #062f3d 0%,
+      #075665 55%,
+      #087d83 100%
+    );
+
+  box-shadow:
+    0 18px 45px
+    rgba(6,47,61,.18);
+}
+
+.jg-google-label{
+  color:#efc762;
+
+  font-size:12px;
+  font-weight:900;
+
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+
+.jg-google h3{
+  margin:7px 0 8px;
+
+  color:white;
+
+  font-size:27px;
+  line-height:1.2;
+}
+
+.jg-google p{
+  max-width:630px;
+
+  margin:0;
+
+  color:
+    rgba(255,255,255,.75);
+
+  font-size:14px;
+  line-height:1.6;
+}
+
+.jg-google-actions{
+  display:flex;
+
+  flex-direction:column;
+
+  gap:10px;
+}
+
+.jg-google-btn{
+  display:block;
+
+  width:100%;
+
+  padding:13px 16px;
+
+  border-radius:12px;
+
+  text-align:center;
+
+  font-size:12px;
+  font-weight:900;
+
+  transition:
+    transform .2s ease,
+    opacity .2s ease;
+}
+
+.jg-google-btn:hover{
+  transform:translateY(-2px);
+}
+
+.jg-google-btn-principal{
+  color:#17272d;
+
+  background:
+    linear-gradient(
+      135deg,
+      #e5b735,
+      #f4d982
+    );
+}
+
+.jg-google-btn-secundario{
+  color:white;
+
+  border:
+    1px solid rgba(255,255,255,.25);
+
+  background:
+    rgba(255,255,255,.08);
+}
+
+
+/* =========================================================
+   REDES SOCIALES
+========================================================= */
+
+.jg-social{
+  margin-top:35px;
+
+  text-align:center;
+}
+
+.jg-social h3{
+  margin-bottom:6px;
+
+  color:#062f3d;
+
+  font-size:22px;
+}
+
+.jg-social p{
+  margin-bottom:18px;
+
+  color:#68777d;
+
+  font-size:13px;
+}
+
+.jg-social-links{
+  display:flex;
+
+  flex-wrap:wrap;
+
+  justify-content:center;
+
+  gap:10px;
+}
+
+.jg-social-link{
+  display:inline-flex;
+
+  align-items:center;
+
+  gap:8px;
+
+  padding:11px 16px;
+
+  border:
+    1px solid #dce6e8;
+
+  border-radius:50px;
+
+  color:#062f3d;
+
+  background:white;
+
+  box-shadow:
+    0 6px 18px
+    rgba(6,47,61,.06);
+
+  font-size:12px;
+  font-weight:850;
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+.jg-social-link:hover{
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 10px 24px
+    rgba(6,47,61,.12);
+}
+
+.jg-social-icon{
+  font-size:17px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:950px){
+
+  .jg-confianza-grid{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .jg-google{
+    grid-template-columns:1fr;
+  }
+
+  .jg-google-actions{
+    flex-direction:row;
+  }
+
+}
+
+@media(max-width:650px){
+
+  .jg-confianza{
+    padding:50px 0;
+  }
+
+  .jg-confianza-grid{
+    grid-template-columns:1fr;
+  }
+
+  .jg-google{
+    padding:22px;
+  }
+
+  .jg-google h3{
+    font-size:23px;
+  }
+
+  .jg-google-actions{
+    flex-direction:column;
+  }
+
+}
+
+</style>
+
+
+<section
+  class="jg-confianza"
+  id="nosotros"
+>
+
+  <div class="jg-confianza-wrap">
+
+
+    <!-- CABECERA -->
+
+    <div class="jg-confianza-head">
+
+      <span
+        class="jg-confianza-kicker"
+        data-es="José García Transporte"
+        data-en="José García Transportation"
+      >
+        José García Transporte
+      </span>
+
+
+      <h2
+        data-es="Tu viaje merece una coordinación en la que puedas confiar."
+        data-en="Your trip deserves coordination you can rely on."
+      >
+        Tu viaje merece una coordinación en la que puedas confiar.
+      </h2>
+
+
+      <p
+        data-es="Nuestra base principal está en Boca Chica, República Dominicana. Coordinamos traslados privados desde y hacia aeropuertos, hoteles, ciudades y diferentes destinos del país."
+        data-en="Our main base is in Boca Chica, Dominican Republic. We coordinate private transfers to and from airports, hotels, cities and destinations throughout the country."
+      >
+        Nuestra base principal está en Boca Chica, República Dominicana.
+        Coordinamos traslados privados desde y hacia aeropuertos, hoteles,
+        ciudades y diferentes destinos del país.
+      </p>
+
+    </div>
+
+
+    <!-- 4 BENEFICIOS -->
+
+    <div class="jg-confianza-grid">
+
+
+      <div class="jg-confianza-item">
+
+        <div class="jg-confianza-icon">
+          🚐
+        </div>
+
+        <strong
+          data-es="Servicio privado"
+          data-en="Private service"
+        >
+          Servicio privado
+        </strong>
+
+        <p
+          data-es="El traslado se coordina exclusivamente para tu grupo."
+          data-en="Your transfer is coordinated exclusively for your group."
+        >
+          El traslado se coordina exclusivamente para tu grupo.
+        </p>
+
+      </div>
+
+
+      <div class="jg-confianza-item">
+
+        <div class="jg-confianza-icon">
+          👥
+        </div>
+
+        <strong
+          data-es="Capacidad adecuada"
+          data-en="Suitable capacity"
+        >
+          Capacidad adecuada
+        </strong>
+
+        <p
+          data-es="La categoría se selecciona según pasajeros y equipaje."
+          data-en="The category is selected according to passengers and luggage."
+        >
+          La categoría se selecciona según pasajeros y equipaje.
+        </p>
+
+      </div>
+
+
+      <div class="jg-confianza-item">
+
+        <div class="jg-confianza-icon">
+          💬
+        </div>
+
+        <strong
+          data-es="Atención directa"
+          data-en="Direct assistance"
+        >
+          Atención directa
+        </strong>
+
+        <p
+          data-es="Comunicación por WhatsApp antes y durante la coordinación del servicio."
+          data-en="WhatsApp communication before and during service coordination."
+        >
+          Comunicación por WhatsApp antes y durante la coordinación del servicio.
+        </p>
+
+      </div>
+
+
+      <div class="jg-confianza-item">
+
+        <div class="jg-confianza-icon">
+          📍
+        </div>
+
+        <strong
+          data-es="Cobertura nacional"
+          data-en="National coverage"
+        >
+          Cobertura nacional
+        </strong>
+
+        <p
+          data-es="Aeropuertos, hoteles, ciudades, provincias y otros destinos."
+          data-en="Airports, hotels, cities, provinces and other destinations."
+        >
+          Aeropuertos, hoteles, ciudades, provincias y otros destinos.
+        </p>
+
+      </div>
+
+
+    </div>
+
+
+    <!-- GOOGLE -->
+
+    <div class="jg-google">
+
+      <div>
+
+        <span class="jg-google-label">
+          ★ Opiniones de clientes
+        </span>
+
+        <h3
+          data-es="Consulta nuestras valoraciones reales en Google."
+          data-en="See our real customer reviews on Google."
+        >
+          Consulta nuestras valoraciones reales en Google.
+        </h3>
+
+        <p
+          data-es="La experiencia de nuestros clientes también forma parte de nuestra presentación. Puedes consultar las opiniones publicadas directamente en Google."
+          data-en="Our customers' experiences are also part of who we are. You can read reviews published directly on Google."
+        >
+          La experiencia de nuestros clientes también forma parte de
+          nuestra presentación. Puedes consultar las opiniones publicadas
+          directamente en Google.
+        </p>
+
+      </div>
+
+
+      <div class="jg-google-actions">
+
+        <a
+          class="jg-google-btn jg-google-btn-principal"
+          href="https://share.google/Rj3ECNPkwQCGhk69X"
+          target="_blank"
+          rel="noopener"
+          data-es="VER OPINIONES EN GOOGLE"
+          data-en="SEE GOOGLE REVIEWS"
+        >
+          VER OPINIONES EN GOOGLE
+        </a>
+
+        <a
+          class="jg-google-btn jg-google-btn-secundario"
+          href="https://share.google/Rj3ECNPkwQCGhk69X"
+          target="_blank"
+          rel="noopener"
+          data-es="DEJAR UNA OPINIÓN"
+          data-en="LEAVE A REVIEW"
+        >
+          DEJAR UNA OPINIÓN
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <!-- REDES SOCIALES -->
+
+    <div class="jg-social">
+
+      <h3
+        data-es="Conecta con nosotros"
+        data-en="Connect with us"
+      >
+        Conecta con nosotros
+      </h3>
+
+      <p
+        data-es="Síguenos en nuestras redes sociales o comunícate directamente."
+        data-en="Follow us on social media or contact us directly."
+      >
+        Síguenos en nuestras redes sociales o comunícate directamente.
+      </p>
+
+
+      <div class="jg-social-links">
+
+
+        <a
+          class="jg-social-link"
+          href="https://www.instagram.com/josegarciabc.rd?utm_source=qr&igsh=dTNkbjRtYzg1ZDhr"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="jg-social-icon">◎</span>
+          Instagram
+        </a>
+
+
+        <a
+          class="jg-social-link"
+          href="https://www.facebook.com/share/1Ef5vzW4Qt/"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="jg-social-icon">f</span>
+          Facebook
+        </a>
+
+
+        <a
+          class="jg-social-link"
+          href="https://www.tiktok.com/@josegarciabc.rd?_r=1&_t=ZS-98mSQTS4bfG"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="jg-social-icon">♪</span>
+          TikTok
+        </a>
+
+
+        <a
+          class="jg-social-link"
+          href="https://wa.me/18298182426"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="jg-social-icon">💬</span>
+          WhatsApp
+        </a>
+
+
+        <a
+          class="jg-social-link"
+          href="https://share.google/Rj3ECNPkwQCGhk69X"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="jg-social-icon">★</span>
+          Google
+        </a>
+
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+<!-- =========================================================
+     CONTACTO
+========================================================= -->
+
+<section
+  class="section contacto"
+  id="contacto">
+
+
+<div class="container">
+
+
+<div class="contact-card">
+
+
+<div>
+
+<h2
+data-es="¿Tu ruta no aparece en el cotizador?"
+data-en="Can't find your route in the quote system?">
+
+¿Tu ruta no aparece en el cotizador?
+
+</h2>
+
+
+<p
+data-es="Envíanos los datos por WhatsApp y confirmaremos una cotización personalizada."
+data-en="Send us your trip information through WhatsApp and we will confirm a custom quote.">
+
+Envíanos los datos por WhatsApp
+y confirmaremos una cotización personalizada.
+
+</p>
+
+</div>
+
+
+<a
+href="https://wa.me/18298182426"
+target="_blank"
+data-es="HABLAR POR WHATSAPP"
+data-en="CHAT ON WHATSAPP">
+
+HABLAR POR WHATSAPP
+
+</a>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="footer">
+  <div class="container">
+
+    <div class="footer-simple">
+
+      <h3>José García Transporte</h3>
+
+      <p
+        data-es="Traslados privados y transporte turístico en República Dominicana."
+        data-en="Private transfers and tourist transportation in the Dominican Republic.">
+        Traslados privados y transporte turístico en República Dominicana.
+      </p>
+
+      <p>📍 Boca Chica, República Dominicana</p>
+
+      <p>
+        📱 WhatsApp:
+        <a href="https://wa.me/18298182426" target="_blank">
+          +1 829-818-2426
+        </a>
+      </p>
+
+      <div class="footer-social">
+        <a href="https://www.instagram.com/josegarciabc.rd?utm_source=qr&igsh=dTNkbjRtYzg1ZDhr" target="_blank">Instagram</a>
+
+        <a href="https://www.facebook.com/share/1Ef5vzW4Qt/" target="_blank">Facebook</a>
+
+        <a href="https://www.tiktok.com/@josegarciabc.rd?_r=1&_t=ZS-98mSQTS4bfG" target="_blank">TikTok</a>
+
+        <a href="https://share.google/Rj3ECNPkwQCGhk69X" target="_blank">Google</a>
+      </div>
+
+      <p class="copyright">
+        © <span id="year"></span> José García Transporte. Todos los derechos reservados.
+      </p>
+
+    </div>
+
+  </div>
+</footer>
+
+
+<div class="sociales">
+
+<a
+id="facebookLink"
+class="social"
+target="_blank">
 Facebook
-♪
+</a>
+
+<a
+id="instagramLink"
+class="social"
+target="_blank">
+Instagram
+</a>
+
+<a
+id="tiktokLink"
+class="social"
+target="_blank">
 TikTok
+</a>
+
+</div>
+
+</div>
+
+
+<div>
+
+<h4
+data-es="Contacto"
+data-en="Contact">
+Contacto
+</h4>
+
+<p>
+WhatsApp:
++1 829-818-2426
+</p>
+
+<p>
+Boca Chica,
+República Dominicana
+</p>
+
+</div>
+
+
+<div>
+
+<h4
+data-es="Navegación"
+data-en="Navigation">
+Navegación
+</h4>
+
+<p>
+<a href="#cotizar">
+Cotizar traslado
+</a>
+</p>
+
+<p>
+<a href="#vehiculos">
+Vehículos
+</a>
+</p>
+
+<p>
+<a href="#tours">
+Tours
+</a>
+</p>
+
+</div>
+
+
+</div>
+
+
+<div class="copyright">
+
+© <span id="year"></span>
+José García.
+
+<span
+data-es="Todos los derechos reservados."
+data-en="All rights reserved.">
+Todos los derechos reservados.
+</span>
+
+</div>
+
+
+</div>
+
+</footer>
+
+
+<a
+class="floating-wa"
+href="https://wa.me/18298182426"
+target="_blank"
+aria-label="WhatsApp">
 💬
+</a>
+
+
+<!-- =========================================================
+     MODAL RESERVA
+========================================================= -->
+
+<div
+class="modal"
+id="bookingModal">
+
+
+<div class="modal-box">
+
+
+<div class="modal-top">
+
+
+<div>
+
+<h2
+data-es="Completa tu reserva"
+data-en="Complete your booking">
+Completa tu reserva
+</h2>
+
+<p
+data-es="Los datos que ya introdujiste en el cotizador se conservan."
+data-en="The information already entered in the quote form is preserved.">
+Los datos del cotizador ya están incluidos.
+</p>
+
+</div>
+
+
+<button
+class="close"
+type="button"
+data-close="bookingModal">
+×
+</button>
+
+
+</div>
+
+
+<div
+class="resumen"
+id="bookingSummary">
+</div>
+
+
+<form id="bookingForm">
+
+
+<div class="form-grid">
+
+
+<div>
+
+<label
+for="clientName"
+data-es="Nombre completo"
+data-en="Full name">
+Nombre completo
+</label>
+
+<input
+id="clientName"
+required
+>
+
+</div>
+
+
+<div>
+
+<label for="clientWhatsapp">
 WhatsApp
-★
-Google
-José García Transporte
-Traslados privados y transporte turístico en República Dominicana.
+</label>
 
-📍 Boca Chica, República Dominicana
+<input
+id="clientWhatsapp"
+type="tel"
+required
+placeholder="+1..."
+>
 
-📱 WhatsApp: +1 829-818-2426
+</div><div>
+    <label
+        for="pickupExact"
+        data-es="Lugar exacto de recogida"
+        data-en="Exact pickup location">
+        Lugar exacto de recogida
+    </label>
 
-Instagram Facebook TikTok Google
-© 2026 José García Transporte. Todos los derechos reservados.
+    <input
+        id="pickupExact"
+        type="text"
+        required
+        data-placeholder-es="Ej.: hotel, lobby, terminal, villa o dirección exacta"
+        data-placeholder-en="Ex: hotel, lobby, terminal, villa or exact address"
+        placeholder="Ej.: hotel, lobby, terminal, villa o dirección exacta">
+</div>
 
-💬
+<div>
+    <label
+        for="destinationExact"
+        data-es="Lugar exacto de destino"
+        data-en="Exact destination location">
+        Lugar exacto de destino
+    </label>
+
+    <input
+        id="destinationExact"
+        type="text"
+        required
+        data-placeholder-es="Ej.: hotel, residencia, villa o dirección exacta"
+        data-placeholder-en="Ex: hotel, residence, villa or exact address"
+        placeholder="Ej.: hotel, residencia, villa o dirección exacta">
+</div>
+
+
+<div
+id="flightField"
+style="display:none">
+
+<label
+for="flightNumber"
+data-es="Número de vuelo"
+data-en="Flight number">
+Número de vuelo
+</label>
+
+<input id="flightNumber">
+
+</div>
+
+
+<div
+id="airlineField"
+style="display:none">
+
+<label
+for="airline"
+data-es="Aerolínea — si lo requiere"
+data-en="Airline — if required">
+Aerolínea — si lo requiere
+</label>
+
+<input id="airline">
+
+</div>
+
+
+<div
+id="returnFlightField"
+style="display:none">
+
+<label
+for="returnFlight"
+data-es="Vuelo de regreso — si corresponde"
+data-en="Return flight — if applicable">
+Vuelo de regreso — si corresponde
+</label>
+
+<input id="returnFlight">
+
+</div>
+
+
+<div class="campo-completo">
+
+<label
+for="specialDetails"
+data-es="Equipaje o necesidad especial — si lo requiere"
+data-en="Special luggage or need — if required">
+Equipaje o necesidad especial — si lo requiere
+</label>
+
+<input id="specialDetails">
+
+</div>
+
+
+<div class="campo-completo">
+
+<label
+for="bookingNotes"
+data-es="Observaciones — si lo requiere"
+data-en="Notes — if required">
+Observaciones — si lo requiere
+</label>
+
+<textarea
+id="bookingNotes"
+rows="3">
+</textarea>
+
+</div>
+
+
+<div class="campo-completo">
+
+<button
+class="btn-cotizar"
+type="submit"
+data-es="CONTINUAR RESERVA POR WHATSAPP"
+data-en="CONTINUE BOOKING ON WHATSAPP">
+
+CONTINUAR RESERVA POR WHATSAPP
+
+</button>
+
+</div>
+
+
+</div>
+
+</form>
+
+
+</div>
+
+</div>
+
+
+<!-- =========================================================
+     MODAL TOUR
+========================================================= -->
+
+<div
+class="modal"
+id="tourModal">
+
+
+<div class="modal-box">
+
+
+<div class="modal-top">
+
+
+<div>
+
+<h2 id="tourModalTitle">
+Cotizar experiencia
+</h2>
+
+<p
+data-es="Completa los datos para preparar la solicitud."
+data-en="Complete the information to prepare your request.">
+Completa los datos para preparar la solicitud.
+</p>
+
+</div>
+
+
+<button
+class="close"
+type="button"
+data-close="tourModal">
+×
+</button>
+
+
+</div>
+
+
+<form id="tourForm">
+
+
+<div class="form-grid">
+
+
+<div>
+
+<label
+for="tourName"
+data-es="Nombre completo"
+data-en="Full name">
+Nombre completo
+</label>
+
+<input
+id="tourName"
+required
+>
+
+</div>
+
+
+<div>
+
+<label for="tourWhatsapp">
+WhatsApp
+</label>
+
+<input
+id="tourWhatsapp"
+type="tel"
+required
+>
+
+</div>
+
+
+<div>
+
+<label
+for="tourDate"
+data-es="Fecha"
+data-en="Date">
+Fecha
+</label>
+
+<input
+id="tourDate"
+type="date"
+required
+>
+
+</div>
+
+
+<div>
+
+<label
+for="tourPeople"
+data-es="Cantidad de personas"
+data-en="Number of people">
+Cantidad de personas
+</label>
+
+<input
+id="tourPeople"
+type="number"
+min="1"
+required
+>
+
+</div>
+
+
+<div class="campo-completo">
+
+<label
+for="tourPickup"
+data-es="Lugar de recogida / hotel"
+data-en="Pickup location / hotel">
+Lugar de recogida / hotel
+</label>
+
+<input
+id="tourPickup"
+required
+>
+
+</div>
+
+
+<div class="campo-completo">
+
+<label
+for="tourNotes"
+data-es="Observaciones — si lo requiere"
+data-en="Notes — if required">
+Observaciones — si lo requiere
+</label>
+
+<textarea
+id="tourNotes"
+rows="3">
+</textarea>
+
+</div>
+
+
+<div class="campo-completo">
+
+<button
+class="btn-cotizar"
+type="submit"
+data-es="ENVIAR SOLICITUD POR WHATSAPP"
+data-en="SEND REQUEST ON WHATSAPP">
+
+ENVIAR SOLICITUD POR WHATSAPP
+
+</button>
+
+</div>
+
+
+</div>
+
+</form>
+
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   CONFIGURACIÓN GENERAL
+========================================================= */
+
+const CONFIG = {
+
+  whatsapp:
+  "18298182426",
+
+  exchangeRate:
+  60,
+
+  includedPassengers:
+  4,
+
+  additionalPassengerFee:
+  10,
+
+  roundTripDiscount:
+  10,
+
+  social:{
+    facebook:"",
+    instagram:"",
+    tiktok:""
+  }
+
+};
+
+
+/* =========================================================
+   TABLA DE RUTAS
+   Se respeta dirección exacta.
+========================================================= */
+
+const ROUTES_RAW = `
+
+Aeropuerto De Punta Cana (PUJ)|Grand Bávaro Princess|40|34 min|24 km
+Aeropuerto De Punta Cana (PUJ)|Wyndham Alltra Punta Cana|70|55 min|44 km
+Aeropuerto De Punta Cana (PUJ)|Grand Sirenis Punta Cana Resort|70|50 min|42 km
+Aeropuerto De Punta Cana (PUJ)|La Sivory Punta Cana By PortBlue Boutique|80|1 h|47 km
+Aeropuerto De Punta Cana (PUJ)|Excellence Punta Cana|70|50 min|42 km
+Aeropuerto De Punta Cana (PUJ)|Jewel Punta Cana|70|50 min|42 km
+Aeropuerto De Punta Cana (PUJ)|Dreams Macao Beach Punta Cana|60|40 min|36 km
+Aeropuerto De Punta Cana (PUJ)|Hoteles Iberostar – Bávaro|40|40 min|27 km
+Aeropuerto De Punta Cana (PUJ)|Hotel Riu Palace Punta Cana|40|40 min|29 km
+Aeropuerto De Punta Cana (PUJ)|Hotel Riu Bambu|40|40 min|29 km
+Aeropuerto De Punta Cana (PUJ)|Hotel Riu Naiboa|40|40 min|29 km
+Aeropuerto De Punta Cana (PUJ)|Cortecito Inn|40|30 min|21 km
+Aeropuerto De Punta Cana (PUJ)|whala!urban punta cana|35|27 min|19 km
+Aeropuerto De Punta Cana (PUJ)|Meliá Caribe Tropical|35|28 min|19 km
+Aeropuerto De Punta Cana (PUJ)|Paradisus Palma Real Golf & Spa Resort|35|28 min|19 km
+Aeropuerto De Punta Cana (PUJ)|Barceló Bávaro Palace - All Inclusive|35|25 min|18 km
+Aeropuerto De Punta Cana (PUJ)|Plaza San Juan|30|20 min|14 km
+Aeropuerto De Punta Cana (PUJ)|AC Hotel by Marriott Punta Cana|30|20 min|14 km
+Aeropuerto De Punta Cana (PUJ)|Dreams Flora Resort & Spa|35|27 min|17 km
+Aeropuerto De Punta Cana (PUJ)|Jewel Palm Beach|35|25 min|17 km
+Aeropuerto De Punta Cana (PUJ)|Pearl Beach Club|35|28 min|17 km
+Aeropuerto De Punta Cana (PUJ)|Serenade Punta Cana Beach & Spa Resort|30|22 min|16 km
+Aeropuerto De Punta Cana (PUJ)|Catalonia Punta Cana|35|22 min|16 km
+Aeropuerto De Punta Cana (PUJ)|Radisson Blu Punta Cana, an All-Inclusive Resort|35|22 min|16 km
+Aeropuerto De Punta Cana (PUJ)|Cap Cana|30|18 min|13 km
+Aeropuerto De Punta Cana (PUJ)|Hyatt Ziva Cap Cana|30|18 min|13 km
+Aeropuerto De Punta Cana (PUJ)|Margaritaville Island Reserve Cap Cana Hammock|30|18 min|13 km
+Aeropuerto De Punta Cana (PUJ)|Secrets Cap Cana|30|18 min|13 km
+Aeropuerto De Punta Cana (PUJ)|Dreams Onyx Resort & Spa|70|55 min|45 km
+Aeropuerto De Punta Cana (PUJ)|Las Terrenas|280|4 h 50 min|332 km
+Aeropuerto De Punta Cana (PUJ)|Samana|280|4 h 50 min|332 km
+Aeropuerto De Punta Cana (PUJ)|La Galeras|370|5 h|371 km
+Aeropuerto De Punta Cana (PUJ)|Royalton CHIC Punta Cana|70|50 min|42 km
+Aeropuerto De Punta Cana (PUJ)|Hard Rock Hotel & Casino Punta Cana|50|35 min|28 km
+Aeropuerto De Punta Cana (PUJ)|Bahía Príncipe – Bávaro|40|42 min|30 km
+Aeropuerto De Punta Cana (PUJ)|Hotel Riu Republica|40|40 min|29 km
+Aeropuerto De Punta Cana (PUJ)|Hotel RIU Palace Bavaro|40|40 min|29 km
+Aeropuerto De Punta Cana (PUJ)|Hotel Riu Palace Macao|40|40 min|29 km
+Aeropuerto De Punta Cana (PUJ)|Royalton Punta Cana|40|40 min|29 km
+Aeropuerto De Punta Cana (PUJ)|Grand Memories Punta Cana|40|40 min|29 km
+Aeropuerto De Punta Cana (PUJ)|Bayahíbe|95|55 min|69 km
+Aeropuerto De Punta Cana (PUJ)|Majestic Colonial Punta Cana|40|40 min|29 km
+Aeropuerto De Punta Cana (PUJ)|Ocean Blue & Sand|40|38 min|26 km
+Aeropuerto De Punta Cana (PUJ)|VIK Hotel Cayena Beach|40|37 min|26 km
+Aeropuerto De Punta Cana (PUJ)|Arena Blanca Plaza|40|37 min|26 km
+Aeropuerto De Punta Cana (PUJ)|Hotel Maracas Punta Cana|35|34 min|24 km
+Aeropuerto De Punta Cana (PUJ)|Grand Palladium Punta Cana Resort & Spa|35|35 min|25 km
+Aeropuerto De Punta Cana (PUJ)|Occidental Punta Cana - All Inclusive|35|34 min|24 km
+Aeropuerto De Punta Cana (PUJ)|Caribe Deluxe Princess|40|35 min|25 km
+Aeropuerto De Punta Cana (PUJ)|Ocean El Faro|70|55 min|44 km
+Aeropuerto De Punta Cana (PUJ)|Paradisus Punta Cana Resort|40|34 min|24 km
+Aeropuerto De Punta Cana (PUJ)|Dreams Royal Beach Punta Cana|40|32 min|22 km
+Aeropuerto De Punta Cana (PUJ)|Vista Sol Punta Cana Beach Resort & Spa|40|32 min|22 km
+Aeropuerto De Punta Cana (PUJ)|Impressive Punta Cana|40|31 min|22 km
+Aeropuerto De Punta Cana (PUJ)|Plaza Bávaro|40|30 min|21 km
+Aeropuerto De Punta Cana (PUJ)|Santo Domingo|140|2 h 40 min|203 km
+Aeropuerto De Punta Cana (PUJ)|Hotel Viva Samana By Wyndham|280|4 h 50 min|332 km
+Aeropuerto De Punta Cana (PUJ)|Zoetry Agua Punta Cana|80|1 h|47 km
+Aeropuerto De Punta Cana (PUJ)|Breathless Punta Cana Resort & Spa|70|55 min|45 km
+Aeropuerto De Punta Cana (PUJ)|Secrets Tides Punta Cana|70|58 min|46 km
+Aeropuerto De Punta Cana (PUJ)|Excellence El Carmen|70|55 min|45 km
+Aeropuerto De Punta Cana (PUJ)|Nickelodeon|70|55 min|45 km
+Aeropuerto De Punta Cana (PUJ)|Live Aqua Punta Cana|70|55 min|44 km
+Aeropuerto De Punta Cana (PUJ)|Finest Punta Cana|70|55 min|44 km
+
+Aeropuerto De Santo Domingo (AILA)|Aeropuerto De Punta Cana (PUJ)|125|2 h 47 min|117 km
+Aeropuerto De Santo Domingo (AILA)|Playa Nueva Romana|69|1 h 6 min|77 km
+Aeropuerto De Santo Domingo (AILA)|Punta Cana|125|2 h 10 min|170 km
+Aeropuerto De Santo Domingo (AILA)|Juan Dolio|45|40 min|45 km
+Aeropuerto De Santo Domingo (AILA)|Boca Chica|30|20 min|18 km
+Aeropuerto De Santo Domingo (AILA)|Bávaro|125|2 h 10 min|170 km
+Aeropuerto De Santo Domingo (AILA)|Las Terrenas|168|2 h 22 min|154 km
+Aeropuerto De Santo Domingo (AILA)|Samana|155|2 h 40 min|162 km
+Aeropuerto De Santo Domingo (AILA)|La Galeras|206|3 h 9 min|190 km
+Aeropuerto De Santo Domingo (AILA)|Puerto Plata|220|3 h 53 min|271 km
+Aeropuerto De Santo Domingo (AILA)|Santo Domingo (Centro)|45|58 min|35 km
+Aeropuerto De Santo Domingo (AILA)|Sosua|190|3 h 35 min|250 km
+Aeropuerto De Santo Domingo (AILA)|Bonao|115|1 h 46 min|120 km
+Aeropuerto De Santo Domingo (AILA)|Jarabacoa|140|2 h 28 min|182 km
+Aeropuerto De Santo Domingo (AILA)|Santiago|130|2 h 40 min|206 km
+Aeropuerto De Santo Domingo (AILA)|Zona Colonial|40|45 min|30 km
+Aeropuerto De Santo Domingo (AILA)|San Pedro de Macorís|50|50 min|49 km
+Aeropuerto De Santo Domingo (AILA)|Bayahíbe|95|1 h 35 min|121 km
+Aeropuerto De Santo Domingo (AILA)|Miche|145|3 h 7 min|189 km
+Aeropuerto De Santo Domingo (AILA)|La Romana|86|1 h 20 min|105 km
+
+Bavaro|Hotel Viva Samana By Wyndham|280|4 h 50 min|332 km
+Bavaro|Bayahíbe|95|55 min|69 km
+Bavaro|Samana|280|4 h 50 min|332 km
+Bavaro|Las Terrenas|280|4 h 50 min|332 km
+Bavaro|La Galeras|370|5 h|371 km
+
+Bayahíbe|La Galeras|301|4 h 44 min|311 km
+Bayahíbe|Samana|255|4 h 15 min|283 km
+Bayahíbe|Las Terrenas|255|4 h 15 min|283 km
+
+Boca Chica|Bayahíbe|85|1 h 18 min|104 km
+Boca Chica|Juan Dolio|35|20 min|25 km
+Boca Chica|Santo Domingo (Centro)|45|58 min|37 km
+Boca Chica|San Pedro de Macorís|45|39 min|40 km
+Boca Chica|Playa Nueva Romana|60|43 min|58 km
+Boca Chica|La Romana|80|1 h 3 min|89 km
+Boca Chica|Aeropuerto De Punta Cana (PUJ)|115|1 h 47 min|157 km
+Boca Chica|Bavaro|120|2 h 5 min|167 km
+Boca Chica|Miche|145|2 h 35 min|157 km
+Boca Chica|Samana|155|1 h 37 min|165 km
+Boca Chica|La Galeras|230|3 h 23 min|192 km
+Boca Chica|Las Terrenas|170|2 h 22 min|154 km
+Boca Chica|Sosua|205|3 h 45 min|252 km
+Boca Chica|Bonao|130|1 h 46 min|129 km
+Boca Chica|Jarabacoa|150|2 h 28 min|182 km
+Boca Chica|Santiago|140|2 h 29 min|192 km
+Boca Chica|Zona Colonial|40|40 min|32 km
+Boca Chica|Aeropuerto internacional de la Romana (LRM)|80|1 h 29 min|63 km
+
+Caribe Tours Las Américas|Aeropuerto De Santo Domingo (AILA)|25|20 min|15 km
+Caribe Tours Las Américas|Boca Chica|35|28 min|20 km
+
+Miche|Punta Cana|112|1 h 25 min|95 km
+
+Punta Cana|La Galeras|370|5 h|371 km
+Punta Cana|Playa Nueva Romana|105|1 h 15 min|105 km
+Punta Cana|La Romana|100|1 h|80 km
+Punta Cana|Samana|280|4 h 50 min|332 km
+Punta Cana|Las Terrenas|280|4 h 50 min|332 km
+Punta Cana|Hotel Viva Samana By Wyndham|280|4 h 50 min|332 km
+Punta Cana|Boca Chica|120|1 h 50 min|150 km
+Punta Cana|Juan Dolio|110|1 h 32 min|127 km
+Punta Cana|Bayahíbe|95|55 min|65 km
+Punta Cana|San Pedro de Macorís|110|1 h 20 min|116 km
+Punta Cana|Santiago de los Caballeros|298|4 h 39 min|350 km
+
+Santo Domingo|Boca Chica|46|45 min|38 km
+Santo Domingo|Bayahíbe|115|2 h 5 min|145 km
+Santo Domingo|Juan Dolio|70|1 h|50 km
+Santo Domingo|La Romana|106|1 h 55 min|140 km
+Santo Domingo|Playa Nueva Romana|94|1 h 35 min|107 km
+Santo Domingo|San Pedro de Macorís|81|1 h 20 min|70 km
+
+Santo Domingo (Centro)|Samana|155|2 h 40 min|162 km
+Santo Domingo (Centro)|Aeropuerto De Punta Cana (PUJ)|140|2 h 40 min|203 km
+Santo Domingo (Centro)|Punta Cana|140|2 h 40 min|203 km
+Santo Domingo (Centro)|Bavaro|140|2 h 40 min|203 km
+Santo Domingo (Centro)|Aeropuerto internacional de la Romana (LRM)|105|1 h 43 min|125 km
+Santo Domingo (Centro)|Aeropuerto internacional, Carey-Presidente Juan Bosch (AZS)|155|2 h 40 min|182 km
+Santo Domingo (Centro)|La Romana|105|1 h 35 min|123 km
+Santo Domingo (Centro)|Bayahíbe|110|1 h 53 min|140 km
+Santo Domingo (Centro)|Juan Dolio|60|1 h 4 min|61 km
+Santo Domingo (Centro)|San Pedro de Macorís|70|1 h 24 min|74 km
+Santo Domingo (Centro)|Playa Nueva Romana|85|1 h 23 min|98 km
+Santo Domingo (Centro)|La Galeras|206|3 h 9 min|190 km
+Santo Domingo (Centro)|Las Terrenas|168|2 h 22 min|154 km
+
+Zona Colonial|Playa Nueva Romana|85|1 h 23 min|98 km
+Zona Colonial|San Pedro de Macorís|70|1 h 24 min|73 km
+Zona Colonial|Juan Dolio|55|1 h 4 min|56 km
+Zona Colonial|Bayahíbe|110|1 h 53 min|140 km
+Zona Colonial|La Romana|105|2 h 43 min|125 km
+Zona Colonial|Aeropuerto internacional de la Romana (LRM)|105|1 h 35 min|119 km
+Zona Colonial|Bavaro|140|2 h 40 min|195 km
+Zona Colonial|Punta Cana|140|2 h 40 min|195 km
+Zona Colonial|Aeropuerto De Punta Cana (PUJ)|140|2 h 40 min|195 km
+
+`;
+
+
+let adminData = {};
+
+try {
+  adminData = JSON.parse(
+    localStorage.getItem("jg_admin_datos") || "{}"
+  );
+} catch(error) {
+  console.error("Error leyendo datos administrativos:", error);
+  adminData = {};
+}
+
+const adminRoutes =
+  Array.isArray(adminData.rutas)
+  ? adminData.rutas
+  : [];
+
+const ROUTES = adminRoutes
+  .filter(r => {
+
+    const estado =
+      String(r.estado || "")
+      .trim()
+      .toUpperCase();
+
+    return (
+      estado === "ACTIVA" ||
+      estado === "ACTIVO" ||
+      estado === "ACTIVE" ||
+      r.activa === true ||
+      r.activo === true
+    );
+
+  })
+  .map(r => ({
+
+    origin:
+      String(
+        r.origen ||
+        r.origin ||
+        ""
+      ).trim(),
+
+    destination:
+      String(
+        r.destino ||
+        r.destination ||
+        ""
+      ).trim(),
+
+    price:
+      Number(
+        r.precio ??
+        r.price ??
+        0
+      ),
+
+    duration:
+      r.duracion ||
+      r.duration ||
+      "",
+
+    distance:
+      r.distancia ||
+      r.distance ||
+      ""
+
+  }))
+  .filter(r =>
+    r.origin &&
+    r.destination
+  );
+/* =========================================================
+   VARIABLES DE ESTADO
+========================================================= */
+
+let language = "es";
+
+let currentQuote = null;
+
+let selectedTour = "";
+
+
+/* =========================================================
+   UTILIDADES
+========================================================= */
+
+const $ =
+selector =>
+document.querySelector(selector);
+
+
+const $$ =
+selector =>
+document.querySelectorAll(selector);
+
+
+function wa(message){
+
+  return (
+    "https://wa.me/"
+    +
+    CONFIG.whatsapp
+    +
+    "?text="
+    +
+    encodeURIComponent(message)
+  );
+
+}
+
+
+function isAirport(text){
+
+  const value =
+  text.toLowerCase();
+
+  return (
+    value.includes("aeropuerto")
+    ||
+    value.includes("(puj)")
+    ||
+    value.includes("(aila)")
+    ||
+    value.includes("(lrm)")
+    ||
+    value.includes("(azs)")
+  );
+
+}
+
+
+/* =========================================================
+   PORTADA LOCAL
+========================================================= */
+
+const heroLocal =
+new Image();
+
+
+heroLocal.onload = function(){
+
+  $(".hero").style.backgroundImage =
+
+  `linear-gradient(
+      90deg,
+      rgba(3,28,37,.94) 0%,
+      rgba(4,45,54,.80) 38%,
+      rgba(4,45,54,.34) 67%,
+      rgba(4,45,54,.16) 100%
+   ),
+   url("fondo-portada.jpg.png")`;
+
+};
+
+
+heroLocal.src =
+"portada-jose-garcia.png";
+
+
+/* =========================================================
+   LOGO FALLBACK
+========================================================= */
+
+$("#logoReal")
+.addEventListener(
+  "error",
+  function(){
+
+    this.style.display =
+    "none";
+
+    $("#logoFallback")
+    .style.display =
+    "grid";
+
+  }
+);
+
+
+/* =========================================================
+   IDIOMA
+========================================================= */
+
+function setLanguage(lang){
+
+  language =
+  lang;
+
+  document.documentElement.lang =
+  lang;
+
+
+  $("#esBtn")
+  .classList
+  .toggle(
+    "activo",
+    lang === "es"
+  );
+
+
+  $("#enBtn")
+  .classList
+  .toggle(
+    "activo",
+    lang === "en"
+  );
+
+
+  $$("[data-es]")
+  .forEach(element => {
+
+    const value =
+    element.dataset[lang];
+
+    if(value){
+      element.textContent =
+      value;
+    }
+
+  });
+
+
+  populateLocations();
+
+}
+
+
+$("#esBtn")
+.addEventListener(
+  "click",
+  () => setLanguage("es")
+);
+
+
+$("#enBtn")
+.addEventListener(
+  "click",
+  () => setLanguage("en")
+);
+
+
+/* =========================================================
+   MENU MOVIL
+========================================================= */
+
+$("#menuBtn")
+.addEventListener(
+  "click",
+  () => {
+
+    $("#menu")
+    .classList
+    .toggle("abierto");
+
+  }
+);
+
+
+$$("#menu a")
+.forEach(link => {
+
+  link.addEventListener(
+    "click",
+    () => {
+
+      $("#menu")
+      .classList
+      .remove("abierto");
+
+    }
+  );
+
+});
+
+
+/* =========================================================
+   ORIGEN Y DESTINO
+========================================================= */
+
+function allLocations(){
+
+  return [
+    ...new Set(
+      ROUTES.flatMap(
+        route => [
+          route.origin,
+          route.destination
+        ]
+      )
+    )
+  ]
+  .sort(
+    (a,b) =>
+    a.localeCompare(
+      b,
+      language === "es"
+      ? "es"
+      : "en"
+    )
+  );
+
+}
+
+
+function populateLocations(){
+
+    const originInput = $("#origin");
+    const destinationInput = $("#destination");
+    const list = $("#locationOptions");
+
+    if (!originInput || !destinationInput || !list) return;
+
+    const currentOrigin = originInput.value;
+    const currentDestination = destinationInput.value;
+
+    list.innerHTML = "";
+
+    // Obtener únicamente ubicaciones procedentes
+    // de las rutas ACTIVAS del panel administrativo
+    const locations = [
+        ...new Set(
+            ROUTES.flatMap(route => [
+                route.origin,
+                route.destination
+            ])
+            .filter(location => location && location.trim() !== "")
+        )
+    ].sort((a, b) =>
+        a.localeCompare(b, "es", { sensitivity: "base" })
+    );
+
+    locations.forEach(location => {
+        const option = document.createElement("option");
+        option.value = location;
+        list.appendChild(option);
+    });
+
+    // Permite seleccionar una ubicación o escribirla manualmente
+    originInput.setAttribute("list", "locationOptions");
+    destinationInput.setAttribute("list", "locationOptions");
+
+    // No borrar lo que el cliente ya haya escrito
+    originInput.value = currentOrigin;
+    destinationInput.value = currentDestination;
+}
+
+populateLocations();
+
+
+/* =========================================================
+   IDA Y VUELTA
+========================================================= */
+
+$$('input[name="trip"]')
+.forEach(radio => {
+
+  radio.addEventListener(
+    "change",
+    function(){
+
+      const roundTrip =
+      this.value === "roundtrip"
+      &&
+      this.checked;
+
+
+      $("#returnFields")
+      .style.display =
+      roundTrip
+      ? "block"
+      : "none";
+
+
+      $("#returnDate").required =
+      roundTrip;
+
+
+      $("#returnTime").required =
+      roundTrip;
+
+    }
+  );
+
+});
+
+
+/* =========================================================
+   BUSCAR RUTA EXACTA
+========================================================= */
+
+function findRoute(
+  origin,
+  destination
+){
+
+  return ROUTES.find(route =>
+
+    route.origin === origin
+    &&
+    route.destination === destination
+
+  );
+
+}
+
+
+/* =========================================================
+   VEHICULO
+========================================================= */
+
+function recommendedVehicle(
+  passengers,
+  largeBags,
+  carryOn,
+  specialCount
+){
+
+  const luggageLoad =
+  largeBags
+  +
+  Math.ceil(carryOn / 2)
+  +
+  specialCount;
+
+
+  if(
+    passengers <= 4
+    &&
+    luggageLoad <= 4
+  ){
+
+    return language === "es"
+    ? "Vehículo privado"
+    : "Private vehicle";
+
+  }
+
+
+  if(
+    passengers <= 6
+    &&
+    luggageLoad <= 7
+  ){
+
+    return "Minivan";
+
+  }
+
+
+  if(
+    passengers <= 10
+    &&
+    luggageLoad <= 12
+  ){
+
+    return "Van";
+
+  }
+
+
+  if(
+    passengers <= 20
+  ){
+
+    return language === "es"
+    ? "Minibús"
+    : "Minibus";
+
+  }
+
+
+  return language === "es"
+  ? "Autobús"
+  : "Bus";
+
+}
+
+
+/* =========================================================
+   CALCULO DE PASAJEROS
+   1-4 = tarifa base
+   desde el 5to = +US$10
+========================================================= */
+
+function applyPassengerRule(
+  base,
+  passengers
+){
+
+  const extras =
+  Math.max(
+    0,
+    passengers -
+    CONFIG.includedPassengers
+  );
+
+
+  return (
+    base
+    +
+    extras
+    *
+    CONFIG.additionalPassengerFee
+  );
+
+}
+
+
+/* =========================================================
+   COTIZADOR
+========================================================= */
+
+$("#quoteForm")
+.addEventListener(
+"submit",
+function(event){
+
+  event.preventDefault();
+
+
+  const origin =
+  $("#origin").value;
+
+
+  const destination =
+  $("#destination").value;
+
+
+  const date =
+  $("#date").value;
+
+
+  const time =
+  $("#time").value;
+
+
+  const passengers =
+  Number(
+    $("#passengers").value
+  );
+
+
+  const largeBags =
+  Number(
+    $("#largeBags").value
+  );
+
+
+  const carryOn =
+  Number(
+    $("#carryOn").value
+  );
+
+
+  const tripType =
+  $('input[name="trip"]:checked')
+  .value;
+
+
+  const specials =
+  [...$$(".special:checked")]
+  .map(item => item.value);
+
+
+  if(
+    !origin
+    ||
+    !destination
+  ){
+    return;
+  }
+
+
+  if(
+    origin === destination
+  ){
+
+    alert(
+      language === "es"
+      ?
+      "El origen y el destino deben ser diferentes."
+      :
+      "Pickup and destination must be different."
+    );
+
+    return;
+  }
+
+
+  const outbound =
+  findRoute(
+    origin,
+    destination
+  );
+
+
+  $("#quoteResult")
+  .classList
+  .remove("visible");
+
+
+  $("#manualQuote")
+  .classList
+  .remove("visible");
+
+
+  if(!outbound){
+
+    const text =
+    language === "es"
+
+    ?
+
+`Hola, deseo cotizar un traslado.
+
+Origen: ${origin}
+Destino: ${destination}
+Fecha: ${date}
+Hora: ${time}
+Pasajeros: ${passengers}
+Maletas grandes: ${largeBags}
+Equipaje de mano: ${carryOn}
+
+La página indica que esta ruta requiere cotización personalizada.`
+
+    :
+
+`Hello, I would like a transfer quote.
+
+Pickup: ${origin}
+Destination: ${destination}
+Date: ${date}
+Time: ${time}
+Passengers: ${passengers}
+Large suitcases: ${largeBags}
+Carry-on luggage: ${carryOn}
+
+The website indicates that this route requires a custom quote.`;
+
+
+    $("#manualWhatsapp").href =
+    wa(text);
+
+
+    $("#manualQuote")
+    .classList
+    .add("visible");
+
+
+    $("#manualQuote")
+    .scrollIntoView({
+      behavior:"smooth",
+      block:"nearest"
+    });
+
+
+    return;
+
+  }
+
+
+  const outboundPrice =
+  applyPassengerRule(
+    outbound.price,
+    passengers
+  );
+
+
+ let returnRoute =
+null;
+
+let returnPrice =
+0;
+
+let subtotal =
+outboundPrice;
+
+let discount =
+0;
+
+let total =
+outboundPrice;
+
+let completeRoundTrip =
+true;
+
+
+if(
+  tripType === "roundtrip"
+){
+
+  /* EL REGRESO USA LA MISMA TARIFA DE LA IDA */
+
+  returnRoute =
+  outbound;
+
+  returnPrice =
+  outboundPrice;
+
+  /* IDA + REGRESO */
+
+  subtotal =
+  outboundPrice * 2;
+
+  /* DESCUENTO IDA Y VUELTA */
+
+  discount =
+  subtotal
+  *
+  (
+    CONFIG.roundTripDiscount
+    /
+    100
+  );
+
+  /* TOTAL FINAL */
+
+  total =
+  subtotal
+  -
+  discount;
+
+}
+
+
+  const vehicle =
+  recommendedVehicle(
+    passengers,
+    largeBags,
+    carryOn,
+    specials.length
+  );
+
+
+  currentQuote = {
+
+    origin,
+    destination,
+    date,
+    time,
+    passengers,
+    largeBags,
+    carryOn,
+    tripType,
+    specials,
+
+    returnDate:
+    $("#returnDate").value,
+
+    returnTime:
+    $("#returnTime").value,
+
+    vehicle,
+
+    outbound,
+
+    outboundPrice,
+
+    returnRoute,
+
+    returnPrice,
+
+    completeRoundTrip,
+
+    subtotal,
+
+    discount,
+
+    total
+
+  };
+
+
+  $("#routeResult")
+  .textContent =
+  `${origin} → ${destination}`;
+
+
+  $("#metaResult")
+  .textContent =
+
+  language === "es"
+
+  ?
+
+  `${passengers} pasajeros · ${largeBags} maletas grandes · ${carryOn} equipajes de mano`
+
+  :
+
+  `${passengers} passengers · ${largeBags} large suitcases · ${carryOn} carry-on bags`;
+
+
+  $("#usdResult")
+  .textContent =
+  `US$${total.toFixed(2)}`;
+
+
+  $("#dopResult")
+  .textContent =
+
+  completeRoundTrip
+
+  ?
+
+  `RD$${Math.round(
+      total *
+      CONFIG.exchangeRate
+    ).toLocaleString("en-US")}`
+
+  :
+
+  language === "es"
+  ?
+  "Tarifa de ida"
+  :
+  "Outbound fare";
+
+
+  $("#vehicleResult")
+  .textContent =
+
+  language === "es"
+
+  ?
+
+  `${vehicle}. La categoría se recomienda según pasajeros y equipaje. La unidad específica puede variar según disponibilidad.`
+
+  :
+
+  `${vehicle}. The category is recommended according to passengers and luggage. The specific vehicle may vary according to availability.`;
+
+
+  $("#routeInfo")
+  .textContent =
+
+  language === "es"
+
+  ?
+
+  `${outbound.duration} · ${outbound.distance}. Tiempo aproximado.`
+
+  :
+
+  `${outbound.duration} · ${outbound.distance}. Approximate travel time.`;
+
+
+  if(
+    discount > 0
+  ){
+
+    $("#discountBox")
+    .style.display =
+    "block";
+
+
+    $("#discountResult")
+    .textContent =
+    `${CONFIG.roundTripDiscount}% · -US$${discount.toFixed(2)}`;
+
+  }else{
+
+    $("#discountBox")
+    .style.display =
+    "none";
+
+  }
+
+
+  if(
+    tripType === "roundtrip"
+    &&
+    !completeRoundTrip
+  ){
+
+    $("#returnWarning")
+    .style.display =
+    "block";
+
+
+    $("#returnWarning")
+    .textContent =
+
+    language === "es"
+
+    ?
+
+    "La tarifa mostrada corresponde únicamente a la ida. La tarifa exacta del regreso no está registrada para esa dirección y debe confirmarse antes de cerrar la reserva."
+
+    :
+
+    "The displayed fare is for the outbound trip only. The exact return fare is not registered for that direction and must be confirmed before completing the booking.";
+
+  }else{
+
+    $("#returnWarning")
+    .style.display =
+    "none";
+
+  }
+
+
+  let whatsappText;
+
+
+  if(
+    language === "es"
+  ){
+
+    whatsappText =
+
+`Hola, deseo información sobre esta cotización.
+
+Origen: ${origin}
+Destino: ${destination}
+Fecha: ${date}
+Hora: ${time}
+
+Pasajeros: ${passengers}
+Maletas grandes: ${largeBags}
+Equipaje de mano: ${carryOn}
+
+Tipo de viaje: ${
+tripType === "roundtrip"
+? "Ida y vuelta"
+: "Solo ida"
+}
+
+Vehículo recomendado: ${vehicle}
+
+Tarifa mostrada: US$${total.toFixed(2)}
+
+${
+tripType === "roundtrip"
+&&
+!completeRoundTrip
+?
+"Nota: la tarifa de regreso está pendiente de confirmación."
+:
+""
+}`;
+
+  }else{
+
+    whatsappText =
+
+`Hello, I would like information about this quote.
+
+Pickup: ${origin}
+Destination: ${destination}
+Date: ${date}
+Time: ${time}
+
+Passengers: ${passengers}
+Large suitcases: ${largeBags}
+Carry-on luggage: ${carryOn}
+
+Trip type: ${
+tripType === "roundtrip"
+? "Round trip"
+: "One way"
+}
+
+Recommended vehicle: ${vehicle}
+
+Displayed fare: US$${total.toFixed(2)}
+
+${
+tripType === "roundtrip"
+&&
+!completeRoundTrip
+?
+"Note: the return fare is pending confirmation."
+:
+""
+}`;
+
+  }
+
+
+  $("#quoteWhatsapp").href =
+  wa(whatsappText);
+
+
+  $("#quoteResult")
+  .classList
+  .add("visible");
+
+
+  $("#quoteResult")
+  .scrollIntoView({
+    behavior:"smooth",
+    block:"nearest"
+  });
+
+}
+);
+
+
+/* =========================================================
+   RESERVA
+========================================================= */
+
+function generateCode(){
+
+  const now =
+  new Date();
+
+
+  const y =
+  String(
+    now.getFullYear()
+  )
+  .slice(-2);
+
+
+  const m =
+  String(
+    now.getMonth()+1
+  )
+  .padStart(2,"0");
+
+
+  const d =
+  String(
+    now.getDate()
+  )
+  .padStart(2,"0");
+
+
+  const random =
+  Math.floor(
+    1000 +
+    Math.random()*9000
+  );
+
+
+  return (
+    `JG-${y}${m}${d}-${random}`
+  );
+
+}
+
+
+$("#bookingButton")
+.addEventListener(
+"click",
+function(){
+
+  if(!currentQuote){
+    return;
+  }
+
+
+  const q =
+  currentQuote;
+
+
+  $("#bookingSummary")
+  .innerHTML =
+
+  `
+  <strong>
+    ${q.origin} → ${q.destination}
+  </strong>
+
+  <br>
+
+  ${q.date}
+  ·
+  ${q.time}
+
+  <br>
+
+  ${q.passengers}
+  ${
+    language === "es"
+    ? "pasajeros"
+    : "passengers"
+  }
+
+  ·
+
+  ${q.largeBags}
+  ${
+    language === "es"
+    ? "maletas"
+    : "suitcases"
+  }
+
+  <br>
+
+  ${q.vehicle}
+
+  <br>
+
+  <strong>
+  US$${q.total.toFixed(2)}
+  </strong>
+  `;
+
+
+  const airportService =
+  isAirport(q.origin)
+  ||
+  isAirport(q.destination);
+
+
+  $("#flightField")
+  .style.display =
+  airportService
+  ? "block"
+  : "none";
+
+
+  $("#airlineField")
+  .style.display =
+  airportService
+  ? "block"
+  : "none";
+
+
+  $("#flightNumber").required =
+  airportService;
+
+
+  $("#returnFlightField")
+  .style.display =
+
+  airportService
+  &&
+  q.tripType === "roundtrip"
+
+  ?
+  "block"
+
+  :
+  "none";
+
+
+  $("#specialDetails").value =
+  q.specials.join(", ");
+
+
+  $("#bookingModal")
+  .classList
+  .add("activo");
+
+
+  document.body
+  .classList
+  .add("modal-abierto");
+
+}
+);
+
+
+$("#bookingForm")
+.addEventListener(
+"submit",
+function(event){
+
+  event.preventDefault();
+
+
+  if(!currentQuote){
+    return;
+  }
+
+
+  const q =
+  currentQuote;
+
+
+  const code =
+  generateCode();
+
+
+  const name =
+  $("#clientName").value.trim();
+
+
+  const phone =
+  $("#clientWhatsapp").value.trim();
+
+
+  const flight =
+  $("#flightNumber").value.trim();
+
+
+  const airline =
+  $("#airline").value.trim();
+
+
+  const returnFlight =
+  $("#returnFlight").value.trim();
+
+
+  const special =
+  $("#specialDetails").value.trim();
+
+
+  const notes =
+  $("#bookingNotes").value.trim();
+
+
+  const message =
+
+`📌 SOLICITUD DE RESERVA
+
+Código:
+${code}
+
+Titular:
+${name}
+
+WhatsApp:
+${phone}
+
+Ruta:
+${q.origin} → ${q.destination}
+
+Fecha:
+${q.date}
+
+Hora:
+${q.time}
+
+Pasajeros:
+${q.passengers}
+
+Maletas grandes:
+${q.largeBags}
+
+Equipaje de mano:
+${q.carryOn}
+
+Tipo de viaje:
+${
+q.tripType === "roundtrip"
+? "Ida y vuelta"
+: "Solo ida"
+}
+
+${
+q.tripType === "roundtrip"
+?
+`Fecha regreso:
+${q.returnDate}
+
+Hora regreso:
+${q.returnTime}
+
+Vuelo regreso:
+${returnFlight || "No indicado"}`
+:
+""
+}
+
+Vehículo recomendado:
+${q.vehicle}
+
+Tarifa mostrada:
+US$${q.total.toFixed(2)}
+
+${
+q.tripType === "roundtrip"
+&&
+!q.completeRoundTrip
+?
+"Tarifa del regreso pendiente de confirmación."
+:
+""
+}
+
+Vuelo:
+${flight || "No aplica / no indicado"}
+
+Aerolínea:
+${airline || "No indicada"}
+
+Equipaje o necesidad especial:
+${special || "Ninguna indicada"}
+
+Observaciones:
+${notes || "Ninguna"}
+
+Deseo continuar con la reserva.`;
+
+
+  window.open(
+    wa(message),
+    "_blank"
+  );
+
+}
+);
+
+
+/* =========================================================
+   TOURS
+========================================================= */
+
+$$(".btn-tour")
+.forEach(button => {
+
+  button.addEventListener(
+    "click",
+    function(){
+
+      selectedTour =
+      this.dataset.tour;
+
+
+      $("#tourModalTitle")
+      .textContent =
+
+      language === "es"
+      ?
+      `Cotizar ${selectedTour}`
+      :
+      `Get a quote: ${selectedTour}`;
+
+
+      $("#tourModal")
+      .classList
+      .add("activo");
+
+
+      document.body
+      .classList
+      .add("modal-abierto");
+
+    }
+  );
+
+});
+
+
+$("#tourForm")
+.addEventListener(
+"submit",
+function(event){
+
+  event.preventDefault();
+
+
+  const name =
+  $("#tourName").value.trim();
+
+
+  const phone =
+  $("#tourWhatsapp").value.trim();
+
+
+  const date =
+  $("#tourDate").value;
+
+
+  const people =
+  $("#tourPeople").value;
+
+
+  const pickup =
+  $("#tourPickup").value.trim();
+
+
+  const notes =
+  $("#tourNotes").value.trim();
+
+
+  const message =
+
+`SOLICITUD DE COTIZACIÓN DE TOUR
+
+Experiencia:
+${selectedTour}
+
+Nombre:
+${name}
+
+WhatsApp:
+${phone}
+
+Fecha:
+${date}
+
+Cantidad de personas:
+${people}
+
+Lugar de recogida / hotel:
+${pickup}
+
+Observaciones:
+${notes || "Ninguna"}
+
+Deseo recibir una cotización personalizada.`;
+
+
+  window.open(
+    wa(message),
+    "_blank"
+  );
+
+}
+);
+
+
+/* =========================================================
+   MODALES
+========================================================= */
+
+function closeModal(id){
+
+  $("#" + id)
+  .classList
+  .remove("activo");
+
+
+  document.body
+  .classList
+  .remove("modal-abierto");
+
+}
+
+
+$$("[data-close]")
+.forEach(button => {
+
+  button.addEventListener(
+    "click",
+    function(){
+
+      closeModal(
+        this.dataset.close
+      );
+
+    }
+  );
+
+});
+
+
+$$(".modal")
+.forEach(modal => {
+
+  modal.addEventListener(
+    "click",
+    function(event){
+
+      if(
+        event.target === modal
+      ){
+
+        closeModal(
+          modal.id
+        );
+
+      }
+
+    }
+  );
+
+});
+
+
+/* =========================================================
+   FECHAS
+========================================================= */
+
+const today =
+new Date()
+.toISOString()
+.split("T")[0];
+
+
+$("#date").min =
+today;
+
+
+$("#returnDate").min =
+today;
+
+
+$("#tourDate").min =
+today;
+
+
+/* =========================================================
+   REDES SOCIALES
+========================================================= */
+
+function configureSocial(
+  id,
+  url
+){
+
+  if(!url){
+    return;
+  }
+
+
+  const link =
+  $("#" + id);
+
+
+  link.href =
+  url;
+
+
+  link.style.display =
+  "inline-block";
+
+}
+
+
+configureSocial(
+  "facebookLink",
+  CONFIG.social.facebook
+);
+
+
+configureSocial(
+  "instagramLink",
+  CONFIG.social.instagram
+);
+
+
+configureSocial(
+  "tiktokLink",
+  CONFIG.social.tiktok
+);
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+$("#year").textContent =
+new Date()
+.getFullYear();
+
+</script>
+
+
+</body>
+</html>
