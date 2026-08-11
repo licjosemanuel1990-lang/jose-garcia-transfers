@@ -5187,30 +5187,21 @@ Zona Colonial|Aeropuerto De Punta Cana (PUJ)|140|2 h 40 min|195 km
 `;
 
 
-const ROUTES =
-ROUTES_RAW
-.trim()
-.split("\n")
-.filter(Boolean)
-.map(line => {
+const adminData = JSON.parse(
+  localStorage.getItem("jg_admin_datos") || "{}"
+);
 
-  const [
-    origin,
-    destination,
-    price,
-    duration,
-    distance
-  ] = line.split("|");
-
-  return {
-    origin:origin.trim(),
-    destination:destination.trim(),
-    price:Number(price),
-    duration:duration.trim(),
-    distance:distance.trim()
-  };
-
-});
+const ROUTES = Array.isArray(adminData.rutas)
+  ? adminData.rutas
+      .filter(r => r.estado === "ACTIVA")
+      .map(r => ({
+        origin: r.origen,
+        destination: r.destino,
+        price: Number(r.precio),
+        duration: r.duracion || "",
+        distance: r.distancia || ""
+      }))
+  : [];
 
 
 /* =========================================================
