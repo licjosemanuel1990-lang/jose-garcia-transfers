@@ -3115,471 +3115,540 @@ WHATSAPP
 
 </section>
    
-   <section
-  class="section vehiculos"
-  id="vehiculos">
+  <!-- =========================================================
+     VEHÍCULOS
+========================================================= -->
 
+<style>
+
+/* REDUCE EL ESPACIO ANTES Y DESPUÉS DE VEHÍCULOS */
+
+.vehiculos-nueva{
+  padding:42px 0 55px;
+  background:
+    linear-gradient(
+      180deg,
+      #f8fbfb 0%,
+      #edf6f5 100%
+    );
+}
+
+.vehiculos-nueva .section-title{
+  margin-bottom:24px;
+}
+
+.vehiculos-nueva .section-title h2{
+  margin-bottom:8px;
+}
+
+.vehiculos-aclaracion{
+  max-width:850px;
+  margin:0 0 25px;
+
+  color:#68777d;
+
+  font-size:13px;
+  line-height:1.6;
+}
+
+
+/* CONTENEDOR */
+
+.vehiculos-catalogo{
+  display:grid;
+
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
+
+  gap:20px;
+}
+
+
+/* TARJETA */
+
+.vehiculo-catalogo{
+  overflow:hidden;
+
+  border-radius:22px;
+
+  background:#ffffff;
+
+  border:1px solid #dfe8e9;
+
+  box-shadow:
+    0 12px 30px
+    rgba(6,47,61,.09);
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.vehiculo-catalogo:hover{
+  transform:translateY(-5px);
+
+  box-shadow:
+    0 20px 42px
+    rgba(6,47,61,.15);
+}
+
+
+/* FOTO */
+
+.vehiculo-catalogo img{
+  width:100%;
+  height:210px;
+
+  display:block;
+
+  object-fit:cover;
+  object-position:center;
+
+  background:#edf2f2;
+}
+
+
+/* INFORMACIÓN */
+
+.vehiculo-info{
+  padding:18px 19px 20px;
+}
+
+.vehiculo-tipo{
+  display:flex;
+
+  align-items:center;
+  justify-content:space-between;
+
+  gap:12px;
+
+  margin-bottom:8px;
+}
+
+.vehiculo-tipo h3{
+  margin:0;
+
+  color:#062f3d;
+
+  font-size:20px;
+  font-weight:900;
+}
+
+.capacidad{
+  flex-shrink:0;
+
+  padding:6px 9px;
+
+  border-radius:50px;
+
+  color:#075e64;
+
+  background:#e2f5f4;
+
+  font-size:11px;
+  font-weight:900;
+}
+
+.vehiculo-info p{
+  margin:0;
+
+  color:#68777d;
+
+  font-size:13px;
+  line-height:1.55;
+}
+
+.vehiculo-caracteristica{
+  display:flex;
+
+  align-items:center;
+
+  gap:7px;
+
+  margin-top:13px;
+
+  color:#087d83;
+
+  font-size:12px;
+  font-weight:800;
+}
+
+.vehiculo-caracteristica span{
+  width:20px;
+  height:20px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:50%;
+
+  color:#087d83;
+  background:#e3f6f5;
+
+  font-size:11px;
+}
+
+
+/* TABLET */
+
+@media(max-width:950px){
+
+  .vehiculos-catalogo{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+}
+
+
+/* CELULAR */
+
+@media(max-width:650px){
+
+  .vehiculos-nueva{
+    padding:35px 0 45px;
+  }
+
+  .vehiculos-catalogo{
+    grid-template-columns:1fr;
+    gap:16px;
+  }
+
+  .vehiculo-catalogo img{
+    height:220px;
+  }
+
+}
+
+</style>
+
+
+<section
+  class="vehiculos-nueva"
+  id="vehiculos"
+>
 
 <div class="container">
 
 
-<div class="section-title">
+  <div class="section-title">
 
-<span
-  class="kicker"
-  data-es="Vehículos"
-  data-en="Vehicles">
+    <span
+      class="kicker"
+      data-es="Vehículos"
+      data-en="Vehicles"
+    >
+      Vehículos
+    </span>
 
-Vehículos
 
-</span>
+    <h2
+      data-es="El espacio adecuado para cada grupo."
+      data-en="The right space for every group."
+    >
+      El espacio adecuado para cada grupo.
+    </h2>
 
 
-<h2
-  data-es="El espacio adecuado para cada grupo."
-  data-en="The right space for every group.">
+    <p
+      data-es="Seleccionamos la categoría de vehículo según la cantidad de pasajeros, equipaje y necesidades de tu servicio."
+      data-en="We select the vehicle category according to passengers, luggage and service requirements."
+    >
+      Seleccionamos la categoría de vehículo según la cantidad
+      de pasajeros, equipaje y necesidades de tu servicio.
+    </p>
 
-El espacio adecuado para cada grupo.
+  </div>
 
-</h2>
 
+  <p
+    class="vehiculos-aclaracion"
+    data-es="Las imágenes son representativas. La unidad asignada puede variar según disponibilidad, manteniendo siempre una capacidad adecuada para tu grupo y equipaje."
+    data-en="Images are representative. The assigned vehicle may vary depending on availability while always maintaining suitable capacity for your group and luggage."
+  >
+    Las imágenes son representativas. La unidad asignada puede variar
+    según disponibilidad, manteniendo siempre una capacidad adecuada
+    para tu grupo y equipaje.
+  </p>
 
-<p
-  data-es="La categoría se recomienda según pasajeros, cantidad de maletas y necesidades del servicio."
-  data-en="The vehicle category is recommended according to passengers, luggage and service requirements.">
 
-La categoría se recomienda según pasajeros,
-cantidad de maletas y necesidades del servicio.
+  <div class="vehiculos-catalogo">
 
-</p>
 
-</div>
+    <!-- =====================================================
+         1. VEHÍCULO PRIVADO
+    ====================================================== -->
 
+    <article class="vehiculo-catalogo">
 
-<p
-  class="vehiculo-nota"
-  data-es="Las imágenes son de referencia. La unidad asignada puede variar según disponibilidad, manteniendo siempre una capacidad adecuada para los pasajeros y el equipaje indicado."
-  data-en="Images are for reference. The assigned unit may vary according to availability while always maintaining suitable capacity for the passengers and luggage provided.">
+      <img
+        src="CARRO.jpeg"
+        alt="Vehículo privado"
+        loading="lazy"
+      >
 
-Las imágenes son de referencia.
-La unidad puede variar según disponibilidad.
+      <div class="vehiculo-info">
 
-</p>
+        <div class="vehiculo-tipo">
 
+          <h3
+            data-es="Vehículo privado"
+            data-en="Private vehicle"
+          >
+            Vehículo privado
+          </h3>
 
-<div class="slider">
+          <span class="capacidad">
+            1–4 pasajeros
+          </span>
 
-<div class="slider-track">
+        </div>
 
+        <p
+          data-es="Ideal para viajeros individuales, parejas y grupos pequeños con equipaje moderado."
+          data-en="Ideal for individual travelers, couples and small groups with moderate luggage."
+        >
+          Ideal para viajeros individuales, parejas y grupos pequeños
+          con equipaje moderado.
+        </p>
 
-<!-- CARRO -->
+        <div class="vehiculo-caracteristica">
+          <span>✓</span>
+          Servicio privado
+        </div>
 
+      </div>
 
-<div class="vehicle-card">
+    </article>
 
-<div class="vehicle-image">
 
-<svg viewBox="0 0 400 190">
+    <!-- =====================================================
+         2. SUV / JIPETA
+    ====================================================== -->
 
-<ellipse
-cx="200"
-cy="158"
-rx="150"
-ry="15"
-fill="rgba(0,0,0,.20)"
-/>
+    <article class="vehiculo-catalogo">
 
-<path
-d="
-M55 126
-L83 91
-Q94 77 113 74
-L166 63
-Q186 45 211 45
-H268
-Q286 46 304 68
-L326 92
-Q351 100 356 117
-V138
-H48
-Q45 129 55 126Z
-"
-fill="#ffffff"
-stroke="#ccd3d5"
-stroke-width="3"
-/>
-
-<path
-d="
-M175 64
-L203 50
-H263
-Q279 51 291 69
-L299 79
-H159Z
-"
-fill="#a9d4df"
-/>
-
-<circle
-cx="111"
-cy="140"
-r="28"
-fill="#1f292d"
-/>
-
-<circle
-cx="302"
-cy="140"
-r="28"
-fill="#1f292d"
-/>
-
-</svg>
-
-</div>
-
-<h3
-data-es="Vehículo privado"
-data-en="Private vehicle">
-Vehículo privado
-</h3>
-
-<p
-data-es="Para grupos pequeños y equipaje moderado."
-data-en="For smaller groups with moderate luggage.">
-Para grupos pequeños y equipaje moderado.
-</p>
-
-</div>
-
-
-<!-- SUV -->
-
-
-<div class="vehicle-card">
-
-<div class="vehicle-image">
-
-<svg viewBox="0 0 400 190">
-
-<ellipse
-cx="200"
-cy="159"
-rx="153"
-ry="15"
-fill="rgba(0,0,0,.20)"
-/>
-
-<path
-d="
-M49 128
-L65 83
-Q69 70 89 66
-L150 55
-Q170 38 195 38
-H283
-Q303 39 318 61
-L338 88
-Q358 95 361 114
-V140
-H43
-V132
-Q44 129 49 128Z
-"
-fill="#ffffff"
-stroke="#ccd3d5"
-stroke-width="3"
-/>
-
-<path
-d="
-M156 57
-L185 44
-H276
-Q290 45 303 64
-L312 78
-H145Z
-"
-fill="#abd5e0"
-/>
-
-<circle
-cx="108"
-cy="141"
-r="30"
-fill="#1f292d"
-/>
-
-<circle
-cx="305"
-cy="141"
-r="30"
-fill="#1f292d"
-/>
-
-</svg>
-
-</div>
-
-<h3>SUV</h3>
-
-<p
-data-es="Mayor espacio y comodidad para determinados grupos."
-data-en="Additional space and comfort for selected groups.">
-Mayor espacio y comodidad.
-</p>
-
-</div>
-
-
-<!-- MINIVAN -->
-
-
-<div class="vehicle-card">
-
-<div class="vehicle-image">
-
-<svg viewBox="0 0 400 190">
-
-<ellipse
-cx="200"
-cy="159"
-rx="157"
-ry="15"
-fill="rgba(0,0,0,.20)"
-/>
-
-<path
-d="
-M44 130
-L55 62
-Q58 48 77 45
-H278
-Q304 46 324 64
-L348 91
-Q360 104 361 123
-V141
-H44Z
-"
-fill="#ffffff"
-stroke="#ccd3d5"
-stroke-width="3"
-/>
-
-<path
-d="
-M72 55
-H273
-Q293 55 309 72
-L323 90
-H65Z
-"
-fill="#abd5e0"
-/>
-
-<circle
-cx="107"
-cy="141"
-r="29"
-fill="#1f292d"
-/>
-
-<circle
-cx="306"
-cy="141"
-r="29"
-fill="#1f292d"
-/>
-
-</svg>
-
-</div>
-
-<h3>Minivan</h3>
-
-<p
-data-es="Más capacidad para pasajeros y equipaje."
-data-en="Additional capacity for passengers and luggage.">
-Más capacidad para pasajeros y equipaje.
-</p>
-
-</div>
-
-
-<!-- VAN -->
-
-
-<div class="vehicle-card">
-
-<div class="vehicle-image">
-
-<svg viewBox="0 0 400 190">
-
-<ellipse
-cx="200"
-cy="160"
-rx="160"
-ry="16"
-fill="rgba(0,0,0,.20)"
-/>
-
-<path
-d="
-M42 132
-L48 49
-Q51 35 70 34
-H282
-Q310 34 328 55
-L353 86
-Q362 98 363 119
-V142
-H41Z
-"
-fill="#ffffff"
-stroke="#ccd3d5"
-stroke-width="3"
-/>
-
-<path
-d="
-M67 45
-H279
-Q298 45 311 61
-L329 84
-H61Z
-"
-fill="#abd5e0"
-/>
-
-<circle
-cx="106"
-cy="142"
-r="31"
-fill="#1f292d"
-/>
-
-<circle
-cx="307"
-cy="142"
-r="31"
-fill="#1f292d"
-/>
-
-</svg>
-
-</div>
-
-<h3>Van</h3>
-
-<p
-data-es="Para grupos mayores o una cantidad importante de equipaje."
-data-en="For larger groups or a significant amount of luggage.">
-Para grupos mayores y más equipaje.
-</p>
-
-</div>
-
-
-<!-- REPETICION PARA MOVIMIENTO CONTINUO -->
-
-
-<div class="vehicle-card">
-
-<div class="vehicle-image">
-
-<svg viewBox="0 0 400 190">
-
-<ellipse cx="200" cy="158" rx="150" ry="15"
-fill="rgba(0,0,0,.20)"/>
-
-<path
-d="
-M55 126
-L83 91
-Q94 77 113 74
-L166 63
-Q186 45 211 45
-H268
-Q286 46 304 68
-L326 92
-Q351 100 356 117
-V138
-H48
-Q45 129 55 126Z
-"
-fill="#ffffff"
-stroke="#ccd3d5"
-stroke-width="3"/>
-
-<circle cx="111" cy="140" r="28" fill="#1f292d"/>
-<circle cx="302" cy="140" r="28" fill="#1f292d"/>
-
-</svg>
-
-</div>
-
-<h3
-data-es="Vehículo privado"
-data-en="Private vehicle">
-Vehículo privado
-</h3>
-
-<p
-data-es="Servicio exclusivo para tu grupo."
-data-en="Exclusive transportation for your group.">
-Servicio exclusivo para tu grupo.
-</p>
-
-</div>
-
-
-<div class="vehicle-card">
-
-<div class="vehicle-image">
-
-<svg viewBox="0 0 400 190">
-
-<ellipse cx="200" cy="160" rx="160" ry="16"
-fill="rgba(0,0,0,.20)"/>
-
-<path
-d="
-M42 132
-L48 49
-Q51 35 70 34
-H282
-Q310 34 328 55
-L353 86
-Q362 98 363 119
-V142
-H41Z
-"
-fill="#ffffff"
-stroke="#ccd3d5"
-stroke-width="3"/>
-
-<circle cx="106" cy="142" r="31" fill="#1f292d"/>
-<circle cx="307" cy="142" r="31" fill="#1f292d"/>
-
-</svg>
-
-</div>
-
-<h3>Van</h3>
-
-<p
-data-es="Capacidad adecuada para grupos mayores."
-data-en="Suitable capacity for larger groups.">
-Capacidad adecuada para grupos mayores.
-</p>
-
-</div>
-
-
-</div>
-
-</div>
+      <img
+        src="DE 4 YIPETA.jpeg"
+        alt="SUV privada"
+        loading="lazy"
+      >
+
+      <div class="vehiculo-info">
+
+        <div class="vehiculo-tipo">
+
+          <h3>
+            SUV
+          </h3>
+
+          <span class="capacidad">
+            1–4 pasajeros
+          </span>
+
+        </div>
+
+        <p
+          data-es="Mayor comodidad y espacio para grupos pequeños que viajan con más equipaje."
+          data-en="Additional comfort and space for small groups traveling with more luggage."
+        >
+          Mayor comodidad y espacio para grupos pequeños
+          que viajan con más equipaje.
+        </p>
+
+        <div class="vehiculo-caracteristica">
+          <span>✓</span>
+          Mayor espacio
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- =====================================================
+         3. MINIVAN
+    ====================================================== -->
+
+    <article class="vehiculo-catalogo">
+
+      <img
+        src="DE 7.jpeg"
+        alt="Minivan privada"
+        loading="lazy"
+      >
+
+      <div class="vehiculo-info">
+
+        <div class="vehiculo-tipo">
+
+          <h3>
+            Minivan
+          </h3>
+
+          <span class="capacidad">
+            Hasta 7 pasajeros
+          </span>
+
+        </div>
+
+        <p
+          data-es="Una excelente opción para familias y grupos medianos que necesitan comodidad y espacio para equipaje."
+          data-en="A great option for families and medium-sized groups requiring comfort and luggage space."
+        >
+          Una excelente opción para familias y grupos medianos
+          que necesitan comodidad y espacio para equipaje.
+        </p>
+
+        <div class="vehiculo-caracteristica">
+          <span>✓</span>
+          Familias y grupos
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- =====================================================
+         4. VAN
+    ====================================================== -->
+
+    <article class="vehiculo-catalogo">
+
+      <img
+        src="DE 17.jpeg"
+        alt="Van para grupos"
+        loading="lazy"
+      >
+
+      <div class="vehiculo-info">
+
+        <div class="vehiculo-tipo">
+
+          <h3>
+            Van
+          </h3>
+
+          <span class="capacidad">
+            Hasta 17 pasajeros
+          </span>
+
+        </div>
+
+        <p
+          data-es="Indicada para grupos numerosos y servicios que requieren mayor capacidad para pasajeros y equipaje."
+          data-en="Suitable for larger groups requiring additional passenger and luggage capacity."
+        >
+          Indicada para grupos numerosos y servicios que requieren
+          mayor capacidad para pasajeros y equipaje.
+        </p>
+
+        <div class="vehiculo-caracteristica">
+          <span>✓</span>
+          Grupos numerosos
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- =====================================================
+         5. MINIBÚS
+    ====================================================== -->
+
+    <article class="vehiculo-catalogo">
+
+      <img
+        src="DE 30.jpeg"
+        alt="Minibús privado"
+        loading="lazy"
+      >
+
+      <div class="vehiculo-info">
+
+        <div class="vehiculo-tipo">
+
+          <h3
+            data-es="Minibús"
+            data-en="Minibus"
+          >
+            Minibús
+          </h3>
+
+          <span class="capacidad">
+            Hasta 30 pasajeros
+          </span>
+
+        </div>
+
+        <p
+          data-es="Transporte privado para grupos grandes, excursiones, familias numerosas y servicios especiales."
+          data-en="Private transportation for large groups, excursions, large families and special services."
+        >
+          Transporte privado para grupos grandes, excursiones,
+          familias numerosas y servicios especiales.
+        </p>
+
+        <div class="vehiculo-caracteristica">
+          <span>✓</span>
+          Alta capacidad
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- =====================================================
+         6. AUTOBÚS
+    ====================================================== -->
+
+    <article class="vehiculo-catalogo">
+
+      <img
+        src="DE 60.jpeg"
+        alt="Autobús para grupos grandes"
+        loading="lazy"
+      >
+
+      <div class="vehiculo-info">
+
+        <div class="vehiculo-tipo">
+
+          <h3
+            data-es="Autobús"
+            data-en="Bus"
+          >
+            Autobús
+          </h3>
+
+          <span class="capacidad">
+            Hasta 60 pasajeros
+          </span>
+
+        </div>
+
+        <p
+          data-es="Solución para grupos de gran tamaño, eventos, excursiones y traslados privados coordinados."
+          data-en="A transportation solution for large groups, events, excursions and coordinated private transfers."
+        >
+          Solución para grupos de gran tamaño, eventos,
+          excursiones y traslados privados coordinados.
+        </p>
+
+        <div class="vehiculo-caracteristica">
+          <span>✓</span>
+          Grupos grandes
+        </div>
+
+      </div>
+
+    </article>
+
+
+  </div>
 
 </div>
 
