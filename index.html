@@ -1883,6 +1883,226 @@ textarea:focus{
   }
 
 }
+/* =========================================================
+   POR QUÉ ELEGIRNOS - 3 TARJETAS PREMIUM
+========================================================= */
+
+.servicios-premium{
+  padding:76px 0;
+  background:#ffffff;
+}
+
+.servicios-premium .section-title{
+  max-width:780px;
+  margin-bottom:36px;
+}
+
+.servicios-premium .servicios-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:22px;
+}
+
+/* TARJETAS */
+
+.servicios-premium .servicio{
+  position:relative;
+  min-height:290px;
+  padding:28px;
+  overflow:hidden;
+
+  border:1px solid #dfe8e9;
+  border-radius:24px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff 0%,
+      #f4faf9 100%
+    );
+
+  box-shadow:
+    0 14px 35px rgba(6,47,61,.09);
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
+
+.servicios-premium .servicio:hover{
+  transform:translateY(-6px);
+  border-color:#c5dedf;
+
+  box-shadow:
+    0 22px 48px rgba(6,47,61,.15);
+}
+
+/* DECORACIÓN */
+
+.servicios-premium .servicio::after{
+  content:"";
+  position:absolute;
+
+  width:160px;
+  height:160px;
+
+  right:-80px;
+  bottom:-80px;
+
+  border-radius:50%;
+
+  background:rgba(8,125,131,.06);
+}
+
+/* ICONO */
+
+.servicios-premium .servicio-icon{
+  position:relative;
+  z-index:2;
+
+  width:64px;
+  height:64px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  margin-bottom:24px;
+
+  border-radius:18px;
+
+  color:#087d83;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ddf4f3,
+      #effafa
+    );
+
+  box-shadow:
+    0 8px 20px rgba(8,125,131,.10);
+}
+
+.servicios-premium .servicio-icon svg{
+  width:31px;
+  height:31px;
+
+  fill:none;
+  stroke:currentColor;
+
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+/* NÚMERO 01 - 02 - 03 */
+
+.servicios-premium .servicio-num{
+  position:absolute;
+
+  top:27px;
+  right:27px;
+
+  color:rgba(6,47,61,.18);
+
+  font-size:26px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+/* TÍTULO */
+
+.servicios-premium .servicio h3{
+  position:relative;
+  z-index:2;
+
+  margin:0 0 12px;
+
+  color:#062f3d;
+
+  font-size:21px;
+  line-height:1.25;
+
+  font-weight:900;
+}
+
+/* TEXTO */
+
+.servicios-premium .servicio p{
+  position:relative;
+  z-index:2;
+
+  margin:0;
+
+  color:#68777d;
+
+  font-size:14px;
+  line-height:1.65;
+}
+
+/* PEQUEÑA LÍNEA DORADA */
+
+.servicios-premium .servicio::before{
+  content:"";
+
+  position:absolute;
+
+  left:28px;
+  bottom:22px;
+
+  width:42px;
+  height:3px;
+
+  border-radius:10px;
+
+  background:#e5b735;
+}
+
+/* TABLET */
+
+@media(max-width:900px){
+
+  .servicios-premium .servicios-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .servicios-premium .servicio:last-child{
+    grid-column:1/-1;
+  }
+
+}
+
+/* CELULAR */
+
+@media(max-width:650px){
+
+  .servicios-premium{
+    padding:55px 0;
+  }
+
+  .servicios-premium .servicios-grid{
+    grid-template-columns:1fr;
+    gap:16px;
+  }
+
+  .servicios-premium .servicio:last-child{
+    grid-column:auto;
+  }
+
+  .servicios-premium .servicio{
+    min-height:260px;
+    padding:24px;
+  }
+
+  .servicios-premium .servicio-num{
+    top:23px;
+    right:23px;
+  }
+
+}
+
 
 </style>
 
@@ -2764,7 +2984,138 @@ WHATSAPP
      VEHICULOS
 ========================================================= -->
 
-<section
+<!-- =========================================================
+     POR QUÉ ELEGIRNOS - 3 TARJETAS
+========================================================= -->
+
+<section class="section servicios-premium" id="por-que-elegirnos">
+
+  <div class="container">
+
+    <div class="section-title">
+
+      <span
+        class="kicker"
+        data-es="Viaja con confianza"
+        data-en="Travel with confidence">
+        Viaja con confianza
+      </span>
+
+      <h2
+        data-es="Tu traslado, coordinado de principio a fin."
+        data-en="Your transfer, coordinated from start to finish.">
+        Tu traslado, coordinado de principio a fin.
+      </h2>
+
+      <p
+        data-es="Organizamos cada servicio pensando en tu llegada, tu grupo y los detalles que hacen que tu traslado sea más cómodo y sencillo."
+        data-en="We organize every service around your arrival, your group and the details that make your transfer easier and more comfortable.">
+        Organizamos cada servicio pensando en tu llegada, tu grupo y los
+        detalles que hacen que tu traslado sea más cómodo y sencillo.
+      </p>
+
+    </div>
+
+
+    <div class="servicios-grid">
+
+
+      <!-- TARJETA 1 -->
+      <article class="servicio servicio-premium">
+
+        <div class="servicio-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M22 2L9 15"></path>
+            <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
+          </svg>
+        </div>
+
+        <div class="servicio-num">01</div>
+
+        <h3
+          data-es="Tu llegada, coordinada"
+          data-en="Your arrival, coordinated">
+          Tu llegada, coordinada
+        </h3>
+
+        <p
+          data-es="Coordinamos tu recogida considerando aeropuerto, horario, pasajeros, equipaje y datos de vuelo cuando corresponda."
+          data-en="We coordinate your pickup considering the airport, schedule, passengers, luggage and flight information when required.">
+          Coordinamos tu recogida considerando aeropuerto, horario,
+          pasajeros, equipaje y datos de vuelo cuando corresponda.
+        </p>
+
+      </article>
+
+
+      <!-- TARJETA 2 -->
+      <article class="servicio servicio-premium">
+
+        <div class="servicio-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 17H21"></path>
+            <path d="M5 17L7 10H17L20 17"></path>
+            <path d="M8 10L10 7H15L17 10"></path>
+            <circle cx="7" cy="18" r="2"></circle>
+            <circle cx="18" cy="18" r="2"></circle>
+          </svg>
+        </div>
+
+        <div class="servicio-num">02</div>
+
+        <h3
+          data-es="El espacio adecuado para tu grupo"
+          data-en="The right space for your group">
+          El espacio adecuado para tu grupo
+        </h3>
+
+        <p
+          data-es="Recomendamos la categoría de vehículo según pasajeros, equipaje y necesidades del viaje, sin comprometerte con una marca o modelo específico."
+          data-en="We recommend the vehicle category according to passengers, luggage and travel needs, without limiting your service to a specific make or model.">
+          Recomendamos la categoría de vehículo según pasajeros,
+          equipaje y necesidades del viaje.
+        </p>
+
+      </article>
+
+
+      <!-- TARJETA 3 -->
+      <article class="servicio servicio-premium">
+
+        <div class="servicio-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 11.5A8.5 8.5 0 1 1 12.5 3"></path>
+            <path d="M8 21L12 17H6"></path>
+            <path d="M8 10H16"></path>
+            <path d="M8 14H13"></path>
+          </svg>
+        </div>
+
+        <div class="servicio-num">03</div>
+
+        <h3
+          data-es="Atención humana y directa"
+          data-en="Direct, personal assistance">
+          Atención humana y directa
+        </h3>
+
+        <p
+          data-es="Antes de tu servicio puedes comunicarte directamente por WhatsApp para confirmar detalles, informar cambios o resolver cualquier duda."
+          data-en="Before your service, you can contact us directly through WhatsApp to confirm details, report changes or ask any questions.">
+          Antes de tu servicio puedes comunicarte directamente por
+          WhatsApp para confirmar cada detalle de tu traslado.
+        </p>
+
+      </article>
+
+
+    </div>
+
+  </div>
+
+</section>
+   
+   <section
   class="section vehiculos"
   id="vehiculos">
 
