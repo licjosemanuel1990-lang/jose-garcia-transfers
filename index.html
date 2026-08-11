@@ -2104,6 +2104,10 @@ textarea:focus{
 }
 
 
+#contacto{
+  display:none !important;
+}
+
 </style>
 
 
@@ -3659,120 +3663,681 @@ WHATSAPP
      POR QUE ELEGIRNOS
 ========================================================= -->
 
+<!-- =========================================================
+     CONFIANZA + GOOGLE + REDES SOCIALES
+========================================================= -->
+
+<style>
+
+/* =========================================================
+   BLOQUE DE CONFIANZA
+========================================================= */
+
+.jg-confianza{
+  padding:70px 0;
+  overflow:hidden;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f8fbfb 0%,
+      #edf6f5 100%
+    );
+}
+
+.jg-confianza-wrap{
+  width:min(1180px,92%);
+  margin:auto;
+}
+
+
+/* CABECERA */
+
+.jg-confianza-head{
+  max-width:820px;
+  margin-bottom:35px;
+}
+
+.jg-confianza-kicker{
+  display:inline-block;
+
+  margin-bottom:9px;
+
+  color:#d7a638;
+
+  font-size:12px;
+  font-weight:900;
+
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+}
+
+.jg-confianza-head h2{
+  max-width:760px;
+
+  margin:0 0 14px;
+
+  color:#062f3d;
+
+  font-size:clamp(32px,4vw,48px);
+  line-height:1.08;
+
+  font-weight:900;
+}
+
+.jg-confianza-head p{
+  max-width:760px;
+
+  margin:0;
+
+  color:#63757b;
+
+  font-size:16px;
+  line-height:1.65;
+}
+
+
+/* =========================================================
+   VENTAJAS
+========================================================= */
+
+.jg-confianza-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(4,minmax(0,1fr));
+
+  gap:15px;
+
+  margin-bottom:34px;
+}
+
+.jg-confianza-item{
+  min-height:145px;
+
+  padding:20px;
+
+  border:
+    1px solid #dce7e8;
+
+  border-radius:18px;
+
+  background:
+    rgba(255,255,255,.82);
+
+  box-shadow:
+    0 10px 26px
+    rgba(6,47,61,.06);
+}
+
+.jg-confianza-icon{
+  width:42px;
+  height:42px;
+
+  display:grid;
+  place-items:center;
+
+  margin-bottom:13px;
+
+  border-radius:12px;
+
+  color:#087d83;
+
+  background:#e3f5f4;
+
+  font-size:19px;
+}
+
+.jg-confianza-item strong{
+  display:block;
+
+  margin-bottom:5px;
+
+  color:#062f3d;
+
+  font-size:14px;
+}
+
+.jg-confianza-item p{
+  margin:0;
+
+  color:#68777d;
+
+  font-size:12px;
+  line-height:1.5;
+}
+
+
+/* =========================================================
+   GOOGLE
+========================================================= */
+
+.jg-google{
+  display:grid;
+
+  grid-template-columns:
+    1.2fr .8fr;
+
+  gap:25px;
+
+  align-items:center;
+
+  margin-top:15px;
+
+  padding:28px;
+
+  border-radius:24px;
+
+  color:white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #062f3d 0%,
+      #075665 55%,
+      #087d83 100%
+    );
+
+  box-shadow:
+    0 18px 45px
+    rgba(6,47,61,.18);
+}
+
+.jg-google-label{
+  color:#efc762;
+
+  font-size:12px;
+  font-weight:900;
+
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+
+.jg-google h3{
+  margin:7px 0 8px;
+
+  color:white;
+
+  font-size:27px;
+  line-height:1.2;
+}
+
+.jg-google p{
+  max-width:630px;
+
+  margin:0;
+
+  color:
+    rgba(255,255,255,.75);
+
+  font-size:14px;
+  line-height:1.6;
+}
+
+.jg-google-actions{
+  display:flex;
+
+  flex-direction:column;
+
+  gap:10px;
+}
+
+.jg-google-btn{
+  display:block;
+
+  width:100%;
+
+  padding:13px 16px;
+
+  border-radius:12px;
+
+  text-align:center;
+
+  font-size:12px;
+  font-weight:900;
+
+  transition:
+    transform .2s ease,
+    opacity .2s ease;
+}
+
+.jg-google-btn:hover{
+  transform:translateY(-2px);
+}
+
+.jg-google-btn-principal{
+  color:#17272d;
+
+  background:
+    linear-gradient(
+      135deg,
+      #e5b735,
+      #f4d982
+    );
+}
+
+.jg-google-btn-secundario{
+  color:white;
+
+  border:
+    1px solid rgba(255,255,255,.25);
+
+  background:
+    rgba(255,255,255,.08);
+}
+
+
+/* =========================================================
+   REDES SOCIALES
+========================================================= */
+
+.jg-social{
+  margin-top:35px;
+
+  text-align:center;
+}
+
+.jg-social h3{
+  margin-bottom:6px;
+
+  color:#062f3d;
+
+  font-size:22px;
+}
+
+.jg-social p{
+  margin-bottom:18px;
+
+  color:#68777d;
+
+  font-size:13px;
+}
+
+.jg-social-links{
+  display:flex;
+
+  flex-wrap:wrap;
+
+  justify-content:center;
+
+  gap:10px;
+}
+
+.jg-social-link{
+  display:inline-flex;
+
+  align-items:center;
+
+  gap:8px;
+
+  padding:11px 16px;
+
+  border:
+    1px solid #dce6e8;
+
+  border-radius:50px;
+
+  color:#062f3d;
+
+  background:white;
+
+  box-shadow:
+    0 6px 18px
+    rgba(6,47,61,.06);
+
+  font-size:12px;
+  font-weight:850;
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+.jg-social-link:hover{
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 10px 24px
+    rgba(6,47,61,.12);
+}
+
+.jg-social-icon{
+  font-size:17px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:950px){
+
+  .jg-confianza-grid{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .jg-google{
+    grid-template-columns:1fr;
+  }
+
+  .jg-google-actions{
+    flex-direction:row;
+  }
+
+}
+
+@media(max-width:650px){
+
+  .jg-confianza{
+    padding:50px 0;
+  }
+
+  .jg-confianza-grid{
+    grid-template-columns:1fr;
+  }
+
+  .jg-google{
+    padding:22px;
+  }
+
+  .jg-google h3{
+    font-size:23px;
+  }
+
+  .jg-google-actions{
+    flex-direction:column;
+  }
+
+}
+
+</style>
+
+
 <section
-  class="section confianza"
-  id="nosotros">
+  class="jg-confianza"
+  id="nosotros"
+>
+
+  <div class="jg-confianza-wrap">
 
 
-<div class="container confianza-grid">
+    <!-- CABECERA -->
+
+    <div class="jg-confianza-head">
+
+      <span
+        class="jg-confianza-kicker"
+        data-es="José García Transporte"
+        data-en="José García Transportation"
+      >
+        José García Transporte
+      </span>
 
 
-<div class="section-title">
-
-<span class="kicker">
-José García
-</span>
-
-
-<h2
-data-es="Más que un traslado: una coordinación en la que puedas confiar."
-data-en="More than a transfer: coordination you can rely on.">
-
-Más que un traslado:
-una coordinación en la que puedas confiar.
-
-</h2>
+      <h2
+        data-es="Tu viaje merece una coordinación en la que puedas confiar."
+        data-en="Your trip deserves coordination you can rely on."
+      >
+        Tu viaje merece una coordinación en la que puedas confiar.
+      </h2>
 
 
-<p
-data-es="Nuestra base principal está en Boca Chica y coordinamos servicios privados en diferentes puntos de República Dominicana."
-data-en="Our main base is in Boca Chica and we coordinate private transportation throughout different areas of the Dominican Republic.">
+      <p
+        data-es="Nuestra base principal está en Boca Chica, República Dominicana. Coordinamos traslados privados desde y hacia aeropuertos, hoteles, ciudades y diferentes destinos del país."
+        data-en="Our main base is in Boca Chica, Dominican Republic. We coordinate private transfers to and from airports, hotels, cities and destinations throughout the country."
+      >
+        Nuestra base principal está en Boca Chica, República Dominicana.
+        Coordinamos traslados privados desde y hacia aeropuertos, hoteles,
+        ciudades y diferentes destinos del país.
+      </p>
 
-Nuestra base principal está en Boca Chica
-y coordinamos servicios privados en diferentes puntos del país.
-
-</p>
-
-</div>
-
-
-<div class="confianza-cards">
+    </div>
 
 
-<div class="confianza-card">
+    <!-- 4 BENEFICIOS -->
 
-<strong
-data-es="Servicio privado"
-data-en="Private service">
-Servicio privado
-</strong>
-
-<span
-data-es="El servicio se coordina exclusivamente para tu grupo."
-data-en="The service is coordinated exclusively for your group.">
-El servicio se coordina exclusivamente para tu grupo.
-</span>
-
-</div>
+    <div class="jg-confianza-grid">
 
 
-<div class="confianza-card">
+      <div class="jg-confianza-item">
 
-<strong
-data-es="Capacidad adecuada"
-data-en="Suitable capacity">
-Capacidad adecuada
-</strong>
+        <div class="jg-confianza-icon">
+          🚐
+        </div>
 
-<span
-data-es="La categoría se recomienda según pasajeros y equipaje."
-data-en="The category is recommended according to passengers and luggage.">
-Categoría según pasajeros y equipaje.
-</span>
+        <strong
+          data-es="Servicio privado"
+          data-en="Private service"
+        >
+          Servicio privado
+        </strong>
 
-</div>
+        <p
+          data-es="El traslado se coordina exclusivamente para tu grupo."
+          data-en="Your transfer is coordinated exclusively for your group."
+        >
+          El traslado se coordina exclusivamente para tu grupo.
+        </p>
 
-
-<div class="confianza-card">
-
-<strong
-data-es="Atención directa"
-data-en="Direct assistance">
-Atención directa
-</strong>
-
-<span
-data-es="Comunicación por WhatsApp antes del servicio."
-data-en="WhatsApp communication before the service.">
-Comunicación por WhatsApp antes del servicio.
-</span>
-
-</div>
+      </div>
 
 
-<div class="confianza-card">
+      <div class="jg-confianza-item">
 
-<strong
-data-es="Cobertura nacional"
-data-en="Nationwide coverage">
-Cobertura nacional
-</strong>
+        <div class="jg-confianza-icon">
+          👥
+        </div>
 
-<span
-data-es="Aeropuertos, hoteles, ciudades y provincias."
-data-en="Airports, hotels, cities and provinces.">
-Aeropuertos, hoteles, ciudades y provincias.
-</span>
+        <strong
+          data-es="Capacidad adecuada"
+          data-en="Suitable capacity"
+        >
+          Capacidad adecuada
+        </strong>
 
-</div>
+        <p
+          data-es="La categoría se selecciona según pasajeros y equipaje."
+          data-en="The category is selected according to passengers and luggage."
+        >
+          La categoría se selecciona según pasajeros y equipaje.
+        </p>
+
+      </div>
 
 
-</div>
+      <div class="jg-confianza-item">
 
-</div>
+        <div class="jg-confianza-icon">
+          💬
+        </div>
+
+        <strong
+          data-es="Atención directa"
+          data-en="Direct assistance"
+        >
+          Atención directa
+        </strong>
+
+        <p
+          data-es="Comunicación por WhatsApp antes y durante la coordinación del servicio."
+          data-en="WhatsApp communication before and during service coordination."
+        >
+          Comunicación por WhatsApp antes y durante la coordinación del servicio.
+        </p>
+
+      </div>
+
+
+      <div class="jg-confianza-item">
+
+        <div class="jg-confianza-icon">
+          📍
+        </div>
+
+        <strong
+          data-es="Cobertura nacional"
+          data-en="National coverage"
+        >
+          Cobertura nacional
+        </strong>
+
+        <p
+          data-es="Aeropuertos, hoteles, ciudades, provincias y otros destinos."
+          data-en="Airports, hotels, cities, provinces and other destinations."
+        >
+          Aeropuertos, hoteles, ciudades, provincias y otros destinos.
+        </p>
+
+      </div>
+
+
+    </div>
+
+
+    <!-- GOOGLE -->
+
+    <div class="jg-google">
+
+      <div>
+
+        <span class="jg-google-label">
+          ★ Opiniones de clientes
+        </span>
+
+        <h3
+          data-es="Consulta nuestras valoraciones reales en Google."
+          data-en="See our real customer reviews on Google."
+        >
+          Consulta nuestras valoraciones reales en Google.
+        </h3>
+
+        <p
+          data-es="La experiencia de nuestros clientes también forma parte de nuestra presentación. Puedes consultar las opiniones publicadas directamente en Google."
+          data-en="Our customers' experiences are also part of who we are. You can read reviews published directly on Google."
+        >
+          La experiencia de nuestros clientes también forma parte de
+          nuestra presentación. Puedes consultar las opiniones publicadas
+          directamente en Google.
+        </p>
+
+      </div>
+
+
+      <div class="jg-google-actions">
+
+        <a
+          class="jg-google-btn jg-google-btn-principal"
+          href="https://share.google/Rj3ECNPkwQCGhk69X"
+          target="_blank"
+          rel="noopener"
+          data-es="VER OPINIONES EN GOOGLE"
+          data-en="SEE GOOGLE REVIEWS"
+        >
+          VER OPINIONES EN GOOGLE
+        </a>
+
+        <a
+          class="jg-google-btn jg-google-btn-secundario"
+          href="https://share.google/Rj3ECNPkwQCGhk69X"
+          target="_blank"
+          rel="noopener"
+          data-es="DEJAR UNA OPINIÓN"
+          data-en="LEAVE A REVIEW"
+        >
+          DEJAR UNA OPINIÓN
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <!-- REDES SOCIALES -->
+
+    <div class="jg-social">
+
+      <h3
+        data-es="Conecta con nosotros"
+        data-en="Connect with us"
+      >
+        Conecta con nosotros
+      </h3>
+
+      <p
+        data-es="Síguenos en nuestras redes sociales o comunícate directamente."
+        data-en="Follow us on social media or contact us directly."
+      >
+        Síguenos en nuestras redes sociales o comunícate directamente.
+      </p>
+
+
+      <div class="jg-social-links">
+
+
+        <a
+          class="jg-social-link"
+          href="https://www.instagram.com/josegarciabc.rd?utm_source=qr&igsh=dTNkbjRtYzg1ZDhr"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="jg-social-icon">◎</span>
+          Instagram
+        </a>
+
+
+        <a
+          class="jg-social-link"
+          href="https://www.facebook.com/share/1Ef5vzW4Qt/"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="jg-social-icon">f</span>
+          Facebook
+        </a>
+
+
+        <a
+          class="jg-social-link"
+          href="https://www.tiktok.com/@josegarciabc.rd?_r=1&_t=ZS-98mSQTS4bfG"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="jg-social-icon">♪</span>
+          TikTok
+        </a>
+
+
+        <a
+          class="jg-social-link"
+          href="https://wa.me/18298182426"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="jg-social-icon">💬</span>
+          WhatsApp
+        </a>
+
+
+        <a
+          class="jg-social-link"
+          href="https://share.google/Rj3ECNPkwQCGhk69X"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="jg-social-icon">★</span>
+          Google
+        </a>
+
+
+      </div>
+
+    </div>
+
+
+  </div>
 
 </section>
-
 
 <!-- =========================================================
      CONTACTO
