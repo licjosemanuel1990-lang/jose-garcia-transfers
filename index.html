@@ -5439,42 +5439,44 @@ function allLocations(){
 
 function populateLocations(){
 
-  const originInput = $("#origin");
-  const destinationInput = $("#destination");
-  const list = $("#locationOptions");
+    const originInput = $("#origin");
+    const destinationInput = $("#destination");
+    const list = $("#locationOptions");
 
-  const currentOrigin = originInput.value;
-  const currentDestination = destinationInput.value;
+    if (!originInput || !destinationInput || !list) return;
 
-  if(!list){
-    return;
-  }
+    const currentOrigin = originInput.value;
+    const currentDestination = destinationInput.value;
 
-  list.innerHTML = "";
+    list.innerHTML = "";
 
-  allLocations().forEach(location => {
+    // Obtener únicamente ubicaciones procedentes
+    // de las rutas ACTIVAS del panel administrativo
+    const locations = [
+        ...new Set(
+            ROUTES.flatMap(route => [
+                route.origin,
+                route.destination
+            ])
+            .filter(location => location && location.trim() !== "")
+        )
+    ].sort((a, b) =>
+        a.localeCompare(b, "es", { sensitivity: "base" })
+    );
 
-    const option = document.createElement("option");
+    locations.forEach(location => {
+        const option = document.createElement("option");
+        option.value = location;
+        list.appendChild(option);
+    });
 
-    option.value = location;
+    // Permite seleccionar una ubicación o escribirla manualmente
+    originInput.setAttribute("list", "locationOptions");
+    destinationInput.setAttribute("list", "locationOptions");
 
-    list.appendChild(option);
-
-  });
-
-  originInput.placeholder =
-    language === "es"
-    ? "Escribe o selecciona un origen"
-    : "Type or select pickup location";
-
-  destinationInput.placeholder =
-    language === "es"
-    ? "Escribe o selecciona un destino"
-    : "Type or select destination";
-
-  originInput.value = currentOrigin;
-  destinationInput.value = currentDestination;
-
+    // No borrar lo que el cliente ya haya escrito
+    originInput.value = currentOrigin;
+    destinationInput.value = currentDestination;
 }
 
 populateLocations();
