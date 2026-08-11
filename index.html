@@ -2456,19 +2456,23 @@ Origen
   onclick="if(this.showPicker) this.showPicker()"
   oninput="if(this.showPicker) this.showPicker()">
 </div>
-
+<datalist id="locationOptions"></datalist>
 
 <div>
 
-<input
-  id="destination"
-  list="locationOptions"
-  required
-  autocomplete="off"
-  placeholder="Escribe o selecciona un destino"
-  onfocus="if(this.showPicker) this.showPicker()"
-  onclick="if(this.showPicker) this.showPicker()"
-  oninput="if(this.showPicker) this.showPicker()">
+    <label
+        for="destination"
+        data-es="Destino"
+        data-en="Destination">
+        Destino
+    </label>
+
+    <input
+        id="destination"
+        list="locationOptions"
+        required
+        autocomplete="off"
+        placeholder="Escribe o selecciona un destino">
 
 </div>
 
