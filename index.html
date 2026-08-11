@@ -5187,76 +5187,52 @@ Zona Colonial|Aeropuerto De Punta Cana (PUJ)|140|2 h 40 min|195 km
 `;
 
 
-let adminData = {};
 
-try {
-  adminData = JSON.parse(
-    localStorage.getItem("jg_admin_datos") || "{}"
-  );
-} catch(error) {
-  console.error("Error leyendo datos administrativos:", error);
-  adminData = {};
+
+   /* =========================================================
+   MOTOR DE RUTAS
+========================================================= */
+
+function normalizarTexto(texto){
+
+  return String(texto || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
+
 }
 
-const adminRoutes =
-  Array.isArray(adminData.rutas)
-  ? adminData.rutas
-  : [];
+function convertirRutasRaw(){
 
-const ROUTES = adminRoutes
-  .filter(r => {
+  return ROUTES_RAW
+    .trim()
+    .split("\n")
+    .map(linea => linea.trim())
+    .filter(Boolean)
+    .map(linea => {
 
-    const estado =
-      String(r.estado || "")
-      .trim()
-      .toUpperCase();
+      const partes = linea.split("|");
 
-    return (
-      estado === "ACTIVA" ||
-      estado === "ACTIVO" ||
-      estado === "ACTIVE" ||
-      r.activa === true ||
-      r.activo === true
+      return {
+        origin: (partes[0] || "").trim(),
+        destination: (partes[1] || "").trim(),
+        price: Number(partes[2]) || 0,
+        duration: (partes[3] || "").trim(),
+        distance: (partes[4] || "").trim()
+      };
+
+    })
+    .filter(ruta =>
+      ruta.origin &&
+      ruta.destination &&
+      ruta.price > 0
     );
 
-  })
-  .map(r => ({
+}
 
-    origin:
-      String(
-        r.origen ||
-        r.origin ||
-        ""
-      ).trim(),
-
-    destination:
-      String(
-        r.destino ||
-        r.destination ||
-        ""
-      ).trim(),
-
-    price:
-      Number(
-        r.precio ??
-        r.price ??
-        0
-      ),
-
-    duration:
-      r.duracion ||
-      r.duration ||
-      "",
-
-    distance:
-      r.distancia ||
-      r.distance ||
-      ""
-
-  }))
-  .filter(r =>
-    r.origin &&
-    r.destination
+const ROUTES = convertirRutasRaw();
   );
 /* =========================================================
    VARIABLES DE ESTADO
@@ -5576,20 +5552,35 @@ $$('input[name="trip"]')
 /* =========================================================
    BUSCAR RUTA EXACTA
 ========================================================= */
+function findRoute(origin, destination){
 
-function findRoute(
-  origin,
-  destination
-){
+  const origenBuscado =
+    normalizarTexto(origin);
 
-  return ROUTES.find(route =>
+  const destinoBuscado =
+    normalizarTexto(destination);
 
-    route.origin === origin
-    &&
-    route.destination === destination
+  return ROUTES.find(route => {
 
-  );
+    const origenRuta =
+      normalizarTexto(route.origin);
 
+    const destinoRuta =
+      normalizarTexto(route.destination);
+
+    const directa =
+      origenRuta === origenBuscado &&
+      destinoRuta === destinoBuscado;
+
+    const inversa =
+      origenRuta === destinoBuscado &&
+      destinoRuta === origenBuscado;
+
+    return directa || inversa;
+
+  });
+
+}
 }
 
 
