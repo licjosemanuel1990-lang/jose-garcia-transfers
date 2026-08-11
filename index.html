@@ -5810,84 +5810,61 @@ The website indicates that this route requires a custom quote.`;
   );
 
 
-  let returnRoute =
-  null;
+ let returnRoute =
+null;
+
+let returnPrice =
+0;
+
+let subtotal =
+outboundPrice;
+
+let discount =
+0;
+
+let total =
+outboundPrice;
+
+let completeRoundTrip =
+true;
 
 
-  let returnPrice =
-  0;
+if(
+  tripType === "roundtrip"
+){
 
+  /* EL REGRESO USA LA MISMA TARIFA DE LA IDA */
 
-  let subtotal =
+  returnRoute =
+  outbound;
+
+  returnPrice =
   outboundPrice;
 
+  /* IDA + REGRESO */
 
-  let discount =
-  0;
+  subtotal =
+  outboundPrice * 2;
 
+  /* DESCUENTO IDA Y VUELTA */
 
-  let total =
-  outboundPrice;
+  discount =
+  subtotal
+  *
+  (
+    CONFIG.roundTripDiscount
+    /
+    100
+  );
 
+  /* TOTAL FINAL */
 
-  let completeRoundTrip =
-  true;
+  total =
+  subtotal
+  -
+  discount;
 
-
-  if(
-    tripType === "roundtrip"
-  ){
-
-    returnRoute =
-    findRoute(
-      destination,
-      origin
-    );
-
-
-    if(returnRoute){
-
-      returnPrice =
-      applyPassengerRule(
-        returnRoute.price,
-        passengers
-      );
-
-
-      subtotal =
-      outboundPrice
-      +
-      returnPrice;
-
-
-      discount =
-      subtotal
-      *
-      (
-        CONFIG.roundTripDiscount
-        /
-        100
-      );
-
-
-      total =
-      subtotal
-      -
-      discount;
-
-    }else{
-
-      completeRoundTrip =
-      false;
-
-      subtotal =
-      outboundPrice;
-
-      total =
-      outboundPrice;
-
-    }
-
+}
   }
 
 
