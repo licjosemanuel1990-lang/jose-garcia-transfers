@@ -7238,7 +7238,18 @@ new Date()
 .getFullYear();
 
 </script>
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script>
+  const SUPABASE_URL = "https://uskawcpbbcxtdrjeppwg.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_oTNr6OUtmvYWfOA1NZ4oFg_67ZlTJcu";
+
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+</script>
 
 </body>
 </html>
