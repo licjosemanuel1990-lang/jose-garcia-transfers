@@ -122,7 +122,60 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.app{min-height:
 </section>
 
 <section class="screen printable" id="reportes">
-  <div class="panel"><div class="panel-head"><h2>Reportes</h2><div class="toolbar no-print"><input type="date" id="reporteFecha"><button class="btn btn-dark" onclick="window.print()">Imprimir día</button></div></div><div class="print-only"><h1>José García Transporte</h1><p>Reporte diario de servicios</p></div><div id="reporteResumen" class="cards" style="margin-bottom:14px"></div><div class="table-wrap"><table><thead><tr><th>Hora</th><th>Código</th><th>Cliente</th><th>Ruta</th><th>Pax</th><th>Chofer</th><th>Estado</th><th>Tarifa</th></tr></thead><tbody id="tablaReporte"></tbody></table></div></div>
+  <div class="panel">
+    <div class="panel-head">
+      <div><h2>Reportes</h2><div class="muted">Reservas, operación, choferes, comisiones, gastos y estado de resultados.</div></div>
+      <div class="toolbar no-print">
+        <select id="tipoReporte">
+          <option value="general">Reporte general</option>
+          <option value="reservas">Reservas</option>
+          <option value="agenda">Agenda / Servicios</option>
+          <option value="choferes">Choferes</option>
+          <option value="comisiones">Comisiones</option>
+          <option value="gastos">Gastos</option>
+          <option value="resultados">Estado de resultados</option>
+        </select>
+        <input type="date" id="reporteDesde">
+        <input type="date" id="reporteHasta">
+        <button class="btn btn-dark" onclick="window.print()">Imprimir</button>
+      </div>
+    </div>
+
+    <div class="print-only"><h1>José García Transporte</h1><p id="printTitulo">Reporte administrativo</p></div>
+
+    <div id="reporteResumen" class="cards" style="margin-bottom:14px"></div>
+
+    <div id="reporteGeneralBox">
+      <div class="table-wrap"><table>
+        <thead><tr><th>Fecha</th><th>Código</th><th>Cliente</th><th>Ruta</th><th>Chofer</th><th>Estado</th><th>Tarifa</th><th>Comisión</th></tr></thead>
+        <tbody id="tablaReporte"></tbody>
+      </table></div>
+    </div>
+
+    <div id="estadoResultadosBox" style="display:none">
+      <div class="cards" style="margin-bottom:14px">
+        <div class="card"><h3 id="erIngresos">RD$0</h3><p>Total ingresos</p></div>
+        <div class="card"><h3 id="erGastos">RD$0</h3><p>Total gastos</p></div>
+        <div class="card"><h3 id="erResultado">RD$0</h3><p>Utilidad / pérdida neta</p></div>
+      </div>
+      <div class="dashboard-grid">
+        <div class="panel" style="margin:0">
+          <div class="panel-head"><h2>Ingresos</h2></div>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Concepto</th><th>Monto</th></tr></thead>
+            <tbody id="erTablaIngresos"></tbody>
+          </table></div>
+        </div>
+        <div class="panel" style="margin:0">
+          <div class="panel-head"><h2>Gastos</h2></div>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Categoría</th><th>Monto</th></tr></thead>
+            <tbody id="erTablaGastos"></tbody>
+          </table></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section class="screen" id="config">
@@ -364,8 +417,82 @@ function editarRutaCompat(id){const i=rutaIndexCompat(id);if(i<0)return;if(!dato
 function toggleRuta(id){const i=rutaIndexCompat(id);if(i<0)return;datos.rutas[i].estado=norm(datos.rutas[i].estado)==="INACTIVA"?"ACTIVA":"INACTIVA";if(!datos.rutas[i].id)datos.rutas[i].id=uid();guardar()}
 function eliminarRuta(id){if(!confirm("¿Eliminar esta ruta?"))return;const i=rutaIndexCompat(id);if(i>=0)datos.rutas.splice(i,1);guardar()}
 
-function renderReporte(){const f=$("#reporteFecha").value||hoy();$("#reporteFecha").value=f;const rs=datos.reservas.filter(r=>resFecha(r)===f).sort((a,b)=>resHora(a).localeCompare(resHora(b)));const total=rs.reduce((s,r)=>s+resTarifa(r),0),comp=rs.filter(r=>resEstado(r)==="COMPLETADA").length;$("#reporteResumen").innerHTML=`<div class="card"><h3>${rs.length}</h3><p>Servicios del día</p></div><div class="card"><h3>${comp}</h3><p>Completados</p></div><div class="card"><h3>${usd(total)}</h3><p>Tarifa total programada</p></div>`;$("#tablaReporte").innerHTML=rs.length?rs.map(r=>`<tr><td>${safe(resHora(r))}</td><td>${safe(resCode(r))}</td><td>${safe(resNombre(r))}</td><td>${safe(resOrigen(r))} → ${safe(resDestino(r))}</td><td>${resPax(r)}</td><td>${safe(choferNombre(resChofer(r)))}</td><td>${safe(resEstado(r))}</td><td>${usd(resTarifa(r))}</td></tr>`).join(""):'<tr><td colspan="8" class="muted">No hay servicios para esta fecha.</td></tr>'}
-$("#reporteFecha").onchange=renderReporte;
+function rangoReporte(){
+ const d=$("#reporteDesde").value||hoy(), h=$("#reporteHasta").value||d;
+ return {d,h};
+}
+function filtrarPorRangoFecha(arr,fnFecha){
+ const {d,h}=rangoReporte();
+ return arr.filter(x=>{const f=fnFecha(x)||"";return (!d||f>=d)&&(!h||f<=h)});
+}
+function renderReporte(){
+ const tipo=$("#tipoReporte").value||"general";
+ const {d,h}=rangoReporte();
+ $("#printTitulo").textContent=`${$("#tipoReporte").selectedOptions[0].text} · ${d} a ${h}`;
+ const rs=filtrarPorRangoFecha(datos.reservas,resFecha).sort((a,b)=>(resFecha(a)+resHora(a)).localeCompare(resFecha(b)+resHora(b)));
+ const gastos=filtrarPorRangoFecha(datos.gastos,g=>g.fecha||"");
+ const comisiones=rs.filter(r=>resComision(r)>0);
+ const cobradas=comisiones.filter(r=>r.comisionEstado==="PAGADA").reduce((s,r)=>s+resComision(r),0);
+ const pendientes=comisiones.filter(r=>r.comisionEstado!=="PAGADA").reduce((s,r)=>s+resComision(r),0);
+ const totalGastos=gastos.reduce((s,g)=>s+Number(g.monto||0),0);
+
+ $("#estadoResultadosBox").style.display=tipo==="resultados"?"block":"none";
+ $("#reporteGeneralBox").style.display=tipo==="resultados"?"none":"block";
+
+ let resumen="";
+ if(tipo==="resultados"){
+   const utilidad=cobradas-totalGastos;
+   $("#erIngresos").textContent=money(cobradas);
+   $("#erGastos").textContent=money(totalGastos);
+   $("#erResultado").textContent=money(utilidad);
+   $("#erResultado").style.color=utilidad>=0?"var(--verde-ok)":"var(--rojo)";
+   $("#erTablaIngresos").innerHTML=`
+     <tr><td>Comisiones cobradas</td><td><b>${money(cobradas)}</b></td></tr>
+     <tr><td><b>Total ingresos</b></td><td><b>${money(cobradas)}</b></td></tr>`;
+   const cats={};
+   gastos.forEach(g=>cats[g.categoria]=(cats[g.categoria]||0)+Number(g.monto||0));
+   $("#erTablaGastos").innerHTML=Object.keys(cats).length
+     ?Object.entries(cats).map(([k,v])=>`<tr><td>${safe(k)}</td><td><b>${money(v)}</b></td></tr>`).join("")+`<tr><td><b>Total gastos</b></td><td><b>${money(totalGastos)}</b></td></tr>`
+     :`<tr><td colspan="2" class="muted">No hay gastos en el período.</td></tr>`;
+   $("#reporteResumen").innerHTML=`
+     <div class="card"><h3>${money(cobradas)}</h3><p>Ingresos cobrados</p></div>
+     <div class="card"><h3>${money(totalGastos)}</h3><p>Gastos</p></div>
+     <div class="card"><h3>${money(utilidad)}</h3><p>Resultado neto</p></div>`;
+   return;
+ }
+
+ let arr=rs;
+ if(tipo==="agenda") arr=rs.filter(r=>["CONFIRMADA","EN SERVICIO","COMPLETADA"].includes(resEstado(r)));
+ if(tipo==="comisiones") arr=rs.filter(r=>resComision(r)>0);
+ if(tipo==="reservas"||tipo==="general") arr=rs;
+
+ if(tipo==="choferes"){
+   const rows=datos.choferes.map(c=>{
+      const s=rs.filter(r=>resChofer(r)===c.id);
+      const pag=s.filter(r=>r.comisionEstado==="PAGADA").reduce((x,r)=>x+resComision(r),0);
+      const pen=s.filter(r=>resComision(r)>0&&r.comisionEstado!=="PAGADA").reduce((x,r)=>x+resComision(r),0);
+      return `<tr><td>-</td><td>${safe(c.nombre)}</td><td>${s.length} servicios</td><td>${safe(c.vehiculo||"-")}</td><td>${safe(c.telefono||"-")}</td><td>${safe(c.estado)}</td><td>${money(pag)}</td><td>${money(pen)}</td></tr>`;
+   }).join("");
+   $("#tablaReporte").innerHTML=rows||'<tr><td colspan="8" class="muted">No hay choferes.</td></tr>';
+   $("#reporteResumen").innerHTML=`<div class="card"><h3>${datos.choferes.length}</h3><p>Choferes registrados</p></div><div class="card"><h3>${money(cobradas)}</h3><p>Comisiones cobradas</p></div><div class="card"><h3>${money(pendientes)}</h3><p>Comisiones pendientes</p></div>`;
+   return;
+ }
+
+ if(tipo==="gastos"){
+   $("#tablaReporte").innerHTML=gastos.length?gastos.map(g=>`<tr><td>${safe(g.fecha)}</td><td>${safe(g.categoria)}</td><td colspan="4">${safe(g.descripcion)}</td><td colspan="2"><b>${money(g.monto)}</b></td></tr>`).join(""):'<tr><td colspan="8" class="muted">No hay gastos.</td></tr>';
+   $("#reporteResumen").innerHTML=`<div class="card"><h3>${gastos.length}</h3><p>Gastos registrados</p></div><div class="card"><h3>${money(totalGastos)}</h3><p>Total gastos</p></div>`;
+   return;
+ }
+
+ $("#tablaReporte").innerHTML=arr.length?arr.map(r=>`<tr><td>${safe(resFecha(r))} ${safe(resHora(r))}</td><td>${safe(resCode(r))}</td><td>${safe(resNombre(r))}</td><td>${safe(resOrigen(r))} → ${safe(resDestino(r))}</td><td>${safe(choferNombre(resChofer(r)))}</td><td>${safe(resEstado(r))}</td><td>${usd(resTarifa(r))}</td><td>${money(resComision(r))}</td></tr>`).join(""):'<tr><td colspan="8" class="muted">No hay registros en este período.</td></tr>';
+ $("#reporteResumen").innerHTML=`
+   <div class="card"><h3>${arr.length}</h3><p>Registros</p></div>
+   <div class="card"><h3>${money(cobradas)}</h3><p>Comisiones cobradas</p></div>
+   <div class="card"><h3>${money(pendientes)}</h3><p>Comisiones pendientes</p></div>`;
+}
+$("#tipoReporte").onchange=renderReporte;
+$("#reporteDesde").onchange=renderReporte;
+$("#reporteHasta").onchange=renderReporte;
 
 function renderConfig(){const c=datos.config||BASE.config;$("#cfgWhatsapp").value=c.whatsapp||"";$("#cfgTasa").value=c.exchangeRate||60;$("#cfgIncluidos").value=c.includedPassengers||4;$("#cfgAdicional").value=c.additionalPassengerFee||10;$("#cfgDescuento").value=c.roundTripDiscount||10;$("#cfgNombre").value=c.businessName||"José García Transporte"}
 $("#formConfig").onsubmit=e=>{e.preventDefault();datos.config={...datos.config,whatsapp:$("#cfgWhatsapp").value.trim(),exchangeRate:Number($("#cfgTasa").value),includedPassengers:Number($("#cfgIncluidos").value),additionalPassengerFee:Number($("#cfgAdicional").value),roundTripDiscount:Number($("#cfgDescuento").value),businessName:$("#cfgNombre").value.trim()};guardar();alert("Configuración guardada.")}
@@ -375,7 +502,7 @@ $("#importFile").onchange=e=>{const f=e.target.files[0];if(!f)return;const reade
 
 window.addEventListener("storage",ev=>{if([STORAGE_ADMIN,STORAGE_RES].includes(ev.key)){datos=cargar();renderTodo()}});
 ["modalReserva","modalRuta","modalChofer","modalAsignacion","modalGasto"].forEach(id=>$("#"+id).addEventListener("click",e=>{if(e.target.id===id)cerrarModal(id)}));
-$("#agendaDesde").value=hoy();$("#agendaHasta").value="";$("#reporteFecha").value=hoy();
+$("#agendaDesde").value=hoy();$("#agendaHasta").value="";$("#reporteDesde").value=hoy();$("#reporteHasta").value=hoy();
 guardar();
 </script>
 </body>
