@@ -1,115 +1,934 @@
-async function eliminarRuta(id){
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#062f3d">
+<title>Administración | José García Transporte</title>
+<style>
+:root{
+  --verde:#062f3d;--verde2:#0a5060;--turq:#08a7a8;--dorado:#e5b735;--fondo:#f4f7f8;
+  --blanco:#fff;--texto:#17282f;--gris:#6e7c82;--borde:#dfe7e9;--rojo:#c63b3b;--verde-ok:#18875a;
+  --amarillo:#b67b00;--azul:#2466a6;--sombra:0 10px 28px rgba(5,43,54,.09)
+}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:var(--fondo);color:var(--texto)}
+button,input,select,textarea{font:inherit}button{cursor:pointer}.app{min-height:100vh;display:grid;grid-template-columns:255px 1fr}
+.sidebar{position:sticky;top:0;height:100vh;background:#042733;color:white;padding:20px 14px;display:flex;flex-direction:column;z-index:50}
+.brand{display:flex;gap:12px;align-items:center;padding:5px 8px 22px;border-bottom:1px solid rgba(255,255,255,.1)}
+.brand .logo{width:48px;height:48px;border:2px solid var(--dorado);border-radius:50%;display:grid;place-items:center;font-weight:900;background:white;color:var(--verde)}
+.brand strong{display:block;font-size:16px}.brand span{font-size:11px;color:rgba(255,255,255,.65)}
+.nav{display:grid;gap:5px;margin-top:18px}.nav button{border:0;background:transparent;color:rgba(255,255,255,.76);padding:11px 12px;border-radius:11px;text-align:left;font-weight:750}
+.nav button:hover,.nav button.activo{background:rgba(229,183,53,.16);color:#fff}.nav button.activo{box-shadow:inset 3px 0 var(--dorado)}
+.sidebar-footer{margin-top:auto;padding:12px 8px;color:rgba(255,255,255,.6);font-size:11px}.sidebar-footer a{color:#fff;text-decoration:none}
+.main{min-width:0}.topbar{min-height:64px;background:#fff;border-bottom:1px solid var(--borde);display:flex;align-items:center;justify-content:space-between;gap:15px;padding:10px 22px;position:sticky;top:0;z-index:40;box-shadow:0 3px 12px rgba(6,47,61,.06)}
+.topbar h1{font-size:22px;margin:0;color:var(--verde)}.topbar p{margin:3px 0 0;color:var(--gris);font-size:12px}
+.top-actions{display:flex;gap:8px}.btn{border:0;border-radius:10px;padding:10px 14px;font-weight:850}.btn-gold{background:var(--dorado);color:#182329}.btn-dark{background:var(--verde);color:#fff}.btn-light{background:#eef3f4;color:var(--verde)}.btn-red{background:#fff0f0;color:var(--rojo)}
+.mobile-menu{display:none;border:0;background:var(--verde);color:white;border-radius:9px;width:40px;height:40px}
+.content{padding:22px}.screen{display:none}.screen.activa{display:block}
+.grid-metricas{display:grid;grid-template-columns:repeat(6,minmax(140px,1fr));gap:12px;margin-bottom:18px}.metric{background:#fff;border:1px solid var(--borde);border-radius:16px;padding:16px;box-shadow:var(--sombra)}
+.metric span{display:block;color:var(--gris);font-size:11px;font-weight:800}.metric strong{display:block;margin-top:5px;font-size:24px;color:var(--verde)}.metric small{font-size:11px;color:var(--gris)}
+.panel{background:#fff;border:1px solid var(--borde);border-radius:16px;box-shadow:var(--sombra);padding:18px;margin-bottom:16px}.panel-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px}.panel-head h2{margin:0;font-size:18px;color:var(--verde)}
+.dashboard-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:16px}.mini-list{display:grid;gap:8px}.mini-item{padding:11px;border:1px solid var(--borde);border-radius:11px;display:flex;justify-content:space-between;gap:10px}.muted{color:var(--gris);font-size:12px}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap}.toolbar input,.toolbar select{padding:10px;border:1px solid var(--borde);border-radius:10px;background:white;min-width:160px}
+.table-wrap{overflow:auto;border:1px solid var(--borde);border-radius:12px}table{width:100%;border-collapse:collapse;min-width:880px}th,td{padding:11px 10px;border-bottom:1px solid #edf1f2;text-align:left;font-size:12px;vertical-align:top}th{background:#f8fafb;color:#53636a;font-size:10px;text-transform:uppercase;letter-spacing:.4px}tr:last-child td{border-bottom:0}
+.badge{display:inline-block;padding:5px 8px;border-radius:50px;font-size:10px;font-weight:900}.b-nueva{background:#fff3d7;color:#8b6200}.b-confirmada{background:#e6f5ef;color:#14704b}.b-servicio{background:#e9f0fb;color:#205c97}.b-completada{background:#e8f6ed;color:#176d43}.b-cancelada{background:#fdeaea;color:#a92f2f}.b-pendiente{background:#fff4dd;color:#8a5e00}.b-pagada{background:#e7f6ee;color:#137146}
+.actions{display:flex;gap:5px;flex-wrap:wrap}.icon-btn{border:1px solid var(--borde);background:white;border-radius:8px;padding:6px 8px;font-size:11px;font-weight:800}.icon-btn:hover{background:#f5f8f8}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.full{grid-column:1/-1}.field label{display:block;font-size:11px;font-weight:900;color:#44565e;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;border:1px solid #d8e1e3;border-radius:10px;padding:10px;background:white}.field textarea{min-height:82px;resize:vertical}
+.modal{display:none;position:fixed;inset:0;background:rgba(2,20,26,.72);z-index:100;align-items:center;justify-content:center;padding:18px}.modal.open{display:flex}.modal-box{width:min(760px,100%);max-height:92vh;overflow:auto;background:white;border-radius:18px;padding:20px;box-shadow:0 28px 70px rgba(0,0,0,.35)}.modal-head{display:flex;justify-content:space-between;gap:15px;align-items:flex-start;margin-bottom:14px}.modal-head h3{margin:0;color:var(--verde);font-size:20px}.close{border:0;border-radius:50%;width:36px;height:36px;background:#edf2f2}
+.notice{padding:12px 14px;border-radius:11px;background:#eef8f7;border:1px solid #d4ebe8;font-size:12px;color:#31535a}.danger-note{background:#fff2f2;border-color:#f1d0d0;color:#873434}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.card{border:1px solid var(--borde);border-radius:14px;padding:14px;background:#fff}.card h3{margin:0 0 5px;color:var(--verde);font-size:15px}.card p{margin:3px 0;color:var(--gris);font-size:12px}
+.money-ok{color:var(--verde-ok);font-weight:900}.money-pending{color:var(--amarillo);font-weight:900}
+.print-only{display:none}
+@media(max-width:1250px){.grid-metricas{grid-template-columns:repeat(3,1fr)}}@media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{position:fixed;left:-280px;width:255px;transition:.22s}.sidebar.open{left:0}.mobile-menu{display:inline-grid;place-items:center}.topbar{padding:0 14px}.content{padding:14px}.dashboard-grid{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}}@media(max-width:600px){.grid-metricas{grid-template-columns:1fr 1fr}.form-grid{grid-template-columns:1fr}.full{grid-column:auto}.cards{grid-template-columns:1fr}.top-actions .btn-light{display:none}.topbar h1{font-size:17px}}
+@media print{.sidebar,.topbar,.no-print{display:none!important}.app{display:block}.content{padding:0}.screen{display:none!important}.screen.printable{display:block!important}.panel{box-shadow:none;border:0}.print-only{display:block}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="brand"><div class="logo">JG</div><div><strong>José García</strong><span>Panel Administrativo</span></div></div>
+  <nav class="nav" id="nav">
+    <button class="activo" data-screen="dashboard">📊 Dashboard</button>
+    <button data-screen="reservas">📋 Reservas</button>
+    <button data-screen="agenda">📅 Agenda</button>
+    <button data-screen="choferes">👨‍✈️ Choferes</button>
+    <button data-screen="comisiones">💰 Comisiones</button>
+    <button data-screen="gastos">💸 Gastos</button>
+    <button data-screen="rutas">🛣️ Rutas y tarifas</button>
+    <button data-screen="estadoresultados">📊 Estado de Resultados</button>
+    <button data-screen="reportes">📈 Reportes</button>
+    <button data-screen="config">⚙️ Configuración</button>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="index.html" target="_blank">🌐 Ver página pública</a>
+    <br><br>
+    <button type="button" onclick="cerrarSesion()" style="border:0;background:transparent;color:#fff;padding:0;cursor:pointer;font:inherit">
+      🔒 Cerrar sesión
+    </button>
+    <br><br>
+    José García Transporte
+  </div>
+</aside>
 
-  if(!confirm("¿Eliminar esta ruta?")){
+<main class="main">
+<header class="topbar">
+  <div style="display:flex;gap:11px;align-items:center">
+    <button class="mobile-menu" id="menuBtn">☰</button>
+    <div><h1 id="pageTitle">Dashboard</h1><p>Operación, reservas y finanzas</p></div>
+  </div>
+  <div class="top-actions">
+    <a class="btn btn-light" href="index.html" target="_blank" style="text-decoration:none">Ver web</a>
+    <button class="btn btn-gold" onclick="abrirReserva()">+ Nueva reserva</button>
+  </div>
+</header>
+
+<div class="content">
+
+<section class="screen activa" id="dashboard">
+  <div class="notice" style="margin-bottom:14px"><b>Flujo de trabajo:</b> Reserva NUEVA → Confirmar → aparece en AGENDA → asignar chofer y comisión → EN SERVICIO → COMPLETADA.</div>
+  <div class="grid-metricas">
+    <div class="metric"><span>Reservas nuevas</span><strong id="mNuevas">0</strong><small>Pendientes de revisión</small></div>
+    <div class="metric"><span>Confirmadas</span><strong id="mConfirmadas">0</strong><small>Próximos servicios</small></div>
+    <div class="metric"><span>En servicio</span><strong id="mServicio">0</strong><small>Operación actual</small></div>
+    <div class="metric"><span>Comisiones cobradas</span><strong id="mCobrado">RD$0</strong><small>Ingresos registrados</small></div>
+    <div class="metric"><span>Comisiones pendientes</span><strong id="mPendiente">RD$0</strong><small>Por cobrar a choferes</small></div>
+    <div class="metric"><span>Gastos</span><strong id="mGastos">RD$0</strong><small>Gastos operativos</small></div>
+  </div>
+  <div class="dashboard-grid">
+    <div class="panel"><div class="panel-head"><h2>Próximos servicios</h2><button class="btn btn-light" onclick="abrirPantalla('agenda')">Ver agenda</button></div><div id="proximos" class="mini-list"></div></div>
+    <div class="panel"><div class="panel-head"><h2>Comisiones pendientes</h2><button class="btn btn-light" onclick="abrirPantalla('comisiones')">Gestionar</button></div><div id="pendientesChofer" class="mini-list"></div></div>
+  </div>
+  <div class="panel"><div class="panel-head"><h2>Últimas reservas</h2><button class="btn btn-light" onclick="abrirPantalla('reservas')">Ver todas</button></div><div class="table-wrap"><table><thead><tr><th>Código</th><th>Fecha</th><th>Cliente</th><th>Ruta</th><th>Estado</th><th>Chofer</th></tr></thead><tbody id="ultimasReservas"></tbody></table></div></div>
+</section>
+
+<section class="screen" id="reservas">
+  <div class="panel">
+    <div class="panel-head">
+      <h2>Reservas</h2>
+      <div class="toolbar">
+        <input id="buscarReserva" placeholder="Buscar cliente, código o ruta">
+        <select id="filtroEstado">
+          <option value="">Todos los estados</option>
+          <option>NUEVA</option>
+          <option>CONFIRMADA</option>
+          <option>EN SERVICIO</option>
+          <option>COMPLETADA</option>
+          <option>CANCELADA</option>
+        </select>
+        <button class="btn btn-gold" onclick="abrirReserva()">+ Nueva reserva</button>
+      </div>
+    </div>
+    <div class="table-wrap"><table><thead><tr><th>Código</th><th>Servicio</th><th>Cliente</th><th>Ruta</th><th>Pax</th><th>Tarifa</th><th>Estado</th><th>Chofer</th><th>Acciones</th></tr></thead><tbody id="tablaReservas"></tbody></table></div>
+  </div>
+</section>
+
+<section class="screen" id="agenda">
+  <div class="panel">
+    <div class="panel-head"><h2>Agenda cronológica</h2><div class="toolbar"><input type="date" id="agendaDesde"><input type="date" id="agendaHasta"></div></div>
+    <div id="agendaLista" class="mini-list"></div>
+  </div>
+</section>
+
+<section class="screen" id="choferes">
+  <div class="panel">
+    <div class="panel-head"><h2>Choferes</h2><button class="btn btn-gold" onclick="abrirChofer()">+ Nuevo chofer</button></div>
+    <div class="cards" id="choferCards"></div>
+  </div>
+</section>
+
+<section class="screen" id="comisiones">
+  <div class="grid-metricas" style="grid-template-columns:repeat(3,1fr)">
+    <div class="metric"><span>Generadas</span><strong id="cGeneradas">RD$0</strong></div>
+    <div class="metric"><span>Cobradas</span><strong id="cCobradas">RD$0</strong></div>
+    <div class="metric"><span>Pendientes</span><strong id="cPendientes">RD$0</strong></div>
+  </div>
+  <div class="panel"><div class="panel-head"><h2>Control de comisiones</h2><span class="muted">La comisión se define cuando asignas el servicio al chofer.</span></div><div class="table-wrap"><table><thead><tr><th>Reserva</th><th>Chofer</th><th>Servicio</th><th>Comisión</th><th>Estado</th><th>Fecha pago</th><th>Acción</th></tr></thead><tbody id="tablaComisiones"></tbody></table></div></div>
+</section>
+
+<section class="screen" id="gastos">
+  <div class="panel"><div class="panel-head"><h2>Gastos operativos</h2><button class="btn btn-gold" onclick="abrirGasto()">+ Registrar gasto</button></div><div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Categoría</th><th>Descripción</th><th>Monto</th><th>Acciones</th></tr></thead><tbody id="tablaGastos"></tbody></table></div></div>
+</section>
+
+<section class="screen" id="rutas">
+  <div class="panel">
+    <div class="panel-head">
+      <div><h2>Rutas y tarifas</h2><div class="muted">Rutas sincronizadas con Supabase para el cotizador público.</div></div>
+      <div class="toolbar"><input id="buscarRuta" placeholder="Buscar origen o destino"><button class="btn btn-gold" onclick="abrirRuta()">+ Nueva ruta</button></div>
+    </div>
+    <div class="notice" style="margin-bottom:12px">Las rutas activas quedan disponibles en la base compartida. La página pública utilizará esta misma información desde cualquier dispositivo.</div>
+    <div class="table-wrap"><table><thead><tr><th>Origen</th><th>Destino</th><th>Tarifa USD</th><th>Distancia</th><th>Duración</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="tablaRutas"></tbody></table></div>
+  </div>
+</section>
+
+<section class="screen" id="estadoresultados">
+  <div class="panel">
+    <div class="panel-head">
+      <div><h2>Estado de Resultados</h2><div class="muted">Resumen financiero basado en comisiones cobradas menos gastos operativos.</div></div>
+      <div class="toolbar"><input type="date" id="erDesde"><input type="date" id="erHasta"><button class="btn btn-dark" onclick="renderEstadoResultados()">Actualizar</button></div>
+    </div>
+    <div class="grid-metricas" style="grid-template-columns:repeat(4,1fr)">
+      <div class="metric"><span>Ingresos cobrados</span><strong id="erMIngresos">RD$0</strong><small>Comisiones pagadas</small></div>
+      <div class="metric"><span>Gastos operativos</span><strong id="erMGastos">RD$0</strong><small>Gastos del período</small></div>
+      <div class="metric"><span>Resultado neto</span><strong id="erMNeto">RD$0</strong><small>Utilidad o pérdida</small></div>
+      <div class="metric"><span>Comisiones pendientes</span><strong id="erMPendientes">RD$0</strong><small>Por cobrar</small></div>
+    </div>
+    <div class="dashboard-grid">
+      <div class="panel" style="margin:0"><div class="panel-head"><h2>Ingresos</h2></div><div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Reserva</th><th>Chofer</th><th>Concepto</th><th>Monto</th></tr></thead><tbody id="erDetalleIngresos"></tbody></table></div></div>
+      <div class="panel" style="margin:0"><div class="panel-head"><h2>Gastos</h2></div><div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Categoría</th><th>Descripción</th><th>Monto</th></tr></thead><tbody id="erDetalleGastos"></tbody></table></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="screen printable" id="reportes">
+  <div class="panel">
+    <div class="panel-head">
+      <div><h2>Reportes</h2><div class="muted">Reservas, operación, choferes, comisiones, gastos y estado de resultados.</div></div>
+      <div class="toolbar no-print">
+        <select id="tipoReporte">
+          <option value="general">Dashboard / Reporte general</option>
+          <option value="reservas">Reservas</option>
+          <option value="agenda">Agenda / Servicios</option>
+          <option value="choferes">Choferes</option>
+          <option value="comisiones">Comisiones</option>
+          <option value="gastos">Gastos</option>
+          <option value="rutas">Rutas y tarifas</option>
+          <option value="resultados">Estado de resultados</option>
+          <option value="configuracion">Configuración</option>
+        </select>
+        <input type="date" id="reporteDesde">
+        <input type="date" id="reporteHasta">
+        <button class="btn btn-dark" onclick="window.print()">Imprimir</button>
+      </div>
+    </div>
+    <div class="print-only"><h1>José García Transporte</h1><p id="printTitulo">Reporte administrativo</p></div>
+    <div id="reporteResumen" class="cards" style="margin-bottom:14px"></div>
+    <div id="reporteGeneralBox">
+      <div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Código</th><th>Cliente</th><th>Ruta</th><th>Chofer</th><th>Estado</th><th>Tarifa</th><th>Comisión</th></tr></thead><tbody id="tablaReporte"></tbody></table></div>
+    </div>
+    <div id="estadoResultadosBox" style="display:none">
+      <div class="cards" style="margin-bottom:14px">
+        <div class="card"><h3 id="erIngresos">RD$0</h3><p>Total ingresos</p></div>
+        <div class="card"><h3 id="erGastos">RD$0</h3><p>Total gastos</p></div>
+        <div class="card"><h3 id="erResultado">RD$0</h3><p>Utilidad / pérdida neta</p></div>
+      </div>
+      <div class="dashboard-grid">
+        <div class="panel" style="margin:0"><div class="panel-head"><h2>Ingresos</h2></div><div class="table-wrap"><table><thead><tr><th>Concepto</th><th>Monto</th></tr></thead><tbody id="erTablaIngresos"></tbody></table></div></div>
+        <div class="panel" style="margin:0"><div class="panel-head"><h2>Gastos</h2></div><div class="table-wrap"><table><thead><tr><th>Categoría</th><th>Monto</th></tr></thead><tbody id="erTablaGastos"></tbody></table></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="screen" id="config">
+  <div class="panel">
+    <div class="panel-head"><h2>Configuración general</h2></div>
+    <form id="formConfig" class="form-grid">
+      <div class="field"><label>WhatsApp administrativo</label><input id="cfgWhatsapp" placeholder="18298182426"></div>
+      <div class="field"><label>Tasa RD$ por US$</label><input id="cfgTasa" type="number" step=".01"></div>
+      <div class="field"><label>Pasajeros incluidos en tarifa base</label><input id="cfgIncluidos" type="number" min="1"></div>
+      <div class="field"><label>Adicional por pasajero (USD)</label><input id="cfgAdicional" type="number" step=".01"></div>
+      <div class="field"><label>Descuento ida y vuelta (%)</label><input id="cfgDescuento" type="number" step=".01"></div>
+      <div class="field"><label>Nombre comercial</label><input id="cfgNombre"></div>
+      <div class="full"><button class="btn btn-dark" type="submit">Guardar configuración</button></div>
+    </form>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><h2>Sincronización</h2></div>
+    <div class="notice"><b>Supabase activo.</b> Rutas, reservas y choferes se mantienen en la base compartida. El almacenamiento local queda como respaldo de emergencia del dispositivo.</div>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><h2>Respaldo local</h2></div>
+    <div class="notice">Puedes exportar una copia JSON antes de realizar cambios importantes.</div>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-light" onclick="exportarDatos()">Exportar JSON</button>
+      <label class="btn btn-light" style="display:inline-block">Importar JSON<input type="file" id="importFile" accept=".json" hidden></label>
+    </div>
+  </div>
+</section>
+
+</div>
+</main>
+</div>
+
+<div class="modal" id="modalReserva">
+<div class="modal-box">
+<div class="modal-head">
+  <div><h3 id="reservaModalTitle">Nueva reserva</h3><div class="muted">Registro y edición completa del servicio.</div></div>
+  <button class="close" onclick="cerrarModal('modalReserva')">×</button>
+</div>
+<form id="formReserva" class="form-grid">
+<input type="hidden" id="rId">
+<div class="field"><label>Código</label><input id="rCodigo" readonly></div>
+<div class="field"><label>Estado</label><select id="rEstado"><option>NUEVA</option><option>CONFIRMADA</option><option>EN SERVICIO</option><option>COMPLETADA</option><option>CANCELADA</option></select></div>
+<div class="field"><label>Nombre del cliente</label><input id="rNombre" required></div>
+<div class="field"><label>WhatsApp</label><input id="rWhatsapp" required></div>
+<div class="field"><label>Origen</label><input id="rOrigen" required></div>
+<div class="field"><label>Destino</label><input id="rDestino" required></div>
+<div class="field"><label>Punto exacto recogida</label><input id="rRecogidaExacta"></div>
+<div class="field"><label>Punto exacto destino</label><input id="rDestinoExacto"></div>
+<div class="field"><label>Fecha</label><input id="rFecha" type="date" required></div>
+<div class="field"><label>Hora</label><input id="rHora" type="time" required></div>
+<div class="field"><label>Pasajeros</label><input id="rPax" type="number" min="1" required></div>
+<div class="field"><label>Tarifa USD</label><input id="rTarifa" type="number" step=".01" min="0" required></div>
+<div class="field"><label>Maletas grandes</label><input id="rGrandes" type="number" min="0"></div>
+<div class="field"><label>Equipaje de mano</label><input id="rMano" type="number" min="0"></div>
+<div class="field"><label>Vuelo</label><input id="rVuelo"></div>
+<div class="field"><label>Aerolínea</label><input id="rAerolinea"></div>
+<div class="field"><label>Tipo de viaje</label><select id="rTipo"><option value="oneway">Solo ida</option><option value="roundtrip">Ida y vuelta</option></select></div>
+<div class="field"><label>Vehículo / categoría</label><input id="rVehiculo"></div>
+<div class="field"><label>Fecha regreso</label><input id="rRegresoFecha" type="date"></div>
+<div class="field"><label>Hora regreso</label><input id="rRegresoHora" type="time"></div>
+<div class="field"><label>Chofer asignado</label><select id="rChofer"></select></div>
+<div class="field"><label>Comisión RD$</label><input id="rComision" type="number" min="0" step=".01"></div>
+<div class="full field"><label>Notas</label><textarea id="rNotas"></textarea></div>
+<div class="full" style="display:flex;gap:8px;justify-content:flex-end">
+  <button type="button" class="btn btn-light" onclick="cerrarModal('modalReserva')">Cancelar</button>
+  <button class="btn btn-dark" type="submit">Guardar reserva</button>
+</div>
+</form>
+</div>
+</div>
+
+<div class="modal" id="modalRuta">
+<div class="modal-box">
+<div class="modal-head"><h3 id="rutaModalTitle">Nueva ruta</h3><button class="close" onclick="cerrarModal('modalRuta')">×</button></div>
+<form id="formRuta" class="form-grid">
+<input type="hidden" id="rutaId">
+<div class="field"><label>Origen</label><input id="rutaOrigen" required></div>
+<div class="field"><label>Destino</label><input id="rutaDestino" required></div>
+<div class="field"><label>Tarifa USD</label><input id="rutaPrecio" type="number" min="0" step=".01" required></div>
+<div class="field"><label>Estado</label><select id="rutaEstado"><option>ACTIVA</option><option>INACTIVA</option></select></div>
+<div class="field"><label>Distancia</label><input id="rutaDistancia" placeholder="18 km"></div>
+<div class="field"><label>Duración</label><input id="rutaDuracion" placeholder="20 min"></div>
+<div class="full" style="display:flex;gap:8px;justify-content:flex-end">
+  <button type="button" class="btn btn-light" onclick="cerrarModal('modalRuta')">Cancelar</button>
+  <button class="btn btn-dark">Guardar ruta</button>
+</div>
+</form>
+</div>
+</div>
+
+<div class="modal" id="modalChofer">
+<div class="modal-box">
+<div class="modal-head"><h3 id="choferModalTitle">Nuevo chofer</h3><button class="close" onclick="cerrarModal('modalChofer')">×</button></div>
+<form id="formChofer" class="form-grid">
+<input type="hidden" id="chId">
+<div class="field"><label>Nombre</label><input id="chNombre" required></div>
+<div class="field"><label>Teléfono</label><input id="chTelefono" required></div>
+<div class="field"><label>Vehículo</label><input id="chVehiculo"></div>
+<div class="field"><label>Estado</label><select id="chEstado"><option>ACTIVO</option><option>INACTIVO</option></select></div>
+<div class="full field"><label>Observaciones / sanciones</label><textarea id="chNotas"></textarea></div>
+<div class="full" style="display:flex;gap:8px;justify-content:flex-end">
+  <button type="button" class="btn btn-light" onclick="cerrarModal('modalChofer')">Cancelar</button>
+  <button class="btn btn-dark">Guardar chofer</button>
+</div>
+</form>
+</div>
+</div>
+
+<div class="modal" id="modalAsignacion">
+<div class="modal-box">
+<div class="modal-head">
+  <div><h3>Asignar chofer al servicio</h3><div class="muted" id="asigResumen"></div></div>
+  <button class="close" onclick="cerrarModal('modalAsignacion')">×</button>
+</div>
+<form id="formAsignacion" class="form-grid">
+<input type="hidden" id="asigReservaId">
+<div class="field"><label>Chofer asignado</label><select id="asigChofer" required></select></div>
+<div class="field"><label>Comisión del chofer / ingreso RD$</label><input id="asigComision" type="number" min="0" step=".01" required></div>
+<div class="full field"><label>Observaciones operativas</label><textarea id="asigNotas" placeholder="Cartel, equipaje, instrucciones al chofer, etc."></textarea></div>
+<div class="full" style="display:flex;gap:8px;justify-content:flex-end">
+  <button type="button" class="btn btn-light" onclick="cerrarModal('modalAsignacion')">Cancelar</button>
+  <button class="btn btn-dark" type="submit">Guardar asignación</button>
+</div>
+</form>
+</div>
+</div>
+
+<div class="modal" id="modalGasto">
+<div class="modal-box">
+<div class="modal-head"><h3>Registrar gasto</h3><button class="close" onclick="cerrarModal('modalGasto')">×</button></div>
+<form id="formGasto" class="form-grid">
+<input type="hidden" id="gId">
+<div class="field"><label>Fecha</label><input id="gFecha" type="date" required></div>
+<div class="field"><label>Categoría</label>
+<select id="gCategoria">
+<option>Publicidad</option>
+<option>Personal</option>
+<option>Combustible</option>
+<option>Peajes</option>
+<option>Mantenimiento</option>
+<option>Administración</option>
+<option>Herramientas</option>
+<option>Otros</option>
+</select>
+</div>
+<div class="full field"><label>Descripción</label><input id="gDescripcion" required></div>
+<div class="field"><label>Monto RD$</label><input id="gMonto" type="number" min="0" step=".01" required></div>
+<div class="full" style="display:flex;gap:8px;justify-content:flex-end">
+  <button type="button" class="btn btn-light" onclick="cerrarModal('modalGasto')">Cancelar</button>
+  <button class="btn btn-dark">Guardar gasto</button>
+</div>
+</form>
+</div>
+</div>
+
+<script>
+"use strict";
+
+const STORAGE_ADMIN="jg_admin_datos";
+const STORAGE_RES="jg_reservas";
+
+const SUPABASE_URL="https://hrztulckwanbyeruxqad.supabase.co";
+const SUPABASE_KEY="sb_publishable_hSds3MbmfQORsUoJHmjbAQ__pM1HRRN";
+
+const $=s=>document.querySelector(s);
+const $$=s=>[...document.querySelectorAll(s)];
+
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const hoy=()=>new Date().toISOString().slice(0,10);
+const money=n=>"RD$"+Number(n||0).toLocaleString("es-DO",{maximumFractionDigits:2});
+const usd=n=>"US$"+Number(n||0).toFixed(2);
+
+const safe=v=>String(v??"").replace(/[&<>"']/g,m=>({
+  "&":"&amp;",
+  "<":"&lt;",
+  ">":"&gt;",
+  '"':"&quot;",
+  "'":"&#39;"
+}[m]));
+
+function code(){
+  const d=new Date();
+  const y=String(d.getFullYear()).slice(-2);
+  const m=String(d.getMonth()+1).padStart(2,"0");
+  const day=String(d.getDate()).padStart(2,"0");
+  return `TR-${y}${m}${day}-${Math.floor(1000+Math.random()*9000)}`;
+}
+
+const BASE={
+  config:{
+    whatsapp:"18298182426",
+    exchangeRate:60,
+    includedPassengers:4,
+    additionalPassengerFee:10,
+    roundTripDiscount:10,
+    businessName:"José García Transporte"
+  },
+  reservas:[],
+  rutas:[],
+  choferes:[],
+  gastos:[]
+};
+
+function resId(r){return r?._id||r?.id||resCode(r)||""}
+function resCode(r){return r?.codigo||r?.code||""}
+function resEstado(r){return norm(r?.estado||r?.status||"NUEVA").replace("PENDIENTE DE CONFIRMACION","NUEVA")}
+function resNombre(r){return r?.nombre||r?.client?.name||""}
+function resWhats(r){return r?.whatsapp||r?.client?.whatsapp||""}
+function resOrigen(r){return r?.origen||r?.trip?.origin||""}
+function resDestino(r){return r?.destino||r?.trip?.destination||""}
+function resFecha(r){return r?.fecha||r?.trip?.date||""}
+function resHora(r){return r?.hora||r?.trip?.time||""}
+function resPax(r){return Number(r?.pasajeros??r?.trip?.passengers??1)}
+function resGrandes(r){return Number(r?.grandes??r?.trip?.largeBags??0)}
+function resMano(r){return Number(r?.mano??r?.trip?.carryOn??0)}
+function resTarifa(r){return Number(r?.tarifa??r?.quote?.total??0)}
+function resVehiculo(r){return r?.vehiculo||r?.quote?.vehicle||""}
+function resNotas(r){return r?.notas||r?.trip?.notes||""}
+function resChofer(r){return r?.choferId||""}
+function resComision(r){return Number(r?.comision??0)}
+
+function norm(s){
+  return String(s||"")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .toUpperCase()
+    .trim();
+}
+
+function cargar(){
+  let d={};
+
+  try{
+    d=JSON.parse(localStorage.getItem(STORAGE_ADMIN)||"{}")||{};
+  }catch{
+    d={};
+  }
+
+  let antiguas=[];
+
+  try{
+    antiguas=JSON.parse(localStorage.getItem(STORAGE_RES)||"[]")||[];
+  }catch{
+    antiguas=[];
+  }
+
+  d={
+    ...BASE,
+    ...d,
+    config:{
+      ...BASE.config,
+      ...(d.config||{})
+    }
+  };
+
+  d.reservas=Array.isArray(d.reservas)?d.reservas:[];
+  d.rutas=Array.isArray(d.rutas)?d.rutas:[];
+  d.choferes=Array.isArray(d.choferes)?d.choferes:[];
+  d.gastos=Array.isArray(d.gastos)?d.gastos:[];
+
+  for(const r of antiguas){
+    const codigo=resCode(r);
+    if(codigo&&!d.reservas.some(x=>resCode(x)===codigo)){
+      d.reservas.push(r);
+    }
+  }
+
+  return d;
+}
+
+let datos=cargar();
+
+function guardarLocal(){
+  try{
+    localStorage.setItem(STORAGE_ADMIN,JSON.stringify(datos));
+    localStorage.setItem(STORAGE_RES,JSON.stringify(datos.reservas||[]));
+  }catch(error){
+    console.error("Error guardando respaldo local:",error);
+  }
+
+  renderTodo();
+}
+
+const sbHeaders={
+  "apikey":SUPABASE_KEY,
+  "Authorization":`Bearer ${SUPABASE_KEY}`,
+  "Content-Type":"application/json"
+};
+
+async function sbRequest(tabla,{
+  method="GET",
+  query="",
+  body=null,
+  prefer=""
+}={}){
+  const headers={...sbHeaders};
+
+  if(prefer){
+    headers["Prefer"]=prefer;
+  }
+
+  const respuesta=await fetch(
+    `${SUPABASE_URL}/rest/v1/${tabla}${query?`?${query}`:""}`,
+    {
+      method,
+      headers,
+      body:body===null?undefined:JSON.stringify(body)
+    }
+  );
+
+  if(!respuesta.ok){
+    const detalle=await respuesta.text().catch(()=>"");
+    throw new Error(
+      `${tabla}: HTTP ${respuesta.status}${detalle?` - ${detalle}`:""}`
+    );
+  }
+
+  if(respuesta.status===204){
+    return null;
+  }
+
+  const texto=await respuesta.text();
+
+  return texto?JSON.parse(texto):null;
+}
+
+function syncKey(tipo,obj){
+  if(tipo==="reservas"){
+    return String(
+      obj?.codigo||
+      obj?.code||
+      obj?._id||
+      obj?.id||
+      uid()
+    );
+  }
+
+  return String(
+    obj?.id||
+    obj?._id||
+    `${tipo}-${uid()}`
+  );
+}
+
+function payloadFila(tipo,obj){
+  const key=syncKey(tipo,obj);
+
+  if(tipo==="rutas"){
+    return {
+      sync_key:key,
+      origen:obj.origen||obj.origin||"",
+      destino:obj.destino||obj.destination||"",
+      datos:{
+        ...obj,
+        id:obj.id||key
+      }
+    };
+  }
+
+  if(tipo==="reservas"){
+    return {
+      sync_key:key,
+      codigo:obj.codigo||obj.code||key,
+      nombre:resNombre(obj),
+      whatsapp:resWhats(obj),
+      datos:{
+        ...obj,
+        _id:obj._id||obj.id||key
+      }
+    };
+  }
+
+  if(tipo==="choferes"){
+    return {
+      sync_key:key,
+      nombre:obj.nombre||"",
+      telefono:obj.telefono||"",
+      datos:{
+        ...obj,
+        id:obj.id||key
+      }
+    };
+  }
+
+  return {
+    sync_key:key,
+    datos:obj
+  };
+}
+
+async function upsertColeccion(tipo,lista){
+  if(!Array.isArray(lista)||lista.length===0){
     return;
   }
 
-  const i=rutaIndexCompat(id);
-
-  const r=i>=0
-    ?datos.rutas[i]
-    :null;
-
-  const key=r
-    ?syncKey("rutas",r)
-    :id;
-
-  if(i>=0){
-    datos.rutas.splice(i,1);
-  }
-
-  guardarLocal();
+  const payload=lista.map(x=>payloadFila(tipo,x));
 
   try{
+    await sbRequest(tipo,{
+      method:"POST",
+      query:"on_conflict=sync_key",
+      body:payload,
+      prefer:"resolution=merge-duplicates,return=minimal"
+    });
+  }catch(error){
 
-    await borrarRemoto(
-      "rutas",
-      key
+    /*
+      Respaldo para instalaciones donde las columnas antiguas
+      tengan nombres diferentes. Las columnas sync_key y datos
+      sí fueron creadas expresamente en Supabase.
+    */
+    console.warn(
+      `Primer intento de sincronización ${tipo} falló. Probando estructura universal.`,
+      error
+    );
+
+    const universal=lista.map(obj=>({
+      sync_key:syncKey(tipo,obj),
+      datos:obj
+    }));
+
+    await sbRequest(tipo,{
+      method:"POST",
+      query:"on_conflict=sync_key",
+      body:universal,
+      prefer:"resolution=merge-duplicates,return=minimal"
+    });
+  }
+}
+
+async function borrarRemoto(tipo,key){
+  if(!key)return;
+
+  await sbRequest(tipo,{
+    method:"DELETE",
+    query:`sync_key=eq.${encodeURIComponent(key)}`,
+    prefer:"return=minimal"
+  });
+}
+
+async function leerColeccion(tipo){
+  const rows=await sbRequest(tipo,{
+    query:"select=sync_key,datos"
+  });
+
+  return (rows||[])
+    .map(row=>{
+      const d=
+        row?.datos&&typeof row.datos==="object"
+        ?row.datos
+        :{};
+
+      if(tipo==="rutas"){
+        return {
+          ...d,
+          id:d.id||row.sync_key
+        };
+      }
+
+      if(tipo==="reservas"){
+        return {
+          ...d,
+          _id:d._id||d.id||row.sync_key,
+          codigo:d.codigo||d.code||row.sync_key
+        };
+      }
+
+      if(tipo==="choferes"){
+        return {
+          ...d,
+          id:d.id||row.sync_key
+        };
+      }
+
+      return d;
+    })
+    .filter(x=>x&&Object.keys(x).length);
+}
+
+let syncTimer=null;
+
+function guardar(){
+  guardarLocal();
+
+  clearTimeout(syncTimer);
+
+  syncTimer=setTimeout(()=>{
+    sincronizarTodo().catch(error=>{
+      console.error("Error sincronizando con Supabase:",error);
+
+      alert(
+        "El cambio quedó guardado como respaldo en este dispositivo, "+
+        "pero Supabase no confirmó la sincronización.\n\n"+
+        error.message
+      );
+    });
+  },200);
+}
+
+async function sincronizarTodo(){
+  await Promise.all([
+    upsertColeccion("rutas",datos.rutas),
+    upsertColeccion("reservas",datos.reservas),
+    upsertColeccion("choferes",datos.choferes)
+  ]);
+}
+
+async function inicializarSupabase(){
+  try{
+    const [
+      rutasRemotas,
+      reservasRemotas,
+      choferesRemotos
+    ]=await Promise.all([
+      leerColeccion("rutas"),
+      leerColeccion("reservas"),
+      leerColeccion("choferes")
+    ]);
+
+    const migraciones=[];
+
+    if(rutasRemotas.length){
+      datos.rutas=rutasRemotas;
+    }else if(datos.rutas.length){
+      migraciones.push(
+        upsertColeccion("rutas",datos.rutas)
+      );
+    }
+
+    if(reservasRemotas.length){
+      datos.reservas=reservasRemotas;
+    }else if(datos.reservas.length){
+      migraciones.push(
+        upsertColeccion("reservas",datos.reservas)
+      );
+    }
+
+    if(choferesRemotos.length){
+      datos.choferes=choferesRemotos;
+    }else if(datos.choferes.length){
+      migraciones.push(
+        upsertColeccion("choferes",datos.choferes)
+      );
+    }
+
+    if(migraciones.length){
+      await Promise.all(migraciones);
+    }
+
+    guardarLocal();
+
+    console.log(
+      "✅ Supabase sincronizado correctamente"
     );
 
   }catch(error){
 
     console.error(
-      "Error eliminando ruta en Supabase:",
+      "Supabase no pudo inicializarse:",
       error
     );
 
+    guardarLocal();
+
     alert(
-      "La ruta se eliminó del panel, pero Supabase no confirmó la eliminación.\n\n"+
+      "El panel abrió con el respaldo local, "+
+      "pero Supabase no pudo sincronizarse.\n\n"+
       error.message
     );
   }
 }
 
-
-/* =========================================================
-   ESTADO DE RESULTADOS
-========================================================= */
-
-function dentroPeriodo(fecha,desde,hasta){
-
-  if(!fecha){
-    return true;
+function cerrarSesion(){
+  if(!confirm("¿Cerrar el panel administrativo?")){
+    return;
   }
 
-  if(desde && fecha<desde){
-    return false;
-  }
-
-  if(hasta && fecha>hasta){
-    return false;
-  }
-
-  return true;
+  sessionStorage.removeItem("jg_admin_autorizado");
+  location.href="index.html";
 }
 
+function badgeEstado(e){
+  e=norm(e);
 
-function renderEstadoResultados(){
+  const cls=
+    e==="NUEVA"
+      ?"b-nueva"
+      :e==="CONFIRMADA"
+        ?"b-confirmada"
+        :e==="EN SERVICIO"
+          ?"b-servicio"
+          :e==="COMPLETADA"
+            ?"b-completada"
+            :"b-cancelada";
 
-  const desde=
-    $("#erDesde")?.value||"";
+  return `<span class="badge ${cls}">${safe(e)}</span>`;
+}
 
-  const hasta=
-    $("#erHasta")?.value||"";
+function choferNombre(id){
+  return datos.choferes.find(c=>c.id===id)?.nombre||"Sin asignar";
+}
 
-  const ingresos=
-    datos.reservas.filter(
-      r=>
-        r.comisionEstado==="PAGADA" &&
-        dentroPeriodo(
-          r.fechaPagoComision||resFecha(r),
-          desde,
-          hasta
-        )
-    );
+const titulos={
+  dashboard:"Dashboard",
+  reservas:"Reservas",
+  agenda:"Agenda",
+  choferes:"Choferes",
+  comisiones:"Comisiones",
+  gastos:"Gastos",
+  rutas:"Rutas y tarifas",
+  estadoresultados:"Estado de Resultados",
+  reportes:"Reportes",
+  config:"Configuración"
+};
 
-  const gastos=
-    datos.gastos.filter(
-      g=>
-        dentroPeriodo(
-          g.fecha,
-          desde,
-          hasta
-        )
-    );
+function abrirPantalla(id){
+  $$(".screen").forEach(
+    x=>x.classList.remove("activa")
+  );
 
-  const totalIngresos=
-    ingresos.reduce(
+  $("#"+id)?.classList.add("activa");
+
+  $$("#nav button").forEach(
+    x=>x.classList.toggle(
+      "activo",
+      x.dataset.screen===id
+    )
+  );
+
+  $("#pageTitle").textContent=
+    titulos[id]||"Panel";
+
+  $("#sidebar").classList.remove("open");
+
+  renderTodo();
+}
+
+$$("#nav button").forEach(
+  b=>b.addEventListener(
+    "click",
+    ()=>abrirPantalla(b.dataset.screen)
+  )
+);
+
+$("#menuBtn").onclick=()=>{
+  $("#sidebar").classList.toggle("open");
+};
+
+function abrirModal(id){
+  $("#"+id)?.classList.add("open");
+}
+
+function cerrarModal(id){
+  $("#"+id)?.classList.remove("open");
+}
+
+function renderTodo(){
+  renderDashboard();
+  renderReservas();
+  renderAgenda();
+  renderChoferes();
+  renderComisiones();
+  renderGastos();
+  renderRutas();
+  renderEstadoResultados();
+  renderReporte();
+  renderConfig();
+}
+
+function ordenReservas(){
+  return [...datos.reservas].sort(
+    (a,b)=>
+      (resFecha(b)+resHora(b))
+      .localeCompare(
+        resFecha(a)+resHora(a)
+      )
+  );
+}
+
+function renderDashboard(){
+
+  const rs=datos.reservas;
+
+  const nuevas=
+    rs.filter(
+      r=>resEstado(r)==="NUEVA"
+    ).length;
+
+  const conf=
+    rs.filter(
+      r=>resEstado(r)==="CONFIRMADA"
+    ).length;
+
+  const serv=
+    rs.filter(
+      r=>resEstado(r)==="EN SERVICIO"
+    ).length;
+
+  const cobradas=
+    rs
+    .filter(r=>r.comisionEstado==="PAGADA")
+    .reduce(
       (s,r)=>s+resComision(r),
       0
     );
 
-  const totalGastos=
-    gastos.reduce(
-      (s,g)=>s+Number(g.monto||0),
-      0
-    );
-
-  const pendientes=
-    datos.reservas
+  const pend=
+    rs
     .filter(
       r=>
-        resComision(r)>0 &&
+        resComision(r)>0&&
         r.comisionEstado!=="PAGADA"
     )
     .reduce(
@@ -117,929 +936,1526 @@ function renderEstadoResultados(){
       0
     );
 
-  const neto=
-    totalIngresos-totalGastos;
+  const gastos=
+    datos.gastos.reduce(
+      (s,g)=>s+Number(g.monto||0),
+      0
+    );
 
+  $("#mNuevas").textContent=nuevas;
+  $("#mConfirmadas").textContent=conf;
+  $("#mServicio").textContent=serv;
+  $("#mCobrado").textContent=money(cobradas);
+  $("#mPendiente").textContent=money(pend);
+  $("#mGastos").textContent=money(gastos);
 
-  if($("#erMIngresos")){
-    $("#erMIngresos").textContent=
-      money(totalIngresos);
-  }
+  const futuros=
+    [...rs]
+    .filter(
+      r=>
+        resFecha(r)>=hoy()&&
+        ![
+          "COMPLETADA",
+          "CANCELADA"
+        ].includes(resEstado(r))
+    )
+    .sort(
+      (a,b)=>
+        (resFecha(a)+resHora(a))
+        .localeCompare(
+          resFecha(b)+resHora(b)
+        )
+    )
+    .slice(0,6);
 
-  if($("#erMGastos")){
-    $("#erMGastos").textContent=
-      money(totalGastos);
-  }
+  $("#proximos").innerHTML=
+    futuros.length
+      ?futuros.map(
+        r=>`
+        <div class="mini-item">
+          <div>
+            <b>${safe(resFecha(r))} · ${safe(resHora(r))}</b>
+            <div class="muted">${safe(resOrigen(r))} → ${safe(resDestino(r))}</div>
+          </div>
+          ${badgeEstado(resEstado(r))}
+        </div>
+        `
+      ).join("")
+      :'<div class="muted">No hay servicios próximos.</div>';
 
-  if($("#erMNeto")){
-    $("#erMNeto").textContent=
-      money(neto);
-  }
+  const p=
+    rs
+    .filter(
+      r=>
+        resComision(r)>0&&
+        r.comisionEstado!=="PAGADA"
+    )
+    .slice(0,6);
 
-  if($("#erMPendientes")){
-    $("#erMPendientes").textContent=
-      money(pendientes);
-  }
+  $("#pendientesChofer").innerHTML=
+    p.length
+      ?p.map(
+        r=>`
+        <div class="mini-item">
+          <div>
+            <b>${safe(choferNombre(resChofer(r)))}</b>
+            <div class="muted">${safe(resCode(r))}</div>
+          </div>
+          <b class="money-pending">${money(resComision(r))}</b>
+        </div>
+        `
+      ).join("")
+      :'<div class="muted">No hay comisiones pendientes.</div>';
 
+  $("#ultimasReservas").innerHTML=
+    ordenReservas()
+    .slice(0,8)
+    .map(
+      r=>`
+      <tr>
+        <td><b>${safe(resCode(r))}</b></td>
+        <td>${safe(resFecha(r))} ${safe(resHora(r))}</td>
+        <td>${safe(resNombre(r))}</td>
+        <td>${safe(resOrigen(r))} → ${safe(resDestino(r))}</td>
+        <td>${badgeEstado(resEstado(r))}</td>
+        <td>${safe(choferNombre(resChofer(r)))}</td>
+      </tr>`
+    )
+    .join("");
+}
 
-  if($("#erDetalleIngresos")){
+function renderReservas(){
 
-    $("#erDetalleIngresos").innerHTML=
+  const q=norm($("#buscarReserva")?.value);
+  const e=norm($("#filtroEstado")?.value);
 
-      ingresos.length
+  const arr=
+    ordenReservas()
+    .filter(
+      r=>
+        (!e||resEstado(r)===e)&&
+        (
+          !q||
+          norm([
+            resCode(r),
+            resNombre(r),
+            resOrigen(r),
+            resDestino(r)
+          ].join(" ")).includes(q)
+        )
+    );
 
-      ?ingresos.map(
+  $("#tablaReservas").innerHTML=
+    arr.length
+      ?arr.map(
         r=>`
         <tr>
-          <td>${safe(
-            r.fechaPagoComision||
-            resFecha(r)
-          )}</td>
-
           <td>
             <b>${safe(resCode(r))}</b>
+            <div class="muted">${safe(resEstado(r))}</div>
           </td>
-
+          <td>${safe(resFecha(r))}<br>${safe(resHora(r))}</td>
           <td>
-            ${safe(
-              choferNombre(
-                resChofer(r)
-              )
-            )}
+            <b>${safe(resNombre(r))}</b><br>
+            <span class="muted">${safe(resWhats(r))}</span>
           </td>
-
+          <td>${safe(resOrigen(r))}<br>→ ${safe(resDestino(r))}</td>
+          <td>${resPax(r)}</td>
+          <td><b>${usd(resTarifa(r))}</b></td>
+          <td>${badgeEstado(resEstado(r))}</td>
+          <td>${safe(choferNombre(resChofer(r)))}</td>
           <td>
-            Comisión servicio
-          </td>
-
-          <td>
-            <b>${money(
-              resComision(r)
-            )}</b>
+            <div class="actions">
+              <button class="icon-btn" onclick="editarReserva('${resId(r)}')">Editar</button>
+              ${
+                resEstado(r)==="NUEVA"
+                ?`<button class="icon-btn" onclick="cambiarEstadoRapido('${resId(r)}','CONFIRMADA')">Confirmar</button>`
+                :""
+              }
+              ${
+                resEstado(r)==="CONFIRMADA"
+                ?`<button class="icon-btn" onclick="abrirAsignacion('${resId(r)}')">Asignar chofer</button>`
+                :""
+              }
+              <button class="icon-btn" onclick="whatsappReserva('${resId(r)}')">WhatsApp</button>
+              <button class="icon-btn" onclick="borrarReserva('${resId(r)}')">Eliminar</button>
+            </div>
           </td>
         </tr>
         `
       ).join("")
+      :'<tr><td colspan="9" class="muted">No hay reservas.</td></tr>';
+}
 
-      :`
-      <tr>
-        <td colspan="5" class="muted">
-          No hay ingresos registrados.
-        </td>
-      </tr>
-      `;
+$("#buscarReserva").addEventListener(
+  "input",
+  renderReservas
+);
+
+$("#filtroEstado").addEventListener(
+  "change",
+  renderReservas
+);
+
+function reservaIndex(id){
+  return datos.reservas.findIndex(
+    r=>resId(r)===id
+  );
+}
+
+function normalizarReserva(r){
+  return {
+    _id:r._id||uid(),
+    codigo:resCode(r)||code(),
+    estado:resEstado(r),
+    fechaCreacion:
+      r.fechaCreacion||
+      r.createdAt||
+      new Date().toISOString(),
+    nombre:resNombre(r),
+    whatsapp:resWhats(r),
+    origen:resOrigen(r),
+    destino:resDestino(r),
+    recogidaExacta:
+      r.recogidaExacta||
+      r.trip?.pickupExact||
+      "",
+    destinoExacto:
+      r.destinoExacto||
+      r.trip?.destinationExact||
+      "",
+    fecha:resFecha(r),
+    hora:resHora(r),
+    pasajeros:resPax(r),
+    grandes:resGrandes(r),
+    mano:resMano(r),
+    tipoViaje:
+      r.tipoViaje||
+      r.trip?.tripType||
+      "oneway",
+    regresoFecha:
+      r.regresoFecha||
+      r.trip?.returnDate||
+      "",
+    regresoHora:
+      r.regresoHora||
+      r.trip?.returnTime||
+      "",
+    vuelo:
+      r.vuelo||
+      r.trip?.flight||
+      "",
+    aerolinea:
+      r.aerolinea||
+      r.trip?.airline||
+      "",
+    vehiculo:resVehiculo(r),
+    tarifa:resTarifa(r),
+    notas:resNotas(r),
+    choferId:r.choferId||"",
+    comision:Number(r.comision||0),
+    comisionEstado:
+      r.comisionEstado||
+      "PENDIENTE",
+    fechaPagoComision:
+      r.fechaPagoComision||
+      ""
+  };
+}
+
+function cargarChoferSelect(){
+  const s=$("#rChofer");
+
+  s.innerHTML=
+    '<option value="">Sin asignar</option>'+
+    datos.choferes
+    .filter(
+      c=>c.estado!=="INACTIVO"
+    )
+    .map(
+      c=>`<option value="${safe(c.id)}">${safe(c.nombre)}</option>`
+    )
+    .join("");
+}
+
+function abrirReserva(){
+
+  cargarChoferSelect();
+
+  $("#formReserva").reset();
+
+  $("#rId").value="";
+  $("#rCodigo").value=code();
+  $("#rEstado").value="NUEVA";
+  $("#rFecha").value=hoy();
+  $("#rPax").value=1;
+  $("#rGrandes").value=0;
+  $("#rMano").value=0;
+  $("#rComision").value=0;
+
+  $("#reservaModalTitle").textContent=
+    "Nueva reserva";
+
+  abrirModal("modalReserva");
+}
+
+function editarReserva(id){
+
+  const i=reservaIndex(id);
+
+  if(i<0)return;
+
+  const r=
+    normalizarReserva(
+      datos.reservas[i]
+    );
+
+  cargarChoferSelect();
+
+  $("#rId").value=id;
+  $("#rCodigo").value=r.codigo;
+  $("#rEstado").value=r.estado;
+  $("#rNombre").value=r.nombre;
+  $("#rWhatsapp").value=r.whatsapp;
+  $("#rOrigen").value=r.origen;
+  $("#rDestino").value=r.destino;
+  $("#rRecogidaExacta").value=r.recogidaExacta;
+  $("#rDestinoExacto").value=r.destinoExacto;
+  $("#rFecha").value=r.fecha;
+  $("#rHora").value=r.hora;
+  $("#rPax").value=r.pasajeros;
+  $("#rTarifa").value=r.tarifa;
+  $("#rGrandes").value=r.grandes;
+  $("#rMano").value=r.mano;
+  $("#rVuelo").value=r.vuelo;
+  $("#rAerolinea").value=r.aerolinea;
+  $("#rTipo").value=r.tipoViaje;
+  $("#rVehiculo").value=r.vehiculo;
+  $("#rRegresoFecha").value=r.regresoFecha;
+  $("#rRegresoHora").value=r.regresoHora;
+  $("#rChofer").value=r.choferId;
+  $("#rComision").value=r.comision;
+  $("#rNotas").value=r.notas;
+
+  $("#reservaModalTitle").textContent=
+    "Editar reserva";
+
+  abrirModal("modalReserva");
+}
+
+$("#formReserva").onsubmit=e=>{
+
+  e.preventDefault();
+
+  const oldId=$("#rId").value;
+
+  let base=
+    oldId&&reservaIndex(oldId)>=0
+      ?normalizarReserva(
+        datos.reservas[
+          reservaIndex(oldId)
+        ]
+      )
+      :{
+        _id:uid(),
+        fechaCreacion:new Date().toISOString(),
+        comisionEstado:"PENDIENTE",
+        fechaPagoComision:""
+      };
+
+  const r={
+    ...base,
+    codigo:$("#rCodigo").value,
+    estado:$("#rEstado").value,
+    nombre:$("#rNombre").value.trim(),
+    whatsapp:$("#rWhatsapp").value.trim(),
+    origen:$("#rOrigen").value.trim(),
+    destino:$("#rDestino").value.trim(),
+    recogidaExacta:$("#rRecogidaExacta").value.trim(),
+    destinoExacto:$("#rDestinoExacto").value.trim(),
+    fecha:$("#rFecha").value,
+    hora:$("#rHora").value,
+    pasajeros:Number($("#rPax").value),
+    tarifa:Number($("#rTarifa").value),
+    grandes:Number($("#rGrandes").value||0),
+    mano:Number($("#rMano").value||0),
+    vuelo:$("#rVuelo").value.trim(),
+    aerolinea:$("#rAerolinea").value.trim(),
+    tipoViaje:$("#rTipo").value,
+    vehiculo:$("#rVehiculo").value.trim(),
+    regresoFecha:$("#rRegresoFecha").value,
+    regresoHora:$("#rRegresoHora").value,
+    choferId:$("#rChofer").value,
+    comision:Number($("#rComision").value||0),
+    notas:$("#rNotas").value.trim()
+  };
+
+  if(oldId){
+    datos.reservas[
+      reservaIndex(oldId)
+    ]=r;
+  }else{
+    datos.reservas.unshift(r);
   }
 
+  guardar();
 
-  if($("#erDetalleGastos")){
+  cerrarModal("modalReserva");
+};
 
-    $("#erDetalleGastos").innerHTML=
+async function borrarReserva(id){
 
-      gastos.length
+  if(!confirm("¿Eliminar esta reserva?")){
+    return;
+  }
 
-      ?gastos.map(
+  const r=
+    datos.reservas.find(
+      x=>resId(x)===id
+    );
+
+  const key=
+    r
+      ?syncKey("reservas",r)
+      :id;
+
+  datos.reservas=
+    datos.reservas.filter(
+      r=>resId(r)!==id
+    );
+
+  guardarLocal();
+
+  try{
+    await borrarRemoto(
+      "reservas",
+      key
+    );
+  }catch(error){
+    alert(
+      "La reserva se eliminó del panel, "+
+      "pero no se pudo confirmar la eliminación en Supabase.\n\n"+
+      error.message
+    );
+  }
+}
+
+function whatsappReserva(id){
+
+  const i=reservaIndex(id);
+
+  if(i<0)return;
+
+  const r=
+    normalizarReserva(
+      datos.reservas[i]
+    );
+
+  let msg=`Hola, ${r.nombre}.`;
+
+  if(r.estado==="CONFIRMADA"){
+    msg+=`\n\n✅ RESERVA CONFIRMADA
+
+Su reserva ${r.codigo} ha sido confirmada.
+
+Origen: ${r.origen}
+Destino: ${r.destino}
+Fecha: ${r.fecha}
+Hora: ${r.hora}
+Tarifa: US$${Number(r.tarifa).toFixed(2)}
+
+Nos pondremos en contacto 24 horas antes para reconfirmar y validar cualquier actualización.
+
+🚐 José García Transporte
+Más que un servicio, es confianza.`;
+  }else if(r.estado==="COMPLETADA"){
+    msg+=`\n\n✅ SERVICIO COMPLETADO
+
+Gracias por confiar en José García Transporte.
+
+🚐 Más que un servicio, es confianza.`;
+  }else{
+    msg+=`\n\nSu reserva ${r.codigo} se encuentra actualmente en estado: ${r.estado}.
+
+${r.origen} → ${r.destino}
+${r.fecha} · ${r.hora}`;
+  }
+
+  const telefono=
+    String(r.whatsapp)
+    .replace(/\D/g,"");
+
+  window.open(
+    `https://wa.me/${telefono}?text=${encodeURIComponent(msg)}`,
+    "_blank"
+  );
+}
+
+function cambiarEstadoRapido(id,nuevoEstado){
+
+  const i=reservaIndex(id);
+
+  if(i<0)return;
+
+  const r=
+    normalizarReserva(
+      datos.reservas[i]
+    );
+
+  r.estado=nuevoEstado;
+
+  datos.reservas[i]=r;
+
+  guardar();
+
+  if(nuevoEstado==="CONFIRMADA"){
+    abrirPantalla("agenda");
+  }
+}
+
+function abrirAsignacion(id){
+
+  const i=reservaIndex(id);
+
+  if(i<0)return;
+
+  const r=
+    normalizarReserva(
+      datos.reservas[i]
+    );
+
+  $("#asigReservaId").value=id;
+
+  $("#asigResumen").textContent=
+    `${r.codigo} · ${r.nombre} · ${r.origen} → ${r.destino} · ${r.fecha} ${r.hora}`;
+
+  $("#asigChofer").innerHTML=
+    '<option value="">Seleccionar chofer</option>'+
+    datos.choferes
+    .filter(
+      c=>c.estado!=="INACTIVO"
+    )
+    .map(
+      c=>`
+      <option value="${safe(c.id)}">
+        ${safe(c.nombre)}
+        ${c.vehiculo?` — ${safe(c.vehiculo)}`:""}
+      </option>
+      `
+    )
+    .join("");
+
+  $("#asigChofer").value=
+    r.choferId||"";
+
+  $("#asigComision").value=
+    r.comision||"";
+
+  $("#asigNotas").value=
+    r.notas||"";
+
+  abrirModal("modalAsignacion");
+}
+
+$("#formAsignacion").onsubmit=e=>{
+
+  e.preventDefault();
+
+  const id=
+    $("#asigReservaId").value;
+
+  const i=
+    reservaIndex(id);
+
+  if(i<0)return;
+
+  const r=
+    normalizarReserva(
+      datos.reservas[i]
+    );
+
+  r.choferId=
+    $("#asigChofer").value;
+
+  r.comision=
+    Number(
+      $("#asigComision").value||0
+    );
+
+  r.comisionEstado=
+    r.comisionEstado||
+    "PENDIENTE";
+
+  r.notas=
+    $("#asigNotas").value.trim();
+
+  datos.reservas[i]=r;
+
+  guardar();
+
+  cerrarModal("modalAsignacion");
+};
+
+function renderAgenda(){
+
+  const a=$("#agendaDesde").value;
+  const b=$("#agendaHasta").value;
+
+  const rs=
+    [...datos.reservas]
+    .filter(
+      r=>[
+        "CONFIRMADA",
+        "EN SERVICIO",
+        "COMPLETADA"
+      ].includes(resEstado(r))
+    )
+    .filter(
+      r=>
+        (!a||resFecha(r)>=a)&&
+        (!b||resFecha(r)<=b)
+    )
+    .sort(
+      (x,y)=>
+        (resFecha(x)+resHora(x))
+        .localeCompare(
+          resFecha(y)+resHora(y)
+        )
+    );
+
+  $("#agendaLista").innerHTML=
+    rs.length
+      ?rs.map(
+        r=>`
+        <div class="mini-item" style="align-items:center">
+          <div style="flex:1">
+            <b>${safe(resFecha(r))} · ${safe(resHora(r))} — ${safe(resCode(r))}</b>
+            <div>${safe(resNombre(r))} · ${resPax(r)} pax</div>
+            <div class="muted">${safe(resOrigen(r))} → ${safe(resDestino(r))}</div>
+            <div class="muted">
+              Chofer:
+              <b>${safe(choferNombre(resChofer(r)))}</b>
+              · Comisión:
+              <b>${money(resComision(r))}</b>
+            </div>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">
+            ${badgeEstado(resEstado(r))}
+            <button class="icon-btn" onclick="abrirAsignacion('${resId(r)}')">Asignar chofer</button>
+            ${
+              resEstado(r)==="CONFIRMADA"
+              ?`<button class="icon-btn" onclick="cambiarEstadoRapido('${resId(r)}','EN SERVICIO')">Iniciar servicio</button>`
+              :""
+            }
+            ${
+              resEstado(r)==="EN SERVICIO"
+              ?`<button class="icon-btn" onclick="cambiarEstadoRapido('${resId(r)}','COMPLETADA')">Completar</button>`
+              :""
+            }
+            ${
+              resEstado(r)!=="COMPLETADA"
+              ?`<button class="icon-btn" onclick="cambiarEstadoRapido('${resId(r)}','CANCELADA')">Cancelar</button>`
+              :""
+            }
+          </div>
+        </div>
+        `
+      ).join("")
+      :'<div class="muted">No hay reservas confirmadas en este rango.</div>';
+}
+
+$("#agendaDesde").onchange=
+  renderAgenda;
+
+$("#agendaHasta").onchange=
+  renderAgenda;
+
+function abrirChofer(id=""){
+
+  const c=
+    datos.choferes.find(
+      x=>x.id===id
+    );
+
+  $("#formChofer").reset();
+
+  $("#chId").value=c?.id||"";
+  $("#chNombre").value=c?.nombre||"";
+  $("#chTelefono").value=c?.telefono||"";
+  $("#chVehiculo").value=c?.vehiculo||"";
+  $("#chEstado").value=c?.estado||"ACTIVO";
+  $("#chNotas").value=c?.notas||"";
+
+  $("#choferModalTitle").textContent=
+    c
+      ?"Editar chofer"
+      :"Nuevo chofer";
+
+  abrirModal("modalChofer");
+}
+
+$("#formChofer").onsubmit=e=>{
+
+  e.preventDefault();
+
+  const id=
+    $("#chId").value||
+    uid();
+
+  const c={
+    id,
+    nombre:$("#chNombre").value.trim(),
+    telefono:$("#chTelefono").value.trim(),
+    vehiculo:$("#chVehiculo").value.trim(),
+    estado:$("#chEstado").value,
+    notas:$("#chNotas").value.trim()
+  };
+
+  const i=
+    datos.choferes.findIndex(
+      x=>x.id===id
+    );
+
+  if(i>=0){
+    datos.choferes[i]=c;
+  }else{
+    datos.choferes.push(c);
+  }
+
+  guardar();
+
+  cerrarModal("modalChofer");
+};
+
+function renderChoferes(){
+
+  $("#choferCards").innerHTML=
+    datos.choferes.length
+      ?datos.choferes.map(
+        c=>{
+
+          const servicios=
+            datos.reservas.filter(
+              r=>
+                resChofer(r)===c.id&&
+                resEstado(r)!=="CANCELADA"
+            ).length;
+
+          const pend=
+            datos.reservas
+            .filter(
+              r=>
+                resChofer(r)===c.id&&
+                resComision(r)>0&&
+                r.comisionEstado!=="PAGADA"
+            )
+            .reduce(
+              (s,r)=>s+resComision(r),
+              0
+            );
+
+          return `
+          <div class="card">
+            <h3>${safe(c.nombre)}</h3>
+            <p>📞 ${safe(c.telefono)}</p>
+            <p>🚐 ${safe(c.vehiculo||"Sin vehículo registrado")}</p>
+            <p>Estado: <b>${safe(c.estado)}</b></p>
+            <p>Servicios asignados: <b>${servicios}</b></p>
+            <p>Comisión pendiente: <b class="money-pending">${money(pend)}</b></p>
+            <div class="actions" style="margin-top:10px">
+              <button class="icon-btn" onclick="abrirChofer('${c.id}')">Editar</button>
+              <button class="icon-btn" onclick="eliminarChofer('${c.id}')">Eliminar</button>
+            </div>
+          </div>
+          `;
+        }
+      ).join("")
+      :'<div class="muted">Aún no hay choferes registrados.</div>';
+}
+
+async function eliminarChofer(id){
+
+  if(
+    datos.reservas.some(
+      r=>resChofer(r)===id
+    )&&
+    !confirm(
+      "Este chofer tiene servicios asignados. ¿Eliminarlo de todos modos?"
+    )
+  ){
+    return;
+  }
+
+  const c=
+    datos.choferes.find(
+      x=>x.id===id
+    );
+
+  const key=
+    c
+      ?syncKey("choferes",c)
+      :id;
+
+  datos.choferes=
+    datos.choferes.filter(
+      c=>c.id!==id
+    );
+
+  guardarLocal();
+
+  try{
+    await borrarRemoto(
+      "choferes",
+      key
+    );
+  }catch(error){
+    alert(
+      "El chofer se eliminó del panel, "+
+      "pero Supabase no confirmó la eliminación.\n\n"+
+      error.message
+    );
+  }
+}
+
+function renderComisiones(){
+
+  const rs=
+    datos.reservas.filter(
+      r=>resComision(r)>0
+    );
+
+  const gen=
+    rs.reduce(
+      (s,r)=>s+resComision(r),
+      0
+    );
+
+  const cob=
+    rs
+    .filter(
+      r=>r.comisionEstado==="PAGADA"
+    )
+    .reduce(
+      (s,r)=>s+resComision(r),
+      0
+    );
+
+  $("#cGeneradas").textContent=
+    money(gen);
+
+  $("#cCobradas").textContent=
+    money(cob);
+
+  $("#cPendientes").textContent=
+    money(gen-cob);
+
+  $("#tablaComisiones").innerHTML=
+    rs.length
+      ?rs.map(
+        r=>`
+        <tr>
+          <td><b>${safe(resCode(r))}</b></td>
+          <td>${safe(choferNombre(resChofer(r)))}</td>
+          <td>
+            ${safe(resFecha(r))}<br>
+            <span class="muted">${safe(resOrigen(r))} → ${safe(resDestino(r))}</span>
+          </td>
+          <td><b>${money(resComision(r))}</b></td>
+          <td>
+            ${
+              r.comisionEstado==="PAGADA"
+              ?'<span class="badge b-pagada">PAGADA</span>'
+              :'<span class="badge b-pendiente">PENDIENTE</span>'
+            }
+          </td>
+          <td>${safe(r.fechaPagoComision||"-")}</td>
+          <td>
+            <button class="icon-btn" onclick="toggleComision('${resId(r)}')">
+              ${
+                r.comisionEstado==="PAGADA"
+                ?"Marcar pendiente"
+                :"Marcar pagada"
+              }
+            </button>
+          </td>
+        </tr>
+        `
+      ).join("")
+      :'<tr><td colspan="7" class="muted">No hay comisiones registradas.</td></tr>';
+}
+
+function toggleComision(id){
+
+  const i=reservaIndex(id);
+
+  if(i<0)return;
+
+  const r=
+    normalizarReserva(
+      datos.reservas[i]
+    );
+
+  r.comisionEstado=
+    r.comisionEstado==="PAGADA"
+      ?"PENDIENTE"
+      :"PAGADA";
+
+  r.fechaPagoComision=
+    r.comisionEstado==="PAGADA"
+      ?hoy()
+      :"";
+
+  datos.reservas[i]=r;
+
+  guardar();
+}
+
+function abrirGasto(id=""){
+
+  const g=
+    datos.gastos.find(
+      x=>x.id===id
+    );
+
+  $("#formGasto").reset();
+
+  $("#gId").value=g?.id||"";
+  $("#gFecha").value=g?.fecha||hoy();
+  $("#gCategoria").value=g?.categoria||"Publicidad";
+  $("#gDescripcion").value=g?.descripcion||"";
+  $("#gMonto").value=g?.monto||"";
+
+  abrirModal("modalGasto");
+}
+
+$("#formGasto").onsubmit=e=>{
+
+  e.preventDefault();
+
+  const id=
+    $("#gId").value||
+    uid();
+
+  const g={
+    id,
+    fecha:$("#gFecha").value,
+    categoria:$("#gCategoria").value,
+    descripcion:$("#gDescripcion").value.trim(),
+    monto:Number($("#gMonto").value)
+  };
+
+  const i=
+    datos.gastos.findIndex(
+      x=>x.id===id
+    );
+
+  if(i>=0){
+    datos.gastos[i]=g;
+  }else{
+    datos.gastos.unshift(g);
+  }
+
+  guardar();
+
+  cerrarModal("modalGasto");
+};
+
+function renderGastos(){
+
+  $("#tablaGastos").innerHTML=
+    datos.gastos.length
+      ?[...datos.gastos]
+      .sort(
+        (a,b)=>
+          (b.fecha||"")
+          .localeCompare(a.fecha||"")
+      )
+      .map(
         g=>`
         <tr>
           <td>${safe(g.fecha)}</td>
           <td>${safe(g.categoria)}</td>
           <td>${safe(g.descripcion)}</td>
+          <td><b>${money(g.monto)}</b></td>
           <td>
-            <b>${money(g.monto)}</b>
+            <div class="actions">
+              <button class="icon-btn" onclick="abrirGasto('${g.id}')">Editar</button>
+              <button class="icon-btn" onclick="eliminarGasto('${g.id}')">Eliminar</button>
+            </div>
           </td>
         </tr>
         `
       ).join("")
+      :'<tr><td colspan="5" class="muted">No hay gastos registrados.</td></tr>';
+}
 
-      :`
-      <tr>
-        <td colspan="4" class="muted">
-          No hay gastos registrados.
-        </td>
-      </tr>
-      `;
+function eliminarGasto(id){
+
+  if(!confirm("¿Eliminar este gasto?")){
+    return;
+  }
+
+  datos.gastos=
+    datos.gastos.filter(
+      g=>g.id!==id
+    );
+
+  guardar();
+}
+
+function abrirRuta(id=""){
+
+  const r=
+    datos.rutas.find(
+      x=>(x.id||"")===id
+    );
+
+  $("#formRuta").reset();
+
+  $("#rutaId").value=
+    r?.id||"";
+
+  $("#rutaOrigen").value=
+    r?.origen||
+    r?.origin||
+    "";
+
+  $("#rutaDestino").value=
+    r?.destino||
+    r?.destination||
+    "";
+
+  $("#rutaPrecio").value=
+    r?.precio??
+    r?.price??
+    "";
+
+  $("#rutaEstado").value=
+    norm(r?.estado||"ACTIVA")==="INACTIVA"
+      ?"INACTIVA"
+      :"ACTIVA";
+
+  $("#rutaDistancia").value=
+    r?.distancia||
+    r?.distance||
+    "";
+
+  $("#rutaDuracion").value=
+    r?.duracion||
+    r?.duration||
+    "";
+
+  $("#rutaModalTitle").textContent=
+    r
+      ?"Editar ruta"
+      :"Nueva ruta";
+
+  abrirModal("modalRuta");
+}
+
+$("#formRuta").onsubmit=e=>{
+
+  e.preventDefault();
+
+  const id=
+    $("#rutaId").value||
+    uid();
+
+  const r={
+    id,
+    origen:$("#rutaOrigen").value.trim(),
+    destino:$("#rutaDestino").value.trim(),
+    precio:Number($("#rutaPrecio").value),
+    estado:$("#rutaEstado").value,
+    distancia:$("#rutaDistancia").value.trim(),
+    duracion:$("#rutaDuracion").value.trim()
+  };
+
+  const i=
+    datos.rutas.findIndex(
+      x=>(x.id||"")===id
+    );
+
+  if(i>=0){
+    datos.rutas[i]=r;
+  }else{
+    datos.rutas.push(r);
+  }
+
+  guardar();
+
+  cerrarModal("modalRuta");
+};
+
+function renderRutas(){
+
+  const q=
+    norm($("#buscarRuta")?.value);
+
+  const arr=
+    datos.rutas
+    .map(
+      (r,i)=>({
+        ...r,
+        id:r.id||`legacy-${i}`
+      })
+    )
+    .filter(
+      r=>
+        !q||
+        norm(
+          (r.origen||r.origin||"")+
+          " "+
+          (r.destino||r.destination||"")
+        ).includes(q)
+    );
+
+  $("#tablaRutas").innerHTML=
+    arr.length
+      ?arr.map(
+        r=>`
+        <tr>
+          <td><b>${safe(r.origen||r.origin)}</b></td>
+          <td>${safe(r.destino||r.destination)}</td>
+          <td><b>${usd(r.precio??r.price)}</b></td>
+          <td>${safe(r.distancia||r.distance||"-")}</td>
+          <td>${safe(r.duracion||r.duration||"-")}</td>
+          <td>
+            ${
+              norm(r.estado)==="INACTIVA"
+              ?'<span class="badge b-cancelada">INACTIVA</span>'
+              :'<span class="badge b-confirmada">ACTIVA</span>'
+            }
+          </td>
+          <td>
+            <div class="actions">
+              <button class="icon-btn" onclick="editarRutaCompat('${r.id}')">Editar</button>
+              <button class="icon-btn" onclick="toggleRuta('${r.id}')">Activar/Inactivar</button>
+              <button class="icon-btn" onclick="eliminarRuta('${r.id}')">Eliminar</button>
+            </div>
+          </td>
+        </tr>
+        `
+      ).join("")
+      :'<tr><td colspan="7" class="muted">No hay rutas registradas.</td></tr>';
+}
+
+$("#buscarRuta").addEventListener(
+  "input",
+  renderRutas
+);
+
+function rutaIndexCompat(id){
+
+  if(
+    String(id).startsWith("legacy-")
+  ){
+    return Number(
+      String(id).split("-")[1]
+    );
+  }
+
+  return datos.rutas.findIndex(
+    r=>r.id===id
+  );
+}
+
+function editarRutaCompat(id){
+
+  const i=
+    rutaIndexCompat(id);
+
+  if(i<0)return;
+
+  if(!datos.rutas[i].id){
+    datos.rutas[i].id=uid();
+  }
+
+  guardar();
+
+  abrirRuta(
+    datos.rutas[i].id
+  );
+}
+
+function toggleRuta(id){
+
+  const i=
+    rutaIndexCompat(id);
+
+  if(i<0)return;
+
+  datos.rutas[i].estado=
+    norm(datos.rutas[i].estado)==="INACTIVA"
+      ?"ACTIVA"
+      :"INACTIVA";
+
+  if(!datos.rutas[i].id){
+    datos.rutas[i].id=uid();
+  }
+
+  guardar();
+}
+
+async function eliminarRuta(id){
+  if(!confirm("¿Eliminar esta ruta?")) return;
+
+  const i=rutaIndexCompat(id);
+  const r=i>=0?datos.rutas[i]:null;
+  const key=r?syncKey("rutas",r):id;
+
+  if(i>=0) datos.rutas.splice(i,1);
+  guardarLocal();
+
+  try{
+    await borrarRemoto("rutas",key);
+  }catch(error){
+    console.error("Error eliminando ruta en Supabase:",error);
+    alert(
+      "La ruta se eliminó del panel, pero Supabase no confirmó la eliminación.\n\n"+
+      error.message
+    );
   }
 }
 
+/* =========================================================
+   ESTADO DE RESULTADOS
+========================================================= */
 
+function dentroPeriodo(fecha,desde,hasta){
+  if(!fecha) return true;
+  if(desde&&fecha<desde) return false;
+  if(hasta&&fecha>hasta) return false;
+  return true;
+}
+
+function renderEstadoResultados(){
+  const desde=$("#erDesde")?.value||"";
+  const hasta=$("#erHasta")?.value||"";
+
+  const ingresos=datos.reservas.filter(
+    r=>r.comisionEstado==="PAGADA" &&
+    dentroPeriodo(r.fechaPagoComision||resFecha(r),desde,hasta)
+  );
+
+  const gastos=datos.gastos.filter(
+    g=>dentroPeriodo(g.fecha,desde,hasta)
+  );
+
+  const totalIngresos=ingresos.reduce((s,r)=>s+resComision(r),0);
+  const totalGastos=gastos.reduce((s,g)=>s+Number(g.monto||0),0);
+  const pendientes=datos.reservas
+    .filter(r=>resComision(r)>0&&r.comisionEstado!=="PAGADA")
+    .reduce((s,r)=>s+resComision(r),0);
+  const neto=totalIngresos-totalGastos;
+
+  if($("#erMIngresos")) $("#erMIngresos").textContent=money(totalIngresos);
+  if($("#erMGastos")) $("#erMGastos").textContent=money(totalGastos);
+  if($("#erMNeto")) $("#erMNeto").textContent=money(neto);
+  if($("#erMPendientes")) $("#erMPendientes").textContent=money(pendientes);
+
+  if($("#erDetalleIngresos")){
+    $("#erDetalleIngresos").innerHTML=ingresos.length
+      ?ingresos.map(r=>`
+        <tr>
+          <td>${safe(r.fechaPagoComision||resFecha(r))}</td>
+          <td><b>${safe(resCode(r))}</b></td>
+          <td>${safe(choferNombre(resChofer(r)))}</td>
+          <td>Comisión servicio</td>
+          <td><b>${money(resComision(r))}</b></td>
+        </tr>`).join("")
+      :`<tr><td colspan="5" class="muted">No hay ingresos registrados.</td></tr>`;
+  }
+
+  if($("#erDetalleGastos")){
+    $("#erDetalleGastos").innerHTML=gastos.length
+      ?gastos.map(g=>`
+        <tr>
+          <td>${safe(g.fecha)}</td>
+          <td>${safe(g.categoria)}</td>
+          <td>${safe(g.descripcion)}</td>
+          <td><b>${money(g.monto)}</b></td>
+        </tr>`).join("")
+      :`<tr><td colspan="4" class="muted">No hay gastos registrados.</td></tr>`;
+  }
+}
 
 /* =========================================================
    REPORTES
 ========================================================= */
 
 function reservasReporte(){
-
-  const desde=
-    $("#reporteDesde")?.value||"";
-
-  const hasta=
-    $("#reporteHasta")?.value||"";
-
-  return datos.reservas.filter(
-    r=>
-      dentroPeriodo(
-        resFecha(r),
-        desde,
-        hasta
-      )
-  );
+  const desde=$("#reporteDesde")?.value||"";
+  const hasta=$("#reporteHasta")?.value||"";
+  return datos.reservas.filter(r=>dentroPeriodo(resFecha(r),desde,hasta));
 }
 
-
 function renderReporte(){
+  if(!$("#tipoReporte")) return;
 
-  if(!$("#tipoReporte")){
-    return;
-  }
-
-  const tipo=
-    $("#tipoReporte").value||
-    "general";
-
-  const rs=
-    reservasReporte();
-
+  const tipo=$("#tipoReporte").value||"general";
+  const rs=reservasReporte();
 
   if($("#printTitulo")){
-
     $("#printTitulo").textContent=
-      "Reporte: "+
-      (
-        $("#tipoReporte")
-        .selectedOptions[0]
-        ?.textContent||
-        "General"
-      );
+      "Reporte: "+($("#tipoReporte").selectedOptions[0]?.textContent||"General");
   }
 
-
-  const totalServicios=
-    rs.length;
-
-  const completadas=
-    rs.filter(
-      r=>resEstado(r)==="COMPLETADA"
-    ).length;
-
-  const confirmadas=
-    rs.filter(
-      r=>resEstado(r)==="CONFIRMADA"
-    ).length;
-
-  const canceladas=
-    rs.filter(
-      r=>resEstado(r)==="CANCELADA"
-    ).length;
-
-  const totalTarifas=
-    rs
-    .filter(
-      r=>resEstado(r)!=="CANCELADA"
-    )
-    .reduce(
-      (s,r)=>s+resTarifa(r),
-      0
-    );
-
-  const comisiones=
-    rs.reduce(
-      (s,r)=>s+resComision(r),
-      0
-    );
-
+  const totalServicios=rs.length;
+  const completadas=rs.filter(r=>resEstado(r)==="COMPLETADA").length;
+  const confirmadas=rs.filter(r=>resEstado(r)==="CONFIRMADA").length;
+  const canceladas=rs.filter(r=>resEstado(r)==="CANCELADA").length;
+  const totalTarifas=rs
+    .filter(r=>resEstado(r)!=="CANCELADA")
+    .reduce((s,r)=>s+resTarifa(r),0);
+  const comisiones=rs.reduce((s,r)=>s+resComision(r),0);
 
   $("#reporteResumen").innerHTML=`
+    <div class="card"><h3>${totalServicios}</h3><p>Servicios</p></div>
+    <div class="card"><h3>${confirmadas}</h3><p>Confirmadas</p></div>
+    <div class="card"><h3>${completadas}</h3><p>Completadas</p></div>
+    <div class="card"><h3>${canceladas}</h3><p>Canceladas</p></div>
+    <div class="card"><h3>${usd(totalTarifas)}</h3><p>Tarifas registradas</p></div>
+    <div class="card"><h3>${money(comisiones)}</h3><p>Comisiones</p></div>`;
 
-    <div class="card">
-      <h3>${totalServicios}</h3>
-      <p>Servicios</p>
-    </div>
-
-    <div class="card">
-      <h3>${confirmadas}</h3>
-      <p>Confirmadas</p>
-    </div>
-
-    <div class="card">
-      <h3>${completadas}</h3>
-      <p>Completadas</p>
-    </div>
-
-    <div class="card">
-      <h3>${canceladas}</h3>
-      <p>Canceladas</p>
-    </div>
-
-    <div class="card">
-      <h3>${usd(totalTarifas)}</h3>
-      <p>Tarifas registradas</p>
-    </div>
-
-    <div class="card">
-      <h3>${money(comisiones)}</h3>
-      <p>Comisiones</p>
-    </div>
-  `;
-
-
-  const resultados=
-    tipo==="resultados";
-
-  $("#reporteGeneralBox").style.display=
-    resultados
-      ?"none"
-      :"block";
-
-  $("#estadoResultadosBox").style.display=
-    resultados
-      ?"block"
-      :"none";
-
+  const resultados=tipo==="resultados";
+  $("#reporteGeneralBox").style.display=resultados?"none":"block";
+  $("#estadoResultadosBox").style.display=resultados?"block":"none";
 
   if(resultados){
-
     renderReporteResultados();
-
     return;
   }
-
 
   let filas=[];
 
-
   if(tipo==="choferes"){
-
-    filas=
-      datos.choferes.map(
-        c=>({
-
-          fecha:"",
-
-          codigo:"",
-
-          cliente:
-            c.nombre||"",
-
-          ruta:
-            c.vehiculo||"",
-
-          chofer:
-            c.telefono||"",
-
-          estado:
-            c.estado||"",
-
-          tarifa:0,
-
-          comision:
-            datos.reservas
-            .filter(
-              r=>resChofer(r)===c.id
-            )
-            .reduce(
-              (s,r)=>s+resComision(r),
-              0
-            )
-
-        })
-      );
-
+    filas=datos.choferes.map(c=>({
+      fecha:"",
+      codigo:"",
+      cliente:c.nombre||"",
+      ruta:c.vehiculo||"",
+      chofer:c.telefono||"",
+      estado:c.estado||"",
+      tarifa:0,
+      comision:datos.reservas
+        .filter(r=>resChofer(r)===c.id)
+        .reduce((s,r)=>s+resComision(r),0)
+    }));
   }else if(tipo==="gastos"){
-
-    filas=
-      datos.gastos
-      .filter(
-        g=>
-          dentroPeriodo(
-            g.fecha,
-            $("#reporteDesde").value,
-            $("#reporteHasta").value
-          )
-      )
-      .map(
-        g=>({
-
-          fecha:g.fecha||"",
-
-          codigo:"",
-
-          cliente:g.categoria||"",
-
-          ruta:g.descripcion||"",
-
-          chofer:"",
-
-          estado:"GASTO",
-
-          tarifa:0,
-
-          comision:
-            Number(g.monto||0)
-
-        })
-      );
-
+    filas=datos.gastos
+      .filter(g=>dentroPeriodo(g.fecha,$("#reporteDesde").value,$("#reporteHasta").value))
+      .map(g=>({
+        fecha:g.fecha||"",
+        codigo:"",
+        cliente:g.categoria||"",
+        ruta:g.descripcion||"",
+        chofer:"",
+        estado:"GASTO",
+        tarifa:0,
+        comision:Number(g.monto||0)
+      }));
   }else if(tipo==="rutas"){
-
-    filas=
-      datos.rutas.map(
-        r=>({
-
-          fecha:"",
-
-          codigo:"",
-
-          cliente:
-            r.origen||
-            r.origin||
-            "",
-
-          ruta:
-            "→ "+
-            (
-              r.destino||
-              r.destination||
-              ""
-            ),
-
-          chofer:
-            r.distancia||
-            r.distance||
-            "",
-
-          estado:
-            norm(
-              r.estado||
-              "ACTIVA"
-            ),
-
-          tarifa:
-            Number(
-              r.precio??
-              r.price??
-              0
-            ),
-
-          comision:0
-
-        })
-      );
-
+    filas=datos.rutas.map(r=>({
+      fecha:"",
+      codigo:"",
+      cliente:r.origen||r.origin||"",
+      ruta:"→ "+(r.destino||r.destination||""),
+      chofer:r.distancia||r.distance||"",
+      estado:norm(r.estado||"ACTIVA"),
+      tarifa:Number(r.precio??r.price??0),
+      comision:0
+    }));
   }else{
-
-    filas=
-      rs.map(
-        r=>({
-
-          fecha:
-            `${resFecha(r)} ${resHora(r)}`,
-
-          codigo:
-            resCode(r),
-
-          cliente:
-            resNombre(r),
-
-          ruta:
-            `${resOrigen(r)} → ${resDestino(r)}`,
-
-          chofer:
-            choferNombre(
-              resChofer(r)
-            ),
-
-          estado:
-            resEstado(r),
-
-          tarifa:
-            resTarifa(r),
-
-          comision:
-            resComision(r)
-
-        })
-      );
+    filas=rs.map(r=>({
+      fecha:`${resFecha(r)} ${resHora(r)}`,
+      codigo:resCode(r),
+      cliente:resNombre(r),
+      ruta:`${resOrigen(r)} → ${resDestino(r)}`,
+      chofer:choferNombre(resChofer(r)),
+      estado:resEstado(r),
+      tarifa:resTarifa(r),
+      comision:resComision(r)
+    }));
   }
 
-
-  $("#tablaReporte").innerHTML=
-
-    filas.length
-
-    ?filas.map(
-      f=>`
+  $("#tablaReporte").innerHTML=filas.length
+    ?filas.map(f=>`
       <tr>
-
-        <td>
-          ${safe(f.fecha)}
-        </td>
-
-        <td>
-          <b>${safe(f.codigo)}</b>
-        </td>
-
-        <td>
-          ${safe(f.cliente)}
-        </td>
-
-        <td>
-          ${safe(f.ruta)}
-        </td>
-
-        <td>
-          ${safe(f.chofer)}
-        </td>
-
-        <td>
-          ${safe(f.estado)}
-        </td>
-
-        <td>
-          ${usd(f.tarifa)}
-        </td>
-
-        <td>
-          ${money(f.comision)}
-        </td>
-
-      </tr>
-      `
-    ).join("")
-
-    :`
-    <tr>
-      <td colspan="8" class="muted">
-        No hay información para este período.
-      </td>
-    </tr>
-    `;
+        <td>${safe(f.fecha)}</td>
+        <td><b>${safe(f.codigo)}</b></td>
+        <td>${safe(f.cliente)}</td>
+        <td>${safe(f.ruta)}</td>
+        <td>${safe(f.chofer)}</td>
+        <td>${safe(f.estado)}</td>
+        <td>${usd(f.tarifa)}</td>
+        <td>${money(f.comision)}</td>
+      </tr>`).join("")
+    :`<tr><td colspan="8" class="muted">No hay información para este período.</td></tr>`;
 }
-
-
 
 function renderReporteResultados(){
+  const desde=$("#reporteDesde")?.value||"";
+  const hasta=$("#reporteHasta")?.value||"";
 
-  const desde=
-    $("#reporteDesde")?.value||"";
+  const ingresos=datos.reservas.filter(
+    r=>r.comisionEstado==="PAGADA" &&
+    dentroPeriodo(r.fechaPagoComision||resFecha(r),desde,hasta)
+  );
+  const gastos=datos.gastos.filter(g=>dentroPeriodo(g.fecha,desde,hasta));
 
-  const hasta=
-    $("#reporteHasta")?.value||"";
+  const totalIngresos=ingresos.reduce((s,r)=>s+resComision(r),0);
+  const totalGastos=gastos.reduce((s,g)=>s+Number(g.monto||0),0);
+  const resultado=totalIngresos-totalGastos;
 
-  const ingresos=
-    datos.reservas.filter(
-      r=>
-        r.comisionEstado==="PAGADA" &&
-        dentroPeriodo(
-          r.fechaPagoComision||resFecha(r),
-          desde,
-          hasta
-        )
-    );
+  $("#erIngresos").textContent=money(totalIngresos);
+  $("#erGastos").textContent=money(totalGastos);
+  $("#erResultado").textContent=money(resultado);
 
-  const gastos=
-    datos.gastos.filter(
-      g=>
-        dentroPeriodo(
-          g.fecha,
-          desde,
-          hasta
-        )
-    );
-
-
-  const totalIngresos=
-    ingresos.reduce(
-      (s,r)=>s+resComision(r),
-      0
-    );
-
-  const totalGastos=
-    gastos.reduce(
-      (s,g)=>s+Number(g.monto||0),
-      0
-    );
-
-  const resultado=
-    totalIngresos-totalGastos;
-
-
-  $("#erIngresos").textContent=
-    money(totalIngresos);
-
-  $("#erGastos").textContent=
-    money(totalGastos);
-
-  $("#erResultado").textContent=
-    money(resultado);
-
-
-  $("#erTablaIngresos").innerHTML=
-
-    ingresos.length
-
-    ?ingresos.map(
-      r=>`
+  $("#erTablaIngresos").innerHTML=ingresos.length
+    ?ingresos.map(r=>`
       <tr>
-        <td>
-          ${safe(resCode(r))}
-          ·
-          ${safe(
-            choferNombre(
-              resChofer(r)
-            )
-          )}
-        </td>
+        <td>${safe(resCode(r))} · ${safe(choferNombre(resChofer(r)))}</td>
+        <td><b>${money(resComision(r))}</b></td>
+      </tr>`).join("")
+    :`<tr><td colspan="2" class="muted">Sin ingresos registrados.</td></tr>`;
 
-        <td>
-          <b>
-            ${money(
-              resComision(r)
-            )}
-          </b>
-        </td>
-      </tr>
-      `
-    ).join("")
-
-    :`
-    <tr>
-      <td colspan="2" class="muted">
-        Sin ingresos registrados.
-      </td>
-    </tr>
-    `;
-
-
-  $("#erTablaGastos").innerHTML=
-
-    gastos.length
-
-    ?gastos.map(
-      g=>`
+  $("#erTablaGastos").innerHTML=gastos.length
+    ?gastos.map(g=>`
       <tr>
-        <td>
-          ${safe(g.categoria)}
-          —
-          ${safe(g.descripcion)}
-        </td>
-
-        <td>
-          <b>
-            ${money(g.monto)}
-          </b>
-        </td>
-      </tr>
-      `
-    ).join("")
-
-    :`
-    <tr>
-      <td colspan="2" class="muted">
-        Sin gastos registrados.
-      </td>
-    </tr>
-    `;
+        <td>${safe(g.categoria)} — ${safe(g.descripcion)}</td>
+        <td><b>${money(g.monto)}</b></td>
+      </tr>`).join("")
+    :`<tr><td colspan="2" class="muted">Sin gastos registrados.</td></tr>`;
 }
-
-
 
 /* =========================================================
    CONFIGURACIÓN
 ========================================================= */
 
 function renderConfig(){
-
-  if(!$("#formConfig")){
-    return;
-  }
-
-  $("#cfgWhatsapp").value=
-    datos.config.whatsapp||"";
-
-  $("#cfgTasa").value=
-    datos.config.exchangeRate||60;
-
-  $("#cfgIncluidos").value=
-    datos.config.includedPassengers||4;
-
-  $("#cfgAdicional").value=
-    datos.config.additionalPassengerFee||10;
-
-  $("#cfgDescuento").value=
-    datos.config.roundTripDiscount||10;
-
-  $("#cfgNombre").value=
-    datos.config.businessName||
-    "José García Transporte";
+  if(!$("#formConfig")) return;
+  $("#cfgWhatsapp").value=datos.config.whatsapp||"";
+  $("#cfgTasa").value=datos.config.exchangeRate||60;
+  $("#cfgIncluidos").value=datos.config.includedPassengers||4;
+  $("#cfgAdicional").value=datos.config.additionalPassengerFee||10;
+  $("#cfgDescuento").value=datos.config.roundTripDiscount||10;
+  $("#cfgNombre").value=datos.config.businessName||"José García Transporte";
 }
 
-
 $("#formConfig").onsubmit=e=>{
-
   e.preventDefault();
 
   datos.config={
-
     ...datos.config,
-
-    whatsapp:
-      $("#cfgWhatsapp")
-      .value
-      .trim(),
-
-    exchangeRate:
-      Number(
-        $("#cfgTasa").value||60
-      ),
-
-    includedPassengers:
-      Number(
-        $("#cfgIncluidos").value||4
-      ),
-
-    additionalPassengerFee:
-      Number(
-        $("#cfgAdicional").value||10
-      ),
-
-    roundTripDiscount:
-      Number(
-        $("#cfgDescuento").value||0
-      ),
-
-    businessName:
-      $("#cfgNombre")
-      .value
-      .trim()||
-      "José García Transporte"
-
+    whatsapp:$("#cfgWhatsapp").value.trim(),
+    exchangeRate:Number($("#cfgTasa").value||60),
+    includedPassengers:Number($("#cfgIncluidos").value||4),
+    additionalPassengerFee:Number($("#cfgAdicional").value||10),
+    roundTripDiscount:Number($("#cfgDescuento").value||0),
+    businessName:$("#cfgNombre").value.trim()||"José García Transporte"
   };
 
   guardarLocal();
-
-  alert(
-    "Configuración guardada correctamente."
-  );
+  alert("Configuración guardada correctamente.");
 };
-
-
 
 /* =========================================================
    RESPALDO
 ========================================================= */
 
 function exportarDatos(){
-
-  const blob=
-    new Blob(
-      [
-        JSON.stringify(
-          datos,
-          null,
-          2
-        )
-      ],
-      {
-        type:"application/json"
-      }
-    );
-
-  const url=
-    URL.createObjectURL(blob);
-
-  const a=
-    document.createElement("a");
-
+  const blob=new Blob([JSON.stringify(datos,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
   a.href=url;
-
-  a.download=
-    `jose-garcia-respaldo-${hoy()}.json`;
-
+  a.download=`jose-garcia-respaldo-${hoy()}.json`;
   document.body.appendChild(a);
-
   a.click();
-
   a.remove();
-
   URL.revokeObjectURL(url);
 }
 
+$("#importFile").addEventListener("change",async e=>{
+  const file=e.target.files?.[0];
+  if(!file) return;
 
-$("#importFile").addEventListener(
-  "change",
-  async e=>{
+  try{
+    const nuevo=JSON.parse(await file.text());
 
-    const file=
-      e.target.files?.[0];
-
-    if(!file){
-      return;
+    if(!nuevo||typeof nuevo!=="object"){
+      throw new Error("Archivo de respaldo no válido.");
     }
+
+    datos={
+      ...BASE,
+      ...nuevo,
+      config:{...BASE.config,...(nuevo.config||{})},
+      reservas:Array.isArray(nuevo.reservas)?nuevo.reservas:[],
+      rutas:Array.isArray(nuevo.rutas)?nuevo.rutas:[],
+      choferes:Array.isArray(nuevo.choferes)?nuevo.choferes:[],
+      gastos:Array.isArray(nuevo.gastos)?nuevo.gastos:[]
+    };
+
+    guardarLocal();
 
     try{
-
-      const nuevo=
-        JSON.parse(
-          await file.text()
-        );
-
-      if(
-        !nuevo ||
-        typeof nuevo!=="object"
-      ){
-
-        throw new Error(
-          "Archivo de respaldo no válido."
-        );
-      }
-
-
-      datos={
-
-        ...BASE,
-
-        ...nuevo,
-
-        config:{
-          ...BASE.config,
-          ...(nuevo.config||{})
-        },
-
-        reservas:
-          Array.isArray(
-            nuevo.reservas
-          )
-          ?nuevo.reservas
-          :[],
-
-        rutas:
-          Array.isArray(
-            nuevo.rutas
-          )
-          ?nuevo.rutas
-          :[],
-
-        choferes:
-          Array.isArray(
-            nuevo.choferes
-          )
-          ?nuevo.choferes
-          :[],
-
-        gastos:
-          Array.isArray(
-            nuevo.gastos
-          )
-          ?nuevo.gastos
-          :[]
-
-      };
-
-
-      guardarLocal();
-
-
-      try{
-
-        await sincronizarTodo();
-
-      }catch(error){
-
-        console.error(
-          "No se pudo sincronizar el respaldo:",
-          error
-        );
-      }
-
-
-      alert(
-        "Respaldo importado correctamente."
-      );
-
-
+      await sincronizarTodo();
     }catch(error){
-
-      alert(
-        "No se pudo importar el archivo.\n\n"+
-        error.message
-      );
-
-    }finally{
-
-      e.target.value="";
-
+      console.error("No se pudo sincronizar el respaldo:",error);
     }
 
+    alert("Respaldo importado correctamente.");
+  }catch(error){
+    alert("No se pudo importar el archivo.\n\n"+error.message);
+  }finally{
+    e.target.value="";
   }
-);
-
-
+});
 
 /* =========================================================
    EVENTOS
 ========================================================= */
 
-$("#tipoReporte").addEventListener(
-  "change",
-  renderReporte
-);
-
-$("#reporteDesde").addEventListener(
-  "change",
-  renderReporte
-);
-
-$("#reporteHasta").addEventListener(
-  "change",
-  renderReporte
-);
-
-
+$("#tipoReporte").addEventListener("change",renderReporte);
+$("#reporteDesde").addEventListener("change",renderReporte);
+$("#reporteHasta").addEventListener("change",renderReporte);
 
 /* =========================================================
    CERRAR MODALES
 ========================================================= */
 
-$$(".modal").forEach(
-  modal=>{
+$$(".modal").forEach(modal=>{
+  modal.addEventListener("click",e=>{
+    if(e.target===modal) modal.classList.remove("open");
+  });
+});
 
-    modal.addEventListener(
-      "click",
-      e=>{
-
-        if(e.target===modal){
-
-          modal.classList.remove(
-            "open"
-          );
-
-        }
-
-      }
-    );
-
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape"){
+    $$(".modal.open").forEach(m=>m.classList.remove("open"));
   }
-);
-
-
-document.addEventListener(
-  "keydown",
-  e=>{
-
-    if(e.key==="Escape"){
-
-      $$(".modal.open")
-      .forEach(
-        m=>
-          m.classList.remove(
-            "open"
-          )
-      );
-
-    }
-
-  }
-);
-
-
+});
 
 /* =========================================================
    INICIO DEL PANEL
 ========================================================= */
 
 async function iniciarPanel(){
-
   try{
-
     renderTodo();
-
   }catch(error){
-
-    console.error(
-      "Error en render inicial:",
-      error
-    );
-
+    console.error("Error en render inicial:",error);
   }
-
 
   await inicializarSupabase();
 
-
   try{
-
     renderTodo();
-
   }catch(error){
-
-    console.error(
-      "Error actualizando panel:",
-      error
-    );
-
+    console.error("Error actualizando panel:",error);
   }
-
 }
-
 
 iniciarPanel();
 
