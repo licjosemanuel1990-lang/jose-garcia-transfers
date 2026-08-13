@@ -635,13 +635,8 @@ aerolinea:obj.aerolinea||obj.trip?.airline||null,
       obj.tarifa ??
       obj.quote?.total ??
       0
-    estado:({
-  "NUEVA":"Nueva",
-  "CONFIRMADA":"Confirmada",
-  "EN SERVICIO":"En servicio",
-  "COMPLETADA":"Completada",
-  "CANCELADA":"Cancelada"
-}[resEstado(obj)]||"Nueva"),
+    ),
+    estado:resEstado(obj)||"NUEVA",
     prioridad:obj.prioridad||"Normal",
     creado_en:obj.creado_en||obj.fechaCreacion||obj.createdAt||new Date().toISOString(),
     actualizado_en:new Date().toISOString(),
