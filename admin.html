@@ -1,1083 +1,135 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#062f3d">
-
-<title>Administración | José García Transporte</title>
-
-<style>
-:root{
-  --verde:#062f3d;
-  --verde2:#0a5060;
-  --dorado:#e5b735;
-  --fondo:#f4f7f8;
-  --blanco:#ffffff;
-  --texto:#17282f;
-  --gris:#6e7c82;
-  --borde:#dfe7e9;
-  --rojo:#c63b3b;
-  --verde-ok:#18875a;
-  --azul:#2466a6;
-  --sombra:0 10px 28px rgba(5,43,54,.09);
-}
-
-*{
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
-body{
-  margin:0;
-  font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
-  background:var(--fondo);
-  color:var(--texto);
-}
-
-button,
-input,
-select,
-textarea{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-button:disabled{
-  opacity:.55;
-  cursor:not-allowed;
-}
-
-.app{
-  min-height:100vh;
-  display:grid;
-  grid-template-columns:255px minmax(0,1fr);
-}
-
-/* =========================================================
-   SIDEBAR
-========================================================= */
-
-.sidebar{
-  position:sticky;
-  top:0;
-  height:100vh;
-  background:#042733;
-  color:#fff;
-  padding:20px 14px;
-  display:flex;
-  flex-direction:column;
-  z-index:100;
-}
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:5px 8px 22px;
-  border-bottom:1px solid rgba(255,255,255,.10);
-}
-
-.logo{
-  width:48px;
-  height:48px;
-  border:2px solid var(--dorado);
-  border-radius:50%;
-  background:#fff;
-  color:var(--verde);
-  display:grid;
-  place-items:center;
-  font-weight:950;
-}
-
-.brand strong{
-  display:block;
-  font-size:16px;
-}
-
-.brand span{
-  display:block;
-  margin-top:2px;
-  font-size:11px;
-  color:rgba(255,255,255,.65);
-}
-
-.nav{
-  display:grid;
-  gap:5px;
-  margin-top:18px;
-}
-
-.nav button{
-  width:100%;
-  border:0;
-  background:transparent;
-  color:rgba(255,255,255,.78);
-  padding:11px 12px;
-  border-radius:11px;
-  text-align:left;
-  font-weight:800;
-}
-
-.nav button:hover,
-.nav button.activo{
-  background:rgba(229,183,53,.16);
-  color:#fff;
-}
-
-.nav button.activo{
-  box-shadow:inset 3px 0 var(--dorado);
-}
-
-.sidebar-footer{
-  margin-top:auto;
-  padding:14px 8px;
-  color:rgba(255,255,255,.60);
-  font-size:11px;
-}
-
-.sidebar-footer a{
-  color:#fff;
-  text-decoration:none;
-}
-
-/* =========================================================
-   MAIN
-========================================================= */
-
-.main{
-  min-width:0;
-}
-
-.topbar{
-  height:76px;
-  background:#fff;
-  border-bottom:1px solid var(--borde);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  padding:0 24px;
-  position:sticky;
-  top:0;
-  z-index:50;
-}
-
-.top-left{
-  display:flex;
-  align-items:center;
-  gap:11px;
-  min-width:0;
-}
-
-.topbar h1{
-  margin:0;
-  font-size:22px;
-  color:var(--verde);
-}
-
-.topbar p{
-  margin:3px 0 0;
-  color:var(--gris);
-  font-size:12px;
-}
-
-.top-actions{
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-
-.mobile-menu{
-  display:none;
-  border:0;
-  width:42px;
-  height:42px;
-  border-radius:10px;
-  background:var(--verde);
-  color:#fff;
-  font-size:22px;
-}
-
-.content{
-  padding:22px;
-}
-
-.screen{
-  display:none;
-}
-
-.screen.activa{
-  display:block;
-}
-
-/* =========================================================
-   BOTONES
-========================================================= */
-
-.btn{
-  border:0;
-  border-radius:10px;
-  padding:10px 14px;
-  font-weight:900;
-}
-
-.btn-gold{
-  background:var(--dorado);
-  color:#182329;
-}
-
-.btn-dark{
-  background:var(--verde);
-  color:#fff;
-}
-
-.btn-light{
-  background:#eef3f4;
-  color:var(--verde);
-}
-
-.btn-red{
-  background:#fff0f0;
-  color:var(--rojo);
-}
-
-.btn-blue{
-  background:#edf4ff;
-  color:var(--azul);
-}
-
-.icon-btn{
-  border:1px solid var(--borde);
-  background:#fff;
-  color:var(--verde);
-  border-radius:8px;
-  padding:7px 9px;
-  font-size:11px;
-  font-weight:850;
-}
-
-/* =========================================================
-   MENSAJES
-========================================================= */
-
-.notice{
-  background:#eef8f7;
-  border:1px solid #d4ebe8;
-  border-radius:13px;
-  padding:13px 15px;
-  color:#31535a;
-  font-size:13px;
-}
-
-.notice.error{
-  background:#fff0f0;
-  border-color:#f1cccc;
-  color:#8c3030;
-}
-
-.notice.success{
-  background:#eaf7f0;
-  border-color:#cce8d8;
-  color:#176c47;
-}
-
-.status-line{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  flex-wrap:wrap;
-}
-
-.dot{
-  width:9px;
-  height:9px;
-  border-radius:50%;
-  background:#999;
-}
-
-.dot.ok{
-  background:var(--verde-ok);
-}
-
-.dot.error{
-  background:var(--rojo);
-}
-
-/* =========================================================
-   MÉTRICAS
-========================================================= */
-
-.grid-metricas{
-  display:grid;
-  grid-template-columns:repeat(4,minmax(150px,1fr));
-  gap:12px;
-  margin:16px 0;
-}
-
-.metric{
-  background:#fff;
-  border:1px solid var(--borde);
-  border-radius:16px;
-  padding:17px;
-  box-shadow:var(--sombra);
-}
-
-.metric span{
-  display:block;
-  color:var(--gris);
-  font-size:11px;
-  font-weight:850;
-}
-
-.metric strong{
-  display:block;
-  margin-top:5px;
-  font-size:27px;
-  color:var(--verde);
-}
-
-.metric small{
-  color:var(--gris);
-  font-size:11px;
-}
-
-/* =========================================================
-   PANELES
-========================================================= */
-
-.panel{
-  background:#fff;
-  border:1px solid var(--borde);
-  border-radius:17px;
-  box-shadow:var(--sombra);
-  padding:18px;
-  margin-bottom:17px;
-}
-
-.panel-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  margin-bottom:14px;
-}
-
-.panel-head h2{
-  margin:0;
-  color:var(--verde);
-  font-size:19px;
-}
-
-.panel-head p{
-  margin:4px 0 0;
-  color:var(--gris);
-  font-size:12px;
-}
-
-.toolbar{
-  display:flex;
-  gap:8px;
-  align-items:center;
-  flex-wrap:wrap;
-}
-
-.toolbar input,
-.toolbar select{
-  border:1px solid var(--borde);
-  border-radius:10px;
-  background:#fff;
-  padding:10px;
-}
-
-.dashboard-grid{
-  display:grid;
-  grid-template-columns:1.2fr .8fr;
-  gap:16px;
-}
-
-.mini-list{
-  display:grid;
-  gap:9px;
-}
-
-.mini-item{
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  padding:12px;
-  border:1px solid var(--borde);
-  border-radius:11px;
-}
-
-.muted{
-  color:var(--gris);
-  font-size:12px;
-}
-
-/* =========================================================
-   TABLAS
-========================================================= */
-
-.table-wrap{
-  overflow:auto;
-  border:1px solid var(--borde);
-  border-radius:12px;
-  -webkit-overflow-scrolling:touch;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:850px;
-}
-
-th,
-td{
-  padding:11px 10px;
-  border-bottom:1px solid #edf1f2;
-  text-align:left;
-  vertical-align:top;
-  font-size:12px;
-}
-
-th{
-  background:#f8fafb;
-  color:#53636a;
-  text-transform:uppercase;
-  font-size:10px;
-  letter-spacing:.35px;
-}
-
-tr:last-child td{
-  border-bottom:0;
-}
-
-.actions{
-  display:flex;
-  gap:5px;
-  flex-wrap:wrap;
-}
-
-/* =========================================================
-   BADGES
-========================================================= */
-
-.badge{
-  display:inline-block;
-  padding:5px 8px;
-  border-radius:50px;
-  font-size:10px;
-  font-weight:950;
-}
-
-.b-nueva{
-  background:#fff3d7;
-  color:#8b6200;
-}
-
-.b-confirmada{
-  background:#e6f5ef;
-  color:#14704b;
-}
-
-.b-servicio{
-  background:#e9f0fb;
-  color:#205c97;
-}
-
-.b-completada{
-  background:#e8f6ed;
-  color:#176d43;
-}
-
-.b-cancelada,
-.b-inactiva{
-  background:#fdeaea;
-  color:#a92f2f;
-}
-
-.b-activa{
-  background:#e7f6ee;
-  color:#137146;
-}
-
-/* =========================================================
-   FORMULARIOS
-========================================================= */
-
-.form-grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;
-}
-
-.full{
-  grid-column:1/-1;
-}
-
-.field label{
-  display:block;
-  margin-bottom:5px;
-  font-size:11px;
-  font-weight:900;
-  color:#44565e;
-}
-
-.field input,
-.field select,
-.field textarea{
-  width:100%;
-  border:1px solid #d8e1e3;
-  border-radius:10px;
-  padding:11px;
-  background:#fff;
-}
-
-.field textarea{
-  min-height:85px;
-  resize:vertical;
-}
-
-/* =========================================================
-   MODAL
-========================================================= */
-
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(2,20,26,.74);
-  z-index:500;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-}
-
-.modal.open{
-  display:flex;
-}
-
-.modal-box{
-  width:min(760px,100%);
-  max-height:92vh;
-  overflow:auto;
-  background:#fff;
-  border-radius:18px;
-  padding:20px;
-  box-shadow:0 28px 70px rgba(0,0,0,.35);
-}
-
-.modal-head{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  align-items:flex-start;
-  margin-bottom:15px;
-}
-
-.modal-head h3{
-  margin:0;
-  font-size:20px;
-  color:var(--verde);
-}
-
-.close{
-  width:37px;
-  height:37px;
-  border:0;
-  border-radius:50%;
-  background:#edf2f2;
-  color:var(--verde);
-  font-size:20px;
-}
-
-/* =========================================================
-   CARDS CHOFERES
-========================================================= */
-
-.cards{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:12px;
-}
-
-.card{
-  background:#fff;
-  border:1px solid var(--borde);
-  border-radius:14px;
-  padding:14px;
-}
-
-.card h3{
-  margin:0 0 7px;
-  color:var(--verde);
-}
-
-.card p{
-  margin:4px 0;
-  color:var(--gris);
-  font-size:12px;
-}
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media(max-width:1100px){
-  .grid-metricas{
-    grid-template-columns:repeat(2,1fr);
+const STORAGE_ADMIN = "jg_admin_datos";
+const STORAGE_RES = "jg_reservas";
+
+const SUPABASE_URL = "https://hrztulckwanbyeruxqad.supabase.co";
+const SUPABASE_KEY = "sb_publishable_hSds3MbmfQORsUoJHmjbAQ__pM1HRRN";
+
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+
+const uid = () =>
+  Date.now().toString(36) +
+  Math.random().toString(36).slice(2,7);
+
+const hoy = () =>
+  new Date().toISOString().slice(0,10);
+
+const money = n =>
+  "RD$" +
+  Number(n || 0).toLocaleString(
+    "es-DO",
+    { maximumFractionDigits: 2 }
+  );
+
+const usd = n =>
+  "US$" + Number(n || 0).toFixed(2);
+
+const safe = v =>
+  String(v ?? "").replace(
+    /[&<>"']/g,
+    m => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    }[m])
+  );
+
+function code(){
+  const d = new Date();
+
+  const y = String(d.getFullYear()).slice(-2);
+  const m = String(d.getMonth()+1).padStart(2,"0");
+  const day = String(d.getDate()).padStart(2,"0");
+
+  return `TR-${y}${m}${day}-${Math.floor(1000+Math.random()*9000)}`;
+}
+
+const BASE = {
+  config:{
+    whatsapp:"18298182426",
+    exchangeRate:60,
+    includedPassengers:4,
+    additionalPassengerFee:10,
+    roundTripDiscount:10,
+    businessName:"José García Transporte"
+  },
+
+  reservas:[],
+  rutas:[],
+  choferes:[],
+  gastos:[]
+};
+
+function cargar(){
+
+  let d = {};
+
+  try{
+    d = JSON.parse(
+      localStorage.getItem(STORAGE_ADMIN) || "{}"
+    ) || {};
+  }catch(e){
+    d = {};
   }
 
-  .cards{
-    grid-template-columns:repeat(2,1fr);
+  let antiguas = [];
+
+  try{
+    antiguas = JSON.parse(
+      localStorage.getItem(STORAGE_RES) || "[]"
+    ) || [];
+  }catch(e){
+    antiguas = [];
   }
+
+  d = {
+    ...BASE,
+    ...d,
+    config:{
+      ...BASE.config,
+      ...(d.config || {})
+    }
+  };
+
+  d.reservas =
+    Array.isArray(d.reservas)
+      ? d.reservas
+      : [];
+
+  d.rutas =
+    Array.isArray(d.rutas)
+      ? d.rutas
+      : [];
+
+  d.choferes =
+    Array.isArray(d.choferes)
+      ? d.choferes
+      : [];
+
+  d.gastos =
+    Array.isArray(d.gastos)
+      ? d.gastos
+      : [];
+
+  for(const r of antiguas){
+
+    const codigo =
+      r.codigo ||
+      r.code ||
+      "";
+
+    if(
+      !d.reservas.some(
+        x => (x.codigo || x.code || "") === codigo
+      )
+    ){
+      d.reservas.push(r);
+    }
+  }
+
+  return d;
 }
 
-@media(max-width:900px){
-  .app{
-    grid-template-columns:1fr;
-  }
-
-  .sidebar{
-    position:fixed;
-    left:-280px;
-    width:255px;
-    transition:left .2s ease;
-  }
-
-  .sidebar.open{
-    left:0;
-  }
-
-  .mobile-menu{
-    display:grid;
-    place-items:center;
-  }
-
-  .topbar{
-    padding:0 14px;
-  }
-
-  .content{
-    padding:14px;
-  }
-
-  .dashboard-grid{
-    grid-template-columns:1fr;
-  }
-}
-
-@media(max-width:600px){
-  .grid-metricas{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .form-grid{
-    grid-template-columns:1fr;
-  }
-
-  .full{
-    grid-column:auto;
-  }
-
-  .cards{
-    grid-template-columns:1fr;
-  }
-
-  .topbar h1{
-    font-size:18px;
-  }
-
-  .topbar p{
-    display:none;
-  }
-
-  .top-actions .btn-light{
-    display:none;
-  }
-
-  .btn{
-    padding:10px 11px;
-  }
-}
-</style>
-</head>
-
-<body>
-
-<div class="app">
-
-<!-- =======================================================
-     SIDEBAR
-======================================================= -->
-
-<aside class="sidebar" id="sidebar">
-
-  <div class="brand">
-    <div class="logo">JG</div>
-
-    <div>
-      <strong>José García</strong>
-      <span>Panel Administrativo</span>
-    </div>
-  </div>
-
-  <nav class="nav" id="nav">
-    <button class="activo" data-screen="dashboard">📊 Dashboard</button>
-    <button data-screen="rutas">🛣️ Rutas y tarifas</button>
-    <button data-screen="reservas">📋 Reservas</button>
-    <button data-screen="agenda">📅 Agenda</button>
-    <button data-screen="choferes">👨‍✈️ Choferes</button>
-    <button data-screen="config">⚙️ Configuración</button>
-  </nav>
-
-  <div class="sidebar-footer">
-    <a href="index.html" target="_blank">🌐 Ver página pública</a>
-
-    <br><br>
-
-    José García Transporte
-    <br>
-    Más que un servicio, es confianza.
-  </div>
-
-</aside>
-
-
-<!-- =======================================================
-     CONTENIDO
-======================================================= -->
-
-<main class="main">
-
-<header class="topbar">
-
-  <div class="top-left">
-
-    <button
-      class="mobile-menu"
-      id="menuBtn"
-      type="button">
-      ☰
-    </button>
-
-    <div>
-      <h1 id="pageTitle">Dashboard</h1>
-      <p>Operación, reservas y rutas</p>
-    </div>
-
-  </div>
-
-  <div class="top-actions">
-
-    <a
-      href="index.html"
-      target="_blank"
-      class="btn btn-light"
-      style="text-decoration:none">
-      Ver web
-    </a>
-
-    <button
-      class="btn btn-gold"
-      id="nuevaReservaBtn"
-      type="button">
-      + Nueva reserva
-    </button>
-
-  </div>
-
-</header>
-
-
-<div class="content">
-
-<!-- =======================================================
-     ESTADO DE CONEXIÓN
-======================================================= -->
-
-<div
-  id="connectionBox"
-  class="notice"
-  style="margin-bottom:14px">
-
-  <div class="status-line">
-    <span class="dot" id="connectionDot"></span>
-    <b id="connectionText">Conectando con Supabase...</b>
-  </div>
-
-</div>
-
-
-<!-- =======================================================
-     DASHBOARD
-======================================================= -->
-
-<section
-  class="screen activa"
-  id="dashboard">
-
-  <div class="notice">
-
-    <b>Flujo principal:</b>
-
-    Ruta ACTIVA
-    →
-    cliente cotiza
-    →
-    reserva NUEVA
-    →
-    CONFIRMAR
-    →
-    AGENDA
-    →
-    asignar chofer
-    →
-    EN SERVICIO
-    →
-    COMPLETADA.
-
-  </div>
-
-
-  <div class="grid-metricas">
-
-    <div class="metric">
-      <span>Rutas activas</span>
-      <strong id="mRutas">0</strong>
-      <small>Disponibles para cotización</small>
-    </div>
-
-    <div class="metric">
-      <span>Reservas nuevas</span>
-      <strong id="mNuevas">0</strong>
-      <small>Pendientes de revisión</small>
-    </div>
-
-    <div class="metric">
-      <span>Confirmadas</span>
-      <strong id="mConfirmadas">0</strong>
-      <small>Próximos servicios</small>
-    </div>
-
-    <div class="metric">
-      <span>En servicio</span>
-      <strong id="mServicio">0</strong>
-      <small>Operación actual</small>
-    </div>
-
-  </div>
-
-
-  <div class="dashboard-grid">
-
-    <div class="panel">
-
-      <div class="panel-head">
-
-        <div>
-          <h2>Próximos servicios</h2>
-          <p>Reservas confirmadas y en servicio.</p>
-        </div>
-
-        <button
-          class="btn btn-light"
-          data-go="agenda">
-          Ver agenda
-        </button>
-
-      </div>
-
-      <div
-        id="proximos"
-        class="mini-list">
-      </div>
-
-    </div>
-
-
-    <div class="panel">
-
-      <div class="panel-head">
-
-        <div>
-          <h2>Control rápido</h2>
-          <p>Estado actual del sistema.</p>
-        </div>
-
-      </div>
-
-      <div class="mini-list">
-
-        <div class="mini-item">
-          <span>Rutas guardadas</span>
-          <b id="resumenRutas">0</b>
-        </div>
-
-        <div class="mini-item">
-          <span>Reservas totales</span>
-          <b id="resumenReservas">0</b>
-        </div>
-
-        <div class="mini-item">
-          <span>Choferes activos</span>
-          <b id="resumenChoferes">0</b>
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="panel">
-
-    <div class="panel-head">
-
-      <div>
-        <h2>Últimas reservas</h2>
-      </div>
-
-      <button
-        class="btn btn-light"
-        data-go="reservas">
-        Ver todas
-      </button>
-
-    </div>
-
-    <div class="table-wrap">
-
-      <table>
-
-        <thead>
-          <tr>
-            <th>Código</th>
-            <th>Servicio</th>
-            <th>Cliente</th>
-            <th>Ruta</th>
-            <th>Estado</th>
-          </tr>
-        </thead>
-
-        <tbody id="ultimasReservas"></tbody>
-
-      </table>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =======================================================
-     RUTAS
-======================================================= -->
-
-<section
-  class="screen"
-  id="rutas">
-
-  <div class="panel">
-
-    <div class="panel-head">
-
-      <div>
-        <h2>Rutas y tarifas</h2>
-        <p>
-          Estas son las rutas que utilizará posteriormente
-          la página pública.
-        </p>
-      </div>
-
-      <div class="toolbar">
-
-        <input
-          id="buscarRuta"
-          type="search"
-          placeholder="Buscar ruta">
-
-        <button
-          class="btn btn-gold"
-          id="nuevaRutaBtn"
-          type="button">
-          + Nueva ruta
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <div
-      class="notice"
-      style="margin-bottom:14px">
-
-      Una ruta <b>ACTIVA</b> puede mostrarse al cliente.
-      Una ruta <b>INACTIVA</b> queda guardada,
-      pero no debe ofrecer tarifa automática.
-
-    </div>
-
-
-    <div class="table-wrap">
-
-      <table>
-
-        <thead>
-          <tr>
-            <th>Origen</th>
-            <th>Destino</th>
-            <th>Precio</th>
-            <th>Distancia</th>
-            <th>Duración</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-
-        <tbody id="tablaRutas"></tbody>
-
-      </table>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =======================================================
-     RESERVAS
-======================================================= -->
-
-<section
-  class="screen"
-  id="reservas">
-
-  <div class="panel">
-
-    <div class="panel-head">
-
-      <div>
-        <h2>Reservas</h2>
-        <p>Solicitudes recibidas y control operativo.</p>
-      </div>
-
-      <div class="toolbar">
-
-        <input
-          id="buscarReserva"
-          type="search"
-          placeholder="Cliente, código o ruta">
-
-        <select id="filtroEstado
+let datos = cargar();
