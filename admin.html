@@ -2121,3 +2121,3259 @@ r.client?.name ||
 
 function resWhats(r){
 return r.whatsapp ||
+r.client?.whatsapp ||
+"";
+}
+
+function resOrigen(r){
+return r.origen ||
+r.trip?.origin ||
+"";
+}
+
+function resDestino(r){
+return r.destino ||
+r.trip?.destination ||
+"";
+}
+
+function resFecha(r){
+return r.fecha ||
+r.trip?.date ||
+"";
+}
+
+function resHora(r){
+return r.hora ||
+r.trip?.time ||
+"";
+}
+
+function resPax(r){
+return Number(
+r.pasajeros ??
+r.trip?.passengers ??
+1
+);
+}
+
+function resGrandes(r){
+return Number(
+r.grandes ??
+r.trip?.largeBags ??
+0
+);
+}
+
+function resMano(r){
+return Number(
+r.mano ??
+r.trip?.carryOn ??
+0
+);
+}
+
+function resTarifa(r){
+return Number(
+r.tarifa ??
+r.quote?.total ??
+0
+);
+}
+
+function resVehiculo(r){
+return r.vehiculo ||
+r.quote?.vehicle ||
+"";
+}
+
+function resNotas(r){
+return r.notas ||
+r.trip?.notes ||
+"";
+}
+
+function resChofer(r){
+return r.choferId || "";
+}
+
+function resComision(r){
+return Number(r.comision || 0);
+}
+
+
+function normalizarReserva(r){
+
+return {
+
+_id:r._id || r.id || uid(),
+
+codigo:
+resCode(r) || code(),
+
+estado:
+resEstado(r),
+
+fechaCreacion:
+r.fechaCreacion ||
+r.createdAt ||
+new Date().toISOString(),
+
+nombre:
+resNombre(r),
+
+whatsapp:
+resWhats(r),
+
+origen:
+resOrigen(r),
+
+destino:
+resDestino(r),
+
+recogidaExacta:
+r.recogidaExacta ||
+r.trip?.pickupExact ||
+"",
+
+destinoExacto:
+r.destinoExacto ||
+r.trip?.destinationExact ||
+"",
+
+fecha:
+resFecha(r),
+
+hora:
+resHora(r),
+
+pasajeros:
+resPax(r),
+
+grandes:
+resGrandes(r),
+
+mano:
+resMano(r),
+
+tipoViaje:
+r.tipoViaje ||
+r.trip?.tripType ||
+"oneway",
+
+regresoFecha:
+r.regresoFecha ||
+r.trip?.returnDate ||
+"",
+
+regresoHora:
+r.regresoHora ||
+r.trip?.returnTime ||
+"",
+
+vuelo:
+r.vuelo ||
+r.trip?.flight ||
+"",
+
+aerolinea:
+r.aerolinea ||
+r.trip?.airline ||
+"",
+
+vehiculo:
+resVehiculo(r),
+
+tarifa:
+resTarifa(r),
+
+notas:
+resNotas(r),
+
+choferId:
+r.choferId || "",
+
+comision:
+Number(r.comision || 0),
+
+comisionEstado:
+r.comisionEstado || "PENDIENTE",
+
+fechaPagoComision:
+r.fechaPagoComision || ""
+
+};
+
+}
+
+
+/* ===============================
+   NAVEGACIÓN
+================================ */
+
+const titulos = {
+
+dashboard:"Dashboard",
+reservas:"Reservas",
+agenda:"Agenda",
+choferes:"Choferes",
+comisiones:"Comisiones",
+gastos:"Gastos",
+rutas:"Rutas y tarifas",
+estadoresultados:"Estado de Resultados",
+reportes:"Reportes",
+config:"Configuración"
+
+};
+
+
+function abrirPantalla(id){
+
+const pantalla = $("#" + id);
+
+if(!pantalla){
+return;
+}
+
+$$(".screen").forEach(x =>
+x.classList.remove("activa")
+);
+
+pantalla.classList.add("activa");
+
+$$("#nav button").forEach(x => {
+
+x.classList.toggle(
+"activo",
+x.dataset.screen === id
+);
+
+});
+
+$("#pageTitle").textContent =
+titulos[id] || "Administración";
+
+$("#sidebar").classList.remove("open");
+
+renderTodo();
+
+}
+
+
+$$("#nav button").forEach(btn => {
+
+btn.addEventListener(
+"click",
+() => abrirPantalla(btn.dataset.screen)
+);
+
+});
+
+
+$$("[data-go]").forEach(btn => {
+
+btn.addEventListener(
+"click",
+() => abrirPantalla(btn.dataset.go)
+);
+
+});
+
+
+$("#menuBtn").addEventListener(
+"click",
+() =>
+$("#sidebar").classList.toggle("open")
+);
+
+
+/* ===============================
+   MODALES
+================================ */
+
+function abrirModal(id){
+
+const modal = $("#" + id);
+
+if(modal){
+modal.classList.add("open");
+}
+
+}
+
+
+function cerrarModal(id){
+
+const modal = $("#" + id);
+
+if(modal){
+modal.classList.remove("open");
+}
+
+}
+
+
+$$("[data-close]").forEach(btn => {
+
+btn.addEventListener(
+"click",
+() => cerrarModal(btn.dataset.close)
+);
+
+});
+
+
+$$(".modal").forEach(modal => {
+
+modal.addEventListener(
+"click",
+event => {
+
+if(event.target === modal){
+cerrarModal(modal.id);
+}
+
+}
+);
+
+});
+
+
+/* ===============================
+   ESTADOS
+================================ */
+
+function badgeEstado(estado){
+
+const e = norm(estado);
+
+let cls = "b-cancelada";
+
+if(e === "NUEVA"){
+cls = "b-nueva";
+}
+
+if(e === "CONFIRMADA"){
+cls = "b-confirmada";
+}
+
+if(e === "EN SERVICIO"){
+cls = "b-servicio";
+}
+
+if(e === "COMPLETADA"){
+cls = "b-completada";
+}
+
+return `
+<span class="badge ${cls}">
+${safe(e)}
+</span>
+`;
+
+}
+
+
+/* ===============================
+   CHOFERES
+================================ */
+
+function choferNombre(id){
+
+const chofer =
+datos.choferes.find(
+c => c.id === id
+);
+
+return chofer?.nombre ||
+"Sin asignar";
+
+}
+
+
+function cargarChoferSelect(){
+
+const select = $("#rChofer");
+
+select.innerHTML =
+'<option value="">Sin asignar</option>' +
+datos.choferes
+
+.filter(c =>
+norm(c.estado) !== "INACTIVO"
+)
+
+.map(c =>
+`<option value="${safe(c.id)}">
+${safe(c.nombre)}
+</option>`
+)
+
+.join("");
+
+}
+
+
+/* ===============================
+   DASHBOARD
+================================ */
+
+function ordenReservas(){
+
+return [...datos.reservas]
+.sort(
+(a,b) =>
+(resFecha(b) + resHora(b))
+.localeCompare(
+resFecha(a) + resHora(a)
+)
+);
+
+}
+
+
+function renderDashboard(){
+
+const rs = datos.reservas;
+
+const nuevas =
+rs.filter(r =>
+resEstado(r) === "NUEVA"
+).length;
+
+const confirmadas =
+rs.filter(r =>
+resEstado(r) === "CONFIRMADA"
+).length;
+
+const servicio =
+rs.filter(r =>
+resEstado(r) === "EN SERVICIO"
+).length;
+
+const cobradas =
+rs
+.filter(r =>
+r.comisionEstado === "PAGADA"
+)
+.reduce(
+(s,r) =>
+s + resComision(r),
+0
+);
+
+const pendientes =
+rs
+.filter(r =>
+resComision(r) > 0 &&
+r.comisionEstado !== "PAGADA"
+)
+.reduce(
+(s,r) =>
+s + resComision(r),
+0
+);
+
+const gastos =
+datos.gastos.reduce(
+(s,g) =>
+s + Number(g.monto || 0),
+0
+);
+
+$("#mNuevas").textContent = nuevas;
+$("#mConfirmadas").textContent = confirmadas;
+$("#mServicio").textContent = servicio;
+$("#mCobrado").textContent = money(cobradas);
+$("#mPendiente").textContent = money(pendientes);
+$("#mGastos").textContent = money(gastos);
+
+
+const futuros =
+[...rs]
+
+.filter(r =>
+resFecha(r) >= hoy() &&
+!["COMPLETADA","CANCELADA"]
+.includes(resEstado(r))
+)
+
+.sort(
+(a,b) =>
+(resFecha(a)+resHora(a))
+.localeCompare(
+resFecha(b)+resHora(b)
+)
+)
+
+.slice(0,6);
+
+
+$("#proximos").innerHTML =
+futuros.length
+
+? futuros.map(r => `
+
+<div class="mini-item">
+
+<div>
+
+<b>
+${safe(resFecha(r))}
+·
+${safe(resHora(r))}
+</b>
+
+<div class="muted">
+${safe(resOrigen(r))}
+→
+${safe(resDestino(r))}
+</div>
+
+</div>
+
+${badgeEstado(resEstado(r))}
+
+</div>
+
+`).join("")
+
+: '<div class="muted">No hay servicios próximos.</div>';
+
+
+const comPendientes =
+rs
+
+.filter(r =>
+resComision(r) > 0 &&
+r.comisionEstado !== "PAGADA"
+)
+
+.slice(0,6);
+
+
+$("#pendientesChofer").innerHTML =
+comPendientes.length
+
+? comPendientes.map(r => `
+
+<div class="mini-item">
+
+<div>
+
+<b>
+${safe(
+choferNombre(resChofer(r))
+)}
+</b>
+
+<div class="muted">
+${safe(resCode(r))}
+</div>
+
+</div>
+
+<b class="money-pending">
+${money(resComision(r))}
+</b>
+
+</div>
+
+`).join("")
+
+: '<div class="muted">No hay comisiones pendientes.</div>';
+
+
+const ultimas =
+ordenReservas().slice(0,8);
+
+$("#ultimasReservas").innerHTML =
+ultimas.map(r => `
+
+<tr>
+
+<td>
+<b>${safe(resCode(r))}</b>
+</td>
+
+<td>
+${safe(resFecha(r))}
+${safe(resHora(r))}
+</td>
+
+<td>
+${safe(resNombre(r))}
+</td>
+
+<td>
+${safe(resOrigen(r))}
+→
+${safe(resDestino(r))}
+</td>
+
+<td>
+${badgeEstado(resEstado(r))}
+</td>
+
+<td>
+${safe(
+choferNombre(resChofer(r))
+)}
+</td>
+
+</tr>
+
+`).join("");
+
+}
+
+
+/* ===============================
+   RESERVAS
+================================ */
+
+function reservaIndex(id){
+
+return datos.reservas.findIndex(
+r => resId(r) === id
+);
+
+}
+
+
+function abrirReserva(){
+
+cargarChoferSelect();
+
+$("#formReserva").reset();
+
+$("#rId").value = "";
+$("#rCodigo").value = code();
+$("#rEstado").value = "NUEVA";
+$("#rFecha").value = hoy();
+$("#rPax").value = 1;
+$("#rGrandes").value = 0;
+$("#rMano").value = 0;
+$("#rComision").value = 0;
+
+$("#reservaModalTitle").textContent =
+"Nueva reserva";
+
+abrirModal("modalReserva");
+
+}
+
+
+$("#nuevaReservaBtn")
+.addEventListener(
+"click",
+abrirReserva
+);
+
+$("#nuevaReservaBtn2")
+.addEventListener(
+"click",
+abrirReserva
+);
+
+
+function editarReserva(id){
+
+const i = reservaIndex(id);
+
+if(i < 0){
+return;
+}
+
+const r =
+normalizarReserva(
+datos.reservas[i]
+);
+
+cargarChoferSelect();
+
+$("#rId").value = id;
+$("#rCodigo").value = r.codigo;
+$("#rEstado").value = r.estado;
+$("#rNombre").value = r.nombre;
+$("#rWhatsapp").value = r.whatsapp;
+$("#rOrigen").value = r.origen;
+$("#rDestino").value = r.destino;
+$("#rRecogidaExacta").value = r.recogidaExacta;
+$("#rDestinoExacto").value = r.destinoExacto;
+$("#rFecha").value = r.fecha;
+$("#rHora").value = r.hora;
+$("#rPax").value = r.pasajeros;
+$("#rTarifa").value = r.tarifa;
+$("#rGrandes").value = r.grandes;
+$("#rMano").value = r.mano;
+$("#rVuelo").value = r.vuelo;
+$("#rAerolinea").value = r.aerolinea;
+$("#rTipo").value = r.tipoViaje;
+$("#rVehiculo").value = r.vehiculo;
+$("#rRegresoFecha").value = r.regresoFecha;
+$("#rRegresoHora").value = r.regresoHora;
+$("#rChofer").value = r.choferId;
+$("#rComision").value = r.comision;
+$("#rNotas").value = r.notas;
+
+$("#reservaModalTitle").textContent =
+"Editar reserva";
+
+abrirModal("modalReserva");
+
+}
+
+
+$("#formReserva")
+.addEventListener(
+"submit",
+event => {
+
+event.preventDefault();
+
+const oldId =
+$("#rId").value;
+
+let base = {
+
+_id:uid(),
+fechaCreacion:
+new Date().toISOString(),
+
+comisionEstado:"PENDIENTE",
+fechaPagoComision:""
+
+};
+
+if(oldId){
+
+const index =
+reservaIndex(oldId);
+
+if(index >= 0){
+
+base =
+normalizarReserva(
+datos.reservas[index]
+);
+
+}
+
+}
+
+const reserva = {
+
+...base,
+
+codigo:
+$("#rCodigo").value,
+
+estado:
+$("#rEstado").value,
+
+nombre:
+$("#rNombre").value.trim(),
+
+whatsapp:
+$("#rWhatsapp").value.trim(),
+
+origen:
+$("#rOrigen").value.trim(),
+
+destino:
+$("#rDestino").value.trim(),
+
+recogidaExacta:
+$("#rRecogidaExacta").value.trim(),
+
+destinoExacto:
+$("#rDestinoExacto").value.trim(),
+
+fecha:
+$("#rFecha").value,
+
+hora:
+$("#rHora").value,
+
+pasajeros:
+Number($("#rPax").value || 1),
+
+tarifa:
+Number($("#rTarifa").value || 0),
+
+grandes:
+Number($("#rGrandes").value || 0),
+
+mano:
+Number($("#rMano").value || 0),
+
+vuelo:
+$("#rVuelo").value.trim(),
+
+aerolinea:
+$("#rAerolinea").value.trim(),
+
+tipoViaje:
+$("#rTipo").value,
+
+vehiculo:
+$("#rVehiculo").value.trim(),
+
+regresoFecha:
+$("#rRegresoFecha").value,
+
+regresoHora:
+$("#rRegresoHora").value,
+
+choferId:
+$("#rChofer").value,
+
+comision:
+Number($("#rComision").value || 0),
+
+notas:
+$("#rNotas").value.trim()
+
+};
+
+
+if(oldId){
+
+const index =
+reservaIndex(oldId);
+
+if(index >= 0){
+
+datos.reservas[index] =
+reserva;
+
+}
+
+}else{
+
+datos.reservas.unshift(
+reserva
+);
+
+}
+
+guardar();
+
+cerrarModal(
+"modalReserva"
+);
+
+}
+);
+
+
+function borrarReserva(id){
+
+if(
+!confirm(
+"¿Eliminar esta reserva?"
+)
+){
+return;
+}
+
+datos.reservas =
+datos.reservas.filter(
+r => resId(r) !== id
+);
+
+guardar();
+
+}
+
+
+function cambiarEstadoRapido(
+id,
+nuevoEstado
+){
+
+const index =
+reservaIndex(id);
+
+if(index < 0){
+return;
+}
+
+const reserva =
+normalizarReserva(
+datos.reservas[index]
+);
+
+reserva.estado =
+nuevoEstado;
+
+datos.reservas[index] =
+reserva;
+
+guardar();
+
+if(
+nuevoEstado === "CONFIRMADA"
+){
+
+abrirPantalla(
+"agenda"
+);
+
+}
+
+}
+
+
+function whatsappReserva(id){
+
+const index =
+reservaIndex(id);
+
+if(index < 0){
+return;
+}
+
+const r =
+normalizarReserva(
+datos.reservas[index]
+);
+
+const telefono =
+String(r.whatsapp)
+.replace(/\D/g,"");
+
+if(!telefono){
+
+alert(
+"La reserva no tiene WhatsApp."
+);
+
+return;
+
+}
+
+let mensaje =
+`Hola, ${r.nombre}.\n\n`;
+
+if(
+r.estado === "CONFIRMADA"
+){
+
+mensaje +=
+`✅ RESERVA CONFIRMADA
+
+Su reserva ${r.codigo} ha sido confirmada.
+
+Origen: ${r.origen}
+Destino: ${r.destino}
+Fecha: ${r.fecha}
+Hora: ${r.hora}
+Tarifa: US$${Number(r.tarifa).toFixed(2)}
+
+Nos pondremos en contacto 24 horas antes para reconfirmar el servicio.
+
+🚐 José García Transporte
+Más que un servicio, es confianza.`;
+
+}else{
+
+mensaje +=
+`Reserva: ${r.codigo}
+Estado: ${r.estado}
+
+${r.origen} → ${r.destino}
+${r.fecha} · ${r.hora}
+
+🚐 José García Transporte`;
+
+}
+
+window.open(
+`https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`,
+"_blank"
+);
+
+}
+
+
+function renderReservas(){
+
+const q =
+norm(
+$("#buscarReserva").value
+);
+
+const estado =
+norm(
+$("#filtroEstado").value
+);
+
+const arr =
+ordenReservas()
+
+.filter(r => {
+
+if(
+estado &&
+resEstado(r) !== estado
+){
+return false;
+}
+
+if(!q){
+return true;
+}
+
+const texto =
+norm(
+[
+resCode(r),
+resNombre(r),
+resOrigen(r),
+resDestino(r)
+].join(" ")
+);
+
+return texto.includes(q);
+
+});
+
+
+$("#tablaReservas").innerHTML =
+arr.length
+
+? arr.map(r => `
+
+<tr>
+
+<td>
+<b>${safe(resCode(r))}</b>
+</td>
+
+<td>
+${safe(resFecha(r))}
+<br>
+${safe(resHora(r))}
+</td>
+
+<td>
+<b>${safe(resNombre(r))}</b>
+<br>
+<span class="muted">
+${safe(resWhats(r))}
+</span>
+</td>
+
+<td>
+${safe(resOrigen(r))}
+<br>
+→
+${safe(resDestino(r))}
+</td>
+
+<td>
+${resPax(r)}
+</td>
+
+<td>
+<b>
+${usd(resTarifa(r))}
+</b>
+</td>
+
+<td>
+${badgeEstado(resEstado(r))}
+</td>
+
+<td>
+${safe(
+choferNombre(resChofer(r))
+)}
+</td>
+
+<td>
+
+<div class="actions">
+
+<button
+class="icon-btn"
+onclick="editarReserva('${resId(r)}')">
+Editar
+</button>
+
+${
+resEstado(r) === "NUEVA"
+
+? `<button
+class="icon-btn"
+onclick="cambiarEstadoRapido('${resId(r)}','CONFIRMADA')">
+Confirmar
+</button>`
+
+: ""
+}
+
+${
+resEstado(r) === "CONFIRMADA"
+
+? `<button
+class="icon-btn"
+onclick="abrirAsignacion('${resId(r)}')">
+Asignar chofer
+</button>`
+
+: ""
+}
+
+<button
+class="icon-btn"
+onclick="whatsappReserva('${resId(r)}')">
+WhatsApp
+</button>
+
+<button
+class="icon-btn"
+onclick="borrarReserva('${resId(r)}')">
+Eliminar
+</button>
+
+</div>
+
+</td>
+
+</tr>
+
+`).join("")
+
+: `
+<tr>
+<td colspan="9" class="muted">
+No hay reservas.
+</td>
+</tr>
+`;
+
+}
+
+
+$("#buscarReserva")
+.addEventListener(
+"input",
+renderReservas
+);
+
+$("#filtroEstado")
+.addEventListener(
+"change",
+renderReservas
+);
+
+
+/* ===============================
+   AGENDA
+================================ */
+
+function abrirAsignacion(id){
+
+const index =
+reservaIndex(id);
+
+if(index < 0){
+return;
+}
+
+const r =
+normalizarReserva(
+datos.reservas[index]
+);
+
+$("#asigReservaId").value =
+id;
+
+$("#asigResumen").textContent =
+`${r.codigo} · ${r.nombre} · ${r.origen} → ${r.destino} · ${r.fecha} ${r.hora}`;
+
+$("#asigChofer").innerHTML =
+'<option value="">Seleccionar chofer</option>' +
+
+datos.choferes
+
+.filter(c =>
+norm(c.estado) !== "INACTIVO"
+)
+
+.map(c =>
+`<option value="${safe(c.id)}">
+${safe(c.nombre)}
+${c.vehiculo ? " — " + safe(c.vehiculo) : ""}
+</option>`
+)
+
+.join("");
+
+$("#asigChofer").value =
+r.choferId || "";
+
+$("#asigComision").value =
+r.comision || "";
+
+$("#asigNotas").value =
+r.notas || "";
+
+abrirModal(
+"modalAsignacion"
+);
+
+}
+
+
+$("#formAsignacion")
+.addEventListener(
+"submit",
+event => {
+
+event.preventDefault();
+
+const id =
+$("#asigReservaId").value;
+
+const index =
+reservaIndex(id);
+
+if(index < 0){
+return;
+}
+
+const r =
+normalizarReserva(
+datos.reservas[index]
+);
+
+r.choferId =
+$("#asigChofer").value;
+
+r.comision =
+Number(
+$("#asigComision").value || 0
+);
+
+r.comisionEstado =
+r.comisionEstado || "PENDIENTE";
+
+r.notas =
+$("#asigNotas").value.trim();
+
+datos.reservas[index] =
+r;
+
+guardar();
+
+cerrarModal(
+"modalAsignacion"
+);
+
+}
+);
+
+
+function renderAgenda(){
+
+const desde =
+$("#agendaDesde").value;
+
+const hasta =
+$("#agendaHasta").value;
+
+const rs =
+[...datos.reservas]
+
+.filter(r =>
+[
+"CONFIRMADA",
+"EN SERVICIO",
+"COMPLETADA"
+]
+.includes(resEstado(r))
+)
+
+.filter(r =>
+(!desde || resFecha(r) >= desde) &&
+(!hasta || resFecha(r) <= hasta)
+)
+
+.sort(
+(a,b) =>
+(resFecha(a)+resHora(a))
+.localeCompare(
+resFecha(b)+resHora(b)
+)
+);
+
+
+$("#agendaLista").innerHTML =
+rs.length
+
+? rs.map(r => `
+
+<div
+class="mini-item"
+style="align-items:center">
+
+<div style="flex:1">
+
+<b>
+${safe(resFecha(r))}
+·
+${safe(resHora(r))}
+—
+${safe(resCode(r))}
+</b>
+
+<div>
+${safe(resNombre(r))}
+·
+${resPax(r)} pax
+</div>
+
+<div class="muted">
+${safe(resOrigen(r))}
+→
+${safe(resDestino(r))}
+</div>
+
+<div class="muted">
+
+Chofer:
+<b>
+${safe(
+choferNombre(resChofer(r))
+)}
+</b>
+
+· Comisión:
+<b>
+${money(resComision(r))}
+</b>
+
+</div>
+
+</div>
+
+<div
+style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">
+
+${badgeEstado(resEstado(r))}
+
+<button
+class="icon-btn"
+onclick="abrirAsignacion('${resId(r)}')">
+Asignar chofer
+</button>
+
+${
+resEstado(r) === "CONFIRMADA"
+
+? `<button
+class="icon-btn"
+onclick="cambiarEstadoRapido('${resId(r)}','EN SERVICIO')">
+Iniciar servicio
+</button>`
+
+: ""
+}
+
+${
+resEstado(r) === "EN SERVICIO"
+
+? `<button
+class="icon-btn"
+onclick="cambiarEstadoRapido('${resId(r)}','COMPLETADA')">
+Completar
+</button>`
+
+: ""
+}
+
+</div>
+
+</div>
+
+`).join("")
+
+: `
+<div class="muted">
+No hay reservas confirmadas en este rango.
+</div>
+`;
+
+}
+
+
+$("#agendaDesde")
+.addEventListener(
+"change",
+renderAgenda
+);
+
+$("#agendaHasta")
+.addEventListener(
+"change",
+renderAgenda
+);
+
+
+/* ===============================
+   CHOFERES
+================================ */
+
+function abrirChofer(id = ""){
+
+const c =
+datos.choferes.find(
+x => x.id === id
+);
+
+$("#formChofer").reset();
+
+$("#chId").value =
+c?.id || "";
+
+$("#chNombre").value =
+c?.nombre || "";
+
+$("#chTelefono").value =
+c?.telefono || "";
+
+$("#chVehiculo").value =
+c?.vehiculo || "";
+
+$("#chEstado").value =
+c?.estado || "ACTIVO";
+
+$("#chNotas").value =
+c?.notas || "";
+
+$("#choferModalTitle").textContent =
+c ? "Editar chofer" : "Nuevo chofer";
+
+abrirModal(
+"modalChofer"
+);
+
+}
+
+
+$("#nuevoChoferBtn")
+.addEventListener(
+"click",
+() => abrirChofer()
+);
+
+
+$("#formChofer")
+.addEventListener(
+"submit",
+event => {
+
+event.preventDefault();
+
+const id =
+$("#chId").value || uid();
+
+const chofer = {
+
+id,
+
+nombre:
+$("#chNombre").value.trim(),
+
+telefono:
+$("#chTelefono").value.trim(),
+
+vehiculo:
+$("#chVehiculo").value.trim(),
+
+estado:
+$("#chEstado").value,
+
+notas:
+$("#chNotas").value.trim()
+
+};
+
+const index =
+datos.choferes.findIndex(
+x => x.id === id
+);
+
+if(index >= 0){
+
+datos.choferes[index] =
+chofer;
+
+}else{
+
+datos.choferes.push(
+chofer
+);
+
+}
+
+guardar();
+
+cerrarModal(
+"modalChofer"
+);
+
+}
+);
+
+
+function eliminarChofer(id){
+
+if(
+!confirm(
+"¿Eliminar este chofer?"
+)
+){
+return;
+}
+
+datos.choferes =
+datos.choferes.filter(
+c => c.id !== id
+);
+
+guardar();
+
+}
+
+
+function renderChoferes(){
+
+$("#choferCards").innerHTML =
+datos.choferes.length
+
+? datos.choferes.map(c => {
+
+const servicios =
+datos.reservas.filter(
+r =>
+resChofer(r) === c.id &&
+resEstado(r) !== "CANCELADA"
+).length;
+
+const pendiente =
+datos.reservas
+
+.filter(
+r =>
+resChofer(r) === c.id &&
+resComision(r) > 0 &&
+r.comisionEstado !== "PAGADA"
+)
+
+.reduce(
+(s,r) =>
+s + resComision(r),
+0
+);
+
+return `
+
+<div class="card">
+
+<h3>
+${safe(c.nombre)}
+</h3>
+
+<p>
+📞 ${safe(c.telefono)}
+</p>
+
+<p>
+🚐 ${safe(
+c.vehiculo ||
+"Sin vehículo registrado"
+)}
+</p>
+
+<p>
+Estado:
+<b>${safe(c.estado)}</b>
+</p>
+
+<p>
+Servicios:
+<b>${servicios}</b>
+</p>
+
+<p>
+Comisión pendiente:
+<b class="money-pending">
+${money(pendiente)}
+</b>
+</p>
+
+<div class="actions">
+
+<button
+class="icon-btn"
+onclick="abrirChofer('${c.id}')">
+Editar
+</button>
+
+<button
+class="icon-btn"
+onclick="eliminarChofer('${c.id}')">
+Eliminar
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}).join("")
+
+: `
+<div class="muted">
+Aún no hay choferes registrados.
+</div>
+`;
+
+}
+
+
+/* ===============================
+   COMISIONES
+================================ */
+
+function toggleComision(id){
+
+const index =
+reservaIndex(id);
+
+if(index < 0){
+return;
+}
+
+const r =
+normalizarReserva(
+datos.reservas[index]
+);
+
+if(
+r.comisionEstado === "PAGADA"
+){
+
+r.comisionEstado =
+"PENDIENTE";
+
+r.fechaPagoComision =
+"";
+
+}else{
+
+r.comisionEstado =
+"PAGADA";
+
+r.fechaPagoComision =
+hoy();
+
+}
+
+datos.reservas[index] =
+r;
+
+guardar();
+
+}
+
+
+function renderComisiones(){
+
+const rs =
+datos.reservas.filter(
+r => resComision(r) > 0
+);
+
+const generadas =
+rs.reduce(
+(s,r) =>
+s + resComision(r),
+0
+);
+
+const cobradas =
+rs
+
+.filter(
+r =>
+r.comisionEstado === "PAGADA"
+)
+
+.reduce(
+(s,r) =>
+s + resComision(r),
+0
+);
+
+$("#cGeneradas").textContent =
+money(generadas);
+
+$("#cCobradas").textContent =
+money(cobradas);
+
+$("#cPendientes").textContent =
+money(
+generadas - cobradas
+);
+
+
+$("#tablaComisiones").innerHTML =
+rs.length
+
+? rs.map(r => `
+
+<tr>
+
+<td>
+<b>${safe(resCode(r))}</b>
+</td>
+
+<td>
+${safe(
+choferNombre(resChofer(r))
+)}
+</td>
+
+<td>
+
+${safe(resFecha(r))}
+
+<br>
+
+<span class="muted">
+${safe(resOrigen(r))}
+→
+${safe(resDestino(r))}
+</span>
+
+</td>
+
+<td>
+<b>
+${money(resComision(r))}
+</b>
+</td>
+
+<td>
+
+${
+r.comisionEstado === "PAGADA"
+
+? '<span class="badge b-pagada">PAGADA</span>'
+
+: '<span class="badge b-pendiente">PENDIENTE</span>'
+}
+
+</td>
+
+<td>
+${safe(
+r.fechaPagoComision || "-"
+)}
+</td>
+
+<td>
+
+<button
+class="icon-btn"
+onclick="toggleComision('${resId(r)}')">
+
+${
+r.comisionEstado === "PAGADA"
+? "Marcar pendiente"
+: "Marcar pagada"
+}
+
+</button>
+
+</td>
+
+</tr>
+
+`).join("")
+
+: `
+<tr>
+<td colspan="7" class="muted">
+No hay comisiones registradas.
+</td>
+</tr>
+`;
+
+}
+
+
+/* ===============================
+   GASTOS
+================================ */
+
+function abrirGasto(id = ""){
+
+const g =
+datos.gastos.find(
+x => x.id === id
+);
+
+$("#formGasto").reset();
+
+$("#gId").value =
+g?.id || "";
+
+$("#gFecha").value =
+g?.fecha || hoy();
+
+$("#gCategoria").value =
+g?.categoria || "Publicidad";
+
+$("#gDescripcion").value =
+g?.descripcion || "";
+
+$("#gMonto").value =
+g?.monto || "";
+
+abrirModal(
+"modalGasto"
+);
+
+}
+
+
+$("#nuevoGastoBtn")
+.addEventListener(
+"click",
+() => abrirGasto()
+);
+
+
+$("#formGasto")
+.addEventListener(
+"submit",
+event => {
+
+event.preventDefault();
+
+const id =
+$("#gId").value || uid();
+
+const gasto = {
+
+id,
+
+fecha:
+$("#gFecha").value,
+
+categoria:
+$("#gCategoria").value,
+
+descripcion:
+$("#gDescripcion").value.trim(),
+
+monto:
+Number($("#gMonto").value || 0)
+
+};
+
+const index =
+datos.gastos.findIndex(
+x => x.id === id
+);
+
+if(index >= 0){
+
+datos.gastos[index] =
+gasto;
+
+}else{
+
+datos.gastos.unshift(
+gasto
+);
+
+}
+
+guardar();
+
+cerrarModal(
+"modalGasto"
+);
+
+}
+);
+
+
+function eliminarGasto(id){
+
+if(
+!confirm(
+"¿Eliminar este gasto?"
+)
+){
+return;
+}
+
+datos.gastos =
+datos.gastos.filter(
+g => g.id !== id
+);
+
+guardar();
+
+}
+
+
+function renderGastos(){
+
+const arr =
+[...datos.gastos]
+.sort(
+(a,b) =>
+String(b.fecha || "")
+.localeCompare(
+String(a.fecha || "")
+)
+);
+
+$("#tablaGastos").innerHTML =
+arr.length
+
+? arr.map(g => `
+
+<tr>
+
+<td>
+${safe(g.fecha)}
+</td>
+
+<td>
+${safe(g.categoria)}
+</td>
+
+<td>
+${safe(g.descripcion)}
+</td>
+
+<td>
+<b>${money(g.monto)}</b>
+</td>
+
+<td>
+
+<div class="actions">
+
+<button
+class="icon-btn"
+onclick="abrirGasto('${g.id}')">
+Editar
+</button>
+
+<button
+class="icon-btn"
+onclick="eliminarGasto('${g.id}')">
+Eliminar
+</button>
+
+</div>
+
+</td>
+
+</tr>
+
+`).join("")
+
+: `
+<tr>
+<td colspan="5" class="muted">
+No hay gastos registrados.
+</td>
+</tr>
+`;
+
+}
+
+
+/* ===============================
+   RUTAS
+================================ */
+
+function abrirRuta(id = ""){
+
+const r =
+datos.rutas.find(
+x => x.id === id
+);
+
+$("#formRuta").reset();
+
+$("#rutaId").value =
+r?.id || "";
+
+$("#rutaOrigen").value =
+r?.origen ||
+r?.origin ||
+"";
+
+$("#rutaDestino").value =
+r?.destino ||
+r?.destination ||
+"";
+
+$("#rutaPrecio").value =
+r?.precio ??
+r?.price ??
+"";
+
+$("#rutaEstado").value =
+norm(r?.estado || "ACTIVA") === "INACTIVA"
+? "INACTIVA"
+: "ACTIVA";
+
+$("#rutaDistancia").value =
+r?.distancia ||
+r?.distance ||
+"";
+
+$("#rutaDuracion").value =
+r?.duracion ||
+r?.duration ||
+"";
+
+$("#rutaModalTitle").textContent =
+r ? "Editar ruta" : "Nueva ruta";
+
+abrirModal(
+"modalRuta"
+);
+
+}
+
+
+$("#nuevaRutaBtn")
+.addEventListener(
+"click",
+() => abrirRuta()
+);
+
+
+$("#formRuta")
+.addEventListener(
+"submit",
+event => {
+
+event.preventDefault();
+
+const id =
+$("#rutaId").value || uid();
+
+const ruta = {
+
+id,
+
+origen:
+$("#rutaOrigen").value.trim(),
+
+destino:
+$("#rutaDestino").value.trim(),
+
+precio:
+Number(
+$("#rutaPrecio").value || 0
+),
+
+estado:
+$("#rutaEstado").value,
+
+distancia:
+$("#rutaDistancia").value.trim(),
+
+duracion:
+$("#rutaDuracion").value.trim()
+
+};
+
+const index =
+datos.rutas.findIndex(
+x => x.id === id
+);
+
+if(index >= 0){
+
+datos.rutas[index] =
+ruta;
+
+}else{
+
+datos.rutas.push(
+ruta
+);
+
+}
+
+guardar();
+
+cerrarModal(
+"modalRuta"
+);
+
+}
+);
+
+
+function editarRuta(id){
+abrirRuta(id);
+}
+
+
+function toggleRuta(id){
+
+const index =
+datos.rutas.findIndex(
+r => r.id === id
+);
+
+if(index < 0){
+return;
+}
+
+datos.rutas[index].estado =
+norm(
+datos.rutas[index].estado
+) === "INACTIVA"
+
+? "ACTIVA"
+: "INACTIVA";
+
+guardar();
+
+}
+
+
+function eliminarRuta(id){
+
+if(
+!confirm(
+"¿Eliminar esta ruta?"
+)
+){
+return;
+}
+
+datos.rutas =
+datos.rutas.filter(
+r => r.id !== id
+);
+
+guardar();
+
+}
+
+
+function renderRutas(){
+
+const q =
+norm(
+$("#buscarRuta").value
+);
+
+const arr =
+datos.rutas.filter(r => {
+
+if(!q){
+return true;
+}
+
+return norm(
+(r.origen || r.origin || "") +
+" " +
+(r.destino || r.destination || "")
+)
+.includes(q);
+
+});
+
+
+$("#tablaRutas").innerHTML =
+arr.length
+
+? arr.map(r => `
+
+<tr>
+
+<td>
+<b>
+${safe(r.origen || r.origin || "")}
+</b>
+</td>
+
+<td>
+${safe(r.destino || r.destination || "")}
+</td>
+
+<td>
+<b>
+${usd(r.precio ?? r.price ?? 0)}
+</b>
+</td>
+
+<td>
+${safe(r.distancia || r.distance || "-")}
+</td>
+
+<td>
+${safe(r.duracion || r.duration || "-")}
+</td>
+
+<td>
+
+${
+norm(r.estado || "ACTIVA") === "INACTIVA"
+
+? '<span class="badge b-cancelada">INACTIVA</span>'
+
+: '<span class="badge b-confirmada">ACTIVA</span>'
+}
+
+</td>
+
+<td>
+
+<div class="actions">
+
+<button
+class="icon-btn"
+onclick="editarRuta('${r.id}')">
+Editar
+</button>
+
+<button
+class="icon-btn"
+onclick="toggleRuta('${r.id}')">
+Activar/Inactivar
+</button>
+
+<button
+class="icon-btn"
+onclick="eliminarRuta('${r.id}')">
+Eliminar
+</button>
+
+</div>
+
+</td>
+
+</tr>
+
+`).join("")
+
+: `
+<tr>
+<td colspan="7" class="muted">
+No hay rutas registradas.
+</td>
+</tr>
+`;
+
+}
+
+
+$("#buscarRuta")
+.addEventListener(
+"input",
+renderRutas
+);
+
+
+/* ===============================
+   ESTADO DE RESULTADOS
+================================ */
+
+function renderEstadoResultados(){
+
+const desde =
+$("#erDesde").value || hoy();
+
+const hasta =
+$("#erHasta").value || desde;
+
+
+const reservasPeriodo =
+datos.reservas.filter(r => {
+
+const fecha =
+r.fechaPagoComision ||
+resFecha(r);
+
+return (
+fecha >= desde &&
+fecha <= hasta
+);
+
+});
+
+
+const ingresos =
+reservasPeriodo.filter(
+r =>
+r.comisionEstado === "PAGADA" &&
+resComision(r) > 0
+);
+
+
+const pendientes =
+reservasPeriodo.filter(
+r =>
+r.comisionEstado !== "PAGADA" &&
+resComision(r) > 0
+);
+
+
+const gastos =
+datos.gastos.filter(
+g =>
+(g.fecha || "") >= desde &&
+(g.fecha || "") <= hasta
+);
+
+
+const totalIngresos =
+ingresos.reduce(
+(s,r) =>
+s + resComision(r),
+0
+);
+
+
+const totalPendientes =
+pendientes.reduce(
+(s,r) =>
+s + resComision(r),
+0
+);
+
+
+const totalGastos =
+gastos.reduce(
+(s,g) =>
+s + Number(g.monto || 0),
+0
+);
+
+
+const neto =
+totalIngresos -
+totalGastos;
+
+
+$("#erMIngresos").textContent =
+money(totalIngresos);
+
+$("#erMGastos").textContent =
+money(totalGastos);
+
+$("#erMNeto").textContent =
+money(neto);
+
+$("#erMPendientes").textContent =
+money(totalPendientes);
+
+
+$("#erDetalleIngresos").innerHTML =
+ingresos.length
+
+? ingresos.map(r => `
+
+<tr>
+
+<td>
+${safe(
+r.fechaPagoComision ||
+resFecha(r)
+)}
+</td>
+
+<td>
+${safe(resCode(r))}
+</td>
+
+<td>
+${safe(
+choferNombre(resChofer(r))
+)}
+</td>
+
+<td>
+Comisión cobrada
+</td>
+
+<td>
+<b>
+${money(resComision(r))}
+</b>
+</td>
+
+</tr>
+
+`).join("")
+
+: `
+<tr>
+<td colspan="5" class="muted">
+No hay ingresos cobrados.
+</td>
+</tr>
+`;
+
+
+$("#erDetalleGastos").innerHTML =
+gastos.length
+
+? gastos.map(g => `
+
+<tr>
+
+<td>
+${safe(g.fecha)}
+</td>
+
+<td>
+${safe(g.categoria)}
+</td>
+
+<td>
+${safe(g.descripcion)}
+</td>
+
+<td>
+<b>${money(g.monto)}</b>
+</td>
+
+</tr>
+
+`).join("")
+
+: `
+<tr>
+<td colspan="4" class="muted">
+No hay gastos.
+</td>
+</tr>
+`;
+
+}
+
+
+$("#actualizarErBtn")
+.addEventListener(
+"click",
+renderEstadoResultados
+);
+
+
+/* ===============================
+   REPORTES
+================================ */
+
+function renderReporte(){
+
+const tipo =
+$("#tipoReporte").value;
+
+const desde =
+$("#reporteDesde").value;
+
+const hasta =
+$("#reporteHasta").value;
+
+
+let reservas =
+[...datos.reservas];
+
+
+if(desde){
+
+reservas =
+reservas.filter(
+r =>
+resFecha(r) >= desde
+);
+
+}
+
+
+if(hasta){
+
+reservas =
+reservas.filter(
+r =>
+resFecha(r) <= hasta
+);
+
+}
+
+
+let arr =
+reservas;
+
+
+if(tipo === "agenda"){
+
+arr =
+reservas.filter(
+r =>
+[
+"CONFIRMADA",
+"EN SERVICIO",
+"COMPLETADA"
+]
+.includes(resEstado(r))
+);
+
+}
+
+
+if(tipo === "comisiones"){
+
+arr =
+reservas.filter(
+r =>
+resComision(r) > 0
+);
+
+}
+
+
+const cobradas =
+reservas
+
+.filter(
+r =>
+r.comisionEstado === "PAGADA"
+)
+
+.reduce(
+(s,r) =>
+s + resComision(r),
+0
+);
+
+
+const pendientes =
+reservas
+
+.filter(
+r =>
+resComision(r) > 0 &&
+r.comisionEstado !== "PAGADA"
+)
+
+.reduce(
+(s,r) =>
+s + resComision(r),
+0
+);
+
+
+const gastos =
+datos.gastos.filter(g => {
+
+if(
+desde &&
+g.fecha < desde
+){
+return false;
+}
+
+if(
+hasta &&
+g.fecha > hasta
+){
+return false;
+}
+
+return true;
+
+});
+
+
+const totalGastos =
+gastos.reduce(
+(s,g) =>
+s + Number(g.monto || 0),
+0
+);
+
+
+$("#estadoResultadosBox").style.display =
+tipo === "resultados"
+? "block"
+: "none";
+
+
+$("#reporteGeneralBox").style.display =
+tipo === "resultados"
+? "none"
+: "block";
+
+
+if(tipo === "resultados"){
+
+const resultado =
+cobradas -
+totalGastos;
+
+$("#erIngresos").textContent =
+money(cobradas);
+
+$("#erGastos").textContent =
+money(totalGastos);
+
+$("#erResultado").textContent =
+money(resultado);
+
+$("#reporteResumen").innerHTML =
+`
+<div class="card">
+<h3>${money(cobradas)}</h3>
+<p>Ingresos cobrados</p>
+</div>
+
+<div class="card">
+<h3>${money(totalGastos)}</h3>
+<p>Gastos</p>
+</div>
+
+<div class="card">
+<h3>${money(resultado)}</h3>
+<p>Resultado neto</p>
+</div>
+`;
+
+return;
+
+}
+
+
+if(tipo === "gastos"){
+
+$("#tablaReporte").innerHTML =
+gastos.length
+
+? gastos.map(g => `
+
+<tr>
+
+<td>${safe(g.fecha)}</td>
+<td>${safe(g.categoria)}</td>
+
+<td colspan="4">
+${safe(g.descripcion)}
+</td>
+
+<td colspan="2">
+<b>${money(g.monto)}</b>
+</td>
+
+</tr>
+
+`).join("")
+
+: `
+<tr>
+<td colspan="8" class="muted">
+No hay gastos.
+</td>
+</tr>
+`;
+
+$("#reporteResumen").innerHTML =
+`
+<div class="card">
+<h3>${gastos.length}</h3>
+<p>Gastos registrados</p>
+</div>
+
+<div class="card">
+<h3>${money(totalGastos)}</h3>
+<p>Total gastos</p>
+</div>
+`;
+
+return;
+
+}
+
+
+if(tipo === "rutas"){
+
+$("#tablaReporte").innerHTML =
+datos.rutas.length
+
+? datos.rutas.map(r => `
+
+<tr>
+
+<td>-</td>
+
+<td>
+${safe(r.origen || "")}
+</td>
+
+<td>
+${safe(r.destino || "")}
+</td>
+
+<td>
+${safe(r.distancia || "-")}
+</td>
+
+<td>
+${safe(r.duracion || "-")}
+</td>
+
+<td>
+${safe(r.estado || "ACTIVA")}
+</td>
+
+<td>
+${usd(r.precio || 0)}
+</td>
+
+<td>-</td>
+
+</tr>
+
+`).join("")
+
+: `
+<tr>
+<td colspan="8" class="muted">
+No hay rutas.
+</td>
+</tr>
+`;
+
+$("#reporteResumen").innerHTML =
+`
+<div class="card">
+<h3>${datos.rutas.length}</h3>
+<p>Rutas registradas</p>
+</div>
+`;
+
+return;
+
+}
+
+
+if(tipo === "choferes"){
+
+$("#tablaReporte").innerHTML =
+datos.choferes.length
+
+? datos.choferes.map(c => `
+
+<tr>
+
+<td>-</td>
+
+<td>
+${safe(c.nombre)}
+</td>
+
+<td>
+${safe(c.telefono)}
+</td>
+
+<td>
+${safe(c.vehiculo || "-")}
+</td>
+
+<td>
+${safe(c.estado)}
+</td>
+
+<td>-</td>
+<td>-</td>
+<td>-</td>
+
+</tr>
+
+`).join("")
+
+: `
+<tr>
+<td colspan="8" class="muted">
+No hay choferes.
+</td>
+</tr>
+`;
+
+$("#reporteResumen").innerHTML =
+`
+<div class="card">
+<h3>${datos.choferes.length}</h3>
+<p>Choferes registrados</p>
+</div>
+`;
+
+return;
+
+}
+
+
+$("#tablaReporte").innerHTML =
+arr.length
+
+? arr.map(r => `
+
+<tr>
+
+<td>
+${safe(resFecha(r))}
+${safe(resHora(r))}
+</td>
+
+<td>
+${safe(resCode(r))}
+</td>
+
+<td>
+${safe(resNombre(r))}
+</td>
+
+<td>
+${safe(resOrigen(r))}
+→
+${safe(resDestino(r))}
+</td>
+
+<td>
+${safe(
+choferNombre(resChofer(r))
+)}
+</td>
+
+<td>
+${safe(resEstado(r))}
+</td>
+
+<td>
+${usd(resTarifa(r))}
+</td>
+
+<td>
+${money(resComision(r))}
+</td>
+
+</tr>
+
+`).join("")
+
+: `
+<tr>
+<td colspan="8" class="muted">
+No hay registros.
+</td>
+</tr>
+`;
+
+
+$("#reporteResumen").innerHTML =
+`
+<div class="card">
+<h3>${arr.length}</h3>
+<p>Registros</p>
+</div>
+
+<div class="card">
+<h3>${money(cobradas)}</h3>
+<p>Comisiones cobradas</p>
+</div>
+
+<div class="card">
+<h3>${money(pendientes)}</h3>
+<p>Comisiones pendientes</p>
+</div>
+`;
+
+}
+
+
+$("#tipoReporte")
+.addEventListener(
+"change",
+renderReporte
+);
+
+$("#reporteDesde")
+.addEventListener(
+"change",
+renderReporte
+);
+
+$("#reporteHasta")
+.addEventListener(
+"change",
+renderReporte
+);
+
+$("#imprimirBtn")
+.addEventListener(
+"click",
+() => window.print()
+);
+
+
+/* ===============================
+   CONFIGURACIÓN
+================================ */
+
+function renderConfig(){
+
+const c =
+datos.config ||
+BASE.config;
+
+$("#cfgWhatsapp").value =
+c.whatsapp || "";
+
+$("#cfgTasa").value =
+c.exchangeRate || 60;
+
+$("#cfgIncluidos").value =
+c.includedPassengers || 4;
+
+$("#cfgAdicional").value =
+c.additionalPassengerFee || 10;
+
+$("#cfgDescuento").value =
+c.roundTripDiscount || 10;
+
+$("#cfgNombre").value =
+c.businessName ||
+"José García Transporte";
+
+}
+
+
+$("#formConfig")
+.addEventListener(
+"submit",
+event => {
+
+event.preventDefault();
+
+datos.config = {
+
+...datos.config,
+
+whatsapp:
+$("#cfgWhatsapp").value.trim(),
+
+exchangeRate:
+Number(
+$("#cfgTasa").value || 60
+),
+
+includedPassengers:
+Number(
+$("#cfgIncluidos").value || 4
+),
+
+additionalPassengerFee:
+Number(
+$("#cfgAdicional").value || 10
+),
+
+roundTripDiscount:
+Number(
+$("#cfgDescuento").value || 10
+),
+
+businessName:
+$("#cfgNombre").value.trim()
+
+};
+
+guardar();
+
+alert(
+"Configuración guardada."
+);
+
+}
+);
+
+
+/* ===============================
+   RESPALDO
+================================ */
+
+function exportarDatos(){
+
+const blob =
+new Blob(
+[
+JSON.stringify(
+datos,
+null,
+2
+)
+],
+{
+type:"application/json"
+}
+);
+
+const link =
+document.createElement("a");
+
+link.href =
+URL.createObjectURL(blob);
+
+link.download =
+`jose-garcia-admin-${hoy()}.json`;
+
+link.click();
+
+setTimeout(
+() =>
+URL.revokeObjectURL(
+link.href
+),
+1000
+);
+
+}
+
+
+$("#exportarBtn")
+.addEventListener(
+"click",
+exportarDatos
+);
+
+
+$("#importFile")
+.addEventListener(
+"change",
+event => {
+
+const file =
+event.target.files[0];
+
+if(!file){
+return;
+}
+
+const reader =
+new FileReader();
+
+reader.onload =
+() => {
+
+try{
+
+const importado =
+JSON.parse(
+reader.result
+);
+
+if(
+!confirm(
+"Esto sustituirá los datos actuales. ¿Continuar?"
+)
+){
+return;
+}
+
+datos = {
+
+...BASE,
+...importado,
+
+config:{
+...BASE.config,
+...(importado.config || {})
+}
+
+};
+
+guardar();
+
+alert(
+"Respaldo importado correctamente."
+);
+
+}catch(error){
+
+alert(
+"El archivo seleccionado no es un JSON válido."
+);
+
+}
+
+};
+
+reader.readAsText(
+file
+);
+
+}
+);
+
+
+/* ===============================
+   ACTUALIZACIÓN GENERAL
+================================ */
+
+function renderTodo(){
+
+renderDashboard();
+renderReservas();
+renderAgenda();
+renderChoferes();
+renderComisiones();
+renderGastos();
+renderRutas();
+renderEstadoResultados();
+renderReporte();
+renderConfig();
+
+}
+
+
+/* ===============================
+   SINCRONIZACIÓN ENTRE PESTAÑAS
+================================ */
+
+window.addEventListener(
+"storage",
+event => {
+
+if(
+[
+STORAGE_ADMIN,
+STORAGE_RES
+]
+.includes(event.key)
+){
+
+datos = cargar();
+renderTodo();
+
+}
+
+}
+);
+
+
+/* ===============================
+   INICIO
+================================ */
+
+function iniciar(){
+
+$("#agendaDesde").value =
+hoy();
+
+$("#agendaHasta").value =
+"";
+
+$("#reporteDesde").value =
+hoy();
+
+$("#reporteHasta").value =
+hoy();
+
+$("#erDesde").value =
+hoy();
+
+$("#erHasta").value =
+hoy();
+
+renderTodo();
+
+comprobarSupabase();
+
+}
+
+
+document.addEventListener(
+"DOMContentLoaded",
+iniciar
+);
+
+
+/* ===============================
+   FUNCIONES GLOBALES
+================================ */
+
+window.abrirPantalla =
+abrirPantalla;
+
+window.abrirReserva =
+abrirReserva;
+
+window.editarReserva =
+editarReserva;
+
+window.borrarReserva =
+borrarReserva;
+
+window.cambiarEstadoRapido =
+cambiarEstadoRapido;
+
+window.whatsappReserva =
+whatsappReserva;
+
+window.abrirAsignacion =
+abrirAsignacion;
+
+window.abrirChofer =
+abrirChofer;
+
+window.eliminarChofer =
+eliminarChofer;
+
+window.toggleComision =
+toggleComision;
+
+window.abrirGasto =
+abrirGasto;
+
+window.eliminarGasto =
+eliminarGasto;
+
+window.abrirRuta =
+abrirRuta;
+
+window.editarRuta =
+editarRuta;
+
+window.toggleRuta =
+toggleRuta;
+
+window.eliminarRuta =
+eliminarRuta;
+
+</script>
+
+</body>
+</html>
