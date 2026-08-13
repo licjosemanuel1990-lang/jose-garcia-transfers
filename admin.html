@@ -566,42 +566,58 @@ function payloadFila(tipo,obj){
   const key=syncKey(tipo,obj);
 
   if(tipo==="rutas"){
+    const origen=(obj.origen||obj.origin||"").trim();
+    const destino=(obj.destino||obj.destination||"").trim();
+
+    const distanciaTexto=String(obj.distancia||obj.distance||"");
+    const duracionTexto=String(obj.duracion||obj.duration||"");
+
+    const distanciaKm=parseFloat(distanciaTexto.replace(",","."));
+    const duracionMinutos=parseInt(duracionTexto,10);
+
     return {
       sync_key:key,
-      origen:obj.origen||obj.origin||"",
-      destino:obj.destino||obj.destination||"",
+      origen:origen,
+      destino:destino,
+      origen_normalizado:norm(origen),
+      destino_normalizado:norm(destino),
+      distancia_km:Number.isFinite(distanciaKm)?distanciaKm:null,
+      duracion_minutos:Number.isFinite(duracionMinutos)?duracionMinutos:null,
+      bidireccional:true,
+      activa:norm(obj.estado||"ACTIVA")!=="INACTIVA",
       datos:{
         ...obj,
-        id:obj.id||key
-      }
+        id:obj.id||key,
+        precio:Number(obj.precio??obj.price??0)
+      },
+      updated_at:new Date().toISOString()
     };
   }
 
-  if(tipo==="reservas"){
-    return {
-      sync_key:key,
-      codigo:obj.codigo||obj.code||key,
-      nombre:resNombre(obj),
-      whatsapp:resWhats(obj),
-      datos:{
-        ...obj,
-        _id:obj._id||obj.id||key
-      }
-    };
-  }
+ if(tipo==="reservas"){
+  return {
+    sync_key:key,
+    codigo:obj.codigo||obj.code||key,
+    nombre:resNombre(obj),
+    whatsapp:resWhats(obj),
+    datos:{
+      ...obj,
+      _id:obj._id||obj.id||key
+    }
+  };
+}
 
-  if(tipo==="choferes"){
-    return {
-      sync_key:key,
-      nombre:obj.nombre||"",
-      telefono:obj.telefono||"",
-      datos:{
-        ...obj,
-        id:obj.id||key
-      }
-    };
-  }
-
+if(tipo==="choferes"){
+  return {
+    sync_key:key,
+    nombre:obj.nombre||"",
+    telefono:obj.telefono||"",
+    datos:{
+      ...obj,
+      id:obj.id||key
+    }
+  };
+}
   return {
     sync_key:key,
     datos:obj
