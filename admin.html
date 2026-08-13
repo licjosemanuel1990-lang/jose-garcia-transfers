@@ -326,9 +326,24 @@ function guardar(){
 
 async function sincronizarSupabase(){
   try{
-    console.log("Supabase preparado:",SUPABASE_URL);
+    const respuesta=await fetch(
+      SUPABASE_URL+"/rest/v1/reservas?select=*&limit=1",
+      {
+        method:"GET",
+        headers:{
+          "apikey":SUPABASE_KEY
+        }
+      }
+    );
+
+    if(!respuesta.ok){
+      throw new Error("Supabase respondió "+respuesta.status);
+    }
+
+    const resultado=await respuesta.json();
+    console.log("Conexión con Supabase correcta:",resultado);
   }catch(error){
-    console.error("Error de sincronización con Supabase:",error);
+    console.error("Error de conexión con Supabase:",error);
   }
 }
 function norm(s){return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().trim()}
