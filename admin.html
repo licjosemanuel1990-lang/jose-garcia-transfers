@@ -300,7 +300,10 @@ const BASE={
   reservas:[],rutas:[],choferes:[],gastos:[]
 };
 
-function cargar(){
+const ADMINISTRADOR_DE_ALMACENAMIENTO="jg_admin_datos";
+const RESISTENCIA_DE_ALMACENAMIENTO="jg_reservas";
+const SUPABASE_URL="https://hrztulckwanbyeruxqad.supabase.co";
+const SUPABASE_KEY="AQUI_VA_TU_CLAVE_PUBLICABLE";
   let d={};
   try{d=JSON.parse(localStorage.getItem(STORAGE_ADMIN)||"{}")||{}}catch(e){d={}}
   let antiguas=[];
