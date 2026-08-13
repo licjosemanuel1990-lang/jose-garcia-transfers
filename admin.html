@@ -1,135 +1,886 @@
-const STORAGE_ADMIN = "jg_admin_datos";
-const STORAGE_RES = "jg_reservas";
+async function eliminarRuta(id){
 
-const SUPABASE_URL = "https://hrztulckwanbyeruxqad.supabase.co";
-const SUPABASE_KEY = "sb_publishable_hSds3MbmfQORsUoJHmjbAQ__pM1HRRN";
+  if(!confirm("¿Eliminar esta ruta?")){
+    return;
+  }
 
-const $ = s => document.querySelector(s);
-const $$ = s => [...document.querySelectorAll(s)];
+  const i=rutaIndexCompat(id);
 
-const uid = () =>
-  Date.now().toString(36) +
-  Math.random().toString(36).slice(2,7);
+  const r=
+    i>=0
+      ?datos.rutas[i]
+      :null;
 
-const hoy = () =>
-  new Date().toISOString().slice(0,10);
+  const key=
+    r
+      ?syncKey("rutas",r)
+      :id;
 
-const money = n =>
-  "RD$" +
-  Number(n || 0).toLocaleString(
-    "es-DO",
-    { maximumFractionDigits: 2 }
-  );
+  if(i>=0){
+    datos.rutas.splice(i,1);
+  }
 
-const usd = n =>
-  "US$" + Number(n || 0).toFixed(2);
+  guardarLocal();
 
-const safe = v =>
-  String(v ?? "").replace(
-    /[&<>"']/g,
-    m => ({
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#39;"
-    }[m])
-  );
+  try{
+    await borrarRemoto(
+      "rutas",
+      key
+    );
+  }catch(error){
+    console.error(
+      "Error eliminando ruta en Supabase:",
+      error
+    );
 
-function code(){
-  const d = new Date();
-
-  const y = String(d.getFullYear()).slice(-2);
-  const m = String(d.getMonth()+1).padStart(2,"0");
-  const day = String(d.getDate()).padStart(2,"0");
-
-  return `TR-${y}${m}${day}-${Math.floor(1000+Math.random()*9000)}`;
+    alert(
+      "La ruta se eliminó del panel, "+
+      "pero Supabase no confirmó la eliminación.\n\n"+
+      error.message
+    );
+  }
 }
 
-const BASE = {
-  config:{
-    whatsapp:"18298182426",
-    exchangeRate:60,
-    includedPassengers:4,
-    additionalPassengerFee:10,
-    roundTripDiscount:10,
-    businessName:"José García Transporte"
-  },
 
-  reservas:[],
-  rutas:[],
-  choferes:[],
-  gastos:[]
-};
+/* =========================================================
+   ESTADO DE RESULTADOS
+========================================================= */
 
-function cargar(){
+function dentroPeriodo(fecha,desde,hasta){
 
-  let d = {};
-
-  try{
-    d = JSON.parse(
-      localStorage.getItem(STORAGE_ADMIN) || "{}"
-    ) || {};
-  }catch(e){
-    d = {};
+  if(!fecha){
+    return true;
   }
 
-  let antiguas = [];
-
-  try{
-    antiguas = JSON.parse(
-      localStorage.getItem(STORAGE_RES) || "[]"
-    ) || [];
-  }catch(e){
-    antiguas = [];
+  if(desde && fecha<desde){
+    return false;
   }
 
-  d = {
-    ...BASE,
-    ...d,
-    config:{
-      ...BASE.config,
-      ...(d.config || {})
-    }
+  if(hasta && fecha>hasta){
+    return false;
+  }
+
+  return true;
+}
+
+
+function renderEstadoResultados(){
+
+  const desde=
+    $("#erDesde")?.value||
+    "";
+
+  const hasta=
+    $("#erHasta")?.value||
+    "";
+
+  const ingresos=
+    datos.reservas
+    .filter(
+      r=>
+        r.comisionEstado==="PAGADA" &&
+        dentroPeriodo(
+          r.fechaPagoComision||
+          resFecha(r),
+          desde,
+          hasta
+        )
+    );
+
+  const gastos=
+    datos.gastos
+    .filter(
+      g=>
+        dentroPeriodo(
+          g.fecha,
+          desde,
+          hasta
+        )
+    );
+
+  const totalIngresos=
+    ingresos.reduce(
+      (s,r)=>
+        s+resComision(r),
+      0
+    );
+
+  const totalGastos=
+    gastos.reduce(
+      (s,g)=>
+        s+Number(g.monto||0),
+      0
+    );
+
+  const pendientes=
+    datos.reservas
+    .filter(
+      r=>
+        resComision(r)>0 &&
+        r.comisionEstado!=="PAGADA"
+    )
+    .reduce(
+      (s,r)=>
+        s+resComision(r),
+      0
+    );
+
+  const neto=
+    totalIngresos-
+    totalGastos;
+
+  if($("#erMIngresos")){
+    $("#erMIngresos").textContent=
+      money(totalIngresos);
+  }
+
+  if($("#erMGastos")){
+    $("#erMGastos").textContent=
+      money(totalGastos);
+  }
+
+  if($("#erMNeto")){
+    $("#erMNeto").textContent=
+      money(neto);
+  }
+
+  if($("#erMPendientes")){
+    $("#erMPendientes").textContent=
+      money(pendientes);
+  }
+
+
+  if($("#erDetalleIngresos")){
+
+    $("#erDetalleIngresos").innerHTML=
+
+      ingresos.length
+
+      ?ingresos.map(
+        r=>`
+        <tr>
+          <td>${safe(
+            r.fechaPagoComision||
+            resFecha(r)
+          )}</td>
+
+          <td>
+            <b>${safe(resCode(r))}</b>
+          </td>
+
+          <td>
+            ${safe(
+              choferNombre(
+                resChofer(r)
+              )
+            )}
+          </td>
+
+          <td>
+            Comisión servicio
+          </td>
+
+          <td>
+            <b>${money(
+              resComision(r)
+            )}</b>
+          </td>
+        </tr>
+        `
+      ).join("")
+
+      :`
+      <tr>
+        <td colspan="5" class="muted">
+          No hay ingresos registrados.
+        </td>
+      </tr>
+      `;
+  }
+
+
+  if($("#erDetalleGastos")){
+
+    $("#erDetalleGastos").innerHTML=
+
+      gastos.length
+
+      ?gastos.map(
+        g=>`
+        <tr>
+          <td>${safe(g.fecha)}</td>
+          <td>${safe(g.categoria)}</td>
+          <td>${safe(g.descripcion)}</td>
+          <td>
+            <b>${money(g.monto)}</b>
+          </td>
+        </tr>
+        `
+      ).join("")
+
+      :`
+      <tr>
+        <td colspan="4" class="muted">
+          No hay gastos registrados.
+        </td>
+      </tr>
+      `;
+  }
+}
+
+
+
+/* =========================================================
+   REPORTES
+========================================================= */
+
+function reservasReporte(){
+
+  const desde=
+    $("#reporteDesde")?.value||
+    "";
+
+  const hasta=
+    $("#reporteHasta")?.value||
+    "";
+
+  return datos.reservas.filter(
+    r=>
+      dentroPeriodo(
+        resFecha(r),
+        desde,
+        hasta
+      )
+  );
+}
+
+
+function renderReporte(){
+
+  if(!$("#tipoReporte")){
+    return;
+  }
+
+  const tipo=
+    $("#tipoReporte").value||
+    "general";
+
+  const rs=
+    reservasReporte();
+
+  const totalServicios=
+    rs.length;
+
+  const completadas=
+    rs.filter(
+      r=>resEstado(r)==="COMPLETADA"
+    ).length;
+
+  const confirmadas=
+    rs.filter(
+      r=>resEstado(r)==="CONFIRMADA"
+    ).length;
+
+  const canceladas=
+    rs.filter(
+      r=>resEstado(r)==="CANCELADA"
+    ).length;
+
+  const totalTarifas=
+    rs
+    .filter(
+      r=>resEstado(r)!=="CANCELADA"
+    )
+    .reduce(
+      (s,r)=>
+        s+resTarifa(r),
+      0
+    );
+
+  const comisiones=
+    rs.reduce(
+      (s,r)=>
+        s+resComision(r),
+      0
+    );
+
+
+  $("#reporteResumen").innerHTML=`
+
+    <div class="card">
+      <h3>${totalServicios}</h3>
+      <p>Servicios</p>
+    </div>
+
+    <div class="card">
+      <h3>${confirmadas}</h3>
+      <p>Confirmadas</p>
+    </div>
+
+    <div class="card">
+      <h3>${completadas}</h3>
+      <p>Completadas</p>
+    </div>
+
+    <div class="card">
+      <h3>${canceladas}</h3>
+      <p>Canceladas</p>
+    </div>
+
+    <div class="card">
+      <h3>${usd(totalTarifas)}</h3>
+      <p>Tarifas registradas</p>
+    </div>
+
+    <div class="card">
+      <h3>${money(comisiones)}</h3>
+      <p>Comisiones</p>
+    </div>
+  `;
+
+
+  const resultados=
+    tipo==="resultados";
+
+  $("#reporteGeneralBox").style.display=
+    resultados
+      ?"none"
+      :"block";
+
+  $("#estadoResultadosBox").style.display=
+    resultados
+      ?"block"
+      :"none";
+
+
+  if(resultados){
+
+    renderReporteResultados();
+
+    return;
+  }
+
+
+  $("#tablaReporte").innerHTML=
+
+    rs.length
+
+    ?rs.map(
+      r=>`
+      <tr>
+
+        <td>
+          ${safe(resFecha(r))}
+          ${safe(resHora(r))}
+        </td>
+
+        <td>
+          <b>${safe(resCode(r))}</b>
+        </td>
+
+        <td>
+          ${safe(resNombre(r))}
+        </td>
+
+        <td>
+          ${safe(resOrigen(r))}
+          →
+          ${safe(resDestino(r))}
+        </td>
+
+        <td>
+          ${safe(
+            choferNombre(
+              resChofer(r)
+            )
+          )}
+        </td>
+
+        <td>
+          ${badgeEstado(
+            resEstado(r)
+          )}
+        </td>
+
+        <td>
+          ${usd(
+            resTarifa(r)
+          )}
+        </td>
+
+        <td>
+          ${money(
+            resComision(r)
+          )}
+        </td>
+
+      </tr>
+      `
+    ).join("")
+
+    :`
+    <tr>
+      <td colspan="8" class="muted">
+        No hay información para este período.
+      </td>
+    </tr>
+    `;
+}
+
+
+
+function renderReporteResultados(){
+
+  const desde=
+    $("#reporteDesde")?.value||
+    "";
+
+  const hasta=
+    $("#reporteHasta")?.value||
+    "";
+
+  const ingresos=
+    datos.reservas
+    .filter(
+      r=>
+        r.comisionEstado==="PAGADA" &&
+        dentroPeriodo(
+          r.fechaPagoComision||
+          resFecha(r),
+          desde,
+          hasta
+        )
+    );
+
+  const gastos=
+    datos.gastos.filter(
+      g=>
+        dentroPeriodo(
+          g.fecha,
+          desde,
+          hasta
+        )
+    );
+
+  const totalIngresos=
+    ingresos.reduce(
+      (s,r)=>
+        s+resComision(r),
+      0
+    );
+
+  const totalGastos=
+    gastos.reduce(
+      (s,g)=>
+        s+Number(g.monto||0),
+      0
+    );
+
+  const resultado=
+    totalIngresos-
+    totalGastos;
+
+
+  $("#erIngresos").textContent=
+    money(totalIngresos);
+
+  $("#erGastos").textContent=
+    money(totalGastos);
+
+  $("#erResultado").textContent=
+    money(resultado);
+
+
+  $("#erTablaIngresos").innerHTML=
+
+    ingresos.length
+
+    ?ingresos.map(
+      r=>`
+      <tr>
+        <td>
+          ${safe(resCode(r))}
+          ·
+          ${safe(
+            choferNombre(
+              resChofer(r)
+            )
+          )}
+        </td>
+
+        <td>
+          <b>
+            ${money(
+              resComision(r)
+            )}
+          </b>
+        </td>
+      </tr>
+      `
+    ).join("")
+
+    :`
+    <tr>
+      <td colspan="2" class="muted">
+        Sin ingresos registrados.
+      </td>
+    </tr>
+    `;
+
+
+  $("#erTablaGastos").innerHTML=
+
+    gastos.length
+
+    ?gastos.map(
+      g=>`
+      <tr>
+        <td>
+          ${safe(g.categoria)}
+          —
+          ${safe(g.descripcion)}
+        </td>
+
+        <td>
+          <b>
+            ${money(g.monto)}
+          </b>
+        </td>
+      </tr>
+      `
+    ).join("")
+
+    :`
+    <tr>
+      <td colspan="2" class="muted">
+        Sin gastos registrados.
+      </td>
+    </tr>
+    `;
+}
+
+
+
+/* =========================================================
+   CONFIGURACIÓN
+========================================================= */
+
+function renderConfig(){
+
+  if(!$("#formConfig")){
+    return;
+  }
+
+  $("#cfgWhatsapp").value=
+    datos.config.whatsapp||
+    "";
+
+  $("#cfgTasa").value=
+    datos.config.exchangeRate||
+    60;
+
+  $("#cfgIncluidos").value=
+    datos.config.includedPassengers||
+    4;
+
+  $("#cfgAdicional").value=
+    datos.config.additionalPassengerFee||
+    10;
+
+  $("#cfgDescuento").value=
+    datos.config.roundTripDiscount||
+    10;
+
+  $("#cfgNombre").value=
+    datos.config.businessName||
+    "José García Transporte";
+}
+
+
+$("#formConfig").onsubmit=e=>{
+
+  e.preventDefault();
+
+  datos.config={
+
+    ...datos.config,
+
+    whatsapp:
+      $("#cfgWhatsapp")
+      .value
+      .trim(),
+
+    exchangeRate:
+      Number(
+        $("#cfgTasa").value||
+        60
+      ),
+
+    includedPassengers:
+      Number(
+        $("#cfgIncluidos").value||
+        4
+      ),
+
+    additionalPassengerFee:
+      Number(
+        $("#cfgAdicional").value||
+        10
+      ),
+
+    roundTripDiscount:
+      Number(
+        $("#cfgDescuento").value||
+        0
+      ),
+
+    businessName:
+      $("#cfgNombre")
+      .value
+      .trim()||
+      "José García Transporte"
+
   };
 
-  d.reservas =
-    Array.isArray(d.reservas)
-      ? d.reservas
-      : [];
+  guardar();
 
-  d.rutas =
-    Array.isArray(d.rutas)
-      ? d.rutas
-      : [];
+  alert(
+    "Configuración guardada correctamente."
+  );
+};
 
-  d.choferes =
-    Array.isArray(d.choferes)
-      ? d.choferes
-      : [];
 
-  d.gastos =
-    Array.isArray(d.gastos)
-      ? d.gastos
-      : [];
 
-  for(const r of antiguas){
+/* =========================================================
+   RESPALDO
+========================================================= */
 
-    const codigo =
-      r.codigo ||
-      r.code ||
-      "";
+function exportarDatos(){
 
-    if(
-      !d.reservas.some(
-        x => (x.codigo || x.code || "") === codigo
-      )
-    ){
-      d.reservas.push(r);
-    }
-  }
+  const blob=
+    new Blob(
+      [
+        JSON.stringify(
+          datos,
+          null,
+          2
+        )
+      ],
+      {
+        type:"application/json"
+      }
+    );
 
-  return d;
+  const url=
+    URL.createObjectURL(blob);
+
+  const a=
+    document.createElement("a");
+
+  a.href=url;
+
+  a.download=
+    `jose-garcia-respaldo-${hoy()}.json`;
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  a.remove();
+
+  URL.revokeObjectURL(url);
 }
 
-let datos = cargar();
+
+$("#importFile").addEventListener(
+  "change",
+  async e=>{
+
+    const file=
+      e.target.files?.[0];
+
+    if(!file){
+      return;
+    }
+
+    try{
+
+      const texto=
+        await file.text();
+
+      const nuevo=
+        JSON.parse(texto);
+
+      if(
+        !nuevo ||
+        typeof nuevo!=="object"
+      ){
+        throw new Error(
+          "Archivo de respaldo no válido."
+        );
+      }
+
+      datos={
+        ...BASE,
+        ...nuevo,
+        config:{
+          ...BASE.config,
+          ...(nuevo.config||{})
+        },
+        reservas:
+          Array.isArray(nuevo.reservas)
+            ?nuevo.reservas
+            :[],
+        rutas:
+          Array.isArray(nuevo.rutas)
+            ?nuevo.rutas
+            :[],
+        choferes:
+          Array.isArray(nuevo.choferes)
+            ?nuevo.choferes
+            :[],
+        gastos:
+          Array.isArray(nuevo.gastos)
+            ?nuevo.gastos
+            :[]
+      };
+
+      guardarLocal();
+
+      try{
+        await sincronizarTodo();
+      }catch(error){
+        console.error(
+          "No se pudo sincronizar el respaldo:",
+          error
+        );
+      }
+
+      alert(
+        "Respaldo importado correctamente."
+      );
+
+    }catch(error){
+
+      alert(
+        "No se pudo importar el archivo.\n\n"+
+        error.message
+      );
+
+    }finally{
+
+      e.target.value="";
+
+    }
+
+  }
+);
+
+
+
+/* =========================================================
+   EVENTOS REPORTES
+========================================================= */
+
+$("#tipoReporte").addEventListener(
+  "change",
+  renderReporte
+);
+
+$("#reporteDesde").addEventListener(
+  "change",
+  renderReporte
+);
+
+$("#reporteHasta").addEventListener(
+  "change",
+  renderReporte
+);
+
+
+
+/* =========================================================
+   CERRAR MODALES
+========================================================= */
+
+$$(".modal").forEach(
+  modal=>{
+
+    modal.addEventListener(
+      "click",
+      e=>{
+
+        if(e.target===modal){
+          modal.classList.remove("open");
+        }
+
+      }
+    );
+
+  }
+);
+
+
+
+document.addEventListener(
+  "keydown",
+  e=>{
+
+    if(e.key==="Escape"){
+
+      $$(".modal.open")
+      .forEach(
+        m=>
+          m.classList.remove("open")
+      );
+
+    }
+
+  }
+);
+
+
+
+/* =========================================================
+   INICIALIZACIÓN
+========================================================= */
+
+async function iniciarPanel(){
+
+  try{
+
+    renderTodo();
+
+  }catch(error){
+
+    console.error(
+      "Error en render inicial:",
+      error
+    );
+
+  }
+
+  await inicializarSupabase();
+
+  try{
+
+    renderTodo();
+
+  }catch(error){
+
+    console.error(
+      "Error actualizando panel:",
+      error
+    );
+
+  }
+
+}
+
+
+iniciarPanel();
+
+</script>
+
+</body>
+</html>
