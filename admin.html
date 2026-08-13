@@ -650,10 +650,36 @@ async function upsertColeccion(tipo,lista){
       error
     );
 
-    const universal=lista.map(obj=>({
-      sync_key:syncKey(tipo,obj),
-      datos:obj
-    }));
+   const universal=lista.map(obj=>{
+  const key=syncKey(tipo,obj);
+
+  if(tipo==="reservas"){
+    return {
+      sync_key:key,
+      codigo:obj.codigo||obj.code||key,
+      nombre:resNombre(obj),
+      whatsapp:resWhats(obj),
+      datos:{
+        ...obj,
+        _id:obj._id||obj.id||key
+      }
+    };
+  }
+
+  if(tipo==="choferes"){
+    return {
+      sync_key:key,
+      nombre:obj.nombre||"",
+      telefono:obj.telefono||"",
+      datos:{
+        ...obj,
+        id:obj.id||key
+      }
+    };
+  }
+
+  return payloadFila(tipo,obj);
+});
 
     await sbRequest(tipo,{
       method:"POST",
