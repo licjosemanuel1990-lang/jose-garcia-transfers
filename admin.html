@@ -318,7 +318,19 @@ const SUPABASE_KEY="sb_publishable_hSds3MbmfQORsUoJHmjbAQ__pM1HRRN";
   return d;
 }
 let datos=cargar();
-function guardar(){localStorage.setItem(STORAGE_ADMIN,JSON.stringify(datos));localStorage.setItem(STORAGE_RES,JSON.stringify(datos.reservas));renderTodo()}
+function guardar(){
+  localStorage.setItem(STORAGE_ADMIN,JSON.stringify(datos));
+  localStorage.setItem(STORAGE_RES,JSON.stringify(datos.reservas||[]));
+  sincronizarSupabase();
+}
+
+async function sincronizarSupabase(){
+  try{
+    console.log("Supabase preparado:",SUPABASE_URL);
+  }catch(error){
+    console.error("Error de sincronización con Supabase:",error);
+  }
+}
 function norm(s){return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().trim()}
 function resId(r){return r._id||r.id||resCode(r)||uid()}
 function resCode(r){return r.codigo||r.code||""}
