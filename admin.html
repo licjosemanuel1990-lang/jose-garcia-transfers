@@ -595,11 +595,52 @@ function payloadFila(tipo,obj){
   }
 
  if(tipo==="reservas"){
+  const fecha=resFecha(obj)||"1970-01-01";
+  const hora=resHora(obj)||"00:00";
+
   return {
     sync_key:key,
     codigo:obj.codigo||obj.code||key,
-    nombre:resNombre(obj),
-    whatsapp:resWhats(obj),
+    nombre:resNombre(obj)||"Sin nombre",
+    whatsapp:resWhats(obj)||"Sin teléfono",
+    origen:resOrigen(obj)||"Sin origen",
+    destino:resDestino(obj)||"Sin destino",
+    fecha:fecha,
+    hora:hora,
+    pasajeros:resPax(obj)||1,
+    maletas_grandes:resGrandes(obj)||0,
+    equipaje_mano:resMano(obj)||0,
+    tipo_viaje:obj.tipoViaje||obj.trip?.tripType||"Solo ida",
+    requiere_datos_vuelo:Boolean(
+      obj.requiere_datos_vuelo ??
+      obj.requiereDatosVuelo ??
+      obj.vuelo ??
+      obj.trip?.flight
+    ),
+    moneda:obj.moneda||"USD",
+    tarifa_base:Number(
+      obj.tarifa_base ??
+      obj.tarifaBase ??
+      obj.tarifa ??
+      obj.quote?.total ??
+      0
+    ),
+    descuento:Number(
+      obj.descuento ??
+      obj.discount ??
+      obj.quote?.discount ??
+      0
+    ),
+    total:Number(
+      obj.total ??
+      obj.tarifa ??
+      obj.quote?.total ??
+      0
+    ),
+    estado:resEstado(obj)||"NUEVA",
+    prioridad:obj.prioridad||"Normal",
+    creado_en:obj.creado_en||obj.fechaCreacion||obj.createdAt||new Date().toISOString(),
+    actualizado_en:new Date().toISOString(),
     datos:{
       ...obj,
       _id:obj._id||obj.id||key
