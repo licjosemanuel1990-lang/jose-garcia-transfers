@@ -6942,18 +6942,21 @@ Keep this code to check your booking status.
 const adminNotice =
 `🔔 NUEVA RESERVA
 
-👤 ${name}
-🔖 ${code}
+Cliente: ${name}
+Código: ${code}
 
-📍 ${q.origin} → ${q.destination}
-📌 Recogida: ${pickupExact}
-🏁 Destino: ${destinationExact}
-📅 ${q.date} | 🕐 ${q.time}
-👥 ${q.passengers} pasajero(s)
-🧳 ${q.largeBags} maleta(s) | 🎒 ${q.carryOn} de mano
-${special ? `♿ Especial: ${special}\n` : ""}${flight ? `✈️ Vuelo: ${flight}\n` : ""}${airline ? `🛫 Aerolínea: ${airline}\n` : ""}💵 Total: US$${q.total.toFixed(2)}
+Ruta: ${q.origin} → ${q.destination}
+Recogida exacta: ${pickupExact}
+Destino exacto: ${destinationExact}
 
-🙏 Gracias por reservar. Hemos recibido su solicitud y pronto confirmaremos su reserva.`;
+Fecha: ${q.date}
+Hora: ${q.time}
+Pasajeros: ${q.passengers}
+Maletas grandes: ${q.largeBags}
+Equipaje de mano: ${q.carryOn}
+${special ? `Equipaje especial: ${special}\n` : ""}${flight ? `Vuelo: ${flight}\n` : ""}${airline ? `Aerolínea: ${airline}\n` : ""}Total: US$${q.total.toFixed(2)}
+
+✅ Solicitud recibida. Gracias por elegirnos. En breve nos comunicaremos para confirmar su reserva.`;
   /*
     IMPORTANTE:
     Con HTML/GitHub Pages no se puede enviar un WhatsApp
