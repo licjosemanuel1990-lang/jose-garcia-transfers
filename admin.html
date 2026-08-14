@@ -1231,6 +1231,45 @@ function cargarChoferSelect(){
     .filter(
       c=>c.estado!=="INACTIVO"
     )
+    function requiereVuelo(origen){
+  const value=String(origen||"").toLowerCase();
+  return (
+    value.includes("aeropuerto")||
+    value.includes("(puj)")||
+    value.includes("(aila)")||
+    value.includes("(lrm)")||
+    value.includes("(azs)")||
+    value.includes("(sti)")||
+    value.includes("(jbq)")
+  );
+}
+
+$("#rComision").value=0;
+  $("#rTarifa").dataset.base="";
+
+  actualizarCamposVuelo();
+
+  $("#reservaModalTitle").textContent=
+    "Nueva reserva";
+}
+
+$("#rOrigen").addEventListener("input",actualizarCamposVuelo);
+
+$("#rTarifa").addEventListener("input",()=>{
+  $("#rTarifa").dataset.base=$("#rTarifa").value;
+});
+
+$("#rTipo").addEventListener("change",()=>{
+  const base=Number($("#rTarifa").dataset.base||$("#rTarifa").value||0);
+  const descuento=Number(datos.config?.roundTripDiscount||0);
+
+  if($("#rTipo").value==="Ida y vuelta"){
+    const conDescuento=base-(base*descuento/100);
+    $("#rTarifa").value=conDescuento.toFixed(2);
+  }else{
+    $("#rTarifa").value=base.toFixed(2);
+  }
+});
     .map(
       c=>`<option value="${safe(c.id)}">${safe(c.nombre)}</option>`
     )
@@ -1238,19 +1277,10 @@ function cargarChoferSelect(){
 }
 
 function abrirReserva(){
-
-  cargarChoferSelect();
-
-  $("#formReserva").reset();
-
-  $("#rId").value="";
-  $("#rCodigo").value=code();
-  $("#rEstado").value="NUEVA";
-  $("#rFecha").value=hoy();
-  $("#rPax").value=1;
-  $("#rGrandes").value=0;
-  $("#rMano").value=0;
-  $("#rComision").value=0;
+$("#rTarifa").value=r.tarifa;
+  $("#rTarifa").dataset.base=r.tarifa;
+  $("#rGrandes").value=r.grandes;
+  
 
   $("#reservaModalTitle").textContent=
     "Nueva reserva";
