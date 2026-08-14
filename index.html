@@ -6928,17 +6928,24 @@ Keep this code to check your booking status.
   "none";
 
 
-  const adminNotice =
+  const adminNotice = `🔔 NUEVA RESERVA
 
-`🔔 NUEVA RESERVA
+Cliente: ${name}
+WhatsApp: ${clientWhatsapp}
+Código: ${code}
 
-${name} realizó la reserva
-${code}
+Ruta: ${q.origin} → ${q.destination}
+Recogida exacta: ${pickupExact}
+Destino exacto: ${destinationExact}
 
-${q.origin} → ${q.destination}
+Fecha: ${q.date}
+Hora: ${q.time}
+Pasajeros: ${q.passengers}
+Maletas grandes: ${q.largeBags}
+Equipaje de mano: ${q.carryOn}
+Total: US$${q.total.toFixed(2)}
 
 Entra al panel administrativo para revisarla.`;
-
 
   /*
     IMPORTANTE:
