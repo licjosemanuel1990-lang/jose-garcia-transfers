@@ -6444,37 +6444,7 @@ airportPickup && q.tripType === "roundtrip"
 : "none";
 
 
-  $("#flightField")
-  .style.display =
-  airportService
-  ? "block"
-  : "none";
-
-
-  $("#airlineField")
-  .style.display =
-  airportService
-  ? "block"
-  : "none";
-
-
-  $("#flightNumber").required =
-  airportService;
-
-
-  $("#returnFlightField")
-  .style.display =
-
-  airportService
-  &&
-  q.tripType === "roundtrip"
-
-  ?
-  "block"
-
-  :
-  "none";
-
+  
 
   $("#specialDetails").value =
   q.specials.join(", ");
