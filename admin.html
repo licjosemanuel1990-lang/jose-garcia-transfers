@@ -610,7 +610,12 @@ function payloadFila(tipo,obj){
     pasajeros:resPax(obj)||1,
     maletas_grandes:resGrandes(obj)||0,
     equipaje_mano:resMano(obj)||0,
-    tipo_viaje:obj.tipoViaje||obj.trip?.tripType||"Solo ida",
+   tipo_viaje:
+  /ROUNDTRIP|IDA Y VUELTA/i.test(
+    String(obj.tipoViaje||obj.trip?.tripType||"")
+  )
+    ?"roundtrip"
+    :"oneway",
     requiere_datos_vuelo:/AEROPUERTO|SDQ|PUJ|STI|POP|AZS|JBQ|LRM/.test(
   norm(resOrigen(obj))
 ),
