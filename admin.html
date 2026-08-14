@@ -614,6 +614,8 @@ function payloadFila(tipo,obj){
   /ROUNDTRIP|IDA Y VUELTA/i.test(
     String(obj.tipoViaje||obj.trip?.tripType||"")
   )
+    ?"Ida y vuelta"
+    :"Solo ida",
     ?"roundtrip"
     :"oneway",
     requiere_datos_vuelo:/AEROPUERTO|SDQ|PUJ|STI|POP|AZS|JBQ|LRM/.test(
