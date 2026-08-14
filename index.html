@@ -6427,7 +6427,21 @@ function(){
   `;
 
 
- const airportPickup = isAirport(q.origin););
+const airportPickup = isAirport(q.origin);
+
+$("#flightField").style.display =
+airportPickup ? "block" : "none";
+
+$("#airlineField").style.display =
+airportPickup ? "block" : "none";
+
+$("#flightNumber").required = airportPickup;
+$("#airline").required = airportPickup;
+
+$("#returnFlightField").style.display =
+airportPickup && q.tripType === "roundtrip"
+? "block"
+: "none";
 
 
   $("#flightField")
