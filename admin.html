@@ -373,6 +373,53 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.app{min-height:
 </div>
 </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+"use strict";
+
+const SB_URL = "https://hrztulckwanbyeruxqad.supabase.co";
+const SB_KEY = "sb_publishable_hSds3MbmfQORsUoJHmjbAQ__pM1HRRN";
+
+const sbAuth = window.supabase.createClient(SB_URL, SB_KEY);
+
+async function verificarSesion() {
+  const { data: { session } } = await sbAuth.auth.getSession();
+  const overlay = document.getElementById("loginOverlay");
+
+  if (session) {
+    overlay.style.display = "none";
+    document.body.style.overflow = "";
+  } else {
+    overlay.style.display = "flex";
+    document.body.style.overflow = "hidden";
+  }
+
+  return session;
+}
+
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
+  const errorBox = document.getElementById("loginError");
+
+  errorBox.style.display = "none";
+
+  const { error } = await sbAuth.auth.signInWithPassword({ email, password });
+
+  if (error) {
+    errorBox.textContent = "Correo o contraseña incorrectos.";
+    errorBox.style.display = "block";
+    return;
+  }
+
+  await verificarSesion();
+  location.reload();
+});
+
+verificarSesion();
+</script>
 <script>
 "use strict";
 
@@ -854,13 +901,13 @@ async function inicializar(){
   }
 }
 
-function cerrarSesion(){
+async function cerrarSesion(){
   if(!confirm("¿Cerrar el panel administrativo?")){
     return;
   }
 
-  sessionStorage.removeItem("jg_admin_autorizado");
-  location.href="index.html";
+  await sbAuth.auth.signOut();
+  location.reload();
 }
 
 function badgeEstado(e){
@@ -2570,5 +2617,19 @@ iniciarPanel();
 
 </script>
 
+  <div id="loginOverlay" style="position:fixed;inset:0;z-index:9999;background:#062f3d;display:flex;align-items:center;justify-content:center;padding:20px">
+  <div style="width:min(360px,100%);background:white;border-radius:20px;padding:28px;box-shadow:0 30px 70px rgba(0,0,0,.4)">
+    <h2 style="margin:0 0 6px;color:#062f3d;font-size:22px">Panel Administrativo</h2>
+    <p style="margin:0 0 20px;color:#68777d;font-size:13px">José García Transporte</p>
+    <form id="loginForm">
+      <label style="display:block;font-size:12px;font-weight:800;margin-bottom:5px;color:#34464b">Correo</label>
+      <input id="loginEmail" type="email" required style="width:100%;padding:11px;border:1px solid #d6dfe1;border-radius:10px;margin-bottom:12px">
+      <label style="display:block;font-size:12px;font-weight:800;margin-bottom:5px;color:#34464b">Contraseña</label>
+      <input id="loginPassword" type="password" required style="width:100%;padding:11px;border:1px solid #d6dfe1;border-radius:10px;margin-bottom:14px">
+      <div id="loginError" style="display:none;color:#c63b3b;font-size:12px;margin-bottom:12px"></div>
+      <button type="submit" style="width:100%;padding:13px;border:none;border-radius:10px;background:#e1ad43;color:#172329;font-weight:900;font-size:14px">ENTRAR</button>
+    </form>
+  </div>
+</div>
 </body>
 </html>
