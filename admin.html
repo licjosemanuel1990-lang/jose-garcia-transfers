@@ -152,7 +152,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.app{min-height:
 <section class="screen" id="rutas">
   <div class="panel">
     <div class="panel-head">
-      <div><h2>Rutas y tarifas</h2><div class="muted">Rutas sincronizadas con Supabase para el cotizador público.</div></div>
+      <div><h2>Rutas y tarifas</h2><div class="muted">Rutas sincronizadas con  para el cotizador público.</div></div>
       <div class="toolbar"><input id="buscarRuta" placeholder="Buscar origen o destino"><button class="btn btn-gold" onclick="abrirRuta()">+ Nueva ruta</button></div>
     </div>
     <div class="notice" style="margin-bottom:12px">Las rutas activas quedan disponibles en la base compartida. La página pública utilizará esta misma información desde cualquier dispositivo.</div>
@@ -234,7 +234,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.app{min-height:
   </div>
   <div class="panel">
     <div class="panel-head"><h2>Sincronización</h2></div>
-    <div class="notice"><b>Supabase activo.</b> Rutas, reservas y choferes se mantienen en la base compartida. El almacenamiento local queda como respaldo de emergencia del dispositivo.</div>
+    <div class="notice"><b> activo.</b> Rutas, reservas y choferes se mantienen en la base compartida. El almacenamiento local queda como respaldo de emergencia del dispositivo.</div>
   </div>
   <div class="panel">
     <div class="panel-head"><h2>Respaldo local</h2></div>
@@ -379,8 +379,8 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.app{min-height:
 const STORAGE_ADMIN="jg_admin_datos";
 const STORAGE_RES="jg_reservas";
 
-const SUPABASE_URL="https://hrztulckwanbyeruxqad.supabase.co";
-const SUPABASE_KEY="sb_publishable_hSds3MbmfQORsUoJHmjbAQ__pM1HRRN";
+const _URL="https://hrztulckwanbyeruxqad..co";
+const _KEY="sb_publishable_hSds3MbmfQORsUoJHmjbAQ__pM1HRRN";
 
 const $=s=>document.querySelector(s);
 const $$=s=>[...document.querySelectorAll(s)];
@@ -502,8 +502,8 @@ function guardarLocal(){
 }
 
 const sbHeaders={
-  "apikey":SUPABASE_KEY,
-  "Authorization":`Bearer ${SUPABASE_KEY}`,
+  "apikey":_KEY,
+  "Authorization":`Bearer ${_KEY}`,
   "Content-Type":"application/json"
 };
 
@@ -520,7 +520,7 @@ async function sbRequest(tabla,{
   }
 
   const respuesta=await fetch(
-    `${SUPABASE_URL}/rest/v1/${tabla}${query?`?${query}`:""}`,
+    `${_URL}/rest/v1/${tabla}${query?`?${query}`:""}`,
     {
       method,
       headers,
@@ -694,7 +694,7 @@ async function upsertColeccion(tipo,lista){
     /*
       Respaldo para instalaciones donde las columnas antiguas
       tengan nombres diferentes. Las columnas sync_key y datos
-      sí fueron creadas expresamente en Supabase.
+      sí fueron creadas expresamente en .
     */
     console.warn(
       `Primer intento de sincronización ${tipo} falló. Probando estructura universal.`,
@@ -770,11 +770,11 @@ function guardar(){
 
   syncTimer=setTimeout(()=>{
     sincronizarTodo().catch(error=>{
-      console.error("Error sincronizando con Supabase:",error);
+      console.error("Error sincronizando con :",error);
 
       alert(
         "El cambio quedó guardado como respaldo en este dispositivo, "+
-        "pero Supabase no confirmó la sincronización.\n\n"+
+        "pero  no confirmó la sincronización.\n\n"+
         error.message
       );
     });
@@ -789,7 +789,7 @@ async function sincronizarTodo(){
   ]);
 }
 
-async function inicializarSupabase(){
+async function inicializar(){
   try{
     const [
       rutasRemotas,
@@ -834,13 +834,13 @@ async function inicializarSupabase(){
     guardarLocal();
 
     console.log(
-      "✅ Supabase sincronizado correctamente"
+      "✅  sincronizado correctamente"
     );
 
   }catch(error){
 
     console.error(
-      "Supabase no pudo inicializarse:",
+      " no pudo inicializarse:",
       error
     );
 
@@ -848,7 +848,7 @@ async function inicializarSupabase(){
 
     alert(
       "El panel abrió con el respaldo local, "+
-      "pero Supabase no pudo sincronizarse.\n\n"+
+      "pero  no pudo sincronizarse.\n\n"+
       error.message
     );
   }
@@ -1443,7 +1443,7 @@ async function borrarReserva(id){
   }catch(error){
     alert(
       "La reserva se eliminó del panel, "+
-      "pero no se pudo confirmar la eliminación en Supabase.\n\n"+
+      "pero no se pudo confirmar la eliminación en .\n\n"+
       error.message
     );
   }
@@ -1820,7 +1820,7 @@ async function eliminarChofer(id){
   }catch(error){
     alert(
       "El chofer se eliminó del panel, "+
-      "pero Supabase no confirmó la eliminación.\n\n"+
+      "pero  no confirmó la eliminación.\n\n"+
       error.message
     );
   }
@@ -2219,9 +2219,9 @@ async function eliminarRuta(id){
   try{
     await borrarRemoto("rutas",key);
   }catch(error){
-    console.error("Error eliminando ruta en Supabase:",error);
+    console.error("Error eliminando ruta en :",error);
     alert(
-      "La ruta se eliminó del panel, pero Supabase no confirmó la eliminación.\n\n"+
+      "La ruta se eliminó del panel, pero  no confirmó la eliminación.\n\n"+
       error.message
     );
   }
