@@ -6784,61 +6784,6 @@ function(event){
   }
 
 
-  adminData.reservas = [
-    reservation,
-    ...adminReservations
-  ];
-
-
-  try{
-
-    localStorage.setItem(
-      "jg_admin_datos",
-      JSON.stringify(
-        adminData
-      )
-    );
-
-
-    localStorage.setItem(
-      "jg_reservas",
-      JSON.stringify(
-        adminData.reservas
-      )
-    );
-
-  }catch(error){
-
-    console.error(
-      "No se pudo guardar la reserva:",
-      error
-    );
-
-    alert(
-      language === "es"
-      ?
-      "No fue posible guardar la reserva. Inténtelo nuevamente."
-      :
-      "The booking could not be saved. Please try again."
-    );
-
-    if(submitButton){
-
-      submitButton.disabled =
-      false;
-
-      submitButton.textContent =
-      language === "es"
-      ? "GENERAR RESERVA"
-      : "CREATE BOOKING";
-
-    }
-
-    return;
-
-  }
-
-
   const tripLabel =
   q.tripType === "roundtrip"
   ?
