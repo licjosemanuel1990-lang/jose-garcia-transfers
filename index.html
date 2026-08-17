@@ -4487,6 +4487,39 @@ HABLAR POR WHATSAPP
 </section>
 
 
+
+<!-- =========================================================
+     CONSULTAR RESERVA
+========================================================= -->
+<style>
+.jg-track{padding:66px 0;background:#fff}
+.jg-track-card{max-width:760px;margin:auto;padding:28px;border:1px solid #dfe7e8;border-radius:24px;background:linear-gradient(145deg,#fff,#f6fbfa);box-shadow:0 15px 40px rgba(6,47,61,.09)}
+.jg-track-card h2{margin:0 0 8px;color:#062f3d;font-size:30px}
+.jg-track-card p{margin:0 0 18px;color:#68777d}
+.jg-track-form{display:grid;grid-template-columns:1fr auto;gap:10px}
+.jg-track-result{display:none;margin-top:16px;padding:16px;border:1px solid #d7e5e6;border-radius:14px;background:#fff;line-height:1.65}
+.jg-track-result.visible{display:block}
+.jg-track-status{display:inline-block;padding:6px 10px;border-radius:999px;background:#e7f6ee;color:#137146;font-size:12px;font-weight:900;margin-bottom:8px}
+.jg-receipt-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.jg-mini-btn{border:0;border-radius:10px;padding:10px 13px;font-weight:900;background:#062f3d;color:white}
+.jg-mini-btn.alt{background:#e5b735;color:#172329}
+@media(max-width:650px){.jg-track-form{grid-template-columns:1fr}.jg-track-card{padding:20px}}
+</style>
+
+<section class="jg-track" id="consultar-reserva">
+  <div class="container">
+    <div class="jg-track-card">
+      <h2>Consulta tu reserva</h2>
+      <p>Introduce tu código de reserva para ver el estado actualizado de tu solicitud.</p>
+      <form id="trackForm" class="jg-track-form">
+        <input id="trackCode" autocomplete="off" placeholder="Ej.: JG-260816-123456" required>
+        <button class="btn-cotizar" type="submit">CONSULTAR</button>
+      </form>
+      <div id="trackResult" class="jg-track-result"></div>
+    </div>
+  </div>
+</section>
+
 </main>
 
 
@@ -6353,8 +6386,8 @@ function generateCode(){
 
   const random =
   Math.floor(
-    1000 +
-    Math.random()*9000
+    100000 +
+    Math.random()*900000
   );
 
 
@@ -6466,395 +6499,142 @@ airportPickup && q.tripType === "roundtrip"
 $("#bookingForm")
 .addEventListener(
 "submit",
-function(event){
+async function(event){
 
   event.preventDefault();
 
-  if(!currentQuote){
-    return;
-  }
+  if(!currentQuote) return;
 
-  const form =
-  this;
+  const form = this;
+  const submitButton = form.querySelector('button[type="submit"]');
 
-  const submitButton =
-  form.querySelector(
-    'button[type="submit"]'
-  );
-
-  if(
-    submitButton &&
-    submitButton.disabled
-  ){
-    return;
-  }
+  if(submitButton?.disabled) return;
 
   if(submitButton){
-
-    submitButton.disabled =
-    true;
-
+    submitButton.disabled = true;
     submitButton.textContent =
-    language === "es"
-    ? "GENERANDO RESERVA..."
-    : "CREATING BOOKING...";
-
+      language === "es" ? "GUARDANDO EN EL SISTEMA..." : "SAVING BOOKING...";
   }
 
-
-  const q =
-  currentQuote;
-
-  const code =
-  generateCode();
-
-  const name =
-  $("#clientName")
-  .value
-  .trim();
-
-  const phone =
-  $("#clientWhatsapp")
-  .value
-  .trim();
-
-  const pickupExact =
-  $("#pickupExact")
-  .value
-  .trim();
-
-  const destinationExact =
-  $("#destinationExact")
-  .value
-  .trim();
-
-  const flight =
-  $("#flightNumber")
-  .value
-  .trim();
-
-  const airline =
-  $("#airline")
-  .value
-  .trim();
-
-  const returnFlight =
-  $("#returnFlight")
-  .value
-  .trim();
-
-  const special =
-  $("#specialDetails")
-  .value
-  .trim();
-
-  const notes =
-  $("#bookingNotes")
-  .value
-  .trim();
-
-
-  const reservation = {
-
-    codigo:
-    code,
-
-    code:
-    code,
-
-    estado:
-    "PENDIENTE DE CONFIRMACIÓN",
-
-    status:
-    "PENDIENTE DE CONFIRMACIÓN",
-
-    fechaCreacion:
-    new Date().toISOString(),
-
-    createdAt:
-    new Date().toISOString(),
-
-    titular:
-    name,
-
-    whatsapp:
-    phone,
-
-    origen:
-    q.origin,
-
-    destino:
-    q.destination,
-
-    lugarRecogida:
-    pickupExact,
-
-    lugarDestino:
-    destinationExact,
-
-    fecha:
-    q.date,
-
-    hora:
-    q.time,
-
-    pasajeros:
-    q.passengers,
-
-    maletasGrandes:
-    q.largeBags,
-
-    equipajeMano:
-    q.carryOn,
-
-    tipoViaje:
-    q.tripType,
-
-    fechaRegreso:
-    q.returnDate || "",
-
-    horaRegreso:
-    q.returnTime || "",
-
-    vuelo:
-    flight || "",
-
-    aerolinea:
-    airline || "",
-
-    vueloRegreso:
-    returnFlight || "",
-
-    especial:
-    special || "",
-
-    observaciones:
-    notes || "",
-
-    vehiculo:
-    q.vehicle,
-
-    total:
-    Number(
-      q.total.toFixed(2)
-    ),
-
-    moneda:
-    "USD",
-
-    client:{
-      name,
-      whatsapp:phone
-    },
-
-    trip:{
-      origin:q.origin,
-      destination:q.destination,
-      pickupExact,
-      destinationExact,
-      date:q.date,
-      time:q.time,
-      passengers:q.passengers,
-      largeBags:q.largeBags,
-      carryOn:q.carryOn,
-      tripType:q.tripType,
-      returnDate:q.returnDate || "",
-      returnTime:q.returnTime || "",
-      flight:flight || "",
-      airline:airline || "",
-      returnFlight:returnFlight || "",
-      special:special || "",
-      notes:notes || ""
-    },
-
-    quote:{
-      vehicle:q.vehicle,
-      total:Number(
-        q.total.toFixed(2)
-      ),
-      currency:"USD"
-    }
-
-  };
-
-
-  const adminData =
-  leerDatosAdmin();
-
-  const adminReservations =
-  Array.isArray(adminData.reservas)
-  ?
-  adminData.reservas
-  :
-  [];
-
-
-  const duplicate =
-  adminReservations.some(item =>
-
-    String(
-      item.whatsapp ??
-      item.client?.whatsapp ??
-      ""
-    )
-    ===
-    phone
-
-    &&
-
-    String(
-      item.origen ??
-      item.trip?.origin ??
-      ""
-    )
-    ===
-    q.origin
-
-    &&
-
-    String(
-      item.destino ??
-      item.trip?.destination ??
-      ""
-    )
-    ===
-    q.destination
-
-    &&
-
-    String(
-      item.fecha ??
-      item.trip?.date ??
-      ""
-    )
-    ===
-    q.date
-
-    &&
-
-    String(
-      item.hora ??
-      item.trip?.time ??
-      ""
-    )
-    ===
-    q.time
-
-    &&
-
-    (
-      Date.now()
-      -
-      new Date(
-        item.fechaCreacion ??
-        item.createdAt ??
-        0
-      ).getTime()
-    )
-    <
-    120000
-
-  );
-
-
-  if(duplicate){
-
-    alert(
-      language === "es"
-      ?
-      "Esta reserva acaba de registrarse. No es necesario enviarla otra vez."
-      :
-      "This booking was just registered. You do not need to submit it again."
-    );
-
-    if(submitButton){
-
-      submitButton.disabled =
-      false;
-
-      submitButton.textContent =
-      language === "es"
-      ? "GENERAR RESERVA"
-      : "CREATE BOOKING";
-
-    }
-
-    return;
-
-  }
-
-
-  const tripLabel =
-  q.tripType === "roundtrip"
-  ?
-  (
-    language === "es"
-    ? "Ida y vuelta"
-    : "Round trip"
-  )
-  :
-  (
-    language === "es"
-    ? "Solo ida"
-    : "One way"
-  );
-
-
-  const confirmation =
-  language === "es"
-  ?
-
-`✅ SOLICITUD RECIBIDA
-
-Hola, ${name}. Su solicitud de reserva ${code} fue registrada correctamente.
-
-Origen: ${q.origin}
-Destino: ${q.destination}
+  try{
+    const q = currentQuote;
+    const code = generateCode();
+
+    const name = $("#clientName").value.trim();
+    const phone = $("#clientWhatsapp").value.trim();
+    const pickupExact = $("#pickupExact").value.trim();
+    const destinationExact = $("#destinationExact").value.trim();
+    const flight = $("#flightNumber").value.trim();
+    const airline = $("#airline").value.trim();
+    const returnFlight = $("#returnFlight").value.trim();
+    const special = $("#specialDetails").value.trim();
+    const notes = $("#bookingNotes").value.trim();
+
+    const airportPickup = isAirport(q.origin);
+
+    const reservationData = {
+      codigo: code,
+      nombre: name,
+      whatsapp: phone,
+      origen: q.origin,
+      destino: q.destination,
+      fecha: q.date,
+      hora: q.time,
+      pasajeros: q.passengers,
+      maletas_grandes: q.largeBags,
+      equipaje_mano: q.carryOn,
+      equipaje_especial: special || null,
+      tipo_viaje: q.tripType === "roundtrip" ? "Ida y vuelta" : "Solo ida",
+      fecha_regreso: q.returnDate || null,
+      hora_regreso: q.returnTime || null,
+      requiere_datos_vuelo: airportPickup,
+      vuelo: flight || null,
+      aerolinea: airline || null,
+      moneda: "USD",
+      tarifa_base: Number(q.outboundPrice || q.total || 0),
+      descuento: Number(q.discount || 0),
+      total: Number(q.total.toFixed(2)),
+      estado: "Nueva",
+      prioridad: "Normal",
+      sync_key: code,
+      datos: {
+        code,
+        codigo: code,
+        estado: "NUEVA",
+        fechaCreacion: new Date().toISOString(),
+        client:{name, whatsapp:phone},
+        trip:{
+          origin:q.origin,
+          destination:q.destination,
+          pickupExact,
+          destinationExact,
+          date:q.date,
+          time:q.time,
+          passengers:q.passengers,
+          largeBags:q.largeBags,
+          carryOn:q.carryOn,
+          tripType:q.tripType,
+          returnDate:q.returnDate || "",
+          returnTime:q.returnTime || "",
+          flight:flight || "",
+          airline:airline || "",
+          returnFlight:returnFlight || "",
+          special:special || "",
+          notes:notes || ""
+        },
+        quote:{
+          vehicle:q.vehicle,
+          total:Number(q.total.toFixed(2)),
+          currency:"USD"
+        }
+      }
+    };
+
+    const saved = await publicSbRequest("reservas", {
+      method:"POST",
+      query:"on_conflict=sync_key",
+      body:reservationData,
+      prefer:"resolution=merge-duplicates,return=minimal"
+    });
+
+    const tripLabel = q.tripType === "roundtrip" ? "Ida y vuelta" : "Solo ida";
+
+    const confirmation =
+`✅ SOLICITUD REGISTRADA
+
+Hola, ${name}.
+
+Código: ${code}
+Ruta: ${q.origin} → ${q.destination}
 Fecha: ${q.date}
 Hora: ${q.time}
-Tipo de viaje: ${tripLabel}
+Tipo: ${tripLabel}
 Total: US$${q.total.toFixed(2)}
 
-Su reserva se encuentra PENDIENTE DE CONFIRMACIÓN.
+Estado: PENDIENTE DE CONFIRMACIÓN
 
-Conserve este código para consultar el estado de su reserva.
+Tu solicitud ya fue guardada en nuestro sistema.
+Conserva el código para darle seguimiento desde esta misma página.`;
 
-🚐 José García Transporte
-Más que un servicio, es confianza.`
+    $("#bookingSummary").innerHTML =
+      `<div style="white-space:pre-line;line-height:1.7">${escapeHtml(confirmation)}</div>
+       <div class="jg-receipt-actions">
+         <button type="button" class="jg-mini-btn alt" onclick="downloadReservationReceipt('${code}')">DESCARGAR COMPROBANTE</button>
+         <button type="button" class="jg-mini-btn" onclick="copyReservationCode('${code}')">COPIAR CÓDIGO</button>
+       </div>`;
 
-  :
+    form.style.display = "none";
+    window.__lastReservation = {
+      code, name, phone,
+      origin:q.origin, destination:q.destination,
+      date:q.date, time:q.time,
+      passengers:q.passengers,
+      total:q.total,
+      vehicle:q.vehicle,
+      status:"Nueva"
+    };
 
-`✅ BOOKING REQUEST RECEIVED
-
-Hello, ${name}. Your booking request ${code} was successfully registered.
-
-Pickup: ${q.origin}
-Destination: ${q.destination}
-Date: ${q.date}
-Time: ${q.time}
-Trip type: ${tripLabel}
-Total: US$${q.total.toFixed(2)}
-
-Your booking is PENDING CONFIRMATION.
-
-Keep this code to check your booking status.
-
-🚐 José García Transportation`;
-
-
-  $("#bookingSummary")
-  .innerHTML =
-  `<div style="
-      white-space:pre-line;
-      line-height:1.7;
-    ">${confirmation}</div>`;
-
-
-  form.style.display =
-  "none";
-
-
-const adminNotice =
+    const adminNotice =
 `🔔 NUEVA RESERVA
 
 Cliente: ${name}
@@ -6871,33 +6651,24 @@ Maletas grandes: ${q.largeBags}
 Equipaje de mano: ${q.carryOn}
 ${special ? `Equipaje especial: ${special}\n` : ""}${flight ? `Vuelo: ${flight}\n` : ""}${airline ? `Aerolínea: ${airline}\n` : ""}Total: US$${q.total.toFixed(2)}
 
-✅ Solicitud recibida. Gracias por elegirnos. En breve nos comunicaremos para confirmar su reserva.`;
-  /*
-    IMPORTANTE:
-    Con HTML/GitHub Pages no se puede enviar un WhatsApp
-    automáticamente desde tu número al cliente.
-    Aquí abrimos únicamente el aviso corto para administración.
-    La confirmación del cliente se muestra en pantalla.
-  */
+✅ La reserva ya fue guardada en el sistema.`;
 
-  window.open(
-    wa(adminNotice),
-    "_blank"
-  );
+    window.open(wa(adminNotice), "_blank");
 
-
-  if(submitButton){
-
-    submitButton.disabled =
-    false;
-
-    submitButton.textContent =
-    language === "es"
-    ? "GENERAR RESERVA"
-    : "CREATE BOOKING";
-
+  }catch(error){
+    console.error("No se pudo registrar la reserva:", error);
+    alert(
+      language === "es"
+      ? "NO se pudo guardar la reserva en el sistema. No se ha confirmado la solicitud. Inténtalo nuevamente o contáctanos por WhatsApp."
+      : "The booking could not be saved. Please try again or contact us on WhatsApp."
+    );
+  }finally{
+    if(submitButton){
+      submitButton.disabled = false;
+      submitButton.textContent =
+        language === "es" ? "GENERAR RESERVA" : "CREATE BOOKING";
+    }
   }
-
 }
 );
 
@@ -7168,15 +6939,142 @@ new Date()
 </script>
 <!-- SUPABASE -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-const SUPABASE_URL = "https://hrztulckwanbyeruxqad.supabase.co";
-const SUPABASE_KEY = "sb_publishable_hSds3MbmfQORsUoJHmjbAQ__pM1HRRN";
-const supabaseClient = supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-</script>
+const PUBLIC_SB_URL = "https://hrztulckwanbyeruxqad.supabase.co";
+const PUBLIC_SB_KEY = "sb_publishable_hSds3MbmfQORsUoJHmjbAQ__pM1HRRN";
 
+async function publicSbRequest(table,{
+  method="GET",
+  query="",
+  body=null,
+  prefer=""
+}={}){
+  const headers = {
+    "apikey": PUBLIC_SB_KEY,
+    "Authorization": `Bearer ${PUBLIC_SB_KEY}`,
+    "Content-Type":"application/json"
+  };
+  if(prefer) headers["Prefer"] = prefer;
+
+  const response = await fetch(
+    `${PUBLIC_SB_URL}/rest/v1/${table}${query ? `?${query}` : ""}`,
+    {
+      method,
+      headers,
+      body: body === null ? undefined : JSON.stringify(body)
+    }
+  );
+
+  if(!response.ok){
+    const detail = await response.text().catch(()=> "");
+    throw new Error(`HTTP ${response.status}${detail ? " - "+detail : ""}`);
+  }
+
+  if(response.status === 204) return null;
+  const text = await response.text();
+  return text ? JSON.parse(text) : null;
+}
+
+function escapeHtml(value){
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[ch]));
+}
+
+function copyReservationCode(code){
+  navigator.clipboard?.writeText(code)
+    .then(()=>alert("Código copiado: "+code))
+    .catch(()=>prompt("Copia tu código:", code));
+}
+
+function downloadReservationReceipt(code){
+  const r = window.__lastReservation;
+  if(!r || r.code !== code){
+    alert("No se encontró el comprobante en esta sesión.");
+    return;
+  }
+
+  const html = `<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<title>Reserva ${escapeHtml(r.code)}</title>
+<style>
+body{font-family:Arial,sans-serif;padding:30px;color:#17282f}
+.card{max-width:680px;margin:auto;border:1px solid #ddd;border-radius:18px;padding:24px}
+h1{color:#062f3d}.code{font-size:22px;font-weight:800;color:#087d83}
+.row{padding:8px 0;border-bottom:1px solid #eee}.brand{color:#e5b735;font-weight:800}
+</style></head><body><div class="card">
+<div class="brand">JOSÉ GARCÍA TRANSPORTE</div>
+<h1>Comprobante de solicitud</h1>
+<div class="code">${escapeHtml(r.code)}</div>
+<div class="row"><b>Cliente:</b> ${escapeHtml(r.name)}</div>
+<div class="row"><b>Ruta:</b> ${escapeHtml(r.origin)} → ${escapeHtml(r.destination)}</div>
+<div class="row"><b>Fecha:</b> ${escapeHtml(r.date)} &nbsp; <b>Hora:</b> ${escapeHtml(r.time)}</div>
+<div class="row"><b>Pasajeros:</b> ${escapeHtml(r.passengers)}</div>
+<div class="row"><b>Vehículo recomendado:</b> ${escapeHtml(r.vehicle)}</div>
+<div class="row"><b>Total:</b> US$${Number(r.total).toFixed(2)}</div>
+<div class="row"><b>Estado:</b> Pendiente de confirmación</div>
+<p>Conserva este comprobante y utiliza el código para consultar tu reserva en la página.</p>
+<p><b>WhatsApp:</b> +1 829-818-2426</p>
+</div></body></html>`;
+
+  const blob = new Blob([html], {type:"text/html;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `Reserva-${code}.html`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+document.getElementById("trackForm")?.addEventListener("submit", async (event)=>{
+  event.preventDefault();
+  const code = document.getElementById("trackCode").value.trim().toUpperCase();
+  const box = document.getElementById("trackResult");
+
+  box.classList.add("visible");
+  box.innerHTML = "Consultando...";
+
+  try{
+    const response = await fetch(
+      `${PUBLIC_SB_URL}/rest/v1/rpc/consultar_reserva_publica`,
+      {
+        method:"POST",
+        headers:{
+          "apikey":PUBLIC_SB_KEY,
+          "Authorization":`Bearer ${PUBLIC_SB_KEY}`,
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({p_codigo:code})
+      }
+    );
+
+    if(!response.ok){
+      const detail = await response.text().catch(()=> "");
+      throw new Error(detail || `HTTP ${response.status}`);
+    }
+
+    const rows = await response.json();
+    const r = Array.isArray(rows) ? rows[0] : rows;
+
+    if(!r){
+      box.innerHTML = `<b>No encontramos una reserva con ese código.</b><br>Revisa el código e inténtalo nuevamente.`;
+      return;
+    }
+
+    box.innerHTML = `
+      <span class="jg-track-status">${escapeHtml(r.estado || "Nueva")}</span>
+      <div><b>Código:</b> ${escapeHtml(r.codigo)}</div>
+      <div><b>Ruta:</b> ${escapeHtml(r.origen)} → ${escapeHtml(r.destino)}</div>
+      <div><b>Fecha:</b> ${escapeHtml(r.fecha)} · ${escapeHtml(r.hora || "")}</div>
+      <div><b>Total:</b> ${escapeHtml(r.moneda || "USD")} ${Number(r.total || 0).toFixed(2)}</div>
+      <p style="margin-top:10px">El estado mostrado viene directamente de nuestro sistema.</p>`;
+  }catch(error){
+    console.error(error);
+    box.innerHTML = `<b>No pudimos consultar la reserva en este momento.</b><br>Inténtalo nuevamente en unos minutos.`;
+  }
+});
+</script>
 </body>
 </html>
