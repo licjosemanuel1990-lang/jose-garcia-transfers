@@ -42,6 +42,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.app{min-height:
 @media(max-width:1250px){.grid-metricas{grid-template-columns:repeat(3,1fr)}}@media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{position:fixed;left:-280px;width:255px;transition:.22s}.sidebar.open{left:0}.mobile-menu{display:inline-grid;place-items:center}.topbar{padding:0 14px}.content{padding:14px}.dashboard-grid{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}}@media(max-width:600px){.grid-metricas{grid-template-columns:1fr 1fr}.form-grid{grid-template-columns:1fr}.full{grid-column:auto}.cards{grid-template-columns:1fr}.top-actions .btn-light{display:none}.topbar h1{font-size:17px}}
 @media print{.sidebar,.topbar,.no-print{display:none!important}.app{display:block}.content{padding:0}.screen{display:none!important}.screen.printable{display:block!important}.panel{box-shadow:none;border:0}.print-only{display:block}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 <div class="app">
@@ -377,11 +378,16 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.app{min-height:
 <script>
 "use strict";
 
+const SB_URL = "https://hrztulckwanbyeruxqad.supabase.co";
+const SB_KEY = "sb_publishable_hSds3MbmfQORsUoJHmjbAQ__pM1HRRN";
+const sbClient = window.supabase.createClient(SB_URL, SB_KEY);
+const sbAuth = sbClient;
+
 const STORAGE_ADMIN="jg_admin_datos";
 const STORAGE_RES="jg_reservas";
 
-const _URL="https://hrztulckwanbyeruxqad.supabase.co";
-const _KEY="sb_publishable_hSds3MbmfQORsUoJHmjbAQ__pM1HRRN";
+const _URL=SB_URL;
+const _KEY=SB_KEY;
 
 const $=s=>document.querySelector(s);
 const $$=s=>[...document.querySelectorAll(s)];
@@ -514,11 +520,18 @@ async function sbRequest(tabla,{
   body=null,
   prefer=""
 }={}){
-  const headers={...sbHeaders};
-
-  if(prefer){
-    headers["Prefer"]=prefer;
+  const {data:{session}} = await sbClient.auth.getSession();
+  if(!session){
+    throw new Error("Sesión administrativa no válida.");
   }
+
+  const headers={
+    "apikey":_KEY,
+    "Authorization":`Bearer ${session.access_token}`,
+    "Content-Type":"application/json"
+  };
+
+  if(prefer) headers["Prefer"]=prefer;
 
   const respuesta=await fetch(
     `${_URL}/rest/v1/${tabla}${query?`?${query}`:""}`,
@@ -531,17 +544,11 @@ async function sbRequest(tabla,{
 
   if(!respuesta.ok){
     const detalle=await respuesta.text().catch(()=>"");
-    throw new Error(
-      `${tabla}: HTTP ${respuesta.status}${detalle?` - ${detalle}`:""}`
-    );
+    throw new Error(`${tabla}: HTTP ${respuesta.status}${detalle?` - ${detalle}`:""}`);
   }
 
-  if(respuesta.status===204){
-    return null;
-  }
-
+  if(respuesta.status===204) return null;
   const texto=await respuesta.text();
-
   return texto?JSON.parse(texto):null;
 }
 
@@ -765,21 +772,30 @@ async function leerColeccion(tipo){
 let syncTimer=null;
 
 function guardar(){
-  guardarLocal();
+  renderTodo();
 
   clearTimeout(syncTimer);
 
-  syncTimer=setTimeout(()=>{
-    sincronizarTodo().catch(error=>{
-      console.error("Error sincronizando con :",error);
-
+  syncTimer=setTimeout(async ()=>{
+    try{
+      await sincronizarTodo();
+      guardarLocal();
+    }catch(error){
+      console.error("NO se pudo guardar en Supabase:",error);
       alert(
-        "El cambio quedó guardado como respaldo en este dispositivo, "+
-        "pero  no confirmó la sincronización.\n\n"+
+        "NO SE GUARDÓ EL CAMBIO EN EL SISTEMA.\n\n"+
+        "El panel volverá a cargar los datos de Supabase para evitar diferencias entre dispositivos.\n\n"+
         error.message
       );
-    });
-  },200);
+
+      try{
+        await inicializar();
+        renderTodo();
+      }catch(reloadError){
+        console.error(reloadError);
+      }
+    }
+  },120);
 }
 
 async function sincronizarTodo(){
@@ -788,71 +804,45 @@ async function sincronizarTodo(){
     upsertColeccion("reservas",datos.reservas),
     upsertColeccion("choferes",datos.choferes)
   ]);
+
+  await sbRequest("panel_estado",{
+    method:"POST",
+    query:"on_conflict=clave",
+    body:{
+      clave:"principal",
+      datos:{
+        config:datos.config||BASE.config,
+        gastos:datos.gastos||[]
+      },
+      updated_at:new Date().toISOString()
+    },
+    prefer:"resolution=merge-duplicates,return=minimal"
+  });
 }
 
 async function inicializar(){
-  try{
-    const [
-      rutasRemotas,
-      reservasRemotas,
-      choferesRemotos
-    ]=await Promise.all([
-      leerColeccion("rutas"),
-      leerColeccion("reservas"),
-      leerColeccion("choferes")
-    ]);
+  const [
+    rutasRemotas,
+    reservasRemotas,
+    choferesRemotos,
+    estadoPanel
+  ]=await Promise.all([
+    leerColeccion("rutas"),
+    leerColeccion("reservas"),
+    leerColeccion("choferes"),
+    sbRequest("panel_estado",{query:"select=datos&clave=eq.principal&limit=1"})
+  ]);
 
-    const migraciones=[];
+  datos.rutas = rutasRemotas;
+  datos.reservas = reservasRemotas;
+  datos.choferes = choferesRemotos;
 
-    if(rutasRemotas.length){
-      datos.rutas=rutasRemotas;
-    }else if(datos.rutas.length){
-      migraciones.push(
-        upsertColeccion("rutas",datos.rutas)
-      );
-    }
+  const extra = estadoPanel?.[0]?.datos || {};
+  datos.config = {...BASE.config,...(extra.config||{})};
+  datos.gastos = Array.isArray(extra.gastos) ? extra.gastos : [];
 
-    if(reservasRemotas.length){
-      datos.reservas=reservasRemotas;
-    }else if(datos.reservas.length){
-      migraciones.push(
-        upsertColeccion("reservas",datos.reservas)
-      );
-    }
-
-    if(choferesRemotos.length){
-      datos.choferes=choferesRemotos;
-    }else if(datos.choferes.length){
-      migraciones.push(
-        upsertColeccion("choferes",datos.choferes)
-      );
-    }
-
-    if(migraciones.length){
-      await Promise.all(migraciones);
-    }
-
-    guardarLocal();
-
-    console.log(
-      "✅  sincronizado correctamente"
-    );
-
-  }catch(error){
-
-    console.error(
-      " no pudo inicializarse:",
-      error
-    );
-
-    guardarLocal();
-
-    alert(
-      "El panel abrió con el respaldo local, "+
-      "pero  no pudo sincronizarse.\n\n"+
-      error.message
-    );
-  }
+  guardarLocal();
+  console.log("✅ Datos cargados desde Supabase");
 }
 
 async function cerrarSesion(){
@@ -2558,7 +2548,7 @@ async function iniciarPanel(){
     console.error("Error en render inicial:",error);
   }
 
-  await inicializarSupabase();
+  await inicializar();
 
   try{
     renderTodo();
@@ -2567,75 +2557,80 @@ async function iniciarPanel(){
   }
 }
 
-iniciarPanel();
 
 </script>
 
-  <div id="loginOverlay" style="position:fixed;inset:0;z-index:9999;background:#062f3d;display:flex;align-items:center;justify-content:center;padding:20px">
-  <div style="width:min(360px,100%);background:white;border-radius:20px;padding:28px;box-shadow:0 30px 70px rgba(0,0,0,.4)">
+<div id="loginOverlay" style="position:fixed;inset:0;z-index:9999;background:#062f3d;display:flex;align-items:center;justify-content:center;padding:20px">
+  <div style="width:min(380px,100%);background:white;border-radius:20px;padding:28px;box-shadow:0 30px 70px rgba(0,0,0,.4)">
     <h2 style="margin:0 0 6px;color:#062f3d;font-size:22px">Panel Administrativo</h2>
     <p style="margin:0 0 20px;color:#68777d;font-size:13px">José García Transporte</p>
     <form id="loginForm">
       <label style="display:block;font-size:12px;font-weight:800;margin-bottom:5px;color:#34464b">Correo</label>
-      <input id="loginEmail" type="email" required style="width:100%;padding:11px;border:1px solid #d6dfe1;border-radius:10px;margin-bottom:12px">
+      <input id="loginEmail" type="email" required autocomplete="username" style="width:100%;padding:11px;border:1px solid #d6dfe1;border-radius:10px;margin-bottom:12px">
       <label style="display:block;font-size:12px;font-weight:800;margin-bottom:5px;color:#34464b">Contraseña</label>
-      <input id="loginPassword" type="password" required style="width:100%;padding:11px;border:1px solid #d6dfe1;border-radius:10px;margin-bottom:14px">
+      <input id="loginPassword" type="password" required autocomplete="current-password" style="width:100%;padding:11px;border:1px solid #d6dfe1;border-radius:10px;margin-bottom:14px">
       <div id="loginError" style="display:none;color:#c63b3b;font-size:12px;margin-bottom:12px"></div>
-      <button type="submit" style="width:100%;padding:13px;border:none;border-radius:10px;background:#e1ad43;color:#172329;font-weight:900;font-size:14px">ENTRAR</button>
+      <button id="loginSubmit" type="submit" style="width:100%;padding:13px;border:none;border-radius:10px;background:#e1ad43;color:#172329;font-weight:900;font-size:14px">ENTRAR</button>
     </form>
   </div>
 </div>
-</body>
-</html>
 
- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-"use strict";
+let panelStarted=false;
 
-const SB_URL = "https://hrztulckwanbyeruxqad.supabase.co";
-const SB_KEY = "sb_publishable_hSds3MbmfQORsUoJHmjbAQ__pM1HRRN";
+async function mostrarSegunSesion(){
+  const {data:{session}} = await sbClient.auth.getSession();
+  const overlay=document.getElementById("loginOverlay");
 
-const sbAuth = window.supabase.createClient(SB_URL, SB_KEY);
-
-async function verificarSesion() {
-  const { data: { session } } = await sbAuth.auth.getSession();
-  const overlay = document.getElementById("loginOverlay");
-
-  if (session) {
-    overlay.style.display = "none";
-    document.body.style.overflow = "";
-  } else {
-    overlay.style.display = "flex";
-    document.body.style.overflow = "hidden";
-  }
-
-  return session;
-}
-
-document.getElementById("loginForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const email = document.getElementById("loginEmail").value.trim();
-  const password = document.getElementById("loginPassword").value;
-  const errorBox = document.getElementById("loginError");
-
-  errorBox.style.display = "none";
-
-  const { error } = await sbAuth.auth.signInWithPassword({ email, password });
-
-  if (error) {
-    errorBox.textContent = "Correo o contraseña incorrectos.";
-    errorBox.style.display = "block";
+  if(!session){
+    overlay.style.display="flex";
+    document.body.style.overflow="hidden";
     return;
   }
 
-  await verificarSesion();
-  location.reload();
+  overlay.style.display="none";
+  document.body.style.overflow="";
+
+  if(!panelStarted){
+    panelStarted=true;
+    try{
+      await iniciarPanel();
+    }catch(error){
+      console.error(error);
+      alert("No se pudo cargar el panel desde Supabase.\n\n"+error.message);
+      panelStarted=false;
+    }
+  }
+}
+
+document.getElementById("loginForm").addEventListener("submit",async (e)=>{
+  e.preventDefault();
+  const submit=document.getElementById("loginSubmit");
+  const errorBox=document.getElementById("loginError");
+
+  errorBox.style.display="none";
+  submit.disabled=true;
+  submit.textContent="ENTRANDO...";
+
+  const {error}=await sbClient.auth.signInWithPassword({
+    email:document.getElementById("loginEmail").value.trim(),
+    password:document.getElementById("loginPassword").value
+  });
+
+  submit.disabled=false;
+  submit.textContent="ENTRAR";
+
+  if(error){
+    errorBox.textContent="Correo o contraseña incorrectos.";
+    errorBox.style.display="block";
+    return;
+  }
+
+  await mostrarSegunSesion();
 });
 
-verificarSesion();
+sbClient.auth.onAuthStateChange(()=>mostrarSegunSesion());
+mostrarSegunSesion();
 </script>
 </body>
 </html>
-
-
