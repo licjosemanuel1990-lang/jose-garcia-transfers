@@ -7104,5 +7104,40 @@ document.getElementById("trackForm")?.addEventListener("submit", async (event)=>
   }
 });
 </script>
+   <!-- Eventos de conversión para Meta Pixel -->
+<script>
+document.addEventListener('click', function (event) {
+  const elemento = event.target.closest('a, button');
+
+  if (!elemento || typeof fbq !== 'function') return;
+
+  const texto = (elemento.textContent || '').trim().toLowerCase();
+  const enlace = (elemento.getAttribute('href') || '').toLowerCase();
+
+  /* Clic en el botón de reserva */
+  if (
+    texto === 'reservar' ||
+    texto.includes('generar reserva') ||
+    texto.includes('confirmar reserva')
+  ) {
+    fbq('track', 'Lead', {
+      content_name: 'Solicitud de reserva web'
+    });
+  }
+
+  /* Clic en cualquier enlace de WhatsApp */
+  if (
+    enlace.includes('wa.me') ||
+    enlace.includes('whatsapp.com') ||
+    texto === 'whatsapp'
+  ) {
+    fbq('track', 'Contact', {
+      content_name: 'Contacto por WhatsApp'
+    });
+  }
+});
+</script>
+<!-- Fin de eventos de conversión -->
+   
 </body>
 </html>
