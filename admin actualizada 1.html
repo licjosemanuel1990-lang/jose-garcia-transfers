@@ -2162,10 +2162,11 @@ function renderRutas(){
   const arr=
     datos.rutas
     .map(
-      (r,i)=>({
-        ...r,
-        id:r.id||`legacy-${i}`
-      })
+        (r,i)=>({
+            ...r,
+            id:r.id||`legacy-${i}`
+        })
+    );
      
 
 function renderLugares(){
