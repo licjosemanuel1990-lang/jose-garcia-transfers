@@ -841,29 +841,52 @@ function guardar(){
   renderTodo();
 
   clearTimeout(syncTimer);
+async function inicializar(){
 
-  syncTimer=setTimeout(async ()=>{
-    try{
-      await sincronizarTodo();
-      guardarLocal();
-    }catch(error){
-      console.error("NO se pudo guardar en Supabase:",error);
-      alert(
-        "NO SE GUARDÓ EL CAMBIO EN EL SISTEMA.\n\n"+
-        "El panel volverá a cargar los datos de Supabase para evitar diferencias entre dispositivos.\n\n"+
-        error.message
-      );
+  const [
+    rutasRemotas,
+    reservasRemotas,
+    choferesRemotos,
+    lugaresRemotos,
+    estadoPanel
+  ] = await Promise.all([
 
-      try{
-        await inicializar();
-        renderTodo();
-      }catch(reloadError){
-        console.error(reloadError);
-      }
-    }
-  },120);
+    leerColeccion("rutas"),
+    leerColeccion("reservas"),
+    leerColeccion("choferes"),
+
+    sbRequest("lugares_zonas",{
+      query:"select=id,nombre_lugar,nombre_normalizado,zona,activo&order=nombre_lugar.asc"
+    }),
+
+    sbRequest("panel_estado",{
+      query:"select=datos&clave=eq.principal&limit=1"
+    })
+
+  ]);
+
+  datos.rutas = rutasRemotas;
+  datos.reservas = reservasRemotas;
+  datos.choferes = choferesRemotos;
+  datos.lugares = Array.isArray(lugaresRemotos)
+    ? lugaresRemotos
+    : [];
+
+  const extra = estadoPanel?.[0]?.datos || {};
+
+  datos.config = {
+    ...BASE.config,
+    ...(extra.config || {})
+  };
+
+  datos.gastos = Array.isArray(extra.gastos)
+    ? extra.gastos
+    : [];
+
+  guardarLocal();
+
+  console.log("✅ Datos cargados desde Supabase");
 }
-
 async function sincronizarTodo(){
   await Promise.all([
     upsertColeccion("rutas",datos.rutas),
@@ -2108,73 +2131,141 @@ function abrirRuta(id=""){
     "";
 
   $("#rutaDuracion").value=
-    r?.duracion||
-    r?.duration||
-    "";
+   async function recargarLugaresAdmin(){
 
-  $("#rutaModalTitle").textContent=
-    r
-      ?"Editar ruta"
-      :"Nueva ruta";
+  const rows = await sbRequest("lugares_zonas",{
+    query:"select=id,nombre_lugar,nombre_normalizado,zona,activo&order=nombre_lugar.asc"
+  });
 
-  abrirModal("modalRuta");
+  datos.lugares = Array.isArray(rows) ? rows : [];
+
+  renderLugares();
 }
 
-$("#formRuta").onsubmit=e=>{
+function renderLugares(){
 
-  e.preventDefault();
+  const tabla = document.getElementById("tablaLugares");
+  if(!tabla) return;
 
-  const id=
-    $("#rutaId").value||
-    uid();
+  const q = norm(
+    document.getElementById("buscarLugar")?.value || ""
+  );
 
-  const r={
-    id,
-    origen:$("#rutaOrigen").value.trim(),
-    destino:$("#rutaDestino").value.trim(),
-    precio:Number($("#rutaPrecio").value),
-    estado:$("#rutaEstado").value,
-    distancia:$("#rutaDistancia").value.trim(),
-    duracion:$("#rutaDuracion").value.trim()
-  };
+  const lista = (datos.lugares || []).filter(l =>
+    !q ||
+    norm(`${l.nombre_lugar || ""} ${l.zona || ""}`).includes(q)
+  );
 
-  const i=
-    datos.rutas.findIndex(
-      x=>(x.id||"")===id
+  tabla.innerHTML = lista.length
+    ? lista.map(l => `
+        <tr>
+          <td><b>${safe(l.nombre_lugar || "")}</b></td>
+          <td>${safe(l.zona || "")}</td>
+          <td>
+            <div class="actions">
+              <button class="icon-btn"
+                onclick="abrirLugar('${l.id}')">
+                Editar
+              </button>
+
+              <button class="icon-btn"
+                onclick="toggleLugar('${l.id}')">
+                ${l.activo === false ? "Activar" : "Inactivar"}
+              </button>
+
+              <button class="icon-btn"
+                onclick="eliminarLugar('${l.id}')">
+                Eliminar
+              </button>
+            </div>
+          </td>
+        </tr>
+      `).join("")
+    : '<tr><td colspan="3" class="muted">No hay lugares registrados.</td></tr>';
+}
+
+window.abrirLugar = function(id=""){
+
+  const form = document.getElementById("formLugar");
+  if(form) form.reset();
+
+  document.getElementById("lugarId").value = "";
+  document.getElementById("lugarActivo").value = "true";
+  document.getElementById("lugarModalTitle").textContent = "Nuevo lugar";
+
+  if(id){
+
+    const lugar = (datos.lugares || []).find(
+      l => String(l.id) === String(id)
     );
 
-  if(i>=0){
-    datos.rutas[i]=r;
-  }else{
-    datos.rutas.push(r);
+    if(lugar){
+
+      document.getElementById("lugarId").value = lugar.id || "";
+      document.getElementById("lugarNombre").value =
+        lugar.nombre_lugar || "";
+      document.getElementById("lugarZona").value =
+        lugar.zona || "";
+      document.getElementById("lugarActivo").value =
+        lugar.activo === false ? "false" : "true";
+
+      document.getElementById("lugarModalTitle").textContent =
+        "Editar lugar";
+    }
   }
 
-  guardar();
-
-  cerrarModal("modalRuta");
+  abrirModal("modalLugar");
 };
 
-function renderRutas(){
+window.toggleLugar = async function(id){
 
-  const q=
-    norm($("#buscarRuta")?.value);
+  const lugar = (datos.lugares || []).find(
+    l => String(l.id) === String(id)
+  );
 
-  const arr=
-    datos.rutas
-    .map(
-      (r,i)=>({
-        ...r,
-        id:r.id||`legacy-${i}`
-      })
-    )
-    .filter(
-      r=>
-        !q||
-        norm(
-          (r.origen||r.origin||"")+
-          " "+
-          (r.destino||r.destination||"")
-        ).includes(q)
+  if(!lugar) return;
+
+  try{
+
+    await sbRequest("lugares_zonas",{
+      method:"PATCH",
+      query:`id=eq.${encodeURIComponent(id)}`,
+      body:{
+        activo: lugar.activo === false
+      },
+      prefer:"return=minimal"
+    });
+
+    await recargarLugaresAdmin();
+
+  }catch(error){
+    console.error(error);
+    alert("No se pudo cambiar el estado del lugar.");
+  }
+};
+
+window.eliminarLugar = async function(id){
+
+  if(!confirm("¿Eliminar este lugar?")) return;
+
+  try{
+
+    await sbRequest("lugares_zonas",{
+      method:"DELETE",
+      query:`id=eq.${encodeURIComponent(id)}`,
+      prefer:"return=minimal"
+    });
+
+    await recargarLugaresAdmin();
+
+  }catch(error){
+    console.error(error);
+    alert("No se pudo eliminar el lugar.");
+  }
+};
+
+document.getElementById("buscarLugar")
+  ?.addEventListener("input",renderLugares);
     );
 
   $("#tablaRutas").innerHTML=
@@ -2645,42 +2736,55 @@ $("#importFile").addEventListener("change",async e=>{
   }
 });
 
-/* =========================================================
-   EVENTOS
-========================================================= */
+document.getElementById("formLugar")?.addEventListener("submit", async function(e){
+  e.preventDefault();
 
-$("#tipoReporte").addEventListener("change",renderReporte);
-$("#reporteDesde").addEventListener("change",renderReporte);
-$("#reporteHasta").addEventListener("change",renderReporte);
+  const id = document.getElementById("lugarId").value.trim();
+  const nombre = document.getElementById("lugarNombre").value.trim();
+  const zona = document.getElementById("lugarZona").value.trim();
+  const activo = document.getElementById("lugarActivo").value === "true";
 
-/* =========================================================
-   CERRAR MODALES
-========================================================= */
+  if(!nombre || !zona) return;
 
-$$(".modal").forEach(modal=>{
-  modal.addEventListener("click",e=>{
-    if(e.target===modal) modal.classList.remove("open");
-  });
-});
+  const payload = {
+    nombre_lugar: nombre,
+    nombre_normalizado: nombre
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g,"")
+      .toUpperCase(),
+    zona,
+    activo
+  };
 
-document.addEventListener("keydown",e=>{
-  if(e.key==="Escape"){
-    $$(".modal.open").forEach(m=>m.classList.remove("open"));
-  }
-});
-
-/* =========================================================
-   INICIO DEL PANEL
-========================================================= */
-
-async function iniciarPanel(){
   try{
-    renderTodo();
-  }catch(error){
-    console.error("Error en render inicial:",error);
-  }
 
-  await inicializar();
+    if(id){
+      await sbRequest("lugares_zonas",{
+        method:"PATCH",
+        query:`id=eq.${encodeURIComponent(id)}`,
+        body:payload,
+        prefer:"return=minimal"
+      });
+    }else{
+      await sbRequest("lugares_zonas",{
+        method:"POST",
+        body:payload,
+        prefer:"return=minimal"
+      });
+    }
+
+    cerrarModal("modalLugar");
+    this.reset();
+
+    await recargarLugaresAdmin();
+
+    alert("Lugar guardado correctamente");
+
+  }catch(error){
+    console.error("Error guardando lugar:",error);
+    alert("Error al guardar lugar: " + error.message);
+  }
+});
 
   try{
     renderTodo();
