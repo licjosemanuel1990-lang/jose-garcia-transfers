@@ -2162,45 +2162,10 @@ function renderRutas(){
   const arr=
     datos.rutas
     .map(
-        (r,i)=>({
-            ...r,
-            id:r.id||`legacy-${i}`
-        })
-    );
-     
-
-function renderLugares(){
-
-  const tabla=$("#tablaLugares");
-  if(!tabla) return;
-
-  const q=norm($("#buscarLugar")?.value||"");
-
-  const lista=(datos.lugares||[])
-    .filter(l=>
-      !q ||
-      norm(`${l.nombre_lugar||""} ${l.zona||""}`).includes(q)
-    );
-
-  tabla.innerHTML=
-    lista.length
-      ?lista.map(l=>`
-        <tr>
-          <td><b>${safe(l.nombre_lugar||"")}</b></td>
-          <td>${safe(l.zona||"")}</td>
-          <td>
-            <div class="actions">
-              <button class="icon-btn" onclick="abrirLugar('${l.id}')">Editar</button>
-              <button class="icon-btn" onclick="toggleLugar('${l.id}')">
-                ${l.activo===false?"Activar":"Inactivar"}
-              </button>
-              <button class="icon-btn" onclick="eliminarLugar('${l.id}')">Eliminar</button>
-            </div>
-          </td>
-        </tr>
-      `).join("")
-      :'<tr><td colspan="3" class="muted">No hay lugares registrados.</td></tr>';
-}
+      (r,i)=>({
+        ...r,
+        id:r.id||`legacy-${i}`
+      })
     )
     .filter(
       r=>
@@ -2240,6 +2205,39 @@ function renderLugares(){
         `
       ).join("")
       :'<tr><td colspan="7" class="muted">No hay rutas registradas.</td></tr>';
+}
+
+function renderLugares(){
+
+  const tabla=$("#tablaLugares");
+  if(!tabla) return;
+
+  const q=norm($("#buscarLugar")?.value||"");
+
+  const lista=(datos.lugares||[])
+    .filter(l=>
+      !q ||
+      norm(`${l.nombre_lugar||""} ${l.zona||""}`).includes(q)
+    );
+
+  tabla.innerHTML=
+    lista.length
+      ?lista.map(l=>`
+        <tr>
+          <td><b>${safe(l.nombre_lugar||"")}</b></td>
+          <td>${safe(l.zona||"")}</td>
+          <td>
+            <div class="actions">
+              <button class="icon-btn" onclick="abrirLugar('${l.id}')">Editar</button>
+              <button class="icon-btn" onclick="toggleLugar('${l.id}')">
+                ${l.activo===false?"Activar":"Inactivar"}
+              </button>
+              <button class="icon-btn" onclick="eliminarLugar('${l.id}')">Eliminar</button>
+            </div>
+          </td>
+        </tr>
+      `).join("")
+      :'<tr><td colspan="3" class="muted">No hay lugares registrados.</td></tr>';
 }
 
 $("#buscarRuta").addEventListener(
