@@ -2244,30 +2244,38 @@ $("#buscarRuta").addEventListener(
   "input",
   renderRutas
 );
-function abrirLugar(id=null){
+window.abrirLugar = function(id=null){
 
-  const modal = $("#modalLugar");
+  const modal = document.getElementById("modalLugar");
   if(!modal) return;
 
-  const form = $("#formLugar");
+  const form = document.getElementById("formLugar");
   if(form) form.reset();
 
-  $("#lugarActivo").value = "true";
+  document.getElementById("lugarId").value = id || "";
+  document.getElementById("lugarActivo").value = "true";
+  document.getElementById("lugarModalTitle").textContent =
+    id ? "Editar lugar" : "Nuevo lugar";
 
   if(id){
-
     const lugar = (datos.lugares || []).find(
       l => String(l.id) === String(id)
     );
 
     if(lugar){
-      $("#lugarNombre").value = lugar.nombre_lugar || "";
-      $("#lugarZona").value = lugar.zona || "";
-      $("#lugarActivo").value =
+      document.getElementById("lugarNombre").value =
+        lugar.nombre_lugar || "";
+
+      document.getElementById("lugarZona").value =
+        lugar.zona || "";
+
+      document.getElementById("lugarActivo").value =
         lugar.activo === false ? "false" : "true";
     }
   }
 
+  modal.classList.add("open");
+};
   modal.classList.add("show");
 }
 function rutaIndexCompat(id){
