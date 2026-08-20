@@ -47,18 +47,19 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.app{min-height:
 <div class="app">
 <aside class="sidebar" id="sidebar">
   <div class="brand"><div class="logo">JG</div><div><strong>José García</strong><span>Panel Administrativo</span></div></div>
-  <nav class="nav" id="nav">
-    <button class="activo" data-screen="dashboard">📊 Dashboard</button>
-    <button data-screen="reservas">📋 Reservas</button>
-    <button data-screen="agenda">📅 Agenda</button>
-    <button data-screen="choferes">👨‍✈️ Choferes</button>
-    <button data-screen="comisiones">💰 Comisiones</button>
-    <button data-screen="gastos">💸 Gastos</button>
-    <button data-screen="rutas">🛣️ Rutas y tarifas</button>
-    <button data-screen="estadoresultados">📊 Estado de Resultados</button>
-    <button data-screen="reportes">📈 Reportes</button>
-    <button data-screen="config">⚙️ Configuración</button>
-  </nav>
+ <nav class="nav" id="nav">
+  <button class="activo" data-screen="dashboard">📊 Dashboard</button>
+  <button data-screen="reservas">📋 Reservas</button>
+  <button data-screen="agenda">📅 Agenda</button>
+  <button data-screen="choferes">👨‍✈️ Choferes</button>
+  <button data-screen="comisiones">💰 Comisiones</button>
+  <button data-screen="gastos">💸 Gastos</button>
+  <button data-screen="rutas">🛣️ Rutas y tarifas</button>
+  <button data-screen="lugares">📍 Lugares y zonas</button>
+  <button data-screen="estadoresultados">📊 Estado de Resultados</button>
+  <button data-screen="reportes">📈 Reportes</button>
+  <button data-screen="config">⚙️ Configuración</button>
+</nav>
   <div class="sidebar-footer">
     <a href="index.html" target="_blank">🌐 Ver página pública</a>
     <br><br>
@@ -157,6 +158,34 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.app{min-height:
     </div>
     <div class="notice" style="margin-bottom:12px">Las rutas activas quedan disponibles en la base compartida. La página pública utilizará esta misma información desde cualquier dispositivo.</div>
     <div class="table-wrap"><table><thead><tr><th>Origen</th><th>Destino</th><th>Tarifa USD</th><th>Distancia</th><th>Duración</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="tablaRutas"></tbody></table></div>
+  </div>
+</section>
+  <section class="screen" id="lugares">
+  <div class="panel">
+    <div class="panel-head">
+      <div>
+        <h2>Lugares y zonas</h2>
+        <div class="muted">Administra hoteles, aeropuertos y lugares disponibles para el cotizador.</div>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <input id="buscarLugar" placeholder="Buscar lugar o zona">
+      <button class="btn btn-gold" onclick="abrirLugar()">+ Nuevo lugar</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Lugar</th>
+            <th>Zona</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tablaLugares"></tbody>
+      </table>
+    </div>
   </div>
 </section>
 
@@ -307,7 +336,45 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.app{min-height:
 </form>
 </div>
 </div>
+<div class="modal" id="modalLugar">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 id="lugarModalTitle">Nuevo lugar</h3>
+      <button class="close" onclick="cerrarModal('modalLugar')">×</button>
+    </div>
 
+    <form id="formLugar" class="form-grid">
+      <input type="hidden" id="lugarId">
+
+      <div class="field">
+        <label>Nombre del lugar</label>
+        <input id="lugarNombre" required placeholder="Ej. Hotel Wala">
+      </div>
+
+      <div class="field">
+        <label>Zona</label>
+        <input id="lugarZona" required placeholder="Ej. Boca Chica">
+      </div>
+
+      <div class="field">
+        <label>Estado</label>
+        <select id="lugarActivo">
+          <option value="true">ACTIVO</option>
+          <option value="false">INACTIVO</option>
+        </select>
+      </div>
+
+      <div class="full" style="display:flex;gap:8px;justify-content:flex-end">
+        <button type="button" class="btn btn-light" onclick="cerrarModal('modalLugar')">
+          Cancelar
+        </button>
+        <button class="btn btn-dark" type="submit">
+          Guardar lugar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
 <div class="modal" id="modalChofer">
 <div class="modal-box">
 <div class="modal-head"><h3 id="choferModalTitle">Nuevo chofer</h3><button class="close" onclick="cerrarModal('modalChofer')">×</button></div>
@@ -936,6 +1003,7 @@ function renderTodo(){
   renderComisiones();
   renderGastos();
   renderRutas();
+  renderLugares();
   renderEstadoResultados();
   renderReporte();
   renderConfig();
@@ -2098,6 +2166,40 @@ function renderRutas(){
         ...r,
         id:r.id||`legacy-${i}`
       })
+     
+
+function renderLugares(){
+
+  const tabla=$("#tablaLugares");
+  if(!tabla) return;
+
+  const q=norm($("#buscarLugar")?.value||"");
+
+  const lista=(datos.lugares||[])
+    .filter(l=>
+      !q ||
+      norm(`${l.nombre_lugar||""} ${l.zona||""}`).includes(q)
+    );
+
+  tabla.innerHTML=
+    lista.length
+      ?lista.map(l=>`
+        <tr>
+          <td><b>${safe(l.nombre_lugar||"")}</b></td>
+          <td>${safe(l.zona||"")}</td>
+          <td>
+            <div class="actions">
+              <button class="icon-btn" onclick="abrirLugar('${l.id}')">Editar</button>
+              <button class="icon-btn" onclick="toggleLugar('${l.id}')">
+                ${l.activo===false?"Activar":"Inactivar"}
+              </button>
+              <button class="icon-btn" onclick="eliminarLugar('${l.id}')">Eliminar</button>
+            </div>
+          </td>
+        </tr>
+      `).join("")
+      :'<tr><td colspan="3" class="muted">No hay lugares registrados.</td></tr>';
+}
     )
     .filter(
       r=>
