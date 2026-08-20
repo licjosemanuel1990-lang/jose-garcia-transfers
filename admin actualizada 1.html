@@ -2244,7 +2244,32 @@ $("#buscarRuta").addEventListener(
   "input",
   renderRutas
 );
+function abrirLugar(id=null){
 
+  const modal = $("#modalLugar");
+  if(!modal) return;
+
+  const form = $("#formLugar");
+  if(form) form.reset();
+
+  $("#lugarActivo").value = "true";
+
+  if(id){
+
+    const lugar = (datos.lugares || []).find(
+      l => String(l.id) === String(id)
+    );
+
+    if(lugar){
+      $("#lugarNombre").value = lugar.nombre_lugar || "";
+      $("#lugarZona").value = lugar.zona || "";
+      $("#lugarActivo").value =
+        lugar.activo === false ? "false" : "true";
+    }
+  }
+
+  modal.classList.add("show");
+}
 function rutaIndexCompat(id){
 
   if(
