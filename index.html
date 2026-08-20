@@ -5553,7 +5553,31 @@ $$("#menu a")
    ORIGEN Y DESTINO
    Desplegable + escritura + filtrado
 ========================================================= */
+function allLocations(){
 
+    return [
+        ...new Set(
+            [
+                ...ROUTES.flatMap(route => [
+                    route.origin,
+                    route.destination
+                ]),
+                ...LUGARES_ZONAS.flatMap(item => [
+                    item.nombre_lugar,
+                    item.zona
+                ])
+            ].filter(Boolean)
+        )
+    ].sort((a,b) =>
+        a.localeCompare(
+            b,
+            language === "es" ? "es" : "en",
+            { sensitivity:"base" }
+        )
+    );
+
+}
+   
 function allLocations(){
 
   return [
