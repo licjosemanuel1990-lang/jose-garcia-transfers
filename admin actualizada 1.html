@@ -2749,6 +2749,44 @@ sbClient.auth.onAuthStateChange((event,session)=>{
 });
 
 mostrarSegunSesion();
+  document.getElementById("formLugar")?.addEventListener("submit", async function(e){
+  e.preventDefault();
+
+  const nombre = document.getElementById("lugarNombre").value.trim();
+  const zona = document.getElementById("lugarZona").value.trim();
+
+  if (!nombre || !zona) return;
+
+  const nombre_normalizado = nombre
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toUpperCase();
+
+  const { error } = await sbClient
+    .from("lugares_zonas")
+    .upsert({
+      nombre_lugar: nombre,
+      nombre_normalizado: nombre_normalizado,
+      zona: zona
+    });
+
+  if (error) {
+    alert("Error al guardar lugar: " + error.message);
+    return;
+  }
+
+  alert("Lugar guardado correctamente");
+  cerrarModal("modalLugar");
+  this.reset();
+
+  if (typeof cargarDatos === "function") {
+    await cargarDatos();
+  }
+
+  if (typeof renderLugares === "function") {
+    renderLugares();
+  }
+});
 </script>
 
 
