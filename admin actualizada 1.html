@@ -586,7 +586,7 @@ async function sbRequest(tabla,{
   body=null,
   prefer=""
 }={}){
-  const {data:{session}} = await sbClient.auth.getSession();
+  let {data:{session}} = await sbClient.auth.getSession();
   if(!session){
     throw new Error("Sesión administrativa no válida.");
   }
@@ -610,6 +610,10 @@ async function sbRequest(tabla,{
 
   if(!respuesta.ok){
     const detalle=await respuesta.text().catch(()=>"");
+    if(respuesta.status===401 && /JWT issued at future|Invalid Refresh Token|refresh_token_not_found/i.test(detalle)){
+      await sbClient.auth.signOut({scope:"local"}).catch(()=>{});
+      throw new Error("La sesión guardada venció. Vuelve a iniciar sesión.");
+    }
     throw new Error(`${tabla}: HTTP ${respuesta.status}${detalle?` - ${detalle}`:""}`);
   }
 
@@ -839,54 +843,17 @@ let syncTimer=null;
 
 function guardar(){
   renderTodo();
-
   clearTimeout(syncTimer);
-async function inicializar(){
-
-  const [
-    rutasRemotas,
-    reservasRemotas,
-    choferesRemotos,
-    lugaresRemotos,
-    estadoPanel
-  ] = await Promise.all([
-
-    leerColeccion("rutas"),
-    leerColeccion("reservas"),
-    leerColeccion("choferes"),
-
-    sbRequest("lugares_zonas",{
-      query:"select=id,nombre_lugar,nombre_normalizado,zona,activo&order=nombre_lugar.asc"
-    }),
-
-    sbRequest("panel_estado",{
-      query:"select=datos&clave=eq.principal&limit=1"
-    })
-
-  ]);
-
-  datos.rutas = rutasRemotas;
-  datos.reservas = reservasRemotas;
-  datos.choferes = choferesRemotos;
-  datos.lugares = Array.isArray(lugaresRemotos)
-    ? lugaresRemotos
-    : [];
-
-  const extra = estadoPanel?.[0]?.datos || {};
-
-  datos.config = {
-    ...BASE.config,
-    ...(extra.config || {})
-  };
-
-  datos.gastos = Array.isArray(extra.gastos)
-    ? extra.gastos
-    : [];
-
-  guardarLocal();
-
-  console.log("✅ Datos cargados desde Supabase");
+  syncTimer=setTimeout(async()=>{
+    try{
+      await sincronizarTodo();
+    }catch(error){
+      console.error("No se pudo sincronizar con Supabase:",error);
+      alert("No se pudo guardar en Supabase. Revisa tu conexión e intenta nuevamente.");
+    }
+  },350);
 }
+
 async function sincronizarTodo(){
   await Promise.all([
     upsertColeccion("rutas",datos.rutas),
@@ -914,17 +881,20 @@ async function inicializar(){
     rutasRemotas,
     reservasRemotas,
     choferesRemotos,
+    lugaresRemotos,
     estadoPanel
   ]=await Promise.all([
     leerColeccion("rutas"),
     leerColeccion("reservas"),
     leerColeccion("choferes"),
+    sbRequest("lugares_zonas",{query:"select=id,nombre_lugar,nombre_normalizado,zona,zona_normalizada,activo&order=nombre_lugar.asc"}),
     sbRequest("panel_estado",{query:"select=datos&clave=eq.principal&limit=1"})
   ]);
 
   datos.rutas = rutasRemotas;
   datos.reservas = reservasRemotas;
   datos.choferes = choferesRemotos;
+  datos.lugares = Array.isArray(lugaresRemotos) ? lugaresRemotos : [];
 
   const extra = estadoPanel?.[0]?.datos || {};
   datos.config = {...BASE.config,...(extra.config||{})};
@@ -932,6 +902,11 @@ async function inicializar(){
 
   guardarLocal();
   console.log("✅ Datos cargados desde Supabase");
+}
+
+async function iniciarPanel(){
+  await inicializar();
+  renderTodo();
 }
 
 async function cerrarSesion(){
@@ -972,6 +947,7 @@ const titulos={
   comisiones:"Comisiones",
   gastos:"Gastos",
   rutas:"Rutas y tarifas",
+  lugares:"Lugares y zonas",
   estadoresultados:"Estado de Resultados",
   reportes:"Reportes",
   config:"Configuración"
@@ -2094,280 +2070,144 @@ function eliminarGasto(id){
 }
 
 function abrirRuta(id=""){
-
-  const r=
-    datos.rutas.find(
-      x=>(x.id||"")===id
-    );
-
+  const r=datos.rutas.find(x=>(x.id||"")===id);
   $("#formRuta").reset();
+  $("#rutaId").value=r?.id||"";
+  $("#rutaOrigen").value=r?.origen||r?.origin||"";
+  $("#rutaDestino").value=r?.destino||r?.destination||"";
+  $("#rutaPrecio").value=r?.precio??r?.price??"";
+  $("#rutaEstado").value=norm(r?.estado||"ACTIVA")==="INACTIVA"?"INACTIVA":"ACTIVA";
+  $("#rutaDistancia").value=r?.distancia||r?.distance||"";
+  $("#rutaDuracion").value=r?.duracion||r?.duration||"";
+  abrirModal("modalRuta");
+}
 
-  $("#rutaId").value=
-    r?.id||"";
+$("#formRuta").onsubmit=e=>{
+  e.preventDefault();
+  const id=$("#rutaId").value||uid();
+  const ruta={
+    id,
+    origen:$("#rutaOrigen").value.trim(),
+    destino:$("#rutaDestino").value.trim(),
+    precio:Number($("#rutaPrecio").value||0),
+    estado:$("#rutaEstado").value,
+    distancia:$("#rutaDistancia").value.trim(),
+    duracion:$("#rutaDuracion").value.trim()
+  };
+  const i=datos.rutas.findIndex(x=>x.id===id);
+  if(i>=0) datos.rutas[i]=ruta;
+  else datos.rutas.unshift(ruta);
+  guardar();
+  cerrarModal("modalRuta");
+};
 
-  $("#rutaOrigen").value=
-    r?.origen||
-    r?.origin||
-    "";
+function renderRutas(){
+  const q=norm($("#buscarRuta")?.value||"");
+  const arr=(datos.rutas||[]).filter(r=>
+    !q||norm(`${r.origen||r.origin||""} ${r.destino||r.destination||""}`).includes(q)
+  );
+  $("#tablaRutas").innerHTML=arr.length
+    ?arr.map(r=>`
+      <tr>
+        <td><b>${safe(r.origen||r.origin||"")}</b></td>
+        <td>${safe(r.destino||r.destination||"")}</td>
+        <td><b>${usd(r.precio??r.price??0)}</b></td>
+        <td>${safe(r.distancia||r.distance||"-")}</td>
+        <td>${safe(r.duracion||r.duration||"-")}</td>
+        <td>${norm(r.estado)==="INACTIVA"?'<span class="badge b-cancelada">INACTIVA</span>':'<span class="badge b-confirmada">ACTIVA</span>'}</td>
+        <td><div class="actions">
+          <button class="icon-btn" onclick="editarRutaCompat('${r.id}')">Editar</button>
+          <button class="icon-btn" onclick="toggleRuta('${r.id}')">Activar/Inactivar</button>
+          <button class="icon-btn" onclick="eliminarRuta('${r.id}')">Eliminar</button>
+        </div></td>
+      </tr>
+    `).join("")
+    :'<tr><td colspan="7" class="muted">No hay rutas registradas.</td></tr>';
+}
 
-  $("#rutaDestino").value=
-    r?.destino||
-    r?.destination||
-    "";
-
-  $("#rutaPrecio").value=
-    r?.precio??
-    r?.price??
-    "";
-
-  $("#rutaEstado").value=
-    norm(r?.estado||"ACTIVA")==="INACTIVA"
-      ?"INACTIVA"
-      :"ACTIVA";
-
-  $("#rutaDistancia").value=
-    r?.distancia||
-    r?.distance||
-    "";
-
-  $("#rutaDuracion").value=
-   async function recargarLugaresAdmin(){
-
-  const rows = await sbRequest("lugares_zonas",{
-    query:"select=id,nombre_lugar,nombre_normalizado,zona,activo&order=nombre_lugar.asc"
+async function recargarLugaresAdmin(){
+  const rows=await sbRequest("lugares_zonas",{
+    query:"select=id,nombre_lugar,nombre_normalizado,zona,zona_normalizada,activo&order=nombre_lugar.asc"
   });
-
-  datos.lugares = Array.isArray(rows) ? rows : [];
-
+  datos.lugares=Array.isArray(rows)?rows:[];
   renderLugares();
 }
 
 function renderLugares(){
-
-  const tabla = document.getElementById("tablaLugares");
-  if(!tabla) return;
-
-  const q = norm(
-    document.getElementById("buscarLugar")?.value || ""
+  const tabla=$("#tablaLugares");
+  if(!tabla)return;
+  const q=norm($("#buscarLugar")?.value||"");
+  const lista=(datos.lugares||[]).filter(l=>
+    !q||norm(`${l.nombre_lugar||""} ${l.zona||""}`).includes(q)
   );
-
-  const lista = (datos.lugares || []).filter(l =>
-    !q ||
-    norm(`${l.nombre_lugar || ""} ${l.zona || ""}`).includes(q)
-  );
-
-  tabla.innerHTML = lista.length
-    ? lista.map(l => `
-        <tr>
-          <td><b>${safe(l.nombre_lugar || "")}</b></td>
-          <td>${safe(l.zona || "")}</td>
-          <td>
-            <div class="actions">
-              <button class="icon-btn"
-                onclick="abrirLugar('${l.id}')">
-                Editar
-              </button>
-
-              <button class="icon-btn"
-                onclick="toggleLugar('${l.id}')">
-                ${l.activo === false ? "Activar" : "Inactivar"}
-              </button>
-
-              <button class="icon-btn"
-                onclick="eliminarLugar('${l.id}')">
-                Eliminar
-              </button>
-            </div>
-          </td>
-        </tr>
-      `).join("")
-    : '<tr><td colspan="3" class="muted">No hay lugares registrados.</td></tr>';
+  tabla.innerHTML=lista.length
+    ?lista.map(l=>`
+      <tr>
+        <td><b>${safe(l.nombre_lugar||"")}</b></td>
+        <td>${safe(l.zona||"")}</td>
+        <td><div class="actions">
+          <button class="icon-btn" onclick="abrirLugar('${l.id}')">Editar</button>
+          <button class="icon-btn" onclick="toggleLugar('${l.id}')">${l.activo===false?"Activar":"Inactivar"}</button>
+          <button class="icon-btn" onclick="eliminarLugar('${l.id}')">Eliminar</button>
+        </div></td>
+      </tr>
+    `).join("")
+    :'<tr><td colspan="3" class="muted">No hay lugares registrados.</td></tr>';
 }
 
-window.abrirLugar = function(id=""){
-
-  const form = document.getElementById("formLugar");
-  if(form) form.reset();
-
-  document.getElementById("lugarId").value = "";
-  document.getElementById("lugarActivo").value = "true";
-  document.getElementById("lugarModalTitle").textContent = "Nuevo lugar";
-
+window.abrirLugar=function(id=""){
+  $("#formLugar")?.reset();
+  $("#lugarId").value="";
+  $("#lugarActivo").value="true";
+  $("#lugarModalTitle").textContent="Nuevo lugar";
   if(id){
-
-    const lugar = (datos.lugares || []).find(
-      l => String(l.id) === String(id)
-    );
-
+    const lugar=(datos.lugares||[]).find(l=>String(l.id)===String(id));
     if(lugar){
-
-      document.getElementById("lugarId").value = lugar.id || "";
-      document.getElementById("lugarNombre").value =
-        lugar.nombre_lugar || "";
-      document.getElementById("lugarZona").value =
-        lugar.zona || "";
-      document.getElementById("lugarActivo").value =
-        lugar.activo === false ? "false" : "true";
-
-      document.getElementById("lugarModalTitle").textContent =
-        "Editar lugar";
+      $("#lugarId").value=lugar.id||"";
+      $("#lugarNombre").value=lugar.nombre_lugar||"";
+      $("#lugarZona").value=lugar.zona||"";
+      $("#lugarActivo").value=lugar.activo===false?"false":"true";
+      $("#lugarModalTitle").textContent="Editar lugar";
     }
   }
-
   abrirModal("modalLugar");
 };
 
-window.toggleLugar = async function(id){
-
-  const lugar = (datos.lugares || []).find(
-    l => String(l.id) === String(id)
-  );
-
-  if(!lugar) return;
-
+window.toggleLugar=async function(id){
+  const lugar=(datos.lugares||[]).find(l=>String(l.id)===String(id));
+  if(!lugar)return;
   try{
-
     await sbRequest("lugares_zonas",{
       method:"PATCH",
       query:`id=eq.${encodeURIComponent(id)}`,
-      body:{
-        activo: lugar.activo === false
-      },
+      body:{activo:lugar.activo===false},
       prefer:"return=minimal"
     });
-
     await recargarLugaresAdmin();
-
   }catch(error){
     console.error(error);
     alert("No se pudo cambiar el estado del lugar.");
   }
 };
 
-window.eliminarLugar = async function(id){
-
-  if(!confirm("¿Eliminar este lugar?")) return;
-
+window.eliminarLugar=async function(id){
+  if(!confirm("¿Eliminar este lugar?"))return;
   try{
-
     await sbRequest("lugares_zonas",{
       method:"DELETE",
       query:`id=eq.${encodeURIComponent(id)}`,
       prefer:"return=minimal"
     });
-
     await recargarLugaresAdmin();
-
   }catch(error){
     console.error(error);
     alert("No se pudo eliminar el lugar.");
   }
 };
 
-document.getElementById("buscarLugar")
-  ?.addEventListener("input",renderLugares);
-    );
+$("#buscarRuta")?.addEventListener("input",renderRutas);
+$("#buscarLugar")?.addEventListener("input",renderLugares);
 
-  $("#tablaRutas").innerHTML=
-    arr.length
-      ?arr.map(
-        r=>`.
-        <tr>
-          <td><b>${safe(r.origen||r.origin)}</b></td>
-          <td>${safe(r.destino||r.destination)}</td>
-          <td><b>${usd(r.precio??r.price)}</b></td>
-          <td>${safe(r.distancia||r.distance||"-")}</td>
-          <td>${safe(r.duracion||r.duration||"-")}</td>
-          <td>
-            ${
-              norm(r.estado)==="INACTIVA"
-              ?'<span class="badge b-cancelada">INACTIVA</span>'
-              :'<span class="badge b-confirmada">ACTIVA</span>'
-            }
-          </td>
-          <td>
-            <div class="actions">
-              <button class="icon-btn" onclick="editarRutaCompat('${r.id}')">Editar</button>
-              <button class="icon-btn" onclick="toggleRuta('${r.id}')">Activar/Inactivar</button>
-              <button class="icon-btn" onclick="eliminarRuta('${r.id}')">Eliminar</button>
-            </div>
-          </td>
-        </tr>
-        `
-      ).join("")
-      :'<tr><td colspan="7" class="muted">No hay rutas registradas.</td></tr>';
-}
-
-function renderLugares(){
-
-  const tabla=$("#tablaLugares");
-  if(!tabla) return;
-
-  const q=norm($("#buscarLugar")?.value||"");
-
-  const lista=(datos.lugares||[])
-    .filter(l=>
-      !q ||
-      norm(`${l.nombre_lugar||""} ${l.zona||""}`).includes(q)
-    );
-
-  tabla.innerHTML=
-    lista.length
-      ?lista.map(l=>`
-        <tr>
-          <td><b>${safe(l.nombre_lugar||"")}</b></td>
-          <td>${safe(l.zona||"")}</td>
-          <td>
-            <div class="actions">
-              <button class="icon-btn" onclick="abrirLugar('${l.id}')">Editar</button>
-              <button class="icon-btn" onclick="toggleLugar('${l.id}')">
-                ${l.activo===false?"Activar":"Inactivar"}
-              </button>
-              <button class="icon-btn" onclick="eliminarLugar('${l.id}')">Eliminar</button>
-            </div>
-          </td>
-        </tr>
-      `).join("")
-      :'<tr><td colspan="3" class="muted">No hay lugares registrados.</td></tr>';
-}
-
-$("#buscarRuta").addEventListener(
-  "input",
-  renderRutas
-);
-window.abrirLugar = function(id=null){
-
-  const modal = document.getElementById("modalLugar");
-  if(!modal) return;
-
-  const form = document.getElementById("formLugar");
-  if(form) form.reset();
-
-  document.getElementById("lugarId").value = id || "";
-  document.getElementById("lugarActivo").value = "true";
-  document.getElementById("lugarModalTitle").textContent =
-    id ? "Editar lugar" : "Nuevo lugar";
-
-  if(id){
-    const lugar = (datos.lugares || []).find(
-      l => String(l.id) === String(id)
-    );
-
-    if(lugar){
-      document.getElementById("lugarNombre").value =
-        lugar.nombre_lugar || "";
-
-      document.getElementById("lugarZona").value =
-        lugar.zona || "";
-
-      document.getElementById("lugarActivo").value =
-        lugar.activo === false ? "false" : "true";
-    }
-  }
-
-  modal.classList.add("open");
-  modal.classList.add("show");
-}
 function rutaIndexCompat(id){
 
   if(
@@ -2679,7 +2519,7 @@ $("#formConfig").onsubmit=e=>{
     businessName:$("#cfgNombre").value.trim()||"José García Transporte"
   };
 
-  guardarLocal();
+  guardar();
   alert("Configuración guardada correctamente.");
 };
 
@@ -2753,6 +2593,10 @@ document.getElementById("formLugar")?.addEventListener("submit", async function(
       .replace(/[\u0300-\u036f]/g,"")
       .toUpperCase(),
     zona,
+    zona_normalizada: zona
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g,"")
+      .toUpperCase(),
     activo
   };
 
@@ -2785,14 +2629,6 @@ document.getElementById("formLugar")?.addEventListener("submit", async function(
     alert("Error al guardar lugar: " + error.message);
   }
 });
-
-  try{
-    renderTodo();
-  }catch(error){
-    console.error("Error actualizando panel:",error);
-  }
-}
-
 
 </script>
 
@@ -2856,6 +2692,7 @@ document.getElementById("loginForm").addEventListener("submit",async (e)=>{
   submit.textContent="ENTRANDO...";
 
   try{
+    await sbClient.auth.signOut({scope:"local"}).catch(()=>{});
     const {data,error}=await sbClient.auth.signInWithPassword({
       email:document.getElementById("loginEmail").value.trim(),
       password:document.getElementById("loginPassword").value
@@ -2884,44 +2721,6 @@ sbClient.auth.onAuthStateChange((event,session)=>{
 });
 
 mostrarSegunSesion();
-  document.getElementById("formLugar")?.addEventListener("submit", async function(e){
-  e.preventDefault();
-
-  const nombre = document.getElementById("lugarNombre").value.trim();
-  const zona = document.getElementById("lugarZona").value.trim();
-
-  if (!nombre || !zona) return;
-
-  const nombre_normalizado = nombre
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toUpperCase();
-
-  const { error } = await sbClient
-    .from("lugares_zonas")
-    .upsert({
-      nombre_lugar: nombre,
-      nombre_normalizado: nombre_normalizado,
-      zona: zona
-    });
-
-  if (error) {
-    alert("Error al guardar lugar: " + error.message);
-    return;
-  }
-
-  alert("Lugar guardado correctamente");
-  cerrarModal("modalLugar");
-  this.reset();
-
-  if (typeof cargarDatos === "function") {
-    await cargarDatos();
-  }
-
-  if (typeof renderLugares === "function") {
-    renderLugares();
-  }
-});
 </script>
 
 
